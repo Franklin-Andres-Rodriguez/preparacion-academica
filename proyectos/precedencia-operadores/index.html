@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precedencia de Operadores</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        .expression {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .result {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.5rem;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+        }
+        
+        .explanation {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔢 Precedencia de Operadores</h1>
+            <a href="../../" class="btn" style="margin-top: 1rem;">← Volver al Inicio</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="demo-container">
+            <section>
+                <h2>Ejemplos de Precedencia</h2>
+                
+                <div class="expression">
+                    <strong>Expresión:</strong> 5 + 3 * 2
+                    <div class="result">Resultado: <span id="result1"></span></div>
+                    <div class="explanation">
+                        La multiplicación tiene mayor precedencia que la suma, por lo que se evalúa primero: 3 × 2 = 6, luego 5 + 6 = 11
+                    </div>
+                </div>
+                
+                <div class="expression">
+                    <strong>Expresión:</strong> (5 + 3) * 2
+                    <div class="result">Resultado: <span id="result2"></span></div>
+                    <div class="explanation">
+                        Los paréntesis tienen la mayor precedencia: (5 + 3) = 8, luego 8 × 2 = 16
+                    </div>
+                </div>
+                
+                <div class="expression">
+                    <strong>Expresión:</strong> 10 - 4 + 2
+                    <div class="result">Resultado: <span id="result3"></span></div>
+                    <div class="explanation">
+                        Suma y resta tienen la misma precedencia y se evalúan de izquierda a derecha: 10 - 4 = 6, luego 6 + 2 = 8
+                    </div>
+                </div>
+                
+                <div class="expression">
+                    <strong>Expresión:</strong> 2 ** 3 * 4
+                    <div class="result">Resultado: <span id="result4"></span></div>
+                    <div class="explanation">
+                        La exponenciación (**) tiene mayor precedencia que la multiplicación: 2³ = 8, luego 8 × 4 = 32
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>📚 Tabla de Precedencia</h2>
+                <div style="background: white; padding: 1.5rem; border-radius: 8px;">
+                    <ol>
+                        <li><strong>Paréntesis</strong> ( )</li>
+                        <li><strong>Exponenciación</strong> **</li>
+                        <li><strong>Multiplicación y División</strong> *, /</li>
+                        <li><strong>Suma y Resta</strong> +, -</li>
+                    </ol>
+                    <p><em>Los operadores del mismo nivel se evalúan de izquierda a derecha</em></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Calcular y mostrar resultados
+        document.getElementById('result1').textContent = 5 + 3 * 2;
+        document.getElementById('result2').textContent = (5 + 3) * 2;
+        document.getElementById('result3').textContent = 10 - 4 + 2;
+        document.getElementById('result4').textContent = 2 ** 3 * 4;
+    </script>
+</body>
+</html>
