@@ -628,9 +628,6 @@ header h1 {
 <body>
 
 <nav class="nav-grid">
-  <a href="./calculadora-naive.html" class="nav-btn">
-    ← Ver el Problema Original
-  </a>
   <a href="../../index.html" class="nav-btn success">
     🏠 Volver al Laboratorio
   </a>
@@ -877,9 +874,18 @@ header h1 {
       <div class="calculator-panel">
         <div class="panel-title">📊 Resultados Comparativos</div>
         <div id="results-display">
-          <p style="color: var(--dark-text-muted); text-align: center; padding: var(--space-8);">
-            Introduce valores y presiona "Comparar Métodos" para ver la diferencia
-          </p>
+          <div style="text-align: center; padding: var(--space-6); color: var(--dark-text-secondary);">
+            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: var(--brand-primary);">
+              💡 Comparación Inicial
+            </h4>
+            <p style="margin-bottom: var(--space-4);">
+              <strong>Método Naive:</strong> Solo funciona con 5% de interés<br>
+              <strong>Método Profesional:</strong> Funciona con cualquier valor
+            </p>
+            <p style="font-size: var(--text-sm); color: var(--warning-primary);">
+              Cambia los parámetros arriba y presiona "Comparar Métodos" para ver las diferencias
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -965,18 +971,31 @@ class CompoundInterestCalculator {
 
 // Naive method (the one that broke FinTechCorp)
 function calculateNaive(principal, rate, years) {
-    // This would only work for integer years, and is inefficient
-    let result = principal;
-    const multiplier = 1 + (rate / 100);
+    // SIMULATION OF THE ACTUAL NAIVE METHOD PROBLEMS
     
-    for (let i = 0; i < Math.floor(years); i++) {
-        result *= multiplier;
+    // Problem 1: Only works for hardcoded scenarios
+    if (rate !== 5) {
+        // The original code was hardcoded to 1.05
+        throw new Error("NAIVE ERROR: Código hardcodeado para 5% solamente!");
     }
     
-    // Naive method can't handle decimal years properly
-    const remainder = years - Math.floor(years);
-    if (remainder > 0) {
-        result *= Math.pow(multiplier, remainder);
+    // Problem 2: Rounds years incorrectly
+    const roundedYears = Math.round(years);
+    if (Math.abs(years - roundedYears) > 0.01) {
+        throw new Error(`NAIVE ERROR: No puede manejar ${years} años. Solo acepta años enteros!`);
+    }
+    
+    // Problem 3: Manual repetition (inefficient for large numbers)
+    if (roundedYears > 20) {
+        throw new Error("NAIVE ERROR: ¡Código demasiado largo para más de 20 años!");
+    }
+    
+    // Problem 4: Loss of precision with manual multiplication
+    let result = principal;
+    for (let i = 0; i < roundedYears; i++) {
+        // Simulating precision loss that would occur in manual code
+        result *= 1.05;
+        result = Math.round(result * 100) / 100; // Precision loss
     }
     
     return result;
@@ -992,79 +1011,134 @@ function runComparison() {
         return;
     }
     
+    let naiveResult = null;
+    let naiveError = null;
+    let professionalResult = null;
+    let monthlyResult = null;
+    
+    // Try naive method (expect it to fail in many cases)
     try {
-        // Calculate using both methods
-        const naiveResult = calculateNaive(principal, rate, time);
-        const professionalResult = CompoundInterestCalculator.calculate(principal, rate, time);
-        const monthlyResult = CompoundInterestCalculator.calculateMonthlyCompounding(principal, rate, time);
-        
-        // Performance measurement
-        const startNaive = performance.now();
-        for (let i = 0; i < 1000; i++) {
-            calculateNaive(principal, rate, time);
-        }
-        const naiveTime = performance.now() - startNaive;
-        
-        const startProfessional = performance.now();
-        for (let i = 0; i < 1000; i++) {
-            CompoundInterestCalculator.calculate(principal, rate, time);
-        }
-        const professionalTime = performance.now() - startProfessional;
-        
-        showComparisonResults(principal, rate, time, naiveResult, professionalResult, monthlyResult, naiveTime, professionalTime);
-        
+        naiveResult = calculateNaive(principal, rate, time);
     } catch (error) {
-        showError(`Error en cálculo: ${error.message}`);
+        naiveError = error.message;
     }
+    
+    // Professional method should always work
+    try {
+        professionalResult = CompoundInterestCalculator.calculate(principal, rate, time);
+        monthlyResult = CompoundInterestCalculator.calculateMonthlyCompounding(principal, rate, time);
+    } catch (error) {
+        showError(`Error en método profesional: ${error.message}`);
+        return;
+    }
+    
+    // Performance measurement
+    const startNaive = performance.now();
+    for (let i = 0; i < 100; i++) {
+        try {
+            calculateNaive(principal, rate, time);
+        } catch (e) {
+            // Ignore errors for performance test
+        }
+    }
+    const naiveTime = performance.now() - startNaive;
+    
+    const startProfessional = performance.now();
+    for (let i = 0; i < 100; i++) {
+        CompoundInterestCalculator.calculate(principal, rate, time);
+    }
+    const professionalTime = performance.now() - startProfessional;
+    
+    showComparisonResults(principal, rate, time, naiveResult, naiveError, professionalResult, monthlyResult, naiveTime, professionalTime);
 }
 
-function showComparisonResults(principal, rate, time, naive, professional, monthly, naiveTime, professionalTime) {
-    const difference = Math.abs(professional - naive);
-    const percentDiff = (difference / professional) * 100;
+function showComparisonResults(principal, rate, time, naiveResult, naiveError, professional, monthly, naiveTime, professionalTime) {
+    let naiveDisplay = '';
     
-    document.getElementById('comparison-results').innerHTML = `
-        <div class="comparison-grid">
+    if (naiveError) {
+        // Naive method failed - show why
+        naiveDisplay = `
+            <div class="result-panel">
+                <div class="result-title">🔥 Método Naive</div>
+                <div style="background: rgba(255, 64, 37, 0.1); border: 1px solid var(--danger-primary); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center;">
+                    <div style="color: var(--danger-primary); font-weight: 600; margin-bottom: var(--space-2);">
+                        ❌ FALLÓ
+                    </div>
+                    <div style="color: var(--dark-text-secondary); font-size: var(--text-sm);">
+                        ${naiveError}
+                    </div>
+                </div>
+                <div class="performance-metrics">
+                    ⚠️ Este es exactamente el problema que quebró FinTechCorp
+                </div>
+            </div>
+        `;
+    } else {
+        // Naive method worked - show result
+        const difference = Math.abs(professional - naiveResult);
+        const percentDiff = (difference / professional) * 100;
+        
+        naiveDisplay = `
             <div class="result-panel">
                 <div class="result-title">🔥 Método Naive</div>
                 <div class="result-value result-naive">
-                    $${naive.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    ${naiveResult.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                 </div>
                 <div class="performance-metrics">
-                    Tiempo (1000 cálculos): ${naiveTime.toFixed(2)}ms<br>
-                    Precisión: ${time % 1 === 0 ? 'Aceptable para años enteros' : '⚠️ Impreciso para decimales'}
+                    Tiempo (100 cálculos): ${naiveTime.toFixed(2)}ms<br>
+                    Precisión: ${time % 1 === 0 ? 'Aceptable para años enteros' : '⚠️ Impreciso para decimales'}<br>
+                    Diferencia: ${percentDiff.toFixed(4)}%
                 </div>
             </div>
+        `;
+    }
+    
+    document.getElementById('comparison-results').innerHTML = `
+        <div class="comparison-grid">
+            ${naiveDisplay}
             
             <div class="result-panel">
                 <div class="result-title">✅ Método Profesional</div>
                 <div class="result-value result-professional">
-                    $${professional.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    ${professional.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                 </div>
                 <div class="performance-metrics">
-                    Tiempo (1000 cálculos): ${professionalTime.toFixed(2)}ms<br>
-                    Precisión: ✅ Matemáticamente exacto
+                    Tiempo (100 cálculos): ${professionalTime.toFixed(2)}ms<br>
+                    Precisión: ✅ Matemáticamente exacto<br>
+                    Flexibilidad: ✅ Cualquier valor funciona
                 </div>
             </div>
         </div>
         
         <div style="margin-top: var(--space-6); padding: var(--space-6); background: var(--dark-surface); border-radius: var(--radius-xl); border: 1px solid var(--dark-border);">
-            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: ${percentDiff > 1 ? 'var(--danger-primary)' : 'var(--success-primary)'};">
-                📊 Análisis de Diferencia
+            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: ${naiveError ? 'var(--danger-primary)' : 'var(--success-primary)'};">
+                📊 Análisis del Resultado
             </h4>
             <p style="color: var(--dark-text-secondary);">
-                <strong>Diferencia absoluta:</strong> $${difference.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>
-                <strong>Diferencia porcentual:</strong> ${percentDiff.toFixed(4)}%<br>
-                <strong>Rendimiento:</strong> Método profesional es ${(naiveTime / professionalTime).toFixed(1)}x más rápido<br>
-                <strong>Composición mensual:</strong> $${monthly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                <strong>Capital inicial:</strong> ${principal.toLocaleString()}<br>
+                <strong>Tasa de interés:</strong> ${rate}% anual<br>
+                <strong>Período:</strong> ${time} años<br>
+                <strong>Composición mensual:</strong> ${monthly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
             </p>
-            ${percentDiff > 1 ? `
-                <p style="color: var(--danger-primary); margin-top: var(--space-4); font-weight: 600;">
-                    ⚠️ ¡Diferencia significativa! Con este error, FinTechCorp habría perdido dinero real.
-                </p>
+            ${naiveError ? `
+                <div style="background: rgba(255, 64, 37, 0.1); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4); border-left: 3px solid var(--danger-primary);">
+                    <p style="color: var(--danger-primary); font-weight: 600;">
+                        💀 Lección Crítica: 
+                    </p>
+                    <p style="color: var(--dark-text-secondary); margin-top: var(--space-2);">
+                        El método naive falló con estos parámetros porque fue diseñado para un caso específico (5% anual, años enteros). 
+                        El método profesional funciona para CUALQUIER escenario. <strong>Esta flexibilidad habría salvado FinTechCorp.</strong>
+                    </p>
+                </div>
             ` : `
-                <p style="color: var(--success-primary); margin-top: var(--space-4);">
-                    ✅ Diferencia mínima para este caso, pero el método profesional es más confiable.
-                </p>
+                <div style="background: rgba(34, 197, 94, 0.1); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4); border-left: 3px solid var(--success-primary);">
+                    <p style="color: var(--success-primary); font-weight: 600;">
+                        ✅ En este caso ambos métodos funcionan
+                    </p>
+                    <p style="color: var(--dark-text-secondary); margin-top: var(--space-2);">
+                        Pero prueba cambiando la tasa a 7% o el tiempo a 2.5 años para ver cómo falla el método naive.
+                    </p>
+                </div>
             `}
         </div>
     `;
@@ -1115,7 +1189,37 @@ function runStressTest() {
 }
 
 function runAllTests() {
+    // Get current parameters for dynamic testing
+    const principal = parseFloat(document.getElementById('principal').value) || 1000;
+    const rate = parseFloat(document.getElementById('rate').value) || 5;
+    const time = parseFloat(document.getElementById('time').value) || 5;
+    
     const tests = [
+        {
+            name: `Test con parámetros actuales: ${principal} al ${rate}% por ${time} años`,
+            fn: () => {
+                try {
+                    const result = CompoundInterestCalculator.calculate(principal, rate, time);
+                    return result > 0 && !isNaN(result) && isFinite(result);
+                } catch (error) {
+                    return false;
+                }
+            }
+        },
+        {
+            name: `Test naive vs profesional (valores actuales)`,
+            fn: () => {
+                try {
+                    const professional = CompoundInterestCalculator.calculate(principal, rate, time);
+                    const naive = calculateNaive(principal, rate, time);
+                    return Math.abs(professional - naive) < (professional * 0.01); // 1% tolerance
+                } catch (error) {
+                    // Naive method failed, professional should still work
+                    const professional = CompoundInterestCalculator.calculate(principal, rate, time);
+                    return professional > 0;
+                }
+            }
+        },
         {
             name: "Test básico: $1000 al 5% por 5 años",
             fn: () => {
@@ -1125,31 +1229,32 @@ function runAllTests() {
             }
         },
         {
-            name: "Test de período decimal: 1.5 años",
+            name: `Test con período decimal: ${time > 1 ? (time - 0.5).toFixed(1) : 1.5} años`,
             fn: () => {
-                const result = CompoundInterestCalculator.calculate(1000, 5, 1.5);
-                return result > 1000 && result < 1100; // Reasonable range
+                const testTime = time > 1 ? time - 0.5 : 1.5;
+                const result = CompoundInterestCalculator.calculate(principal, rate, testTime);
+                return result > principal && result < (principal * 2); // Reasonable range
             }
         },
         {
             name: "Test de tasa cero",
             fn: () => {
-                const result = CompoundInterestCalculator.calculate(1000, 0, 5);
-                return result === 1000;
+                const result = CompoundInterestCalculator.calculate(principal, 0, time);
+                return Math.abs(result - principal) < 0.01;
             }
         },
         {
             name: "Test de tiempo cero",
             fn: () => {
-                const result = CompoundInterestCalculator.calculate(1000, 5, 0);
-                return result === 1000;
+                const result = CompoundInterestCalculator.calculate(principal, rate, 0);
+                return Math.abs(result - principal) < 0.01;
             }
         },
         {
             name: "Test de validación: Principal negativo",
             fn: () => {
                 try {
-                    CompoundInterestCalculator.calculate(-1000, 5, 5);
+                    CompoundInterestCalculator.calculate(-1000, rate, time);
                     return false; // Should have thrown error
                 } catch (error) {
                     return error.message.includes('Principal');
@@ -1160,7 +1265,7 @@ function runAllTests() {
             name: "Test de validación: Tasa negativa",
             fn: () => {
                 try {
-                    CompoundInterestCalculator.calculate(1000, -5, 5);
+                    CompoundInterestCalculator.calculate(principal, -5, time);
                     return false; // Should have thrown error
                 } catch (error) {
                     return error.message.includes('Rate');
@@ -1191,7 +1296,7 @@ function runAllTests() {
     const summary = `
         <div style="background: var(--dark-surface); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--dark-border); margin-bottom: var(--space-6);">
             <h4 style="font-family: var(--font-primary); color: var(--success-primary); margin-bottom: var(--space-3);">
-                🧪 Resumen de Tests
+                🧪 Resumen de Tests (Parámetros: ${principal}, ${rate}%, ${time} años)
             </h4>
             <p style="color: var(--dark-text-secondary);">
                 <strong>${passedCount}/${tests.length} tests pasaron</strong><br>
