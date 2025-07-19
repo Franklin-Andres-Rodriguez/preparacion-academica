@@ -1,198 +1,1313 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Interés - Enfoque Naive</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-        }
-        .problem-section {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        .code-block {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            margin: 10px 0;
-            overflow-x: auto;
-        }
-        input, button {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
-        button {
-            background: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #2980b9;
-        }
-        .result {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-        .warning {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💡 De $2.3M de Pérdidas a Código Profesional</title>
+<meta name="description" content="La evolución completa: cómo transformar código naive en soluciones profesionales que habrían salvado FinTechCorp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS (Consistent with main site) ===== */
+:root {
+  /* Typography */
+  --font-primary: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', monospace;
+  
+  /* Colors */
+  --danger-primary: #ff4025;
+  --danger-glow: rgba(255, 64, 37, 0.4);
+  --warning-primary: #ff8c1a;
+  --warning-glow: rgba(255, 140, 26, 0.4);
+  --success-primary: #22c55e;
+  --success-glow: rgba(34, 197, 94, 0.4);
+  --brand-primary: #8445ff;
+  --brand-glow: rgba(132, 69, 255, 0.4);
+  
+  /* Dark Theme */
+  --dark-bg-primary: #0d0d0f;
+  --dark-bg-secondary: #16181d;
+  --dark-bg-tertiary: #1f2128;
+  --dark-surface: #252830;
+  --dark-border: #2d3139;
+  --dark-text-primary: #f8fafc;
+  --dark-text-secondary: #cbd5e1;
+  --dark-text-muted: #94a3b8;
+  
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, #8445ff 0%, #ff4025 50%, #ff8c1a 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+  
+  /* Spacing */
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  
+  /* Typography */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  
+  /* Animations */
+  --duration-normal: 350ms;
+  --duration-slow: 500ms;
+  --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Borders */
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  
+  /* Shadows */
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --shadow-glow-success: 0 0 30px var(--success-glow);
+}
+
+/* ===== BASE STYLES ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--dark-bg-primary);
+  color: var(--dark-text-primary);
+  line-height: 1.6;
+  font-size: var(--text-lg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(132, 69, 255, 0.05) 0%, transparent 50%);
+  animation: backgroundShift 15s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes backgroundShift {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-10px) scale(1.02); }
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* ===== NAVIGATION ===== */
+.nav-grid {
+  position: fixed;
+  top: var(--space-6);
+  left: var(--space-6);
+  right: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-xl);
+  color: var(--dark-text-primary);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  transition: all var(--duration-normal) var(--easing-smooth);
+}
+
+.nav-btn:hover {
+  background: var(--dark-surface);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.nav-btn.success {
+  border-color: var(--success-primary);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+/* ===== HEADER ===== */
+header {
+  background: var(--gradient-success);
+  padding: var(--space-20) 0 var(--space-16);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(2px);
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
+}
+
+.success-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-xl);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+  backdrop-filter: blur(10px);
+}
+
+header h1 {
+  font-family: var(--font-primary);
+  font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: var(--text-xl);
+  opacity: 0.9;
+  font-style: italic;
+  margin-bottom: var(--space-8);
+}
+
+/* ===== EVOLUTION TRACKER ===== */
+.evolution-tracker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.evolution-step {
+  background: rgba(0, 0, 0, 0.3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.step-number {
+  font-family: var(--font-code);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--success-primary);
+}
+
+.step-label {
+  font-size: var(--text-sm);
+  opacity: 0.8;
+  margin-top: var(--space-2);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  margin-bottom: var(--space-16);
+  background: var(--dark-bg-secondary);
+  padding: var(--space-10);
+  border-radius: var(--radius-3xl);
+  border: 1px solid var(--dark-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-success);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--easing-smooth);
+}
+
+.section:hover::before {
+  transform: scaleX(1);
+}
+
+.section h2 {
+  font-family: var(--font-primary);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.02em;
+}
+
+/* ===== CODE EVOLUTION DISPLAY ===== */
+.code-evolution {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.code-stage {
+  background: var(--dark-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  border: 1px solid var(--dark-border);
+  position: relative;
+  transition: all var(--duration-normal) var(--easing-smooth);
+}
+
+.code-stage.active {
+  border-color: var(--success-primary);
+  box-shadow: var(--shadow-glow-success);
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.stage-title {
+  font-family: var(--font-primary);
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+
+.stage-badge {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.stage-badge.naive {
+  background: rgba(255, 64, 37, 0.2);
+  color: var(--danger-primary);
+  border: 1px solid var(--danger-primary);
+}
+
+.stage-badge.improved {
+  background: rgba(255, 140, 26, 0.2);
+  color: var(--warning-primary);
+  border: 1px solid var(--warning-primary);
+}
+
+.stage-badge.professional {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--success-primary);
+  border: 1px solid var(--success-primary);
+}
+
+.code-block {
+  background: #0a0c10;
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin: var(--space-4) 0;
+  font-family: var(--font-code);
+  font-size: var(--text-base);
+  color: #f8f8f2;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+/* Syntax highlighting */
+.keyword { color: #ff79c6; }
+.number { color: #bd93f9; }
+.string { color: #f1fa8c; }
+.comment { color: #6272a4; font-style: italic; }
+.function { color: #50fa7b; }
+.variable { color: #8be9fd; }
+
+.improvements-list {
+  margin-top: var(--space-4);
+  list-style: none;
+}
+
+.improvement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding: var(--space-3);
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: var(--radius-lg);
+  border-left: 3px solid var(--success-primary);
+}
+
+.improvement-icon {
+  color: var(--success-primary);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ===== INTERACTIVE CALCULATOR ===== */
+.calculator-section {
+  background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, rgba(34, 197, 94, 0.05) 100%);
+  border-color: var(--success-primary);
+}
+
+.calculator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.calculator-panel {
+  background: var(--dark-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  border: 1px solid var(--dark-border);
+}
+
+.panel-title {
+  font-family: var(--font-primary);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: var(--space-5);
+}
+
+.input-label {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  color: var(--dark-text-secondary);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.input-field {
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--dark-bg-secondary);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-lg);
+  color: var(--dark-text-primary);
+  font-family: var(--font-code);
+  font-size: var(--text-lg);
+  transition: all var(--duration-normal) var(--easing-smooth);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--success-primary);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.result-panel {
+  background: var(--dark-bg-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  border: 1px solid var(--dark-border);
+}
+
+.result-title {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.result-value {
+  font-family: var(--font-code);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  text-align: center;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+}
+
+.result-naive {
+  background: rgba(255, 64, 37, 0.1);
+  color: var(--danger-primary);
+  border: 1px solid var(--danger-primary);
+}
+
+.result-professional {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success-primary);
+  border: 1px solid var(--success-primary);
+}
+
+.performance-metrics {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--dark-text-muted);
+  text-align: center;
+}
+
+/* ===== TESTING SECTION ===== */
+.test-cases {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.test-case {
+  background: var(--dark-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  border: 1px solid var(--dark-border);
+}
+
+.test-case.passed {
+  border-color: var(--success-primary);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.test-case.failed {
+  border-color: var(--danger-primary);
+  background: rgba(255, 64, 37, 0.05);
+}
+
+.test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.test-name {
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+.test-status {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.test-status.pass {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--success-primary);
+}
+
+.test-status.fail {
+  background: rgba(255, 64, 37, 0.2);
+  color: var(--danger-primary);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  border: none;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--easing-smooth);
+  background: var(--gradient-success);
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .calculator-grid,
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+  
+  .nav-grid {
+    top: var(--space-4);
+    left: var(--space-4);
+    right: var(--space-4);
+  }
+  
+  header {
+    padding: var(--space-16) 0 var(--space-12);
+  }
+  
+  .evolution-tracker {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  animation: fadeInUp var(--duration-slow) var(--easing-smooth) forwards;
+}
+
+.section:nth-child(2) { animation-delay: 0.1s; }
+.section:nth-child(3) { animation-delay: 0.2s; }
+.section:nth-child(4) { animation-delay: 0.3s; }
+.section:nth-child(5) { animation-delay: 0.4s; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏦 Calculadora de Interés Compuesto - Enfoque "Obvio"</h1>
-        
-        <div class="problem-section">
-            <h3>El Problema Real</h3>
-            <p>En nuestra fintech, necesitábamos calcular intereses compuestos. Un desarrollador junior escribió esto:</p>
-            <div class="code-block">
-// Para 5 años al 5% anual
-final_amount = 1000 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05;
-            </div>
-            <p><strong>¿Qué problemas ven aquí?</strong> Probemos con diferentes escenarios...</p>
-        </div>
 
-        <h3>Calculadora "Naive"</h3>
-        <div>
-            <label>Capital inicial: $</label>
-            <input type="number" id="principal" value="1000" min="1">
-        </div>
-        <div>
-            <label>Tasa de interés anual: </label>
-            <input type="number" id="rate" value="5" min="0" max="100" step="0.1">%
-        </div>
-        <div>
-            <label>Años: </label>
-            <input type="number" id="years" value="5" min="1" max="30">
-        </div>
-        
-        <button onclick="calculateNaive()">Calcular (Método Naive)</button>
-        <button onclick="tryDifferentScenarios()">Probar Escenarios Problemáticos</button>
-        
-        <div id="result"></div>
-        <div id="generatedCode"></div>
-        <div id="problems"></div>
+<nav class="nav-grid">
+  <a href="./calculadora-naive.html" class="nav-btn">
+    ← Ver el Problema Original
+  </a>
+  <a href="../../index.html" class="nav-btn success">
+    🏠 Volver al Laboratorio
+  </a>
+</nav>
 
-        <div class="problem-section">
-            <h3>🤔 Preguntas para Reflexionar</h3>
-            <ul>
-                <li>¿Qué pasa si el cliente quiere 20 años en lugar de 5?</li>
-                <li>¿Y si quiere 6 meses?</li>
-                <li>¿Cómo manejarías 100 clientes con diferentes plazos?</li>
-                <li>¿Qué sucede si hay un error en la tasa de interés?</li>
-            </ul>
+<header>
+  <div class="container">
+    <div class="header-content">
+      <div class="success-badge">
+        ✅ SOLUCIÓN PROFESIONAL • CÓDIGO QUE SALVA EMPRESAS
+      </div>
+      <h1>De $2.3M de Pérdidas a Código Profesional</h1>
+      <p class="subtitle">La evolución completa: cómo FinTechCorp habría sobrevivido</p>
+      
+      <div class="evolution-tracker">
+        <div class="evolution-step">
+          <div class="step-number">🔥</div>
+          <div class="step-label">Código Naive</div>
         </div>
+        <div class="evolution-step">
+          <div class="step-number">🔧</div>
+          <div class="step-label">Refactoring</div>
+        </div>
+        <div class="evolution-step">
+          <div class="step-number">🧪</div>
+          <div class="step-label">Testing</div>
+        </div>
+        <div class="evolution-step">
+          <div class="step-number">✅</div>
+          <div class="step-label">Código Profesional</div>
+        </div>
+      </div>
     </div>
+  </div>
+</header>
 
-    <script>
-        function calculateNaive() {
-            const principal = parseFloat(document.getElementById('principal').value);
-            const rate = parseFloat(document.getElementById('rate').value);
-            const years = parseInt(document.getElementById('years').value);
-            
-            // Generar el código "naive" literalmente
-            let code = `final_amount = ${principal}`;
-            for (let i = 0; i < years; i++) {
-                code += ` * ${1 + rate/100}`;
-            }
-            code += ';';
-            
-            // Mostrar el código generado
-            document.getElementById('generatedCode').innerHTML = `
-                <h4>Código generado (como lo haría el desarrollador junior):</h4>
-                <div class="code-block">${code}</div>
-            `;
-            
-            // Calcular el resultado
-            let result = principal;
-            for (let i = 0; i < years; i++) {
-                result *= (1 + rate/100);
-            }
-            
-            document.getElementById('result').innerHTML = `
-                <div class="result">
-                    <h4>Resultado:</h4>
-                    <p>Capital inicial: $${principal.toLocaleString()}</p>
-                    <p>Después de ${years} años al ${rate}% anual: <strong>$${result.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></p>
-                </div>
-            `;
-            
-            // Mostrar problemas obvios
-            let problems = '<div class="warning"><h4>🚨 Problemas evidentes:</h4><ul>';
-            if (years > 10) {
-                problems += '<li>El código es extremadamente largo y repetitivo</li>';
-            }
-            if (years > 20) {
-                problems += '<li>¡Imposible de mantener! ¿Imaginen para 30 años?</li>';
-            }
-            problems += '<li>No es reutilizable para diferentes valores</li>';
-            problems += '<li>Propenso a errores de tipeo</li>';
-            problems += '<li>¿Qué pasa con períodos no enteros?</li>';
-            problems += '</ul></div>';
-            
-            document.getElementById('problems').innerHTML = problems;
+<main class="container">
+
+  <!-- CODE EVOLUTION SECTION -->
+  <section class="section">
+    <h2>🔄 Evolución del Código: Paso a Paso</h2>
+    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-8); font-size: var(--text-xl);">
+      <strong>Siguiendo las metodologías de Martin Fowler y Robert C. Martin:</strong> El camino desde código que 
+      destruye empresas hasta código que las salva. Cada paso resuelve problemas específicos.
+    </p>
+    
+    <div class="code-evolution">
+      
+      <!-- STAGE 1: NAIVE CODE -->
+      <div class="code-stage" id="stage-naive">
+        <div class="stage-header">
+          <div class="stage-title">💀 Etapa 1: Código Naive (El que quebró FinTechCorp)</div>
+          <div class="stage-badge naive">PROBLEMÁTICO</div>
+        </div>
+        
+        <div class="code-block">
+<span class="comment">// El código que causó $2.3M en pérdidas</span>
+<span class="keyword">function</span> <span class="function">calculateCompoundInterestNaive</span>(<span class="variable">principal</span>, <span class="variable">rate</span>, <span class="variable">years</span>) {
+    <span class="comment">// ¡Hard-coded para 5 años solamente!</span>
+    <span class="keyword">let</span> <span class="variable">result</span> = <span class="variable">principal</span>;
+    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// ¿Qué si rate ≠ 5%?</span>
+    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// Repetición manual</span>
+    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// Imposible escalar</span>
+    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// Propenso a errores</span>
+    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// ¿Y para 6 meses?</span>
+    <span class="keyword">return</span> <span class="variable">result</span>;
+}
+
+<span class="comment">// PROBLEMAS CRÍTICOS:</span>
+<span class="comment">// ❌ No funciona para diferentes tasas</span>
+<span class="comment">// ❌ No funciona para diferentes períodos</span>
+<span class="comment">// ❌ Imposible de testear completamente</span>
+<span class="comment">// ❌ Viola principios DRY y SOLID</span>
+        </div>
+        
+        <p style="color: var(--dark-text-secondary); margin-top: var(--space-4);">
+          <strong style="color: var(--danger-primary);">Resultado:</strong> 847 clientes con balances incorrectos, 
+          $2.3M en pérdidas, empresa quebrada.
+        </p>
+      </div>
+
+      <!-- STAGE 2: IMPROVED WITH LOOP -->
+      <div class="code-stage" id="stage-improved">
+        <div class="stage-header">
+          <div class="stage-title">🔧 Etapa 2: Primer Refactoring (Loop básico)</div>
+          <div class="stage-badge improved">MEJORANDO</div>
+        </div>
+        
+        <div class="code-block">
+<span class="comment">// Primer paso: Eliminar repetición con un loop</span>
+<span class="keyword">function</span> <span class="function">calculateCompoundInterestLoop</span>(<span class="variable">principal</span>, <span class="variable">rate</span>, <span class="variable">years</span>) {
+    <span class="keyword">let</span> <span class="variable">result</span> = <span class="variable">principal</span>;
+    <span class="keyword">const</span> <span class="variable">multiplier</span> = <span class="number">1</span> + (<span class="variable">rate</span> / <span class="number">100</span>);
+    
+    <span class="comment">// Loop simple - ya no hay hard-coding</span>
+    <span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>; <span class="variable">i</span> < <span class="variable">years</span>; <span class="variable">i</span>++) {
+        <span class="variable">result</span> *= <span class="variable">multiplier</span>;
+    }
+    
+    <span class="keyword">return</span> <span class="variable">result</span>;
+}
+
+<span class="comment">// MEJORAS LOGRADAS:</span>
+<span class="comment">// ✅ Funciona para cualquier número de años</span>
+<span class="comment">// ✅ Funciona para cualquier tasa</span>
+<span class="comment">// ⚠️  Aún no maneja períodos no enteros</span>
+<span class="comment">// ⚠️  Falta validación de entrada</span>
+        </div>
+        
+        <ul class="improvements-list">
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span>Eliminó hard-coding de rate y años</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span>Principio DRY aplicado (Don't Repeat Yourself)</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span>Escalable para cualquier período entero</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- STAGE 3: PROFESSIONAL SOLUTION -->
+      <div class="code-stage active" id="stage-professional">
+        <div class="stage-header">
+          <div class="stage-title">✅ Etapa 3: Solución Profesional (Clean Code)</div>
+          <div class="stage-badge professional">CÓDIGO PROFESIONAL</div>
+        </div>
+        
+        <div class="code-block">
+<span class="comment">// Solución que habría salvado FinTechCorp</span>
+<span class="keyword">class</span> <span class="function">CompoundInterestCalculator</span> {
+    
+    <span class="comment">/**</span>
+<span class="comment">     * Calcula interés compuesto usando la fórmula matemática correcta</span>
+<span class="comment">     * A = P * (1 + r)^t</span>
+<span class="comment">     * @param {number} principal - Capital inicial</span>
+<span class="comment">     * @param {number} annualRate - Tasa anual (ej: 5 para 5%)</span>
+<span class="comment">     * @param {number} timeInYears - Tiempo en años (acepta decimales)</span>
+<span class="comment">     * @returns {number} Monto final</span>
+<span class="comment">     */</span>
+    <span class="keyword">static</span> <span class="function">calculate</span>(<span class="variable">principal</span>, <span class="variable">annualRate</span>, <span class="variable">timeInYears</span>) {
+        <span class="comment">// Validación de entrada (Kent Beck's Simple Design)</span>
+        <span class="keyword">if</span> (!<span class="variable">principal</span> || <span class="variable">principal</span> <= <span class="number">0</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Principal debe ser mayor que 0'</span>);
+        }
+        <span class="keyword">if</span> (<span class="variable">annualRate</span> < <span class="number">0</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Tasa no puede ser negativa'</span>);
+        }
+        <span class="keyword">if</span> (<span class="variable">timeInYears</span> < <span class="number">0</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Tiempo no puede ser negativo'</span>);
         }
         
-        function tryDifferentScenarios() {
-            document.getElementById('result').innerHTML = `
-                <div class="warning">
-                    <h4>🎭 Escenarios Problemáticos</h4>
-                    <p><strong>Escenario 1:</strong> Cliente quiere inversión a 25 años</p>
-                    <div class="code-block">// ¿Escribirías 25 multiplicaciones manuales?
-final_amount = 1000 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05;</div>
-                    
-                    <p><strong>Escenario 2:</strong> Cliente quiere 18 meses (1.5 años)</p>
-                    <div class="code-block">// ¿Cómo representas 0.5 multiplicaciones?
-final_amount = 1000 * ¿¿¿???</div>
-                    
-                    <p><strong>Escenario 3:</strong> 1000 clientes diferentes</p>
-                    <div class="code-block">// ¿1000 funciones diferentes?
-client1_amount = 5000 * 1.03 * 1.03 * 1.03 * 1.03;
-client2_amount = 2000 * 1.07 * 1.07 * 1.07;
-client3_amount = 10000 * 1.04 * 1.04 * 1.04 * 1.04 * 1.04 * 1.04;
-// ... 997 más ???</div>
-                    
-                    <p><strong>¿Empiezan a ver el problema?</strong> 🤯</p>
+        <span class="comment">// Fórmula matemática correcta (no loops)</span>
+        <span class="keyword">const</span> <span class="variable">rate</span> = <span class="variable">annualRate</span> / <span class="number">100</span>;
+        <span class="keyword">return</span> <span class="variable">principal</span> * <span class="function">Math.pow</span>(<span class="number">1</span> + <span class="variable">rate</span>, <span class="variable">timeInYears</span>);
+    }
+    
+    <span class="comment">// Método para cálculos con composición mensual</span>
+    <span class="keyword">static</span> <span class="function">calculateMonthlyCompounding</span>(<span class="variable">principal</span>, <span class="variable">annualRate</span>, <span class="variable">years</span>) {
+        <span class="keyword">const</span> <span class="variable">monthlyRate</span> = <span class="variable">annualRate</span> / <span class="number">100</span> / <span class="number">12</span>;
+        <span class="keyword">const</span> <span class="variable">totalMonths</span> = <span class="variable">years</span> * <span class="number">12</span>;
+        <span class="keyword">return</span> <span class="variable">principal</span> * <span class="function">Math.pow</span>(<span class="number">1</span> + <span class="variable">monthlyRate</span>, <span class="variable">totalMonths</span>);
+    }
+}
+
+<span class="comment">// USO SIMPLE Y SEGURO:</span>
+<span class="comment">// CompoundInterestCalculator.calculate(1000, 5, 5.5); // 6 meses funciona!</span>
+<span class="comment">// CompoundInterestCalculator.calculate(50000, 7.25, 20); // Cualquier valor!</span>
+        </div>
+        
+        <ul class="improvements-list">
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span><strong>Fórmula matemática correcta</strong> - No loops, usa Math.pow()</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span><strong>Validación robusta</strong> - Maneja casos edge y errores</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span><strong>Períodos decimales</strong> - Funciona para 6 meses, 1.5 años, etc.</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span><strong>Documentación completa</strong> - JSDoc para mantenibilidad</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span><strong>Métodos especializados</strong> - Composición anual y mensual</span>
+          </li>
+          <li class="improvement-item">
+            <span class="improvement-icon">✅</span>
+            <span><strong>Clase estática</strong> - No necesita instanciación</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE COMPARISON -->
+  <section class="section calculator-section">
+    <h2>⚗️ Laboratorio Interactivo: Compara los Métodos</h2>
+    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-6);">
+      Experimenta con diferentes valores y observa cómo el <strong>código profesional</strong> maneja casos 
+      que habrían roto el método naive.
+    </p>
+    
+    <div class="calculator-grid">
+      <!-- INPUT PANEL -->
+      <div class="calculator-panel">
+        <div class="panel-title">📊 Parámetros de Prueba</div>
+        
+        <div class="input-group">
+          <label class="input-label">💰 Capital inicial ($)</label>
+          <input type="number" id="principal" class="input-field" value="1000" min="1" step="100">
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">📈 Tasa anual (%)</label>
+          <input type="number" id="rate" class="input-field" value="5" min="0" max="50" step="0.25">
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">⏰ Tiempo (años)</label>
+          <input type="number" id="time" class="input-field" value="5" min="0.1" max="50" step="0.1">
+        </div>
+        
+        <div class="btn-grid">
+          <button class="btn" onclick="runComparison()">
+            🧮 Comparar Métodos
+          </button>
+          <button class="btn" onclick="runStressTest()">
+            🔥 Prueba de Estrés
+          </button>
+        </div>
+      </div>
+      
+      <!-- RESULTS PANEL -->
+      <div class="calculator-panel">
+        <div class="panel-title">📊 Resultados Comparativos</div>
+        <div id="results-display">
+          <p style="color: var(--dark-text-muted); text-align: center; padding: var(--space-8);">
+            Introduce valores y presiona "Comparar Métodos" para ver la diferencia
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- COMPARISON RESULTS -->
+    <div id="comparison-results"></div>
+  </section>
+
+  <!-- TESTING SECTION -->
+  <section class="section">
+    <h2>🧪 Testing: Cómo Prevenir Errores de $2.3M</h2>
+    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-6);">
+      <strong>Siguiendo Kent Beck y Kent C. Dodds:</strong> Los tests que habrían detectado el problema antes 
+      de que llegara a producción.
+    </p>
+    
+    <div class="btn-grid">
+      <button class="btn" onclick="runAllTests()">
+        🔬 Ejecutar Todos los Tests
+      </button>
+      <button class="btn" onclick="runEdgeCaseTests()">
+        ⚡ Tests de Casos Edge
+      </button>
+    </div>
+    
+    <div id="test-results"></div>
+  </section>
+
+  <!-- NEXT STEPS -->
+  <section class="section">
+    <h2>🚀 Próximos Pasos en tu Evolución</h2>
+    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-6);">
+      Has visto cómo transformar código naive en soluciones profesionales. Ahora es momento de enfrentar 
+      errores aún más sutiles y costosos.
+    </p>
+    
+    <div class="btn-grid">
+      <a href="../precedencia-operadores/" class="btn">
+        💥 Siguiente: Precedencia de Operadores ($2.3M)
+      </a>
+      <a href="../operador-coma/" class="btn">
+        🔥 Operador Coma ($500K)
+      </a>
+      <a href="../environment/" class="btn">
+        🔬 Laboratorio de Experimentación
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Professional compound interest calculator (the solution that would have saved FinTechCorp)
+class CompoundInterestCalculator {
+    
+    /**
+     * Calculate compound interest using the correct mathematical formula
+     * A = P * (1 + r)^t
+     */
+    static calculate(principal, annualRate, timeInYears) {
+        // Input validation (Kent Beck's Simple Design)
+        if (!principal || principal <= 0) {
+            throw new Error('Principal must be greater than 0');
+        }
+        if (annualRate < 0) {
+            throw new Error('Rate cannot be negative');
+        }
+        if (timeInYears < 0) {
+            throw new Error('Time cannot be negative');
+        }
+        
+        // Correct mathematical formula (no loops needed)
+        const rate = annualRate / 100;
+        return principal * Math.pow(1 + rate, timeInYears);
+    }
+    
+    static calculateMonthlyCompounding(principal, annualRate, years) {
+        const monthlyRate = annualRate / 100 / 12;
+        const totalMonths = years * 12;
+        return principal * Math.pow(1 + monthlyRate, totalMonths);
+    }
+}
+
+// Naive method (the one that broke FinTechCorp)
+function calculateNaive(principal, rate, years) {
+    // This would only work for integer years, and is inefficient
+    let result = principal;
+    const multiplier = 1 + (rate / 100);
+    
+    for (let i = 0; i < Math.floor(years); i++) {
+        result *= multiplier;
+    }
+    
+    // Naive method can't handle decimal years properly
+    const remainder = years - Math.floor(years);
+    if (remainder > 0) {
+        result *= Math.pow(multiplier, remainder);
+    }
+    
+    return result;
+}
+
+function runComparison() {
+    const principal = parseFloat(document.getElementById('principal').value);
+    const rate = parseFloat(document.getElementById('rate').value);
+    const time = parseFloat(document.getElementById('time').value);
+    
+    if (!principal || !rate || !time) {
+        showError('Por favor completa todos los campos');
+        return;
+    }
+    
+    try {
+        // Calculate using both methods
+        const naiveResult = calculateNaive(principal, rate, time);
+        const professionalResult = CompoundInterestCalculator.calculate(principal, rate, time);
+        const monthlyResult = CompoundInterestCalculator.calculateMonthlyCompounding(principal, rate, time);
+        
+        // Performance measurement
+        const startNaive = performance.now();
+        for (let i = 0; i < 1000; i++) {
+            calculateNaive(principal, rate, time);
+        }
+        const naiveTime = performance.now() - startNaive;
+        
+        const startProfessional = performance.now();
+        for (let i = 0; i < 1000; i++) {
+            CompoundInterestCalculator.calculate(principal, rate, time);
+        }
+        const professionalTime = performance.now() - startProfessional;
+        
+        showComparisonResults(principal, rate, time, naiveResult, professionalResult, monthlyResult, naiveTime, professionalTime);
+        
+    } catch (error) {
+        showError(`Error en cálculo: ${error.message}`);
+    }
+}
+
+function showComparisonResults(principal, rate, time, naive, professional, monthly, naiveTime, professionalTime) {
+    const difference = Math.abs(professional - naive);
+    const percentDiff = (difference / professional) * 100;
+    
+    document.getElementById('comparison-results').innerHTML = `
+        <div class="comparison-grid">
+            <div class="result-panel">
+                <div class="result-title">🔥 Método Naive</div>
+                <div class="result-value result-naive">
+                    $${naive.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+                <div class="performance-metrics">
+                    Tiempo (1000 cálculos): ${naiveTime.toFixed(2)}ms<br>
+                    Precisión: ${time % 1 === 0 ? 'Aceptable para años enteros' : '⚠️ Impreciso para decimales'}
+                </div>
+            </div>
+            
+            <div class="result-panel">
+                <div class="result-title">✅ Método Profesional</div>
+                <div class="result-value result-professional">
+                    $${professional.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+                <div class="performance-metrics">
+                    Tiempo (1000 cálculos): ${professionalTime.toFixed(2)}ms<br>
+                    Precisión: ✅ Matemáticamente exacto
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: var(--space-6); padding: var(--space-6); background: var(--dark-surface); border-radius: var(--radius-xl); border: 1px solid var(--dark-border);">
+            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: ${percentDiff > 1 ? 'var(--danger-primary)' : 'var(--success-primary)'};">
+                📊 Análisis de Diferencia
+            </h4>
+            <p style="color: var(--dark-text-secondary);">
+                <strong>Diferencia absoluta:</strong> $${difference.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>
+                <strong>Diferencia porcentual:</strong> ${percentDiff.toFixed(4)}%<br>
+                <strong>Rendimiento:</strong> Método profesional es ${(naiveTime / professionalTime).toFixed(1)}x más rápido<br>
+                <strong>Composición mensual:</strong> $${monthly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+            </p>
+            ${percentDiff > 1 ? `
+                <p style="color: var(--danger-primary); margin-top: var(--space-4); font-weight: 600;">
+                    ⚠️ ¡Diferencia significativa! Con este error, FinTechCorp habría perdido dinero real.
+                </p>
+            ` : `
+                <p style="color: var(--success-primary); margin-top: var(--space-4);">
+                    ✅ Diferencia mínima para este caso, pero el método profesional es más confiable.
+                </p>
+            `}
+        </div>
+    `;
+}
+
+function runStressTest() {
+    const stressTests = [
+        { principal: 1000000, rate: 12.5, time: 0.25, description: "Inversión de alto rendimiento a 3 meses" },
+        { principal: 50000, rate: 3.75, time: 25.7, description: "Jubilación a largo plazo con período exacto" },
+        { principal: 100, rate: 0.01, time: 100, description: "Tasa ultra baja, período muy largo" },
+        { principal: 999999, rate: 99.99, time: 10, description: "Valores extremos" }
+    ];
+    
+    let results = '<div style="margin-top: var(--space-6);"><h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4);">🔥 Resultados de Prueba de Estrés</h4>';
+    
+    stressTests.forEach((test, index) => {
+        try {
+            const naive = calculateNaive(test.principal, test.rate, test.time);
+            const professional = CompoundInterestCalculator.calculate(test.principal, test.rate, test.time);
+            const difference = Math.abs(professional - naive);
+            const percentDiff = (difference / professional) * 100;
+            
+            results += `
+                <div style="background: var(--dark-surface); padding: var(--space-4); margin-bottom: var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--dark-border);">
+                    <h5 style="color: var(--brand-primary); margin-bottom: var(--space-2);">Test ${index + 1}: ${test.description}</h5>
+                    <p style="color: var(--dark-text-secondary); font-size: var(--text-sm);">
+                        Capital: $${test.principal.toLocaleString()} | Tasa: ${test.rate}% | Tiempo: ${test.time} años<br>
+                        Naive: $${naive.toLocaleString('en-US', {maximumFractionDigits: 2})} | 
+                        Profesional: $${professional.toLocaleString('en-US', {maximumFractionDigits: 2})}<br>
+                        <span style="color: ${percentDiff > 1 ? 'var(--danger-primary)' : 'var(--success-primary)'};">
+                            Diferencia: ${percentDiff.toFixed(4)}% ${percentDiff > 1 ? '⚠️ CRÍTICA' : '✅ Aceptable'}
+                        </span>
+                    </p>
+                </div>
+            `;
+        } catch (error) {
+            results += `
+                <div style="background: rgba(255, 64, 37, 0.1); padding: var(--space-4); margin-bottom: var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--danger-primary);">
+                    <h5 style="color: var(--danger-primary); margin-bottom: var(--space-2);">Test ${index + 1}: ERROR</h5>
+                    <p style="color: var(--danger-primary);">${error.message}</p>
                 </div>
             `;
         }
-        
-        // Mostrar cálculo inicial
-        calculateNaive();
-    </script>
+    });
+    
+    results += '</div>';
+    document.getElementById('comparison-results').innerHTML = results;
+}
+
+function runAllTests() {
+    const tests = [
+        {
+            name: "Test básico: $1000 al 5% por 5 años",
+            fn: () => {
+                const result = CompoundInterestCalculator.calculate(1000, 5, 5);
+                const expected = 1276.28; // Known correct value
+                return Math.abs(result - expected) < 0.01;
+            }
+        },
+        {
+            name: "Test de período decimal: 1.5 años",
+            fn: () => {
+                const result = CompoundInterestCalculator.calculate(1000, 5, 1.5);
+                return result > 1000 && result < 1100; // Reasonable range
+            }
+        },
+        {
+            name: "Test de tasa cero",
+            fn: () => {
+                const result = CompoundInterestCalculator.calculate(1000, 0, 5);
+                return result === 1000;
+            }
+        },
+        {
+            name: "Test de tiempo cero",
+            fn: () => {
+                const result = CompoundInterestCalculator.calculate(1000, 5, 0);
+                return result === 1000;
+            }
+        },
+        {
+            name: "Test de validación: Principal negativo",
+            fn: () => {
+                try {
+                    CompoundInterestCalculator.calculate(-1000, 5, 5);
+                    return false; // Should have thrown error
+                } catch (error) {
+                    return error.message.includes('Principal');
+                }
+            }
+        },
+        {
+            name: "Test de validación: Tasa negativa",
+            fn: () => {
+                try {
+                    CompoundInterestCalculator.calculate(1000, -5, 5);
+                    return false; // Should have thrown error
+                } catch (error) {
+                    return error.message.includes('Rate');
+                }
+            }
+        }
+    ];
+    
+    let resultsHTML = '<div class="test-cases">';
+    
+    tests.forEach(test => {
+        const passed = test.fn();
+        resultsHTML += `
+            <div class="test-case ${passed ? 'passed' : 'failed'}">
+                <div class="test-header">
+                    <div class="test-name">${test.name}</div>
+                    <div class="test-status ${passed ? 'pass' : 'fail'}">
+                        ${passed ? '✅ PASS' : '❌ FAIL'}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    resultsHTML += '</div>';
+    
+    const passedCount = tests.filter(test => test.fn()).length;
+    const summary = `
+        <div style="background: var(--dark-surface); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--dark-border); margin-bottom: var(--space-6);">
+            <h4 style="font-family: var(--font-primary); color: var(--success-primary); margin-bottom: var(--space-3);">
+                🧪 Resumen de Tests
+            </h4>
+            <p style="color: var(--dark-text-secondary);">
+                <strong>${passedCount}/${tests.length} tests pasaron</strong><br>
+                ${passedCount === tests.length ? 
+                  '✅ ¡Código profesional aprobado! Este código habría salvado FinTechCorp.' :
+                  '⚠️ Algunos tests fallaron. El código necesita más trabajo.'
+                }
+            </p>
+        </div>
+    `;
+    
+    document.getElementById('test-results').innerHTML = summary + resultsHTML;
+}
+
+function runEdgeCaseTests() {
+    const edgeCases = [
+        {
+            name: "Micro-inversión: $0.01 por 100 años",
+            principal: 0.01,
+            rate: 5,
+            time: 100
+        },
+        {
+            name: "Mega-inversión: $1B por 1 minuto",
+            principal: 1000000000,
+            rate: 5,
+            time: 1/525600 // 1 minute in years
+        },
+        {
+            name: "Hiperinflación: 1000% anual",
+            principal: 1000,
+            rate: 1000,
+            time: 1
+        },
+        {
+            name: "Período ultra-preciso: π años",
+            principal: 1000,
+            rate: 5,
+            time: Math.PI
+        }
+    ];
+    
+    let resultsHTML = '<div class="test-cases">';
+    
+    edgeCases.forEach(edgeCase => {
+        try {
+            const result = CompoundInterestCalculator.calculate(edgeCase.principal, edgeCase.rate, edgeCase.time);
+            const passed = !isNaN(result) && isFinite(result) && result >= 0;
+            
+            resultsHTML += `
+                <div class="test-case ${passed ? 'passed' : 'failed'}">
+                    <div class="test-header">
+                        <div class="test-name">${edgeCase.name}</div>
+                        <div class="test-status ${passed ? 'pass' : 'fail'}">
+                            ${passed ? '✅ PASS' : '❌ FAIL'}
+                        </div>
+                    </div>
+                    <p style="color: var(--dark-text-secondary); font-size: var(--text-sm); margin-top: var(--space-2);">
+                        Entrada: $${edgeCase.principal.toLocaleString()} al ${edgeCase.rate}% por ${edgeCase.time.toFixed(6)} años<br>
+                        Resultado: $${result.toLocaleString('en-US', {maximumFractionDigits: 2})}
+                    </p>
+                </div>
+            `;
+        } catch (error) {
+            resultsHTML += `
+                <div class="test-case failed">
+                    <div class="test-header">
+                        <div class="test-name">${edgeCase.name}</div>
+                        <div class="test-status fail">❌ ERROR</div>
+                    </div>
+                    <p style="color: var(--danger-primary); font-size: var(--text-sm); margin-top: var(--space-2);">
+                        Error: ${error.message}
+                    </p>
+                </div>
+            `;
+        }
+    });
+    
+    resultsHTML += '</div>';
+    
+    const summary = `
+        <div style="background: var(--dark-surface); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--dark-border); margin-bottom: var(--space-6);">
+            <h4 style="font-family: var(--font-primary); color: var(--warning-primary); margin-bottom: var(--space-3);">
+                ⚡ Tests de Casos Edge
+            </h4>
+            <p style="color: var(--dark-text-secondary);">
+                Estos tests verifican que el código profesional maneja situaciones extremas que el método naive 
+                ni siquiera podría intentar.
+            </p>
+        </div>
+    `;
+    
+    document.getElementById('test-results').innerHTML = summary + resultsHTML;
+}
+
+function showError(message) {
+    document.getElementById('results-display').innerHTML = `
+        <div style="color: var(--danger-primary); text-align: center; padding: var(--space-4);">
+            ⚠️ ${message}
+        </div>
+    `;
+}
+
+// Initialize with a default comparison
+document.addEventListener('DOMContentLoaded', function() {
+    runComparison();
+    
+    // Auto-update comparison when inputs change
+    ['principal', 'rate', 'time'].forEach(id => {
+        document.getElementById(id).addEventListener('input', function() {
+            clearTimeout(this.updateTimeout);
+            this.updateTimeout = setTimeout(runComparison, 500);
+        });
+    });
+});
+</script>
+
 </body>
 </html>
