@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Caos en Evaluación</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        .bug-story {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .calculation-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        .inputs-panel {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4299e1;
+        }
+        .evaluation-panel {
+            background: #1a202c;
+            color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .step {
+            background: #2d3748;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #4299e1;
+        }
+        .step.error {
+            border-left-color: #e53e3e;
+            background: #2c1810;
+        }
+        .step.success {
+            border-left-color: #38a169;
+            background: #1c2f1c;
+        }
+        button {
+            background: #4299e1;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #3182ce;
+        }
+        .danger-btn {
+            background: #e53e3e;
+        }
+        .danger-btn:hover {
+            background: #c53030;
+        }
+        .result-box {
+            background: #edf2f7;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .result-negative {
+            background: #fed7d7;
+            border-color: #fc8181;
+        }
+        .result-crazy {
+            background: #fef5e7;
+            border-color: #f6ad55;
+        }
+        .tree-visualization {
+            background: #f0fff4;
+            border: 2px solid #68d391;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .challenge-box {
+            background: #fef5e7;
+            border-left: 4px solid #f6ad55;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Simulador de Caos en Evaluación - E-commerce Bug Hunter</h1>
+        
+        <div class="bug-story">
+            <h3>📖 Historia Real - Proyecto E-commerce 2017</h3>
+            <p><strong>El Bug Misterioso:</strong> Sistema de precios funcionaba bien individualmente, pero combinado producía resultados absurdos.</p>
+            <div style="background: #2d3748; color: #f7fafc; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; margin: 10px 0;">
+final_price = base_price - discount + tax - coupon + shipping - member_discount;
+            </div>
+            <p><strong>Casos problemáticos:</strong></p>
+            <ul>
+                <li>💀 Precio final: <strong>-$45.99</strong> (¡pagamos al cliente!)</li>
+                <li>💀 Precio final: <strong>$9,999.99</strong> (producto de $29.99)</li>
+                <li>💀 Precio final: <strong>$0.01</strong> (producto premium de $299.99)</li>
+            </ul>
+            <p><em>La empresa perdió $23,000 en un fin de semana antes de que encontráramos el problema...</em></p>
+        </div>
+
+        <h3>Simulador de Precios - ¿Pueden Encontrar el Bug?</h3>
+        <div class="calculation-area">
+            <div class="inputs-panel">
+                <h4>🛒 Configuración del Producto</h4>
+                
+                <div class="input-group">
+                    <label>Precio Base ($):</label>
+                    <input type="number" id="basePrice" value="99.99" step="0.01">
+                </div>
+                
+                <div class="input-group">
+                    <label>Descuento ($):</label>
+                    <input type="number" id="discount" value="20.00" step="0.01">
+                </div>
+                
+                <div class="input-group">
+                    <label>Impuestos ($):</label>
+                    <input type="number" id="tax" value="8.99" step="0.01">
+                </div>
+                
+                <div class="input-group">
+                    <label>Cupón de Descuento ($):</label>
+                    <input type="number" id="coupon" value="15.00" step="0.01">
+                </div>
+                
+                <div class="input-group">
+                    <label>Envío ($):</label>
+                    <input type="number" id="shipping" value="5.99" step="0.01">
+                </div>
+                
+                <div class="input-group">
+                    <label>Descuento Miembro ($):</label>
+                    <input type="number" id="memberDiscount" value="10.00" step="0.01">
+                </div>
+
+                <button onclick="calculatePrice()">Calcular Precio</button>
+                <button onclick="showEvaluationSteps()">Ver Evaluación Paso a Paso</button>
+                <button class="danger-btn" onclick="loadProblematicCase()">Cargar Caso Problemático</button>
+            </div>
+            
+            <div class="evaluation-panel">
+                <h4>🔍 Proceso de Evaluación JavaScript</h4>
+                <div id="evaluationSteps">
+                    <div class="step">Esperando cálculo...</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="results"></div>
+        
+        <div class="challenge-box">
+            <h4>🤔 Preguntas Cruciales</h4>
+            <ul>
+                <li>¿En qué orden evalúa JavaScript la expresión?</li>
+                <li>¿Por qué algunos casos dan resultados absurdos?</li>
+                <li>¿Cómo podríamos visualizar el proceso de evaluación?</li>
+                <li>¿Qué pasa si algunos valores no están definidos?</li>
+            </ul>
+        </div>
+
+        <div class="challenge-box">
+            <h4>🎯 Casos de Prueba Sugeridos</h4>
+            <button onclick="loadCase('normal')">Caso Normal</button>
+            <button onclick="loadCase('negative')">Precio Negativo</button>
+            <button onclick="loadCase('crazy')">Precio Astronómico</button>
+            <button onclick="loadCase('undefined')">Valores Undefined</button>
+        </div>
+
+        <div id="treeVisualization"></div>
+    </div>
+
+    <script>
+        function calculatePrice() {
+            const basePrice = parseFloat(document.getElementById('basePrice').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const tax = parseFloat(document.getElementById('tax').value) || 0;
+            const coupon = parseFloat(document.getElementById('coupon').value) || 0;
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const memberDiscount = parseFloat(document.getElementById('memberDiscount').value) || 0;
+
+            // Original buggy calculation
+            const finalPrice = basePrice - discount + tax - coupon + shipping - memberDiscount;
+
+            displayResult(finalPrice, basePrice, discount, tax, coupon, shipping, memberDiscount);
+        }
+
+        function showEvaluationSteps() {
+            const basePrice = parseFloat(document.getElementById('basePrice').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const tax = parseFloat(document.getElementById('tax').value) || 0;
+            const coupon = parseFloat(document.getElementById('coupon').value) || 0;
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const memberDiscount = parseFloat(document.getElementById('memberDiscount').value) || 0;
+
+            const stepsDiv = document.getElementById('evaluationSteps');
+            stepsDiv.innerHTML = `
+                <div class="step">Paso 1: Obtener valores del environment</div>
+                <div class="step">  base_price = ${basePrice}</div>
+                <div class="step">  discount = ${discount}</div>
+                <div class="step">  tax = ${tax}</div>
+                <div class="step">  coupon = ${coupon}</div>
+                <div class="step">  shipping = ${shipping}</div>
+                <div class="step">  member_discount = ${memberDiscount}</div>
+                <div class="step">Paso 2: Evaluar expresión (¡IZQUIERDA A DERECHA!)</div>
+                <div class="step">  ${basePrice} - ${discount} = ${basePrice - discount}</div>
+                <div class="step">  ${basePrice - discount} + ${tax} = ${basePrice - discount + tax}</div>
+                <div class="step">  ${basePrice - discount + tax} - ${coupon} = ${basePrice - discount + tax - coupon}</div>
+                <div class="step">  ${basePrice - discount + tax - coupon} + ${shipping} = ${basePrice - discount + tax - coupon + shipping}</div>
+                <div class="step">  ${basePrice - discount + tax - coupon + shipping} - ${memberDiscount} = ${basePrice - discount + tax - coupon + shipping - memberDiscount}</div>
+                <div class="step success">Resultado Final: $${(basePrice - discount + tax - coupon + shipping - memberDiscount).toFixed(2)}</div>
+            `;
+
+            // Also show tree visualization
+            showTreeVisualization(basePrice, discount, tax, coupon, shipping, memberDiscount);
+        }
+
+        function displayResult(finalPrice, basePrice, discount, tax, coupon, shipping, memberDiscount) {
+            let resultClass = 'result-box';
+            let interpretation = '';
+
+            if (finalPrice < 0) {
+                resultClass = 'result-box result-negative';
+                interpretation = '💀 <strong>PRECIO NEGATIVO</strong> - ¡Estamos pagando al cliente!';
+            } else if (finalPrice > basePrice * 3) {
+                resultClass = 'result-box result-crazy';
+                interpretation = '🚀 <strong>PRECIO ASTRONÓMICO</strong> - ¡3x el precio base!';
+            } else if (finalPrice < basePrice * 0.3) {
+                resultClass = 'result-box result-crazy';
+                interpretation = '🎯 <strong>PRECIO SÚPER BAJO</strong> - ¿Perdemos dinero?';
+            } else {
+                interpretation = '✅ <strong>Precio Razonable</strong> - Dentro de rangos esperados';
+            }
+
+            document.getElementById('results').innerHTML = `
+                <div class="${resultClass}">
+                    <h4>💰 Resultado del Cálculo</h4>
+                    <p><strong>Precio Final: $${finalPrice.toFixed(2)}</strong></p>
+                    <p>${interpretation}</p>
+                    
+                    <h5>Desglose:</h5>
+                    <ul>
+                        <li>Precio Base: $${basePrice.toFixed(2)}</li>
+                        <li>Descuento: -$${discount.toFixed(2)}</li>
+                        <li>Impuestos: +$${tax.toFixed(2)}</li>
+                        <li>Cupón: -$${coupon.toFixed(2)}</li>
+                        <li>Envío: +$${shipping.toFixed(2)}</li>
+                        <li>Desc. Miembro: -$${memberDiscount.toFixed(2)}</li>
+                    </ul>
+                    
+                    <div style="background: #2d3748; color: #f7fafc; padding: 10px; border-radius: 5px; font-family: 'Courier New', monospace; margin-top: 10px;">
+                        ${basePrice} - ${discount} + ${tax} - ${coupon} + ${shipping} - ${memberDiscount} = ${finalPrice.toFixed(2)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadProblematicCase() {
+            const cases = ['negative', 'crazy', 'undefined'];
+            const randomCase = cases[Math.floor(Math.random() * cases.length)];
+            loadCase(randomCase);
+        }
+
+        function loadCase(caseType) {
+            switch(caseType) {
+                case 'normal':
+                    document.getElementById('basePrice').value = '99.99';
+                    document.getElementById('discount').value = '10.00';
+                    document.getElementById('tax').value = '8.99';
+                    document.getElementById('coupon').value = '5.00';
+                    document.getElementById('shipping').value = '5.99';
+                    document.getElementById('memberDiscount').value = '5.00';
+                    break;
+                case 'negative':
+                    document.getElementById('basePrice').value = '29.99';
+                    document.getElementById('discount').value = '25.00';
+                    document.getElementById('tax').value = '2.50';
+                    document.getElementById('coupon').value = '15.00';
+                    document.getElementById('shipping').value = '0.00';
+                    document.getElementById('memberDiscount').value = '10.00';
+                    break;
+                case 'crazy':
+                    document.getElementById('basePrice').value = '49.99';
+                    document.getElementById('discount').value = '-50.00'; // Negative discount = surcharge
+                    document.getElementById('tax').value = '75.00';
+                    document.getElementById('coupon').value = '5.00';
+                    document.getElementById('shipping').value = '25.00';
+                    document.getElementById('memberDiscount').value = '0.00';
+                    break;
+                case 'undefined':
+                    document.getElementById('basePrice').value = '99.99';
+                    document.getElementById('discount').value = '';
+                    document.getElementById('tax').value = '8.99';
+                    document.getElementById('coupon').value = '';
+                    document.getElementById('shipping').value = '5.99';
+                    document.getElementById('memberDiscount').value = '';
+                    break;
+            }
+            calculatePrice();
+        }
+
+        function showTreeVisualization(basePrice, discount, tax, coupon, shipping, memberDiscount) {
+            const tree = `
+                <div class="tree-visualization">
+                    <h4>🌳 Representación en Árbol de la Evaluación</h4>
+                    <pre>
+                          final_price
+                               |
+                              [-]
+                             /   \\
+                           [+]    member_discount (${memberDiscount})
+                          /   \\
+                        [-]    shipping (${shipping})
+                       /   \\
+                     [+]    coupon (${coupon})
+                    /   \\
+                  [-]    tax (${tax})
+                 /   \\
+       base_price    discount
+        (${basePrice})    (${discount})
+                    </pre>
+                    <p><em>Los valores "percolate upward" desde las hojas hacia la raíz</em></p>
+                </div>
+            `;
+            
+            document.getElementById('treeVisualization').innerHTML = tree;
+        }
+
+        // Initialize with a normal case
+        loadCase('normal');
+    </script>
+</body>
+</html>

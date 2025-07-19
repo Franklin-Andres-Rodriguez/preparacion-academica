@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio del Environment - La Memoria de JavaScript</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #8b5cf6;
+            padding-bottom: 10px;
+        }
+        .revelation-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .environment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .code-panel {
+            background: #2d3748;
+            color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .memory-panel {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .memory-entry {
+            background: #f0fff4;
+            border: 1px solid #68d391;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .memory-entry.new {
+            background: #fed7d7;
+            border-color: #fc8181;
+            animation: pulse 0.5s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .execute-btn {
+            background: #8b5cf6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        .execute-btn:hover {
+            background: #7c3aed;
+        }
+        .clear-btn {
+            background: #e53e3e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .step-by-step {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .command-input {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            border: 2px solid #cbd5e0;
+            border-radius: 5px;
+            background: #2d3748;
+            color: #f7fafc;
+        }
+        .mystery-box {
+            background: #fef5e7;
+            border-left: 4px solid #f6ad55;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .environment-title {
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Laboratorio del Environment - La Memoria Secreta de JavaScript</h1>
+        
+        <div class="revelation-box">
+            <h3>🔍 El Descubrimiento</h3>
+            <p>Cuando escribes <code>const pi = 3.14159;</code>, ¿dónde "vive" esa asociación entre el nombre "pi" y el valor 3.14159?</p>
+            <p><strong>¡JavaScript tiene una memoria secreta llamada "environment" que rastrea todas estas conexiones!</strong></p>
+            <p>En este laboratorio, haremos visible esa memoria invisible...</p>
+        </div>
+
+        <div class="mystery-box">
+            <h4>🤔 Preguntas Intrigantes</h4>
+            <ul>
+                <li>¿Qué pasa cuando declaras la misma constante dos veces?</li>
+                <li>¿Por qué puedes usar una constante inmediatamente después de declararla?</li>
+                <li>¿Cómo "recuerda" JavaScript el valor de una constante?</li>
+                <li>¿Qué sucede si intentas usar una constante antes de declararla?</li>
+            </ul>
+        </div>
+
+        <h3>Simulador del Environment</h3>
+        <div class="environment-container">
+            <div class="code-panel">
+                <h4>📝 Código JavaScript</h4>
+                <textarea id="codeInput" class="command-input" rows="10" placeholder="Escribe código aquí...
+Ejemplo:
+const radius = 10;
+const pi = 3.14159;
+const area = pi * radius * radius;"></textarea>
+                <br>
+                <button class="execute-btn" onclick="executeStep()">Ejecutar Paso a Paso</button>
+                <button class="execute-btn" onclick="executeAll()">Ejecutar Todo</button>
+                <button class="clear-btn" onclick="clearEnvironment()">Limpiar Environment</button>
+            </div>
+            
+            <div class="memory-panel">
+                <div class="environment-title">🗃️ Global Environment (Memoria de JavaScript)</div>
+                <div id="environmentMemory">
+                    <div style="text-align: center; color: #a0aec0; font-style: italic;">
+                        Environment vacío - Sin variables declaradas
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-by-step">
+            <h4>📋 Experimentos Sugeridos</h4>
+            <button onclick="loadExample('insurance')">🏥 Ejemplo Seguros</button>
+            <button onclick="loadExample('finance')">💰 Ejemplo Financiero</button>
+            <button onclick="loadExample('error')">❌ Ejemplo con Error</button>
+            <button onclick="loadExample('complex')">🧮 Cálculo Complejo</button>
+        </div>
+
+        <div id="executionLog"></div>
+
+        <div class="revelation-box">
+            <h3>💡 Reflexiones Clave</h3>
+            <p><strong>¿Notan algo crucial?</strong> Sin este "environment", JavaScript no podría:</p>
+            <ul>
+                <li>✅ Recordar qué valor tiene cada nombre</li>
+                <li>✅ Verificar si una constante ya existe</li>
+                <li>✅ Permitir usar nombres en lugar de valores literales</li>
+                <li>✅ Construir programas complejos paso a paso</li>
+            </ul>
+            <p><em>¡El environment es la infraestructura invisible que hace posible la abstracción!</em></p>
+        </div>
+    </div>
+
+    <script>
+        let environment = {};
+        let executionStep = 0;
+        let codeLines = [];
+
+        function executeStep() {
+            const code = document.getElementById('codeInput').value;
+            codeLines = code.split('\n').filter(line => line.trim() !== '');
+            
+            if (executionStep >= codeLines.length) {
+                alert('No hay más pasos para ejecutar');
+                return;
+            }
+
+            const currentLine = codeLines[executionStep];
+            executeJavaScriptLine(currentLine, executionStep + 1);
+            executionStep++;
+        }
+
+        function executeAll() {
+            const code = document.getElementById('codeInput').value;
+            codeLines = code.split('\n').filter(line => line.trim() !== '');
+            
+            codeLines.forEach((line, index) => {
+                setTimeout(() => {
+                    executeJavaScriptLine(line, index + 1);
+                }, index * 500);
+            });
+            
+            executionStep = codeLines.length;
+        }
+
+        function executeJavaScriptLine(line, stepNumber) {
+            try {
+                // Parse const declarations
+                const constMatch = line.match(/const\s+(\w+)\s*=\s*(.+);?/);
+                if (constMatch) {
+                    const varName = constMatch[1];
+                    const expression = constMatch[2];
+                    
+                    // Check if variable already exists
+                    if (environment.hasOwnProperty(varName)) {
+                        showError(`Error: const '${varName}' ya ha sido declarada`, stepNumber);
+                        return;
+                    }
+                    
+                    // Evaluate expression
+                    const value = evaluateExpression(expression);
+                    environment[varName] = value;
+                    
+                    addToEnvironment(varName, value, true);
+                    logExecution(`Paso ${stepNumber}: Declarada const ${varName} = ${value}`, 'success');
+                } else {
+                    // Try to evaluate as expression
+                    const result = evaluateExpression(line.replace(';', ''));
+                    logExecution(`Paso ${stepNumber}: Expresión evaluada = ${result}`, 'expression');
+                }
+            } catch (error) {
+                showError(`Error en paso ${stepNumber}: ${error.message}`, stepNumber);
+            }
+        }
+
+        function evaluateExpression(expr) {
+            // Simple expression evaluator
+            // Replace variable names with their values
+            let processedExpr = expr;
+            for (let varName in environment) {
+                const regex = new RegExp(`\\b${varName}\\b`, 'g');
+                processedExpr = processedExpr.replace(regex, environment[varName]);
+            }
+            
+            // Evaluate the mathematical expression
+            try {
+                return eval(processedExpr);
+            } catch (error) {
+                throw new Error(`No se puede evaluar la expresión: ${expr}`);
+            }
+        }
+
+        function addToEnvironment(name, value, isNew = false) {
+            const memoryDiv = document.getElementById('environmentMemory');
+            
+            if (Object.keys(environment).length === 1 && isNew) {
+                memoryDiv.innerHTML = '';
+            }
+            
+            const entryDiv = document.createElement('div');
+            entryDiv.className = isNew ? 'memory-entry new' : 'memory-entry';
+            entryDiv.innerHTML = `
+                <span><strong>${name}</strong></span>
+                <span>${value}</span>
+            `;
+            
+            memoryDiv.appendChild(entryDiv);
+        }
+
+        function clearEnvironment() {
+            environment = {};
+            executionStep = 0;
+            document.getElementById('environmentMemory').innerHTML = `
+                <div style="text-align: center; color: #a0aec0; font-style: italic;">
+                    Environment vacío - Sin variables declaradas
+                </div>
+            `;
+            document.getElementById('executionLog').innerHTML = '';
+        }
+
+        function logExecution(message, type) {
+            const logDiv = document.getElementById('executionLog');
+            const color = type === 'success' ? '#38a169' : type === 'expression' ? '#3182ce' : '#e53e3e';
+            
+            logDiv.innerHTML += `
+                <div style="background: ${color}; color: white; padding: 10px; margin: 5px 0; border-radius: 5px;">
+                    ${message}
+                </div>
+            `;
+        }
+
+        function showError(message, step) {
+            logExecution(message, 'error');
+        }
+
+        function loadExample(type) {
+            clearEnvironment();
+            let code = '';
+            
+            switch(type) {
+                case 'insurance':
+                    code = `const base_premium = 850;
+const age_risk_factor = 1.15;
+const health_discount = 0.87;
+const final_premium = base_premium * age_risk_factor * health_discount;`;
+                    break;
+                case 'finance':
+                    code = `const principal = 1000;
+const interest_rate = 0.05;
+const years = 3;
+const final_amount = principal * (1 + interest_rate) * years;`;
+                    break;
+                case 'error':
+                    code = `const pi = 3.14159;
+const pi = 2.71828;
+const result = pi * 5;`;
+                    break;
+                case 'complex':
+                    code = `const pi = 3.14159;
+const radius = 10;
+const height = 20;
+const base_area = pi * radius * radius;
+const volume = base_area * height;
+const surface_area = 2 * base_area + 2 * pi * radius * height;`;
+                    break;
+            }
+            
+            document.getElementById('codeInput').value = code;
+        }
+    </script>
+</body>
+</html>

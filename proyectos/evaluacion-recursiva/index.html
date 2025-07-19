@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Laboratory - El Misterio del Sistema de Calificaciones</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        .case-study {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .bug-demonstration {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .main-workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+        .student-solution {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #e53e3e;
+        }
+        .debug-panel {
+            background: #1a202c;
+            color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .grade-input {
+            width: 80px;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .weight-input {
+            width: 60px;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .code-display {
+            background: #2d3748;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .evaluation-tree {
+            background: #f0fff4;
+            border: 2px solid #68d391;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .tree-node {
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 20px;
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .tree-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .tree-operator {
+            background: #e53e3e;
+            color: white;
+        }
+        .tree-number {
+            background: #4299e1;
+            color: white;
+        }
+        .tree-result {
+            background: #38a169;
+            color: white;
+            animation: pulse-green 1s infinite;
+        }
+        .tree-active {
+            background: #f6ad55;
+            color: white;
+            animation: pulse-orange 0.5s infinite;
+        }
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes pulse-orange {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .step-explanation {
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .step-explanation.active {
+            background: #fef5e7;
+            border-left-color: #f6ad55;
+        }
+        .problem-highlight {
+            background: #fed7d7;
+            border: 2px solid #fc8181;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .solution-highlight {
+            background: #c6f6d5;
+            border: 2px solid #68d391;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        button {
+            background: #4299e1;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #3182ce;
+        }
+        .debug-btn {
+            background: #e53e3e;
+        }
+        .debug-btn:hover {
+            background: #c53030;
+        }
+        .solve-btn {
+            background: #38a169;
+        }
+        .solve-btn:hover {
+            background: #2f855a;
+        }
+        .test-case {
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .test-case.failed {
+            background: #fed7d7;
+            border-color: #fc8181;
+        }
+        .test-case.passed {
+            background: #c6f6d5;
+            border-color: #68d391;
+        }
+        .tooltip {
+            position: absolute;
+            background: #2d3748;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .tree-node:hover .tooltip {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug Laboratory - El Misterio del Sistema de Calificaciones</h1>
+        
+        <div class="case-study">
+            <h3>📚 Caso de Estudio Real - Universidad Nacional 2019</h3>
+            <p><strong>El Problema:</strong> Un equipo de estudiantes desarrolló un sistema para calcular promedios ponderados de calificaciones. Funcionaba perfecto en casos simples, pero producía resultados incorrectos en situaciones complejas.</p>
+            <p><strong>Su fórmula "obvia":</strong> <code>promedio = nota1 * peso1 + nota2 * peso2 + nota3 * peso3 / peso1 + peso2 + peso3</code></p>
+            <p><strong>🚨 Crisis:</strong> El sistema calculó mal las calificaciones finales de 847 estudiantes. ¿Pueden encontrar el bug?</p>
+        </div>
+
+        <div class="bug-demonstration">
+            <h4>🧪 Reproduzcan el Bug - Sistema "Funcional"</h4>
+            <p><strong>Instrucciones:</strong> Prueben estos casos y observen. ¿Notan algo extraño?</p>
+            
+            <div class="test-case" id="testCase1">
+                <strong>Caso 1 - Estudiante Promedio:</strong> Matemáticas: 85 (peso 30%), Física: 90 (peso 30%), Química: 80 (peso 40%)
+                <div style="margin: 10px 0;">
+                    Nota 1: <input type="number" id="grade1_1" class="grade-input" value="85"> Peso: <input type="number" id="weight1_1" class="weight-input" value="30">%
+                    Nota 2: <input type="number" id="grade2_1" class="grade-input" value="90"> Peso: <input type="number" id="weight2_1" class="weight-input" value="30">%
+                    Nota 3: <input type="number" id="grade3_1" class="grade-input" value="80"> Peso: <input type="number" id="weight3_1" class="weight-input" value="40">%
+                </div>
+                <button onclick="calculateCase(1)">Calcular con Fórmula Estudiante</button>
+                <button onclick="calculateCorrect(1)">Calcular Correctamente</button>
+                <div id="result1"></div>
+            </div>
+
+            <div class="test-case" id="testCase2">
+                <strong>Caso 2 - Estudiante Problema:</strong> Historia: 95 (peso 25%), Literatura: 88 (peso 35%), Arte: 92 (peso 40%)
+                <div style="margin: 10px 0;">
+                    Nota 1: <input type="number" id="grade1_2" class="grade-input" value="95"> Peso: <input type="number" id="weight1_2" class="weight-input" value="25">%
+                    Nota 2: <input type="number" id="grade2_2" class="grade-input" value="88"> Peso: <input type="number" id="weight2_2" class="weight-input" value="35">%
+                    Nota 3: <input type="number" id="grade3_2" class="grade-input" value="92"> Peso: <input type="number" id="weight3_2" class="weight-input" value="40">%
+                </div>
+                <button onclick="calculateCase(2)">Calcular con Fórmula Estudiante</button>
+                <button onclick="calculateCorrect(2)">Calcular Correctamente</button>
+                <div id="result2"></div>
+            </div>
+        </div>
+
+        <div class="main-workspace">
+            <div class="student-solution">
+                <h4>💻 Código del Estudiante (Aparentemente Correcto)</h4>
+                <div class="code-display" id="studentCode">
+// Fórmula "obvia" para promedio ponderado
+promedio = nota1 * peso1 + nota2 * peso2 + nota3 * peso3 / peso1 + peso2 + peso3;
+                </div>
+                
+                <div class="step-explanation">
+                    <strong>Lógica del Estudiante:</strong><br>
+                    "Multiplico cada nota por su peso, sumo todo, y divido por la suma de pesos. ¡Obvio!"
+                </div>
+
+                <button class="debug-btn" onclick="startDebugging()">🔧 Iniciar Debug Interactivo</button>
+                <button onclick="showManualCalculation()">🧮 Mostrar Cálculo Manual</button>
+            </div>
+            
+            <div class="debug-panel">
+                <h4>🌳 Árbol de Evaluación JavaScript</h4>
+                <div id="debugOutput">
+                    <div style="text-align: center; color: #a0aec0; padding: 30px;">
+                        Haz clic en "Iniciar Debug Interactivo" para ver cómo JavaScript realmente evalúa la expresión
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="evaluationSteps"></div>
+
+        <div class="solution-highlight" id="solutionSection" style="display: none;">
+            <h4>💡 La Solución - Entendiendo la Evaluación Recursiva</h4>
+            <p><strong>El Problema:</strong> JavaScript NO evalúa la expresión como el estudiante pensaba.</p>
+            <div class="code-display">
+// Lo que el estudiante pensó:
+(nota1 * peso1 + nota2 * peso2 + nota3 * peso3) / (peso1 + peso2 + peso3)
+
+// Lo que JavaScript realmente hizo (por precedencia de operadores):
+nota1 * peso1 + nota2 * peso2 + (nota3 * peso3 / peso1) + peso2 + peso3
+            </div>
+            <p><strong>Solución Correcta:</strong></p>
+            <div class="code-display">
+promedio = (nota1 * peso1 + nota2 * peso2 + nota3 * peso3) / (peso1 + peso2 + peso3);
+            </div>
+        </div>
+
+        <div class="problem-highlight">
+            <h4>🤔 Preguntas de Reflexión</h4>
+            <ul>
+                <li>¿Por qué algunos casos "funcionan" y otros no?</li>
+                <li>¿Cómo afecta la precedencia de operadores al resultado?</li>
+                <li>¿Por qué el estudiante no notó el error inmediatamente?</li>
+                <li>¿Qué nos enseña esto sobre testing y validación?</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let currentExpression = '';
+        let evaluationTree = null;
+        let currentStep = 0;
+        let debugMode = false;
+
+        function calculateCase(caseNum) {
+            const grade1 = parseFloat(document.getElementById(`grade1_${caseNum}`).value);
+            const weight1 = parseFloat(document.getElementById(`weight1_${caseNum}`).value);
+            const grade2 = parseFloat(document.getElementById(`grade2_${caseNum}`).value);
+            const weight2 = parseFloat(document.getElementById(`weight2_${caseNum}`).value);
+            const grade3 = parseFloat(document.getElementById(`grade3_${caseNum}`).value);
+            const weight3 = parseFloat(document.getElementById(`weight3_${caseNum}`).value);
+
+            // Buggy calculation (student's formula)
+            const buggyResult = grade1 * weight1 + grade2 * weight2 + grade3 * weight3 / weight1 + weight2 + weight3;
+            
+            // Show the actual expression being evaluated
+            currentExpression = `${grade1} * ${weight1} + ${grade2} * ${weight2} + ${grade3} * ${weight3} / ${weight1} + ${weight2} + ${weight3}`;
+            
+            document.getElementById(`result${caseNum}`).innerHTML = `
+                <div style="background: #fed7d7; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                    <strong>Resultado con Fórmula del Estudiante: ${buggyResult.toFixed(2)}</strong><br>
+                    <small>Expresión evaluada: ${currentExpression}</small>
+                </div>
+            `;
+
+            // Update test case styling
+            document.getElementById(`testCase${caseNum}`).className = 'test-case failed';
+        }
+
+        function calculateCorrect(caseNum) {
+            const grade1 = parseFloat(document.getElementById(`grade1_${caseNum}`).value);
+            const weight1 = parseFloat(document.getElementById(`weight1_${caseNum}`).value);
+            const grade2 = parseFloat(document.getElementById(`grade2_${caseNum}`).value);
+            const weight2 = parseFloat(document.getElementById(`weight2_${caseNum}`).value);
+            const grade3 = parseFloat(document.getElementById(`grade3_${caseNum}`).value);
+            const weight3 = parseFloat(document.getElementById(`weight3_${caseNum}`).value);
+
+            // Correct calculation
+            const numerator = grade1 * weight1 + grade2 * weight2 + grade3 * weight3;
+            const denominator = weight1 + weight2 + weight3;
+            const correctResult = numerator / denominator;
+            
+            const currentResult = document.getElementById(`result${caseNum}`);
+            currentResult.innerHTML += `
+                <div style="background: #c6f6d5; padding: 10px; border-radius: 5px; margin-top: 5px;">
+                    <strong>Resultado Correcto: ${correctResult.toFixed(2)}</strong><br>
+                    <small>Fórmula: (${numerator.toFixed(1)}) / (${denominator}) = ${correctResult.toFixed(2)}</small>
+                </div>
+            `;
+        }
+
+        function startDebugging() {
+            if (!currentExpression) {
+                alert('Primero calcula uno de los casos para tener una expresión que debuggear');
+                return;
+            }
+
+            debugMode = true;
+            currentStep = 0;
+            
+            // Build evaluation tree
+            evaluationTree = buildEvaluationTree(currentExpression);
+            
+            document.getElementById('debugOutput').innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <h5 style="color: #f7fafc;">🔍 Debug Interactivo - Expresión:</h5>
+                    <div style="background: #2d3748; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                        ${currentExpression}
+                    </div>
+                </div>
+                <div id="interactiveTree"></div>
+                <div style="margin-top: 15px;">
+                    <button onclick="stepEvaluation()" style="background: #f6ad55; margin: 5px;">▶️ Siguiente Paso</button>
+                    <button onclick="resetDebug()" style="background: #e53e3e; margin: 5px;">🔄 Reset</button>
+                    <button onclick="showSolution()" style="background: #38a169; margin: 5px;">💡 Ver Solución</button>
+                </div>
+                <div id="stepExplanation"></div>
+            `;
+
+            renderInteractiveTree();
+            showStepExplanation(0);
+        }
+
+        function buildEvaluationTree(expr) {
+            // Simplified tree building for educational purposes
+            // This demonstrates the evaluation order based on operator precedence
+            
+            const tokens = expr.split(/(\+|\-|\*|\/)/).map(t => t.trim()).filter(t => t);
+            
+            return {
+                expression: expr,
+                steps: [
+                    "JavaScript lee la expresión de izquierda a derecha",
+                    "Identifica operadores y sus precedencias: * y / tienen mayor precedencia que + y -",
+                    "Construye árbol de evaluación respetando precedencia",
+                    "¡PROBLEMA! La división tiene mayor precedencia, se evalúa primero",
+                    "Evalúa multiplicaciones y divisiones de izquierda a derecha",
+                    "Luego evalúa sumas y restas de izquierda a derecha",
+                    "Resultado final - ¡Incorrecto debido a precedencia!"
+                ],
+                tree: this.parseToTree(expr)
+            };
+        }
+
+        function parseToTree(expr) {
+            // Simplified parsing to show the precedence issue
+            const cleaned = expr.replace(/\s+/g, '');
+            return {
+                type: 'expression',
+                value: cleaned,
+                problem: 'División se evalúa antes que las sumas, causando el bug'
+            };
+        }
+
+        function renderInteractiveTree() {
+            const treeHTML = `
+                <div class="evaluation-tree">
+                    <h6 style="text-align: center; margin-bottom: 15px;">🌳 Árbol de Evaluación (Haz clic en los nodos)</h6>
+                    <div style="text-align: center; line-height: 2;">
+                        <div class="tree-node tree-result" onclick="explainNode('result')" id="nodeResult">
+                            RESULTADO
+                            <div class="tooltip">Resultado final de toda la expresión</div>
+                        </div>
+                        <br>
+                        <div class="tree-node tree-operator" onclick="explainNode('plus1')" id="nodePlus1">
+                            +
+                            <div class="tooltip">Suma final (menor precedencia)</div>
+                        </div>
+                        <br>
+                        <div class="tree-node tree-operator" onclick="explainNode('plus2')" id="nodePlus2">
+                            +
+                            <div class="tooltip">Segunda suma</div>
+                        </div>
+                        <span style="margin: 0 20px;"></span>
+                        <div class="tree-node tree-number" onclick="explainNode('weight3')" id="nodeWeight3">
+                            peso3
+                            <div class="tooltip">Último peso (se suma directamente)</div>
+                        </div>
+                        <br>
+                        <div class="tree-node tree-operator" onclick="explainNode('plus3')" id="nodePlus3">
+                            +
+                            <div class="tooltip">Primera suma</div>
+                        </div>
+                        <span style="margin: 0 20px;"></span>
+                        <div class="tree-node tree-number" onclick="explainNode('weight2')" id="nodeWeight2">
+                            peso2
+                            <div class="tooltip">Segundo peso (se suma directamente)</div>
+                        </div>
+                        <br>
+                        <div class="tree-node tree-operator" onclick="explainNode('mult1')" id="nodeMult1">
+                            *
+                            <div class="tooltip">Primera multiplicación</div>
+                        </div>
+                        <span style="margin: 0 10px;"></span>
+                        <div class="tree-node tree-operator" onclick="explainNode('mult2')" id="nodeMult2">
+                            *
+                            <div class="tooltip">Segunda multiplicación</div>
+                        </div>
+                        <span style="margin: 0 10px;"></span>
+                        <div class="tree-node tree-operator" onclick="explainNode('problematicDiv')" id="nodeProblematicDiv" style="background: #e53e3e; animation: pulse-red 1s infinite;">
+                            /
+                            <div class="tooltip">¡PROBLEMA! Esta división se evalúa antes que las sumas</div>
+                        </div>
+                        <br>
+                        <div class="tree-node tree-number" onclick="explainNode('grade1')" id="nodeGrade1">nota1</div>
+                        <div class="tree-node tree-number" onclick="explainNode('peso1')" id="nodePeso1">peso1</div>
+                        <div class="tree-node tree-number" onclick="explainNode('grade2')" id="nodeGrade2">nota2</div>
+                        <div class="tree-node tree-number" onclick="explainNode('peso2')" id="nodePeso2">peso2</div>
+                        <div class="tree-node tree-number" onclick="explainNode('grade3')" id="nodeGrade3">nota3</div>
+                        <div class="tree-node tree-number" onclick="explainNode('peso3div')" id="nodePeso3div">peso3</div>
+                        <div class="tree-node tree-number" onclick="explainNode('peso1div')" id="nodePeso1div">peso1</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('interactiveTree').innerHTML = treeHTML;
+        }
+
+        function explainNode(nodeId) {
+            const explanations = {
+                'result': 'Este es el resultado final. Debido a la precedencia incorrecta, NO es el promedio ponderado esperado.',
+                'plus1': 'Suma final. Se ejecuta después de todas las multiplicaciones y divisiones.',
+                'plus2': 'Segunda suma. Añade peso2 directamente al resultado.',
+                'plus3': 'Primera suma. Combina las dos primeras multiplicaciones.',
+                'mult1': 'Multiplicación nota1 × peso1. Se evalúa antes que las sumas.',
+                'mult2': 'Multiplicación nota2 × peso2. Se evalúa antes que las sumas.',
+                'problematicDiv': '🚨 ¡AQUÍ ESTÁ EL PROBLEMA! Esta división se evalúa ANTES que las sumas, dividiendo solo nota3×peso3 entre peso1, no toda la suma.',
+                'weight3': 'peso3 se suma directamente, no como denominador de una fracción.',
+                'weight2': 'peso2 se suma directamente, no como denominador de una fracción.',
+                'grade1': 'Primera nota del estudiante',
+                'peso1': 'Peso de la primera nota',
+                'grade2': 'Segunda nota del estudiante',
+                'peso2': 'Peso de la segunda nota (se suma directamente debido al bug)',
+                'grade3': 'Tercera nota del estudiante',
+                'peso3div': 'peso3 usado en la multiplicación',
+                'peso1div': 'peso1 usado como divisor (¡INCORRECTO!)'
+            };
+
+            // Remove previous highlights
+            document.querySelectorAll('.tree-node').forEach(node => {
+                node.classList.remove('tree-active');
+            });
+
+            // Highlight clicked node
+            document.getElementById(`node${nodeId.charAt(0).toUpperCase() + nodeId.slice(1)}`).classList.add('tree-active');
+
+            // Show explanation
+            document.getElementById('stepExplanation').innerHTML = `
+                <div class="step-explanation active">
+                    <strong>💡 Explicación:</strong><br>
+                    ${explanations[nodeId] || 'Selecciona un nodo para ver su explicación.'}
+                </div>
+            `;
+        }
+
+        function stepEvaluation() {
+            if (currentStep >= evaluationTree.steps.length) {
+                showSolution();
+                return;
+            }
+
+            showStepExplanation(currentStep);
+            currentStep++;
+        }
+
+        function showStepExplanation(step) {
+            if (!evaluationTree) return;
+
+            const explanation = evaluationTree.steps[step];
+            document.getElementById('stepExplanation').innerHTML = `
+                <div class="step-explanation active">
+                    <strong>Paso ${step + 1}:</strong><br>
+                    ${explanation}
+                </div>
+            `;
+        }
+
+        function resetDebug() {
+            currentStep = 0;
+            debugMode = false;
+            document.getElementById('stepExplanation').innerHTML = '';
+            renderInteractiveTree();
+        }
+
+        function showSolution() {
+            document.getElementById('solutionSection').style.display = 'block';
+            document.getElementById('solutionSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showManualCalculation() {
+            const explanation = `
+                <div class="step-explanation">
+                    <strong>🧮 Cálculo Manual Paso a Paso:</strong><br><br>
+                    
+                    <strong>Lo que el estudiante quería:</strong><br>
+                    Promedio Ponderado = (nota1×peso1 + nota2×peso2 + nota3×peso3) ÷ (peso1 + peso2 + peso3)<br><br>
+                    
+                    <strong>Lo que JavaScript calculó:</strong><br>
+                    = nota1×peso1 + nota2×peso2 + (nota3×peso3÷peso1) + peso2 + peso3<br><br>
+                    
+                    <strong>¿Por qué?</strong> La división (/) tiene mayor precedencia que la suma (+)<br>
+                    Entonces JavaScript evalúa primero nota3×peso3÷peso1, luego suma todo lo demás.
+                </div>
+            `;
+            
+            document.getElementById('evaluationSteps').innerHTML = explanation;
+        }
+
+        // Initialize with first case
+        calculateCase(1);
+        
+        // Add CSS for red pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse-red {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.6; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
