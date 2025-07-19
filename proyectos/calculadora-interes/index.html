@@ -3,114 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Interés</title>
-    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <title>Calculadora de Interés - Enfoque Naive</title>
     <style>
-        .calculator {
-            max-width: 600px;
-            margin: 2rem auto;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
             background: white;
-            padding: 2rem;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        
-        .form-group {
-            margin-bottom: 1rem;
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
+        .problem-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
         }
-        
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
+            font-size: 16px;
         }
-        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
         .result {
-            background: #e7f3ff;
-            padding: 1rem;
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
             border-radius: 5px;
-            margin-top: 1rem;
-            font-weight: bold;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>💰 Calculadora de Interés</h1>
-            <a href="../../" class="btn" style="margin-top: 1rem;">← Volver al Inicio</a>
+    <div class="container">
+        <h1>🏦 Calculadora de Interés Compuesto - Enfoque "Obvio"</h1>
+        
+        <div class="problem-section">
+            <h3>El Problema Real</h3>
+            <p>En nuestra fintech, necesitábamos calcular intereses compuestos. Un desarrollador junior escribió esto:</p>
+            <div class="code-block">
+// Para 5 años al 5% anual
+final_amount = 1000 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05;
+            </div>
+            <p><strong>¿Qué problemas ven aquí?</strong> Probemos con diferentes escenarios...</p>
         </div>
-    </header>
 
-    <main class="container">
-        <div class="calculator">
-            <h2>Calcular Interés</h2>
-            <form id="interestForm">
-                <div class="form-group">
-                    <label for="principal">Capital Inicial ($):</label>
-                    <input type="number" id="principal" required min="0" step="0.01">
-                </div>
-                
-                <div class="form-group">
-                    <label for="rate">Tasa de Interés (% anual):</label>
-                    <input type="number" id="rate" required min="0" step="0.01">
-                </div>
-                
-                <div class="form-group">
-                    <label for="time">Tiempo (años):</label>
-                    <input type="number" id="time" required min="0" step="0.1">
-                </div>
-                
-                <div class="form-group">
-                    <label for="type">Tipo de Interés:</label>
-                    <select id="type">
-                        <option value="simple">Interés Simple</option>
-                        <option value="compound">Interés Compuesto</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn">Calcular</button>
-            </form>
-            
-            <div id="result" class="result" style="display: none;"></div>
+        <h3>Calculadora "Naive"</h3>
+        <div>
+            <label>Capital inicial: $</label>
+            <input type="number" id="principal" value="1000" min="1">
         </div>
-    </main>
+        <div>
+            <label>Tasa de interés anual: </label>
+            <input type="number" id="rate" value="5" min="0" max="100" step="0.1">%
+        </div>
+        <div>
+            <label>Años: </label>
+            <input type="number" id="years" value="5" min="1" max="30">
+        </div>
+        
+        <button onclick="calculateNaive()">Calcular (Método Naive)</button>
+        <button onclick="tryDifferentScenarios()">Probar Escenarios Problemáticos</button>
+        
+        <div id="result"></div>
+        <div id="generatedCode"></div>
+        <div id="problems"></div>
+
+        <div class="problem-section">
+            <h3>🤔 Preguntas para Reflexionar</h3>
+            <ul>
+                <li>¿Qué pasa si el cliente quiere 20 años en lugar de 5?</li>
+                <li>¿Y si quiere 6 meses?</li>
+                <li>¿Cómo manejarías 100 clientes con diferentes plazos?</li>
+                <li>¿Qué sucede si hay un error en la tasa de interés?</li>
+            </ul>
+        </div>
+    </div>
 
     <script>
-        document.getElementById('interestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
+        function calculateNaive() {
             const principal = parseFloat(document.getElementById('principal').value);
-            const rate = parseFloat(document.getElementById('rate').value) / 100;
-            const time = parseFloat(document.getElementById('time').value);
-            const type = document.getElementById('type').value;
+            const rate = parseFloat(document.getElementById('rate').value);
+            const years = parseInt(document.getElementById('years').value);
             
-            let result;
+            // Generar el código "naive" literalmente
+            let code = `final_amount = ${principal}`;
+            for (let i = 0; i < years; i++) {
+                code += ` * ${1 + rate/100}`;
+            }
+            code += ';';
             
-            if (type === 'simple') {
-                result = principal * (1 + rate * time);
-            } else {
-                result = principal * Math.pow(1 + rate, time);
+            // Mostrar el código generado
+            document.getElementById('generatedCode').innerHTML = `
+                <h4>Código generado (como lo haría el desarrollador junior):</h4>
+                <div class="code-block">${code}</div>
+            `;
+            
+            // Calcular el resultado
+            let result = principal;
+            for (let i = 0; i < years; i++) {
+                result *= (1 + rate/100);
             }
             
-            const interest = result - principal;
-            
             document.getElementById('result').innerHTML = `
-                <h3>Resultado:</h3>
-                <p>Capital Inicial: $${principal.toFixed(2)}</p>
-                <p>Interés Ganado: $${interest.toFixed(2)}</p>
-                <p>Monto Final: $${result.toFixed(2)}</p>
+                <div class="result">
+                    <h4>Resultado:</h4>
+                    <p>Capital inicial: $${principal.toLocaleString()}</p>
+                    <p>Después de ${years} años al ${rate}% anual: <strong>$${result.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></p>
+                </div>
             `;
-            document.getElementById('result').style.display = 'block';
-        });
+            
+            // Mostrar problemas obvios
+            let problems = '<div class="warning"><h4>🚨 Problemas evidentes:</h4><ul>';
+            if (years > 10) {
+                problems += '<li>El código es extremadamente largo y repetitivo</li>';
+            }
+            if (years > 20) {
+                problems += '<li>¡Imposible de mantener! ¿Imaginen para 30 años?</li>';
+            }
+            problems += '<li>No es reutilizable para diferentes valores</li>';
+            problems += '<li>Propenso a errores de tipeo</li>';
+            problems += '<li>¿Qué pasa con períodos no enteros?</li>';
+            problems += '</ul></div>';
+            
+            document.getElementById('problems').innerHTML = problems;
+        }
+        
+        function tryDifferentScenarios() {
+            document.getElementById('result').innerHTML = `
+                <div class="warning">
+                    <h4>🎭 Escenarios Problemáticos</h4>
+                    <p><strong>Escenario 1:</strong> Cliente quiere inversión a 25 años</p>
+                    <div class="code-block">// ¿Escribirías 25 multiplicaciones manuales?
+final_amount = 1000 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05 * 1.05;</div>
+                    
+                    <p><strong>Escenario 2:</strong> Cliente quiere 18 meses (1.5 años)</p>
+                    <div class="code-block">// ¿Cómo representas 0.5 multiplicaciones?
+final_amount = 1000 * ¿¿¿???</div>
+                    
+                    <p><strong>Escenario 3:</strong> 1000 clientes diferentes</p>
+                    <div class="code-block">// ¿1000 funciones diferentes?
+client1_amount = 5000 * 1.03 * 1.03 * 1.03 * 1.03;
+client2_amount = 2000 * 1.07 * 1.07 * 1.07;
+client3_amount = 10000 * 1.04 * 1.04 * 1.04 * 1.04 * 1.04 * 1.04;
+// ... 997 más ???</div>
+                    
+                    <p><strong>¿Empiezan a ver el problema?</strong> 🤯</p>
+                </div>
+            `;
+        }
+        
+        // Mostrar cálculo inicial
+        calculateNaive();
     </script>
 </body>
 </html>
