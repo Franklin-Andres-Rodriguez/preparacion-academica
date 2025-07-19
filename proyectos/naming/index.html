@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Seguros - Números Mágicos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        .horror-story {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .mystery-code {
+            background: #1a202c;
+            border: 2px solid #e53e3e;
+            color: #fed7d7;
+        }
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .input-group {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4299e1;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #e53e3e;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #c53030;
+        }
+        .good-btn {
+            background: #38a169;
+        }
+        .good-btn:hover {
+            background: #2f855a;
+        }
+        .result-box {
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .challenge {
+            background: #fef5e7;
+            border: 2px solid #f6ad55;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .task {
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Calculadora de Seguros - El Infierno de los Números Mágicos</h1>
+        
+        <div class="horror-story">
+            <h3>📖 Historia Real - Proyecto de Seguros 2018</h3>
+            <p>Un desarrollador nuevo entregó este código para calcular primas de seguros de vida:</p>
+            <div class="code-block mystery-code">final_premium = 850 * 1.15 * 0.87 * 1.23 * 0.92 * 1.08 + 850 * 0.05 - 850 * 0.03 + 850 * 0.12;</div>
+            <p><strong>¿Pueden descifrar qué significa cada número?</strong></p>
+            <p>💀 <em>El código estuvo en producción 3 meses. Los errores costaron $180,000 en recálculos.</em></p>
+        </div>
+
+        <div class="challenge">
+            <h3>🎯 Su Misión: Mantener Este Sistema</h3>
+            <p>Ustedes son los nuevos desarrolladores. El sistema está en producción y necesitan hacer cambios urgentes. ¡Pero primero tienen que entender qué hace!</p>
+        </div>
+
+        <h3>Calculadora Actual (Sin Nombres)</h3>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label>Prima Base ($):</label>
+                <input type="number" id="basePremium" value="850" min="0">
+            </div>
+            <div class="input-group">
+                <label>Factor Desconocido 1:</label>
+                <input type="number" id="factor1" value="1.15" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Factor Desconocido 2:</label>
+                <input type="number" id="factor2" value="0.87" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Factor Desconocido 3:</label>
+                <input type="number" id="factor3" value="1.23" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Factor Desconocido 4:</label>
+                <input type="number" id="factor4" value="0.92" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Factor Desconocido 5:</label>
+                <input type="number" id="factor5" value="1.08" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Porcentaje Misterioso A:</label>
+                <input type="number" id="percent1" value="0.05" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Porcentaje Misterioso B:</label>
+                <input type="number" id="percent2" value="0.03" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Porcentaje Misterioso C:</label>
+                <input type="number" id="percent3" value="0.12" step="0.01">
+            </div>
+        </div>
+
+        <button onclick="calculateWithoutNames()">Calcular (Método Original)</button>
+        <button onclick="showTasks()">Ver Tareas de Mantenimiento</button>
+        <button class="good-btn" onclick="showSolution()">Ver Solución con Nombres</button>
+
+        <div id="results"></div>
+        <div id="tasks"></div>
+        <div id="solution"></div>
+
+        <div class="task">
+            <h4>🤔 Preguntas Cruciales</h4>
+            <ul>
+                <li>¿Qué representa cada número en la fórmula original?</li>
+                <li>¿Cómo encontrarían un error si el cálculo está mal?</li>
+                <li>¿Qué pasa si necesitan cambiar solo la comisión del agente?</li>
+                <li>¿Cómo explicarían esta fórmula a un nuevo desarrollador?</li>
+                <li>¿Qué sucede en 6 meses cuando ustedes olviden qué significa cada número?</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function calculateWithoutNames() {
+            const base = parseFloat(document.getElementById('basePremium').value);
+            const f1 = parseFloat(document.getElementById('factor1').value);
+            const f2 = parseFloat(document.getElementById('factor2').value);
+            const f3 = parseFloat(document.getElementById('factor3').value);
+            const f4 = parseFloat(document.getElementById('factor4').value);
+            const f5 = parseFloat(document.getElementById('factor5').value);
+            const p1 = parseFloat(document.getElementById('percent1').value);
+            const p2 = parseFloat(document.getElementById('percent2').value);
+            const p3 = parseFloat(document.getElementById('percent3').value);
+
+            const result = base * f1 * f2 * f3 * f4 * f5 + base * p1 - base * p2 + base * p3;
+
+            // Show the cryptic code being generated
+            const crypticCode = `final_premium = ${base} * ${f1} * ${f2} * ${f3} * ${f4} * ${f5} + ${base} * ${p1} - ${base} * ${p2} + ${base} * ${p3};`;
+
+            document.getElementById('results').innerHTML = `
+                <div class="result-box">
+                    <h4>Código Generado (Igual de Críptico):</h4>
+                    <div class="code-block mystery-code">${crypticCode}</div>
+                    <h4>Resultado:</h4>
+                    <p><strong>Prima Final: $${result.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></p>
+                    <div style="background: #fed7d7; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>😵 Problemas Evidentes:</strong>
+                        <ul>
+                            <li>¿Qué significa cada número?</li>
+                            <li>¿Cómo sabemos si está correcto?</li>
+                            <li>¿Cómo lo modificamos sin romper todo?</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showTasks() {
+            document.getElementById('tasks').innerHTML = `
+                <div class="horror-story">
+                    <h3>📋 Tareas Urgentes del Cliente</h3>
+                    <div class="task">
+                        <strong>Tarea 1:</strong> La comisión del agente subió de 5% a 7%. Cambiar el sistema.
+                        <br><em>¿Cuál número cambias en la fórmula? ¿0.05? ¿Pero cuál 0.05?</em>
+                    </div>
+                    <div class="task">
+                        <strong>Tarea 2:</strong> Hay un error en el factor de riesgo por edad. Necesitas cambiarlo.
+                        <br><em>¿Cuál de los factores es el de edad? ¿1.15? ¿1.23? ¿0.92?</em>
+                    </div>
+                    <div class="task">
+                        <strong>Tarea 3:</strong> Cliente VIP quiere descuento del 15% en lugar del actual.
+                        <br><em>¿Cuál porcentaje es el descuento? ¿Cómo lo aplicas?</em>
+                    </div>
+                    <div class="task">
+                        <strong>Tarea 4:</strong> Auditoría encontró error en cálculo de impuestos.
+                        <br><em>¿Dónde están los impuestos en esta fórmula?</em>
+                    </div>
+                    <div style="background: #e53e3e; color: white; padding: 15px; margin-top: 15px; border-radius: 5px;">
+                        <strong>⏰ DEADLINE: 2 HORAS</strong><br>
+                        El sistema debe estar funcionando antes del cierre de la jornada o perdemos el contrato de $2M.
+                    </div>
+                </div>
+            `;
+        }
+
+        function showSolution() {
+            document.getElementById('solution').innerHTML = `
+                <div style="background: #c6f6d5; border: 2px solid #38a169; border-radius: 8px; padding: 20px; margin: 20px 0;">
+                    <h3>✨ La Magia de los Nombres (Abstracción)</h3>
+                    <div class="code-block">
+// ¡Ahora TODO tiene sentido!
+const base_premium = 850;
+const age_risk_factor = 1.15;      // Factor de riesgo por edad
+const health_discount = 0.87;      // Descuento por buena salud
+const occupation_risk = 1.23;      // Riesgo ocupacional
+const geographic_factor = 0.92;    // Factor geográfico
+const inflation_adjustment = 1.08; // Ajuste por inflación
+const agent_commission = 0.05;     // Comisión del agente (5%)
+const admin_fee = 0.03;            // Tarifa administrativa (3%)
+const insurance_tax = 0.12;        // Impuesto del seguro (12%)
+
+// Cálculo de prima ajustada
+const adjusted_premium = base_premium * age_risk_factor * health_discount * 
+                        occupation_risk * geographic_factor * inflation_adjustment;
+
+// Cálculo de cargos adicionales
+const commission = base_premium * agent_commission;
+const admin_cost = base_premium * admin_fee;
+const tax = base_premium * insurance_tax;
+
+// Prima final
+const final_premium = adjusted_premium + commission - admin_cost + tax;
+                    </div>
+                    <p><strong>🎉 ¿Ven la diferencia?</strong></p>
+                    <ul>
+                        <li>✅ Cada valor tiene un nombre que explica su propósito</li>
+                        <li>✅ Fácil modificar la comisión del agente</li>
+                        <li>✅ Fácil encontrar errores</li>
+                        <li>✅ Fácil explicar a nuevos desarrolladores</li>
+                        <li>✅ El código se documenta a sí mismo</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Show initial calculation
+        calculateWithoutNames();
+    </script>
+</body>
+</html>
