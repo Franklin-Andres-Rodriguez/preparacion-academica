@@ -1,0 +1,259 @@
+/* ===== RESET & FOUNDATION ===== */
+/* Modern CSS Reset - Browser Normalization & Base Configuration */
+/* Following best practices from Eric Meyer, Andy Bell, and modern standards */
+
+/* =====================================================
+ * UNIVERSAL BOX MODEL
+ * Consistent sizing behavior across all elements
+ * ===================================================== */
+
+*,
+*::before,
+*::after {
+  /* 
+   * Box-sizing: border-box ensures width/height includes padding and border
+   * This prevents layout surprises and makes responsive design more predictable
+   */
+  box-sizing: border-box;
+  
+  /* 
+   * Reset default margins and padding to zero
+   * Provides clean slate for intentional spacing decisions
+   */
+  margin: 0;
+  padding: 0;
+}
+
+/* =====================================================
+ * HTML ROOT CONFIGURATION
+ * Document-level settings for optimal typography and UX
+ * ===================================================== */
+
+html {
+  /* 
+   * Font Feature Settings - Advanced Typography
+   * cv02, cv03, cv04: Character variants for improved readability
+   * cv11: Alternative ampersand design
+   * These enhance Inter font's legibility at small sizes
+   */
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  
+  /* 
+   * Oldstyle Numbers - More elegant number rendering
+   * Numbers align better with lowercase letters in body text
+   */
+  font-variant-numeric: oldstyle-nums;
+  
+  /* 
+   * Smooth Scrolling - Enhanced navigation UX
+   * Provides smooth scroll animation for anchor links
+   * Respects user's motion preferences (handled in tokens.css)
+   */
+  scroll-behavior: smooth;
+  
+  /* 
+   * Scroll Padding - Prevents content hiding behind fixed headers
+   * Accounts for potential sticky navigation or headers
+   */
+  scroll-padding-top: var(--space-20);
+  
+  /* 
+   * Text Size Adjust - Prevents mobile browsers from auto-adjusting text
+   * Maintains intentional typography scaling across devices
+   */
+  text-size-adjust: 100%;
+  
+  /* 
+   * Font Smoothing - Enhanced text rendering
+   * Antialiased: Better rendering on macOS/iOS
+   * Grayscale: Improved clarity on high-DPI displays
+   */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+ * BODY FOUNDATION
+ * Core layout and typography base for the entire application
+ * ===================================================== */
+
+body {
+  /* 
+   * Typography Foundation
+   * Uses CSS custom properties from tokens.css for consistency
+   */
+  font-family: var(--font-primary);
+  font-size: var(--text-base);        /* 16px base - accessibility standard */
+  line-height: 1.6;                   /* Optimal readability ratio */
+  
+  /* 
+   * Color Scheme - Dark Mode First Approach
+   * Optimized for modern dark interfaces and OLED displays
+   */
+  color: var(--dark-text-primary);
+  background: var(--dark-bg-primary);
+  
+  /* 
+   * Layout Foundation
+   * Full viewport height ensures proper footer positioning
+   * Flexbox column creates main layout structure
+   */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =====================================================
+ * ACCESSIBILITY ENHANCEMENTS
+ * Improved experience for assistive technologies
+ * ===================================================== */
+
+/* 
+ * Focus Management - Visible focus indicators
+ * Critical for keyboard navigation and screen readers
+ */
+*:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--brand-400);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* 
+ * Reduced Motion Respect
+ * Honors user's motion sensitivity preferences
+ * This is handled globally in tokens.css media query
+ */
+
+/* =====================================================
+ * SEMANTIC HTML ENHANCEMENTS
+ * Improved default styling for semantic elements
+ * ===================================================== */
+
+/* 
+ * List Reset - Remove default styling for custom implementations
+ * Allows complete control over list appearance
+ */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 
+ * Link Foundation - Clean slate for custom link styling
+ * Removes default underlines and colors
+ */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 
+ * Button Reset - Consistent button foundation
+ * Removes browser-specific button styling
+ */
+button {
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* 
+ * Form Element Consistency
+ * Ensures consistent typography across form elements
+ */
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 
+ * Image Optimization - Responsive and accessible by default
+ * Prevents layout shift and ensures proper scaling
+ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 
+ * Table Foundation - Better default table styling
+ * Removes spacing and provides clean base
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* =====================================================
+ * PRINT OPTIMIZATIONS
+ * Ensure readable printed output
+ * ===================================================== */
+
+@media print {
+  /* 
+   * Force light colors for print
+   * Dark backgrounds waste ink and may not print well
+   */
+  * {
+    background: white !important;
+    color: black !important;
+  }
+  
+  /* 
+   * Optimize typography for print
+   * Slightly smaller line-height for better space utilization
+   */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+}
+
+/* =====================================================
+ * HIGH CONTRAST MODE SUPPORT
+ * Enhanced accessibility for users requiring high contrast
+ * ===================================================== */
+
+@media (prefers-contrast: high) {
+  /* 
+   * These adjustments are handled in tokens.css
+   * but can be extended here for specific reset needs
+   */
+}
+
+/* =====================================================
+ * DARK MODE REFINEMENTS
+ * Additional dark mode considerations beyond tokens
+ * ===================================================== */
+
+@media (prefers-color-scheme: dark) {
+  /* 
+   * Enhanced scrollbar styling for dark mode
+   * Better integration with dark theme
+   */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--dark-bg-secondary);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--dark-border);
+    border-radius: var(--radius-full);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-surface);
+  }
+}

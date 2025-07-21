@@ -1,0 +1,256 @@
+/* ===== DESIGN TOKENS FOUNDATION ===== */
+/* Modern UX/UI Design System */
+/* Basado en principios de Stripe, Linear, Vercel, y Figma */
+
+:root {
+  /* =====================================================
+   * TYPOGRAPHY SYSTEM
+   * Perfect Fourth Scale (1.333) for harmonious proportions
+   * ===================================================== */
+  
+  /* Font Families - Performance Optimized Stack */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --font-display: 'Crimson Pro', Georgia, serif;
+  
+  /* Typography Scale - Perfect Fourth (1.333) */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px - Base font size */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+  --text-6xl: 3.75rem;     /* 60px */
+  
+  /* =====================================================
+   * COLOR SYSTEM
+   * Semantic color palette with emotion-driven design
+   * ===================================================== */
+  
+  /* Neutral Base - Modern Grayscale Foundation */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0a0a0a;
+  
+  /* Critical/Danger Colors - Warm Red for Urgent States */
+  --danger-50: #fef2f2;
+  --danger-100: #fee2e2;
+  --danger-200: #fecaca;
+  --danger-300: #fca5a5;
+  --danger-400: #f87171;
+  --danger-500: #ef4444;   /* Primary danger color */
+  --danger-600: #dc2626;
+  --danger-700: #b91c1c;
+  --danger-800: #991b1b;
+  --danger-900: #7f1d1d;
+  
+  /* Warning/Expensive Colors - Warm Amber for Caution */
+  --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
+  --warning-200: #fde68a;
+  --warning-300: #fcd34d;
+  --warning-400: #fbbf24;
+  --warning-500: #f59e0b;  /* Primary warning color */
+  --warning-600: #d97706;
+  --warning-700: #b45309;
+  --warning-800: #92400e;
+  --warning-900: #78350f;
+  
+  /* Success/Safe Colors - Fresh Green for Positive States */
+  --success-50: #f0fdf4;
+  --success-100: #dcfce7;
+  --success-200: #bbf7d0;
+  --success-300: #86efac;
+  --success-400: #4ade80;
+  --success-500: #22c55e;  /* Primary success color */
+  --success-600: #16a34a;
+  --success-700: #15803d;
+  --success-800: #166534;
+  --success-900: #14532d;
+  
+  /* Brand/Learning Colors - Modern Purple for Innovation */
+  --brand-50: #faf5ff;
+  --brand-100: #f3e8ff;
+  --brand-200: #e9d5ff;
+  --brand-300: #d8b4fe;
+  --brand-400: #c084fc;
+  --brand-500: #a855f7;    /* Primary brand color */
+  --brand-600: #9333ea;
+  --brand-700: #7c3aed;
+  --brand-800: #6b21a8;
+  --brand-900: #581c87;
+  
+  /* Info/Learning Colors - Cool Blue for Information */
+  --info-50: #eff6ff;
+  --info-100: #dbeafe;
+  --info-200: #bfdbfe;
+  --info-300: #93c5fd;
+  --info-400: #60a5fa;
+  --info-500: #3b82f6;     /* Primary info color */
+  --info-600: #2563eb;
+  --info-700: #1d4ed8;
+  --info-800: #1e40af;
+  --info-900: #1e3a8a;
+  
+  /* =====================================================
+   * DARK THEME COLORS
+   * True dark mode optimized for OLED displays
+   * ===================================================== */
+  
+  --dark-bg-primary: #000000;      /* True black for OLED */
+  --dark-bg-secondary: #0a0a0a;    /* Subtle variation */
+  --dark-bg-tertiary: #141414;     /* Card backgrounds */
+  --dark-surface: #1a1a1a;         /* Interactive surfaces */
+  --dark-surface-hover: #262626;   /* Hover states */
+  --dark-border: #2a2a2a;          /* Primary borders */
+  --dark-border-subtle: #1a1a1a;   /* Subtle separators */
+  --dark-text-primary: #ffffff;    /* High contrast text */
+  --dark-text-secondary: #a3a3a3;  /* Secondary information */
+  --dark-text-tertiary: #737373;   /* Least important text */
+  
+  /* =====================================================
+   * SPACING SYSTEM
+   * 8pt Grid System for consistent rhythm
+   * ===================================================== */
+  
+  --space-px: 1px;         /* 1px - Hairline borders */
+  --space-0: 0;            /* 0px - No space */
+  --space-1: 0.25rem;      /* 4px - Micro spacing */
+  --space-2: 0.5rem;       /* 8px - Base unit */
+  --space-3: 0.75rem;      /* 12px - Small elements */
+  --space-4: 1rem;         /* 16px - Standard spacing */
+  --space-5: 1.25rem;      /* 20px - Medium spacing */
+  --space-6: 1.5rem;       /* 24px - Large spacing */
+  --space-8: 2rem;         /* 32px - Section spacing */
+  --space-10: 2.5rem;      /* 40px - Large sections */
+  --space-12: 3rem;        /* 48px - Component spacing */
+  --space-16: 4rem;        /* 64px - Major sections */
+  --space-20: 5rem;        /* 80px - Page sections */
+  --space-24: 6rem;        /* 96px - Large layouts */
+  --space-32: 8rem;        /* 128px - Hero sections */
+  --space-40: 10rem;       /* 160px - Massive spacing */
+  --space-48: 12rem;       /* 192px - Ultra spacing */
+  --space-56: 14rem;       /* 224px - Extreme spacing */
+  --space-64: 16rem;       /* 256px - Maximum spacing */
+  
+  /* =====================================================
+   * BORDER RADIUS SYSTEM
+   * Consistent rounding for modern interfaces
+   * ===================================================== */
+  
+  --radius-none: 0;           /* No rounding */
+  --radius-sm: 0.125rem;      /* 2px - Subtle rounding */
+  --radius-base: 0.25rem;     /* 4px - Standard rounding */
+  --radius-md: 0.375rem;      /* 6px - Medium rounding */
+  --radius-lg: 0.5rem;        /* 8px - Large rounding */
+  --radius-xl: 0.75rem;       /* 12px - Extra large */
+  --radius-2xl: 1rem;         /* 16px - Card rounding */
+  --radius-3xl: 1.5rem;       /* 24px - Hero elements */
+  --radius-full: 9999px;      /* Perfect circles */
+  
+  /* =====================================================
+   * SHADOW SYSTEM
+   * Layered depth for visual hierarchy
+   * ===================================================== */
+  
+  /* Subtle shadows for slight elevation */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Standard shadows for cards and modals */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Dramatic shadows for overlays */
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Inset shadow for pressed states */
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* =====================================================
+   * ANIMATION SYSTEM
+   * Purposeful motion for enhanced UX
+   * ===================================================== */
+  
+  /* Duration Scale - From instant to slow */
+  --duration-instant: 0ms;     /* No animation */
+  --duration-fast: 150ms;      /* Quick interactions */
+  --duration-normal: 250ms;    /* Standard transitions */
+  --duration-slow: 350ms;      /* Deliberate motion */
+  --duration-slower: 500ms;    /* Dramatic effects */
+  --duration-slowest: 750ms;   /* Hero animations */
+  
+  /* Easing Functions - Natural motion curves */
+  --ease-linear: linear;                              /* Uniform motion */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);            /* Accelerating */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);           /* Decelerating */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);      /* Smooth curve */
+  --ease-dramatic: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Dramatic effect */
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Playful bounce */
+  
+  /* =====================================================
+   * Z-INDEX SYSTEM
+   * Layered stacking for complex interfaces
+   * ===================================================== */
+  
+  --z-hide: -1;          /* Hidden behind content */
+  --z-auto: auto;        /* Natural stacking */
+  --z-base: 0;           /* Base layer */
+  --z-docked: 10;        /* Docked elements */
+  --z-dropdown: 1000;    /* Dropdowns */
+  --z-sticky: 1100;      /* Sticky navigation */
+  --z-banner: 1200;      /* Announcement banners */
+  --z-overlay: 1300;     /* Background overlays */
+  --z-modal: 1400;       /* Modal dialogs */
+  --z-popover: 1500;     /* Popovers and tooltips */
+  --z-skip-nav: 1600;    /* Skip navigation links */
+  --z-toast: 1700;       /* Toast notifications */
+  --z-tooltip: 1800;     /* Tooltip maximum */
+}
+
+/* =====================================================
+ * SYSTEM OVERRIDES
+ * Handle different user preferences and environments
+ * ===================================================== */
+
+/* Dark Mode Refinements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Enhanced dark mode variables if needed */
+    /* Currently handled by explicit dark- prefixed variables */
+  }
+}
+
+/* Reduced Motion Support - Accessibility First */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Override animation durations for users who prefer reduced motion */
+    --duration-fast: 0.01ms;
+    --duration-normal: 0.01ms;
+    --duration-slow: 0.01ms;
+    --duration-slower: 0.01ms;
+    --duration-slowest: 0.01ms;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    /* Increase contrast ratios for accessibility */
+    --dark-border: #ffffff;
+    --dark-text-secondary: #ffffff;
+  }
+}

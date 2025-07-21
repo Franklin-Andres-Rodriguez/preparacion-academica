@@ -1,0 +1,520 @@
+/* ===== LAYOUT SYSTEM ARCHITECTURE ===== */
+/* Systematic Layout Foundation - Following Ian Sommerville's Structured Approach */
+/* Built on Robert C. Martin's Clean Architecture Principles */
+
+/* =====================================================
+ * ARCHITECTURAL PHILOSOPHY
+ * "Architecture is about intent" - Robert C. Martin
+ * 
+ * This layout system follows:
+ * 1. Single Responsibility - Each class has one layout purpose
+ * 2. Open/Closed - Extendable without modification
+ * 3. Composition over Inheritance - Mix utilities instead of complex hierarchies
+ * 4. Systematic Progression - From simple containers to complex grids
+ * ===================================================== */
+
+/* =====================================================
+ * CONTAINER SYSTEM
+ * Foundation for content width management and responsive behavior
+ * Following Jonas Schmedtmann's "Mobile-First, Content-Out" methodology
+ * ===================================================== */
+
+/* 
+ * Primary Container - The main content wrapper
+ * Max-width ensures readability on large screens
+ * Auto margins center content horizontally
+ * Responsive padding adapts to device size
+ */
+.layout-container {
+  width: 100%;
+  max-width: 1400px;           /* Optimal reading width for wide content */
+  margin: 0 auto;              /* Center horizontally */
+  padding: 0 var(--space-6);   /* 24px default padding */
+}
+
+/* 
+ * Narrow Container - For focused content like articles
+ * Following typography best practices: 45-75 characters per line
+ */
+.layout-container--narrow {
+  max-width: 800px;            /* Ideal for reading content */
+}
+
+/* 
+ * Wide Container - For data-heavy layouts
+ * Allows more breathing room for complex interfaces
+ */
+.layout-container--wide {
+  max-width: 1600px;           /* Dashboard and admin interfaces */
+}
+
+/* 
+ * Full Width Container - Edge-to-edge content
+ * Useful for hero sections and full-bleed images
+ */
+.layout-container--full {
+  max-width: none;
+  padding: 0;
+}
+
+/* =====================================================
+ * FLEXBOX SYSTEM
+ * Modern layout primitive following Brad Traversy's practical approach
+ * "Learn flexbox thoroughly - it's 80% of modern layout"
+ * ===================================================== */
+
+/* 
+ * Base Flex Container
+ * Default gap provides consistent spacing
+ * Uses CSS custom properties for predictable behavior
+ */
+.layout-flex {
+  display: flex;
+  gap: var(--space-4);         /* 16px default gap */
+}
+
+/* Flex Direction Utilities - Clear naming following BEM methodology */
+.layout-flex--row {
+  flex-direction: row;         /* Default, explicit for clarity */
+}
+
+.layout-flex--column {
+  flex-direction: column;
+}
+
+.layout-flex--row-reverse {
+  flex-direction: row-reverse;
+}
+
+.layout-flex--column-reverse {
+  flex-direction: column-reverse;
+}
+
+/* Flex Wrapping Control - Responsive behavior management */
+.layout-flex--wrap {
+  flex-wrap: wrap;
+}
+
+.layout-flex--nowrap {
+  flex-wrap: nowrap;
+}
+
+.layout-flex--wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+/* Justify Content - Horizontal alignment in flex containers */
+.layout-flex--justify-start {
+  justify-content: flex-start;
+}
+
+.layout-flex--justify-center {
+  justify-content: center;
+}
+
+.layout-flex--justify-end {
+  justify-content: flex-end;
+}
+
+.layout-flex--justify-between {
+  justify-content: space-between; /* Commonly used for navigation */
+}
+
+.layout-flex--justify-around {
+  justify-content: space-around;
+}
+
+.layout-flex--justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* Align Items - Vertical alignment in flex containers */
+.layout-flex--align-start {
+  align-items: flex-start;
+}
+
+.layout-flex--align-center {
+  align-items: center;         /* Most common alignment */
+}
+
+.layout-flex--align-end {
+  align-items: flex-end;
+}
+
+.layout-flex--align-stretch {
+  align-items: stretch;        /* Default behavior, explicit */
+}
+
+.layout-flex--align-baseline {
+  align-items: baseline;       /* Text alignment */
+}
+
+/* Gap Size Variations - Systematic spacing scale */
+.layout-flex--gap-none {
+  gap: 0;
+}
+
+.layout-flex--gap-xs {
+  gap: var(--space-1);         /* 4px - tight spacing */
+}
+
+.layout-flex--gap-sm {
+  gap: var(--space-2);         /* 8px - small spacing */
+}
+
+.layout-flex--gap-md {
+  gap: var(--space-4);         /* 16px - default */
+}
+
+.layout-flex--gap-lg {
+  gap: var(--space-6);         /* 24px - generous spacing */
+}
+
+.layout-flex--gap-xl {
+  gap: var(--space-8);         /* 32px - section spacing */
+}
+
+/* =====================================================
+ * STACK SYSTEM
+ * Vertical layout primitive - Wes Bos's "Every Layout" approach
+ * "Most layouts are just stacks of content with consistent spacing"
+ * ===================================================== */
+
+/*
+ * Stack Base - Simple vertical layout with consistent spacing
+ * Replaces margin-bottom patterns with gap for cleaner CSS
+ */
+.layout-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);         /* Consistent vertical rhythm */
+}
+
+/* Stack Size Variations - Semantic spacing for different contexts */
+.layout-stack--tight {
+  gap: var(--space-2);         /* 8px - compact lists */
+}
+
+.layout-stack--loose {
+  gap: var(--space-6);         /* 24px - section content */
+}
+
+.layout-stack--relaxed {
+  gap: var(--space-8);         /* 32px - major sections */
+}
+
+/* =====================================================
+ * GRID SYSTEM
+ * Modern CSS Grid implementation following Martin Robillard's
+ * "Selective Complexity Disclosure" - Simple by default, powerful when needed
+ * ===================================================== */
+
+/*
+ * Base Grid - Foundation for all grid layouts
+ * Default gap provides consistent spacing
+ * Auto-fit creates responsive behavior without media queries
+ */
+.layout-grid {
+  display: grid;
+  gap: var(--space-6);         /* 24px - comfortable spacing */
+}
+
+/* Explicit Column Definitions - When you know exactly what you want */
+.layout-grid--1 {
+  grid-template-columns: 1fr;
+}
+
+.layout-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.layout-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.layout-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.layout-grid--5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.layout-grid--6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/*
+ * Responsive Grid - The "Holy Grail" of responsive design
+ * Auto-fits columns based on minimum width
+ * No media queries needed - truly responsive
+ * Following Jen Simmons's intrinsic web design principles
+ */
+.layout-grid--responsive {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Responsive Grid Variations - Different breakpoints for different content */
+.layout-grid--responsive-sm {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Cards */
+}
+
+.layout-grid--responsive-md {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Default */
+}
+
+.layout-grid--responsive-lg {
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Large cards */
+}
+
+/* Auto-Fill vs Auto-Fit - Different responsive behaviors */
+.layout-grid--auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.layout-grid--auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Gap Size Variations - Systematic spacing for grids */
+.layout-grid--gap-tight {
+  gap: var(--space-3);         /* 12px - compact grids */
+}
+
+.layout-grid--gap-normal {
+  gap: var(--space-6);         /* 24px - default */
+}
+
+.layout-grid--gap-loose {
+  gap: var(--space-8);         /* 32px - generous spacing */
+}
+
+/* =====================================================
+ * SIDEBAR LAYOUTS
+ * Classic layout patterns following "Every Layout" methodology
+ * Solves the eternal sidebar problem with modern CSS
+ * ===================================================== */
+
+/*
+ * Sidebar Layout Base
+ * Content area grows, sidebar maintains intrinsic width
+ * Switches to stack on narrow screens automatically
+ */
+.layout-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.layout-sidebar > :first-child {
+  flex-basis: 250px;          /* Sidebar width */
+  flex-grow: 1;
+}
+
+.layout-sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;             /* Content area priority */
+  min-width: 50%;             /* Prevents too-narrow content */
+}
+
+/* Sidebar Variations - Different sidebar widths */
+.layout-sidebar--narrow > :first-child {
+  flex-basis: 200px;
+}
+
+.layout-sidebar--wide > :first-child {
+  flex-basis: 300px;
+}
+
+/* =====================================================
+ * CLUSTER LAYOUT
+ * For grouping items with automatic wrapping
+ * Perfect for navigation, tags, and button groups
+ * ===================================================== */
+
+.layout-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Cluster Alignment Variations */
+.layout-cluster--center {
+  justify-content: center;
+}
+
+.layout-cluster--end {
+  justify-content: flex-end;
+}
+
+.layout-cluster--between {
+  justify-content: space-between;
+}
+
+/* =====================================================
+ * IMPOSTER LAYOUT
+ * For overlaying content (modals, tooltips, badges)
+ * Modern alternative to absolute positioning
+ * ===================================================== */
+
+.layout-imposter {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* =====================================================
+ * CENTER LAYOUT
+ * Perfect centering for any content
+ * Solves the centering problem once and for all
+ * ===================================================== */
+
+.layout-center {
+  box-sizing: content-box;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 60ch;            /* Optimal reading width */
+}
+
+/* =====================================================
+ * COVER LAYOUT
+ * For hero sections and full-height content
+ * Automatically distributes space with featured content
+ * ===================================================== */
+
+.layout-cover {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--space-4);
+}
+
+.layout-cover > * {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+/* Featured element takes available space */
+.layout-cover > :nth-child(2) {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* =====================================================
+ * RESPONSIVE UTILITIES
+ * Mobile-first responsive behavior following Brad Traversy's approach
+ * "Start mobile, enhance upward - not the other way around"
+ * ===================================================== */
+
+/* Mobile-First Breakpoint System */
+@media (min-width: 480px) {
+  .layout-container {
+    padding: 0 var(--space-8);  /* More padding on larger screens */
+  }
+}
+
+@media (min-width: 768px) {
+  /* Tablet adjustments */
+  .layout-grid--responsive-tablet {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  /* Stack becomes side-by-side on tablet+ */
+  .layout-stack--tablet-row {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop optimizations */
+  .layout-container {
+    padding: 0 var(--space-12); /* Maximum padding on desktop */
+  }
+  
+  /* More columns on desktop */
+  .layout-grid--desktop-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .layout-grid--desktop-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 1400px) {
+  /* Ultra-wide optimizations */
+  .layout-grid--ultrawide {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* =====================================================
+ * ACCESSIBILITY ENHANCEMENTS
+ * Following Laurie Williams's inclusive design principles
+ * ===================================================== */
+
+/* Reduced motion respect - simplify layouts if requested */
+@media (prefers-reduced-motion: reduce) {
+  .layout-grid,
+  .layout-flex,
+  .layout-stack {
+    /* Layouts remain functional but less dynamic */
+    gap: var(--space-4);
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .layout-container {
+    /* Ensure clear boundaries in high contrast */
+    outline: 1px solid;
+  }
+}
+
+/* =====================================================
+ * DEBUGGING UTILITIES
+ * Following Kent Beck's "Make problems visible" principle
+ * Uncomment during development to see layout structure
+ * ===================================================== */
+
+/*
+.layout-debug * {
+  outline: 1px solid red;
+  background: rgba(255, 0, 0, 0.1);
+}
+
+.layout-debug .layout-container {
+  outline-color: blue;
+  background: rgba(0, 0, 255, 0.1);
+}
+
+.layout-debug .layout-grid {
+  outline-color: green;
+  background: rgba(0, 255, 0, 0.1);
+}
+*/
+
+/* =====================================================
+ * PRINT OPTIMIZATIONS
+ * Layouts should work in print too
+ * ===================================================== */
+
+@media print {
+  .layout-container {
+    max-width: none;
+    padding: 0;
+  }
+  
+  .layout-grid {
+    display: block;            /* Simplified for print */
+  }
+  
+  .layout-grid > * {
+    break-inside: avoid;       /* Prevent awkward page breaks */
+    margin-bottom: var(--space-4);
+  }
+}
