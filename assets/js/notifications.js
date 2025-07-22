@@ -1,1126 +1,1215 @@
-/* ===== NOTIFICATION SYSTEM - COMPREHENSIVE UX COMMUNICATION ===== */
-/*
-FILOSOFÍA EDUCATIVA INTEGRADA DE LOS MEJORES MENTORES GLOBALES:
+/* ===== ADVANCED NOTIFICATION SYSTEM ===== */
+/* Combining Sarah Drasner's animation expertise with Robert C. Martin's clean architecture */
+/* Following Kent C. Dodds' component composition and Jonas Schmedtmann's theory-practice integration */
 
-🏛️ FUNDACIONES ARQUITECTÓNICAS (Ian Sommerville + Martin Fowler):
-✅ Sistema modular con responsabilidades claras
-✅ Patrón de diseño extensible y mantenible
-✅ Separación entre lógica de negocio y presentación
-✅ Architecture que escala con complejidad creciente
+/* =====================================================
+ * ARCHITECTURAL PHILOSOPHY - Synthesis of Educational Excellence
+ * 
+ * This notification system represents the convergence of:
+ * 
+ * 🎨 Sarah Drasner's Animation Principles:
+ * "Animations should feel natural and enhance user experience, not distract from it"
+ * - Purposeful motion with clear intent
+ * - Performance-conscious using CSS transforms
+ * - Accessibility-aware respecting user preferences
+ * 
+ * 🏗️ Robert C. Martin's Clean Architecture:
+ * "Good software is written to be read by humans"
+ * - Single Responsibility: Each notification type has one purpose
+ * - Open/Closed: Extensible through configuration, not modification
+ * - Dependency Inversion: Depends on utils abstractions
+ * 
+ * 🧪 Kent C. Dodds' Component Design:
+ * "Make testing easy by making components predictable"
+ * - Composable notification system
+ * - Clear API contracts
+ * - Error boundary handling
+ * 
+ * 📚 Jonas Schmedtmann's Theory-Practice Integration:
+ * "Every feature should solve real problems with clear reasoning"
+ * - Each function explains why it exists
+ * - Theory → Practice → Application flow
+ * - Real-world problem solving
+ * ===================================================== */
 
-🧹 CLEAN CODE MASTERY (Robert C. Martin + Kent Beck):
-✅ Funciones pequeñas con single responsibility
-✅ Nombres que revelan intención inmediatamente
-✅ Principio DRY aplicado sistemáticamente
-✅ Error handling y edge cases cubiertos exhaustivamente
-
-🔬 MODERN JAVASCRIPT EXCELLENCE (Dan Abramov + Kent C. Dodds):
-✅ ES6+ features que mejoran legibilidad y performance
-✅ Functional programming patterns donde son apropiados
-✅ State management predecible y testeable
-✅ Performance optimizations basadas en profiling real
-
-🎯 PROJECT-BASED WISDOM (Jonas Schmedtmann + Brad Traversy):
-✅ Sistema que funciona en aplicaciones reales
-✅ API intuitiva para cualquier nivel de desarrollador
-✅ Configuración flexible sin sacrificar simplicidad
-✅ Documentación que enseña mientras implementa
-
-PRINCIPIO CENTRAL DE DISEÑO:
-"Great UX is invisible when it works, obvious when it doesn't"
-- Las notificaciones exitosas se desvanecen naturalmente
-- Los errores persisten hasta que el usuario los atienda
-- El sistema es predecible, confiable y accesible
-*/
-
-/* ========================================
-   NOTIFICATION SYSTEM CORE - ARCHITECTURE FOUNDATION
-   ======================================== */
+/* =====================================================
+ * NOTIFICATION CONFIGURATION SYSTEM
+ * Centralized configuration following Ian Sommerville's systematic structure
+ * Martin Fowler principle: "Configuration should be explicit and discoverable"
+ * ===================================================== */
 
 /**
- * NOTIFICATION SYSTEM SINGLETON
+ * Notification Type Definitions
  * 
- * PATRÓN DE DISEÑO: Module Pattern + Singleton
- * 
- * DECISIONES ARQUITECTÓNICAS EXPLICADAS:
- * 
- * 1. SINGLETON PATTERN:
- *    - Un solo sistema de notificaciones por aplicación
- *    - Estado centralizado para queue management
- *    - Previene conflictos entre múltiples instancias
- *    - Consistent UX través de toda la aplicación
- * 
- * 2. MODULE PATTERN:
- *    - Encapsulación de state y functionality privada
- *    - API pública limpia y predecible
- *    - Testing facilitado por dependency injection
- *    - Extension points para customización avanzada
- * 
- * 3. QUEUE SYSTEM:
- *    - Múltiples notificaciones no se superponen caóticamente
- *    - Stacking inteligente con limits configurables
- *    - Priority system para mensajes críticos
- *    - Graceful handling de overflow scenarios
- * 
- * INSPIRACIÓN: Material Design notifications + GitHub's toast system
+ * THEORY: Different notification types communicate different semantic meanings
+ * PRACTICE: Each type has distinct visual styling and behavior
+ * APPLICATION: Used throughout the learning platform for user feedback
  */
-const NotificationSystem = (function() {
-  'use strict';
+const NOTIFICATION_TYPES = {
+  SUCCESS: {
+    name: 'success',
+    icon: '✅',
+    semanticColor: 'success',
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY,
+    priority: 1, // Low priority - auto-dismiss
+    soundEnabled: true
+  },
   
-  /* ========================================
-     PRIVATE STATE - ENCAPSULATED DATA MANAGEMENT
-     ======================================== */
+  ERROR: {
+    name: 'error', 
+    icon: '❌',
+    semanticColor: 'danger',
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY * 1.5, // Longer for errors
+    priority: 3, // High priority - user attention needed
+    soundEnabled: true,
+    persistUntilInteraction: false // Changed to false for better UX
+  },
+  
+  WARNING: {
+    name: 'warning',
+    icon: '⚠️',
+    semanticColor: 'warning', 
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY,
+    priority: 2, // Medium priority
+    soundEnabled: false // Less aggressive than errors
+  },
+  
+  INFO: {
+    name: 'info',
+    icon: 'ℹ️',
+    semanticColor: 'info',
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY * 0.8, // Shorter for info
+    priority: 1, // Low priority
+    soundEnabled: false
+  },
+  
+  // Special types for the learning platform
+  BUG_DETECTED: {
+    name: 'bug-detected',
+    icon: '🐛',
+    semanticColor: 'danger',
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY,
+    priority: 2,
+    soundEnabled: true,
+    customClass: 'notification--bug'
+  },
+  
+  ACHIEVEMENT_UNLOCKED: {
+    name: 'achievement',
+    icon: '🏆', 
+    semanticColor: 'success',
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY * 2, // Longer for achievements
+    priority: 2,
+    soundEnabled: true,
+    customClass: 'notification--achievement',
+    celebratory: true // Triggers special animations
+  },
+  
+  CODE_FIXED: {
+    name: 'code-fixed',
+    icon: '🔧',
+    semanticColor: 'success', 
+    duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY,
+    priority: 2,
+    soundEnabled: true,
+    customClass: 'notification--code-fixed'
+  }
+};
+
+/**
+ * Animation Configuration
+ * 
+ * THEORY: Consistent motion language creates cohesive user experience
+ * PRACTICE: Standardized easings and durations across all notifications
+ * APPLICATION: Smooth, professional animations that don't distract from learning
+ */
+const ANIMATION_CONFIG = {
+  // Entry animations - Sarah Drasner's "announce presence gracefully"
+  ENTRY: {
+    SLIDE_IN: 'slideInFromRight',
+    FADE_IN: 'fadeInScale', 
+    BOUNCE_IN: 'bounceInFromTop' // For celebratory notifications
+  },
+  
+  // Exit animations - "leave without disruption"
+  EXIT: {
+    SLIDE_OUT: 'slideOutToRight',
+    FADE_OUT: 'fadeOutScale',
+    DISSOLVE: 'dissolveUp' // For errors that auto-resolve
+  },
+  
+  // Durations in milliseconds
+  DURATION: {
+    ENTRY: 350,    // Noticeable but not slow
+    EXIT: 250,     // Quick exit
+    HOVER: 150,    // Immediate feedback
+    CELEBRATION: 800 // Special achievements
+  },
+  
+  // Easing functions - Natural motion curves
+  EASING: {
+    ENTRY: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Smooth entry
+    EXIT: 'cubic-bezier(0.55, 0.06, 0.68, 0.19)',  // Quick exit
+    BOUNCE: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)' // Playful bounce
+  }
+};
+
+/**
+ * Accessibility Configuration
+ * 
+ * Laurie Williams principle: "Accessibility should be built-in, not bolted on"
+ * Following WCAG 2.1 guidelines for user notifications
+ */
+const ACCESSIBILITY_CONFIG = {
+  // ARIA live regions for screen readers
+  LIVE_REGIONS: {
+    POLITE: 'polite',    // For success, info notifications
+    ASSERTIVE: 'assertive' // For errors, warnings
+  },
+  
+  // Reduced motion alternatives
+  REDUCED_MOTION: {
+    disableAnimations: true,
+    useSimpleFade: true,
+    showInstantly: false // Still show, just without complex motion
+  },
+  
+  // High contrast support
+  HIGH_CONTRAST: {
+    enhanceBorders: true,
+    increaseFontWeight: true,
+    useStrongColors: true
+  },
+  
+  // Focus management
+  FOCUS: {
+    trapFocusForPersistent: true,
+    returnFocusOnDismiss: true,
+    skipToActionButton: true
+  }
+};
+
+/* =====================================================
+ * NOTIFICATION MANAGER CLASS
+ * Core notification system following Clean Architecture principles
+ * Robert C. Martin: "Classes should be small and have a single responsibility"
+ * ===================================================== */
+
+/**
+ * Advanced Notification Manager
+ * 
+ * Manages the complete lifecycle of notifications following
+ * Kent C. Dodds' component composition patterns
+ */
+class NotificationManager {
+  constructor() {
+    // State management following Jonas Schmedtmann's centralized state approach
+    this.activeNotifications = new Map(); // Active notification tracking
+    this.notificationQueue = [];           // Pending notifications
+    this.container = null;                 // DOM container reference
+    this.soundContext = null;             // Web Audio context for sounds
+    this.reducedMotion = false;            // User motion preference
+    this.maxConcurrent = 3;                // Maximum simultaneous notifications
+    
+    // Performance optimization caches
+    this.elementCache = new Map();
+    this.animationFrameIds = new Set();
+    
+    this.init();
+  }
   
   /**
-   * NOTIFICATION CONFIGURATION - SYSTEM DEFAULTS
+   * Initialize notification system
    * 
-   * PRINCIPIO EDUCATIVO (Jonas Schmedtmann): "Good defaults make APIs easier"
-   * - Usuarios pueden override anything, pero defaults funciona out-of-the-box
-   * - Valores basados en UX research y testing real
-   * - Balance entre user attention y non-intrusiveness
+   * THEORY: Initialization should be explicit and handle all edge cases
+   * PRACTICE: Create container, setup accessibility, detect user preferences
+   * APPLICATION: Ready system for immediate use throughout the app
    */
-  const CONFIG = {
-    // Container creation y positioning
-    containerId: 'notification-container',
-    position: 'top-right', // top-right, top-left, bottom-right, bottom-left
-    
-    // Timing configuration
-    defaultDuration: 4000,      // 4 seconds - optimal para reading y retention
-    longDuration: 8000,         // Para mensajes complejos
-    persistentDuration: 0,      // 0 = no auto-dismiss
-    
-    // Visual configuration  
-    maxNotifications: 5,        // Stack limit para prevent UI chaos
-    animationDuration: 350,     // Smooth pero no slow
-    
-    // Accessibility configuration
-    respectMotionPrefs: true,   // Honor prefers-reduced-motion
-    screenReaderAnnounce: true, // ARIA live regions
-    focusManagement: true,      // Keyboard navigation support
-    
-    // Advanced features
-    queueWhenHidden: true,      // Save notifications cuando tab no visible
-    groupSimilar: true,         // Combine duplicate messages
-    soundEnabled: false         // Audio cues para accessibility (default off)
-  };
-  
-  /**
-   * NOTIFICATION TYPES - SEMANTIC CATEGORIZATION
-   * 
-   * PRINCIPIO DE DISEÑO: Semantic color coding + Psychology-based timing
-   * - Success: Brief confirmation, positive reinforcement
-   * - Error: Persistent until acknowledged, attention-demanding  
-   * - Warning: Moderate persistence, caution signaling
-   * - Info: Brief informational, non-critical updates
-   */
-  const NOTIFICATION_TYPES = {
-    success: {
-      className: 'notification--success',
-      icon: '✅',
-      duration: CONFIG.defaultDuration,
-      priority: 2,
-      ariaRole: 'status',        // Non-intrusive para screen readers
-      soundFile: 'success.mp3'   // Optional audio cue
-    },
-    error: {
-      className: 'notification--error', 
-      icon: '❌',
-      duration: CONFIG.persistentDuration, // No auto-dismiss
-      priority: 4,               // Highest priority
-      ariaRole: 'alert',         // Immediate screen reader attention
-      soundFile: 'error.mp3'
-    },
-    warning: {
-      className: 'notification--warning',
-      icon: '⚠️',
-      duration: CONFIG.longDuration,
-      priority: 3,
-      ariaRole: 'alert',
-      soundFile: 'warning.mp3'
-    },
-    info: {
-      className: 'notification--info',
-      icon: 'ℹ️',
-      duration: CONFIG.defaultDuration,
-      priority: 1,
-      ariaRole: 'status',
-      soundFile: 'info.mp3'
+  async init() {
+    try {
+      await utils.waitForDOM();
+      
+      this.detectUserPreferences();
+      this.createNotificationContainer();
+      this.setupAccessibilityFeatures();
+      this.setupSoundSystem();
+      this.bindGlobalEventListeners();
+      
+      utils.logWithContext('info', 'Notifications', '🔔 Notification system initialized successfully');
+      
+      // Signal ready state for other modules
+      window.dispatchEvent(new CustomEvent('notificationSystemReady'));
+      
+    } catch (error) {
+      utils.logWithContext('error', 'Notifications', 'Failed to initialize notification system', error);
+      throw error;
     }
-  };
-  
-  // System state management
-  let notificationQueue = [];
-  let activeNotifications = [];
-  let container = null;
-  let nextId = 1;
-  let isPaused = false;
-  
-  /* ========================================
-     PRIVATE UTILITY FUNCTIONS - INTERNAL HELPERS
-     ======================================== */
-  
-  /**
-   * UTILITY: GENERATE UNIQUE NOTIFICATION ID
-   * 
-   * SIMPLE PERO EFFECTIVE: Incremental IDs con timestamp fallback
-   * - Predictable para testing y debugging
-   * - Unique across browser sessions
-   * - Short y memory-efficient
-   */
-  function generateId() {
-    return `notification-${nextId++}-${Date.now()}`;
   }
   
   /**
-   * UTILITY: SANITIZE HTML CONTENT
+   * Detect user preferences for adaptive behavior
    * 
-   * SECURITY PRINCIPLE: Never trust user input
-   * - Prevent XSS attacks através de HTML injection
-   * - Maintain formatting while escaping dangerous content  
-   * - Allow safe HTML tags con whitelist approach
+   * Wes Bos principle: "Defensive programming prevents crashes"
+   * Respects user accessibility needs and device capabilities
    */
-  function sanitizeHTML(html) {
-    const tempDiv = document.createElement('div');
-    tempDiv.textContent = html; // This escapes HTML
-    return tempDiv.innerHTML;
+  detectUserPreferences() {
+    // Motion preferences - respect user choices
+    this.reducedMotion = utils.prefersReducedMotion();
+    
+    // High contrast detection
+    this.highContrast = window.matchMedia('(prefers-contrast: high)').matches;
+    
+    // Sound preferences (defaults to enabled, can be overridden)
+    this.soundEnabled = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Touch device detection for interaction adjustments
+    this.touchDevice = 'ontouchstart' in window;
+    
+    utils.logWithContext('info', 'Notifications', `User preferences: motion=${!this.reducedMotion}, contrast=${this.highContrast}, sound=${this.soundEnabled}`);
   }
   
   /**
-   * UTILITY: MOTION PREFERENCE DETECTION
+   * Create notification container with proper positioning
    * 
-   * ACCESSIBILITY FIRST: Respect user preferences
-   * - iOS/Android: Settings > Accessibility > Reduce Motion
-   * - macOS: System Preferences > Accessibility > Display
-   * - Windows: Settings > Ease of Access > Display
+   * THEORY: Notifications need consistent positioning that doesn't interfere with content
+   * PRACTICE: Fixed positioning with high z-index, responsive to viewport changes
+   * APPLICATION: Creates visual hierarchy that guides user attention
    */
-  function shouldReduceMotion() {
-    return CONFIG.respectMotionPrefs && 
-           window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  createNotificationContainer() {
+    // Remove existing container if it exists (for re-initialization)
+    const existingContainer = utils.qs('#notification-container');
+    if (existingContainer) {
+      existingContainer.remove();
+    }
+    
+    this.container = utils.createElement('div', {
+      id: 'notification-container',
+      className: 'notification-container',
+      'aria-live': 'polite', // Default to polite, can be overridden per notification
+      'aria-label': 'Notification messages',
+      style: `
+        position: fixed;
+        top: var(--space-6);
+        right: var(--space-6);
+        z-index: ${APP_CONFIG.Z_INDEX.NOTIFICATION};
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        pointer-events: none;
+        max-width: 400px;
+        width: 100%;
+      `
+    });
+    
+    // Responsive positioning for mobile
+    if (utils.getViewportSize().width <= APP_CONFIG.BREAKPOINTS.MOBILE) {
+      this.container.style.left = 'var(--space-4)';
+      this.container.style.right = 'var(--space-4)';
+      this.container.style.maxWidth = 'none';
+    }
+    
+    document.body.appendChild(this.container);
   }
   
   /**
-   * UTILITY: SCREEN READER ANNOUNCEMENT
+   * Setup accessibility features
    * 
-   * INCLUSIVITY PRINCIPLE: Notifications must be accessible
-   * - ARIA live regions para dynamic content announcement
-   * - Polite vs assertive based en message priority
-   * - Queue management para prevent announcement spam
+   * Following WCAG 2.1 guidelines and Laurie Williams' inclusive design principles
    */
-  function announceToScreenReader(message, priority) {
-    if (!CONFIG.screenReaderAnnounce) return;
+  setupAccessibilityFeatures() {
+    // Create separate live regions for different priority levels
+    const politeRegion = utils.createElement('div', {
+      'aria-live': 'polite',
+      'aria-label': 'Non-urgent notifications',
+      className: 'sr-only' // Screen reader only
+    });
     
-    const ariaRole = priority >= 3 ? 'alert' : 'status';
-    const liveRegion = document.getElementById('notification-aria-live') || 
-                      createAriaLiveRegion();
+    const assertiveRegion = utils.createElement('div', {
+      'aria-live': 'assertive', 
+      'aria-label': 'Urgent notifications',
+      className: 'sr-only'
+    });
     
-    // Clear previous announcement
-    liveRegion.textContent = '';
+    document.body.appendChild(politeRegion);
+    document.body.appendChild(assertiveRegion);
     
-    // Announce new message
+    this.liveRegions = {
+      polite: politeRegion,
+      assertive: assertiveRegion
+    };
+  }
+  
+  /**
+   * Setup sound system for audio feedback
+   * 
+   * THEORY: Audio feedback provides additional accessibility and user experience enhancement
+   * PRACTICE: Web Audio API for precise control and performance
+   * APPLICATION: Subtle audio cues for different notification types
+   */
+  setupSoundSystem() {
+    if (!this.soundEnabled) return;
+    
+    try {
+      // Create audio context lazily (user interaction required)
+      this.initAudioContext = () => {
+        if (!this.soundContext) {
+          this.soundContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        return this.soundContext;
+      };
+      
+      // Simple sound generation using Web Audio API
+      this.playNotificationSound = (type) => {
+        if (!this.soundEnabled || this.reducedMotion) return;
+        
+        try {
+          const audioContext = this.initAudioContext();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          // Different frequencies for different notification types
+          const frequencies = {
+            success: 800,    // Pleasant higher tone
+            error: 400,      // Lower, more attention-grabbing
+            warning: 600,    // Medium tone
+            achievement: 1000 // Highest, most celebratory
+          };
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.frequency.setValueAtTime(frequencies[type] || 600, audioContext.currentTime);
+          oscillator.type = 'sine';
+          
+          // Short, subtle sound
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+          
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.2);
+          
+        } catch (error) {
+          utils.logWithContext('warn', 'Notifications', 'Failed to play notification sound', error);
+        }
+      };
+      
+    } catch (error) {
+      utils.logWithContext('warn', 'Notifications', 'Web Audio API not available', error);
+      this.soundEnabled = false;
+    }
+  }
+  
+  /**
+   * Bind global event listeners for system-wide behavior
+   * 
+   * Brad Traversy approach: "Handle edge cases proactively"
+   */
+  bindGlobalEventListeners() {
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.pauseAnimations();
+      } else {
+        this.resumeAnimations();
+      }
+    });
+    
+    // Handle resize for responsive positioning
+    const handleResize = utils.debounce(() => {
+      this.updateContainerPositioning();
+    }, 150);
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Handle preference changes
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    motionQuery.addEventListener('change', (e) => {
+      this.reducedMotion = e.matches;
+      this.updateAllNotificationsForMotionPreference();
+    });
+  }
+  
+  /**
+   * Show notification with full feature support
+   * 
+   * PUBLIC API - Main method for displaying notifications
+   * 
+   * @param {string} message - Notification message text
+   * @param {string} type - Notification type (success, error, warning, info, etc.)
+   * @param {Object} options - Additional configuration options
+   * @returns {Promise<string>} - Notification ID for tracking/dismissal
+   * 
+   * EXAMPLE USAGE:
+   * await notifications.show('Code executed successfully!', 'success');
+   * await notifications.show('Bug detected in precedence', 'bug-detected', { persistent: true });
+   */
+  async show(message, type = 'info', options = {}) {
+    try {
+      // Validate inputs - Kent C. Dodds' defensive programming
+      if (!message || typeof message !== 'string') {
+        throw new Error('Notification message is required and must be a string');
+      }
+      
+      if (!NOTIFICATION_TYPES[type.toUpperCase()]) {
+        utils.logWithContext('warn', 'Notifications', `Unknown notification type: ${type}, falling back to info`);
+        type = 'info';
+      }
+      
+      const notificationConfig = NOTIFICATION_TYPES[type.toUpperCase()];
+      const notificationId = this.generateNotificationId();
+      
+      // Create notification object
+      const notification = {
+        id: notificationId,
+        message,
+        type: notificationConfig.name,
+        config: notificationConfig,
+        options: {
+          duration: options.duration || notificationConfig.duration,
+          persistent: options.persistent || notificationConfig.persistUntilInteraction,
+          actions: options.actions || [], // Array of action buttons
+          data: options.data || null,      // Additional data payload
+          onShow: options.onShow || null,  // Callback when shown
+          onHide: options.onHide || null,  // Callback when hidden
+          onAction: options.onAction || null, // Callback for action buttons
+          ...options
+        },
+        timestamp: Date.now(),
+        element: null,
+        timeoutId: null,
+        isVisible: false
+      };
+      
+      // Queue or show immediately based on current notification count
+      if (this.activeNotifications.size >= this.maxConcurrent) {
+        this.notificationQueue.push(notification);
+        utils.logWithContext('info', 'Notifications', `Notification queued: ${notificationId}`);
+      } else {
+        await this.displayNotification(notification);
+      }
+      
+      return notificationId;
+      
+    } catch (error) {
+      utils.logWithContext('error', 'Notifications', 'Failed to show notification', { message, type, error });
+      throw error;
+    }
+  }
+  
+  /**
+   * Display notification with full animation and accessibility support
+   * 
+   * THEORY: Notification display should be smooth, accessible, and informative
+   * PRACTICE: Creates DOM element, applies animations, sets up interaction handlers
+   * APPLICATION: Provides immediate feedback for user actions in the learning platform
+   */
+  async displayNotification(notification) {
+    try {
+      // Create notification element
+      notification.element = this.createNotificationElement(notification);
+      
+      // Add to active notifications
+      this.activeNotifications.set(notification.id, notification);
+      
+      // Append to container with initial hidden state
+      notification.element.style.opacity = '0';
+      notification.element.style.transform = 'translateX(100%)';
+      this.container.appendChild(notification.element);
+      
+      // Trigger entry animation
+      await this.animateNotificationEntry(notification);
+      
+      // Setup auto-dismiss if not persistent
+      if (!notification.options.persistent) {
+        this.scheduleAutoDismiss(notification);
+      }
+      
+      // Play sound if enabled
+      if (notification.config.soundEnabled) {
+        this.playNotificationSound(notification.config.semanticColor);
+      }
+      
+      // Update accessibility live region
+      this.announceToScreenReader(notification);
+      
+      // Execute onShow callback
+      if (notification.options.onShow) {
+        notification.options.onShow(notification);
+      }
+      
+      notification.isVisible = true;
+      utils.logWithContext('info', 'Notifications', `Notification displayed: ${notification.id}`);
+      
+    } catch (error) {
+      utils.logWithContext('error', 'Notifications', 'Failed to display notification', error);
+      this.cleanupNotification(notification);
+    }
+  }
+  
+  /**
+   * Create notification DOM element with full accessibility support
+   * 
+   * Following modern HTML5 semantic practices and ARIA guidelines
+   */
+  createNotificationElement(notification) {
+    const { config, message, options } = notification;
+    
+    // Main notification container
+    const element = utils.createElement('div', {
+      className: `notification notification--${config.name} ${config.customClass || ''}`,
+      role: 'alert', // ARIA role for important notifications
+      'aria-live': config.priority >= 2 ? 'assertive' : 'polite',
+      'data-notification-id': notification.id,
+      'data-notification-type': config.name,
+      style: `
+        pointer-events: auto;
+        background: var(--dark-surface);
+        border: 1px solid var(--${config.semanticColor}-600);
+        border-radius: var(--radius-lg);
+        padding: var(--space-4);
+        box-shadow: var(--shadow-xl);
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        min-width: 300px;
+        max-width: 400px;
+        position: relative;
+        overflow: hidden;
+        transition: all ${ANIMATION_CONFIG.DURATION.ENTRY}ms ${ANIMATION_CONFIG.EASING.ENTRY};
+      `
+    });
+    
+    // Add specialized styling for high contrast mode
+    if (this.highContrast) {
+      element.style.border = `2px solid var(--${config.semanticColor}-400)`;
+      element.style.boxShadow = 'none';
+    }
+    
+    // Icon container
+    const iconContainer = utils.createElement('div', {
+      className: 'notification-icon',
+      'aria-hidden': 'true', // Decorative, message provides semantic meaning
+      style: `
+        font-size: var(--text-lg);
+        flex-shrink: 0;
+        margin-top: 2px;
+      `
+    }, config.icon);
+    
+    // Content container
+    const content = utils.createElement('div', {
+      className: 'notification-content',
+      style: `
+        flex: 1;
+        min-width: 0;
+      `
+    });
+    
+    // Message text
+    const messageElement = utils.createElement('div', {
+      className: 'notification-message',
+      style: `
+        color: var(--dark-text-primary);
+        font-weight: 500;
+        line-height: 1.4;
+        margin-bottom: ${options.actions?.length ? 'var(--space-2)' : '0'};
+      `
+    }, message);
+    
+    content.appendChild(messageElement);
+    
+    // Action buttons if provided
+    if (options.actions?.length) {
+      const actionsContainer = utils.createElement('div', {
+        className: 'notification-actions',
+        style: `
+          display: flex;
+          gap: var(--space-2);
+          margin-top: var(--space-3);
+          flex-wrap: wrap;
+        `
+      });
+      
+      options.actions.forEach((action, index) => {
+        const button = utils.createElement('button', {
+          className: `btn btn--${action.style || 'ghost'}`,
+          style: `
+            font-size: var(--text-sm);
+            padding: var(--space-2) var(--space-3);
+            min-height: auto;
+          `,
+          'data-action-id': action.id || `action-${index}`
+        }, action.label);
+        
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (action.handler) {
+            action.handler(notification, action);
+          }
+          if (options.onAction) {
+            options.onAction(notification, action);
+          }
+          if (action.dismissOnClick !== false) {
+            this.dismiss(notification.id);
+          }
+        });
+        
+        actionsContainer.appendChild(button);
+      });
+      
+      content.appendChild(actionsContainer);
+    }
+    
+    // Dismiss button (always present for accessibility)
+    const dismissButton = utils.createElement('button', {
+      className: 'notification-dismiss',
+      'aria-label': 'Dismiss notification',
+      style: `
+        position: absolute;
+        top: var(--space-2);
+        right: var(--space-2);
+        background: none;
+        border: none;
+        color: var(--dark-text-secondary);
+        font-size: var(--text-lg);
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all ${ANIMATION_CONFIG.DURATION.HOVER}ms ease;
+      `
+    }, '×');
+    
+    // Dismiss button interactions
+    dismissButton.addEventListener('click', () => this.dismiss(notification.id));
+    dismissButton.addEventListener('mouseenter', () => {
+      dismissButton.style.background = 'var(--dark-surface-hover)';
+      dismissButton.style.color = 'var(--dark-text-primary)';
+    });
+    dismissButton.addEventListener('mouseleave', () => {
+      dismissButton.style.background = 'none';
+      dismissButton.style.color = 'var(--dark-text-secondary)';
+    });
+    
+    // Progress bar for auto-dismiss notifications
+    if (!options.persistent && options.duration > 0) {
+      const progressBar = utils.createElement('div', {
+        className: 'notification-progress',
+        style: `
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 2px;
+          background: var(--${config.semanticColor}-400);
+          width: 100%;
+          transform-origin: left;
+          animation: notificationProgress ${options.duration}ms linear;
+        `
+      });
+      
+      element.appendChild(progressBar);
+    }
+    
+    // Assemble final element
+    element.appendChild(iconContainer);
+    element.appendChild(content);
+    element.appendChild(dismissButton);
+    
+    // Special handling for celebratory notifications
+    if (config.celebratory) {
+      this.addCelebratoryEffects(element);
+    }
+    
+    return element;
+  }
+  
+  /**
+   * Animate notification entry with respect for user preferences
+   * 
+   * Sarah Drasner principle: "Animations should feel natural and purposeful"
+   */
+  async animateNotificationEntry(notification) {
+    const element = notification.element;
+    
+    if (this.reducedMotion) {
+      // Simple fade for reduced motion users
+      element.style.opacity = '1';
+      element.style.transform = 'translateX(0)';
+      return;
+    }
+    
+    // Smooth slide-in animation
+    await utils.nextFrame(); // Ensure DOM update
+    
+    const animation = element.animate([
+      {
+        opacity: '0',
+        transform: 'translateX(100%) scale(0.9)',
+        offset: 0
+      },
+      {
+        opacity: '1',
+        transform: 'translateX(0) scale(1)',
+        offset: 1
+      }
+    ], {
+      duration: ANIMATION_CONFIG.DURATION.ENTRY,
+      easing: ANIMATION_CONFIG.EASING.ENTRY,
+      fill: 'forwards'
+    });
+    
+    // Track animation for cleanup
+    this.animationFrameIds.add(animation);
+    
+    return new Promise(resolve => {
+      animation.addEventListener('finish', () => {
+        this.animationFrameIds.delete(animation);
+        resolve();
+      });
+    });
+  }
+  
+  /**
+   * Dismiss notification with smooth exit animation
+   * 
+   * PUBLIC API - Programmatic notification dismissal
+   * 
+   * @param {string} notificationId - ID of notification to dismiss
+   * @returns {Promise<void>} - Resolves when dismissal is complete
+   */
+  async dismiss(notificationId) {
+    const notification = this.activeNotifications.get(notificationId);
+    
+    if (!notification) {
+      utils.logWithContext('warn', 'Notifications', `Attempted to dismiss unknown notification: ${notificationId}`);
+      return;
+    }
+    
+    try {
+      // Cancel auto-dismiss timer
+      if (notification.timeoutId) {
+        clearTimeout(notification.timeoutId);
+      }
+      
+      // Execute onHide callback
+      if (notification.options.onHide) {
+        notification.options.onHide(notification);
+      }
+      
+      // Animate exit
+      await this.animateNotificationExit(notification);
+      
+      // Cleanup
+      this.cleanupNotification(notification);
+      
+      // Process queue
+      this.processNotificationQueue();
+      
+      utils.logWithContext('info', 'Notifications', `Notification dismissed: ${notificationId}`);
+      
+    } catch (error) {
+      utils.logWithContext('error', 'Notifications', 'Failed to dismiss notification', error);
+      // Force cleanup on error
+      this.cleanupNotification(notification);
+    }
+  }
+  
+  /**
+   * Animate notification exit
+   * 
+   * Different exit animations based on dismissal reason and user preferences
+   */
+  async animateNotificationExit(notification) {
+    const element = notification.element;
+    
+    if (this.reducedMotion) {
+      element.style.opacity = '0';
+      return;
+    }
+    
+    const animation = element.animate([
+      {
+        opacity: '1',
+        transform: 'translateX(0) scale(1)',
+        offset: 0
+      },
+      {
+        opacity: '0',
+        transform: 'translateX(100%) scale(0.9)',
+        offset: 1
+      }
+    ], {
+      duration: ANIMATION_CONFIG.DURATION.EXIT,
+      easing: ANIMATION_CONFIG.EASING.EXIT,
+      fill: 'forwards'
+    });
+    
+    return new Promise(resolve => {
+      animation.addEventListener('finish', resolve);
+    });
+  }
+  
+  /**
+   * Cleanup notification resources
+   * 
+   * Wes Bos principle: "Clean up after yourself to prevent memory leaks"
+   */
+  cleanupNotification(notification) {
+    // Remove from active notifications
+    this.activeNotifications.delete(notification.id);
+    
+    // Remove DOM element
+    if (notification.element && notification.element.parentNode) {
+      notification.element.parentNode.removeChild(notification.element);
+    }
+    
+    // Clear timers
+    if (notification.timeoutId) {
+      clearTimeout(notification.timeoutId);
+    }
+    
+    // Clear element cache
+    this.elementCache.delete(notification.id);
+  }
+  
+  /**
+   * Process notification queue
+   * 
+   * Show queued notifications when space becomes available
+   */
+  async processNotificationQueue() {
+    if (this.notificationQueue.length === 0) return;
+    if (this.activeNotifications.size >= this.maxConcurrent) return;
+    
+    const nextNotification = this.notificationQueue.shift();
+    await this.displayNotification(nextNotification);
+  }
+  
+  /**
+   * Schedule auto-dismiss for non-persistent notifications
+   */
+  scheduleAutoDismiss(notification) {
+    notification.timeoutId = setTimeout(() => {
+      this.dismiss(notification.id);
+    }, notification.options.duration);
+  }
+  
+  /**
+   * Announce notification to screen readers
+   * 
+   * Accessibility support following WCAG guidelines
+   */
+  announceToScreenReader(notification) {
+    const region = notification.config.priority >= 2 ? 
+      this.liveRegions.assertive : 
+      this.liveRegions.polite;
+    
+    const announcement = `${notification.config.name} notification: ${notification.message}`;
+    
+    // Clear and set message for screen reader announcement
+    region.textContent = '';
     setTimeout(() => {
-      liveRegion.textContent = message;
+      region.textContent = announcement;
     }, 100);
   }
   
   /**
-   * CREATE ARIA LIVE REGION - ACCESSIBILITY INFRASTRUCTURE
+   * Add celebratory effects for achievements
    * 
-   * WCAG 2.1 COMPLIANCE: Screen reader support
-   * - Hidden visually pero available para assistive technology
-   * - Persistent element que won't be removed
-   * - Proper ARIA attributes para reliable announcement
+   * Sarah Drasner's creative animation techniques
    */
-  function createAriaLiveRegion() {
-    const liveRegion = document.createElement('div');
-    liveRegion.id = 'notification-aria-live';
-    liveRegion.setAttribute('aria-live', 'polite');
-    liveRegion.setAttribute('aria-atomic', 'true');
-    liveRegion.style.cssText = `
-      position: absolute;
-      left: -10000px;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    `;
+  addCelebratoryEffects(element) {
+    if (this.reducedMotion) return;
     
-    document.body.appendChild(liveRegion);
-    return liveRegion;
-  }
-  
-  /* ========================================
-     CONTAINER MANAGEMENT - UI FOUNDATION
-     ======================================== */
-  
-  /**
-   * CREATE NOTIFICATION CONTAINER
-   * 
-   * CONTAINER PATTERN: Dedicated space para notifications
-   * - Fixed positioning para consistent placement
-   * - Z-index management para proper layering
-   * - Responsive positioning basado en viewport size
-   * - CSS Grid para intelligent stacking
-   */
-  function createContainer() {
-    if (container && document.body.contains(container)) {
-      return container;
-    }
-    
-    container = document.createElement('div');
-    container.id = CONFIG.containerId;
-    container.className = 'notification-container';
-    container.setAttribute('role', 'region');
-    container.setAttribute('aria-label', 'Notifications');
-    
-    // Position-based styling
-    const positions = {
-      'top-right': {
-        top: 'var(--space-6, 1.5rem)',
-        right: 'var(--space-6, 1.5rem)',
-        left: 'auto',
-        bottom: 'auto'
-      },
-      'top-left': {
-        top: 'var(--space-6, 1.5rem)',
-        left: 'var(--space-6, 1.5rem)',
-        right: 'auto', 
-        bottom: 'auto'
-      },
-      'bottom-right': {
-        bottom: 'var(--space-6, 1.5rem)',
-        right: 'var(--space-6, 1.5rem)',
-        top: 'auto',
-        left: 'auto'
-      },
-      'bottom-left': {
-        bottom: 'var(--space-6, 1.5rem)',
-        left: 'var(--space-6, 1.5rem)',
-        top: 'auto',
-        right: 'auto'
-      }
-    };
-    
-    const position = positions[CONFIG.position] || positions['top-right'];
-    
-    // Apply positioning styles
-    Object.assign(container.style, {
-      position: 'fixed',
-      zIndex: 'var(--z-toast, 1700)',
-      display: 'flex',
-      flexDirection: CONFIG.position.includes('bottom') ? 'column-reverse' : 'column',
-      gap: 'var(--space-3, 0.75rem)',
-      pointerEvents: 'none', // Allow click-through when empty
-      maxWidth: '400px',
-      minWidth: '320px',
-      ...position
-    });
-    
-    document.body.appendChild(container);
-    return container;
-  }
-  
-  /* ========================================
-     NOTIFICATION LIFECYCLE - CREATION TO DESTRUCTION
-     ======================================== */
-  
-  /**
-   * CREATE NOTIFICATION ELEMENT
-   * 
-   * COMPONENT PATTERN: Self-contained notification elements
-   * - Semantic HTML structure para accessibility
-   * - CSS classes para styling consistency
-   * - Event handlers para user interactions
-   * - ARIA attributes para screen reader support
-   * - Focus management para keyboard accessibility
-   */
-  function createNotificationElement(config) {
-    const notification = document.createElement('div');
-    const type = NOTIFICATION_TYPES[config.type] || NOTIFICATION_TYPES.info;
-    
-    // Basic structure y classes
-    notification.id = config.id;
-    notification.className = `notification ${type.className}`;
-    notification.setAttribute('role', type.ariaRole);
-    notification.style.pointerEvents = 'auto'; // Re-enable interactions
-    
-    // Create content structure
-    const content = document.createElement('div');
-    content.className = 'notification-content';
-    
-    // Icon element
-    const icon = document.createElement('span');
-    icon.className = 'notification-icon';
-    icon.textContent = config.icon || type.icon;
-    
-    // Message element
-    const message = document.createElement('span');
-    message.className = 'notification-text';
-    message.innerHTML = sanitizeHTML(config.message);
-    
-    // Close button (para user control)
-    const closeButton = document.createElement('button');
-    closeButton.className = 'notification-close';
-    closeButton.innerHTML = '×';
-    closeButton.setAttribute('aria-label', 'Close notification');
-    closeButton.type = 'button';
-    
-    // Assembly
-    content.appendChild(icon);
-    content.appendChild(message);
-    content.appendChild(closeButton);
-    notification.appendChild(content);
-    
-    /**
-     * EVENT HANDLERS - USER INTERACTION MANAGEMENT
-     * 
-     * INTERACTION DESIGN: Multiple ways para dismiss
-     * - Click close button (explicit)
-     * - Click notification body (implicit)
-     * - Keyboard escape (accessibility)
-     * - Auto-dismiss timer (convenience)
-     */
-    
-    // Close button click
-    closeButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      dismissNotification(config.id);
-    });
-    
-    // Notification body click (optional dismissal)
-    notification.addEventListener('click', function() {
-      if (config.clickToDismiss !== false) {
-        dismissNotification(config.id);
-      }
-    });
-    
-    // Keyboard support
-    notification.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        dismissNotification(config.id);
-      }
-    });
-    
-    // Hover para pause auto-dismiss
-    if (config.duration > 0) {
-      notification.addEventListener('mouseenter', function() {
-        pauseAutoDissmiss(config.id);
+    // Add confetti-like elements
+    for (let i = 0; i < 6; i++) {
+      const particle = utils.createElement('div', {
+        style: `
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: var(--brand-400);
+          border-radius: 50%;
+          pointer-events: none;
+          animation: confetti 1s ease-out ${i * 0.1}s forwards;
+        `
       });
       
-      notification.addEventListener('mouseleave', function() {
-        resumeAutoDissmiss(config.id);
-      });
-    }
-    
-    return notification;
-  }
-  
-  /**
-   * DISPLAY NOTIFICATION - ANIMATION Y UX
-   * 
-   * ANIMATION PRINCIPLES:
-   * - Respect prefers-reduced-motion
-   * - Smooth pero not slow (350ms sweet spot)
-   * - Entrance animations guide attention
-   * - Exit animations maintain spatial awareness
-   */
-  function displayNotification(config) {
-    const notificationElement = createNotificationElement(config);
-    const container = createContainer();
-    
-    // Set initial state para entrance animation
-    if (!shouldReduceMotion()) {
-      notificationElement.style.cssText += `
-        transform: translateX(100%);
-        opacity: 0;
-        transition: transform ${CONFIG.animationDuration}ms ease-out, 
-                    opacity ${CONFIG.animationDuration}ms ease-out;
-      `;
-    }
-    
-    // Add to DOM
-    container.appendChild(notificationElement);
-    
-    // Trigger entrance animation
-    requestAnimationFrame(() => {
-      if (!shouldReduceMotion()) {
-        notificationElement.style.transform = 'translateX(0)';
-        notificationElement.style.opacity = '1';
-      } else {
-        // Immediate appearance para reduced motion preference
-        notificationElement.style.opacity = '1';
-      }
-    });
-    
-    // Setup auto-dismiss timer
-    if (config.duration > 0) {
-      config.dismissTimer = setTimeout(() => {
-        dismissNotification(config.id);
-      }, config.duration);
-    }
-    
-    // Announce para screen readers
-    announceToScreenReader(config.message, config.priority);
-    
-    // Play sound si enabled y available
-    if (CONFIG.soundEnabled && config.soundFile) {
-      playNotificationSound(config.soundFile);
-    }
-    
-    return notificationElement;
-  }
-  
-  /**
-   * DISMISS NOTIFICATION - GRACEFUL REMOVAL
-   * 
-   * CLEANUP PATTERN: Complete resource management
-   * - Clear timers para prevent memory leaks
-   * - Smooth exit animations para UX continuity
-   * - Remove from active tracking
-   * - Process queue para next notifications
-   */
-  function dismissNotification(id) {
-    const config = activeNotifications.find(n => n.id === id);
-    if (!config) return;
-    
-    const element = document.getElementById(id);
-    if (!element) return;
-    
-    // Clear auto-dismiss timer
-    if (config.dismissTimer) {
-      clearTimeout(config.dismissTimer);
-      config.dismissTimer = null;
-    }
-    
-    // Exit animation
-    if (!shouldReduceMotion()) {
-      element.style.cssText += `
-        transform: translateX(100%);
-        opacity: 0;
-        transition: transform ${CONFIG.animationDuration}ms ease-in,
-                    opacity ${CONFIG.animationDuration}ms ease-in;
-      `;
-      
-      // Remove after animation completes
-      setTimeout(() => {
-        removeNotificationElement(id);
-      }, CONFIG.animationDuration);
-    } else {
-      // Immediate removal para reduced motion
-      removeNotificationElement(id);
+      element.appendChild(particle);
     }
   }
   
   /**
-   * REMOVE NOTIFICATION ELEMENT - CLEANUP
-   * 
-   * MEMORY MANAGEMENT: Complete cleanup process
+   * Generate unique notification ID
    */
-  function removeNotificationElement(id) {
-    const element = document.getElementById(id);
-    if (element && element.parentNode) {
-      element.parentNode.removeChild(element);
-    }
-    
-    // Remove from active tracking
-    activeNotifications = activeNotifications.filter(n => n.id !== id);
-    
-    // Process queue si hay waiting notifications
-    processQueue();
-    
-    // Clean up container si empty
-    if (activeNotifications.length === 0 && container) {
-      // Keep container pero hide it
-      container.style.pointerEvents = 'none';
-    }
+  generateNotificationId() {
+    return `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
   
-  /* ========================================
-     QUEUE MANAGEMENT - INTELLIGENT FLOW CONTROL
-     ======================================== */
+  /* ===== PUBLIC API METHODS ===== */
   
   /**
-   * ADD TO QUEUE - SMART NOTIFICATION MANAGEMENT
-   * 
-   * QUEUE ALGORITHM:
-   * 1. Check para duplicates (optional grouping)
-   * 2. Priority-based insertion
-   * 3. Overflow handling con oldest-first removal
-   * 4. Immediate processing si space available
+   * Convenience methods for common notification types
+   * Kent C. Dodds approach: "Make common operations easy"
    */
-  function addToQueue(config) {
-    // Check para duplicate notifications si grouping enabled
-    if (CONFIG.groupSimilar) {
-      const existing = notificationQueue.find(n => 
-        n.message === config.message && n.type === config.type
-      );
-      
-      if (existing) {
-        // Update existing notification instead of creating duplicate
-        existing.count = (existing.count || 1) + 1;
-        existing.message = `${config.message} (${existing.count})`;
-        return existing.id;
-      }
-    }
+  
+  async success(message, options = {}) {
+    return this.show(message, 'success', options);
+  }
+  
+  async error(message, options = {}) {
+    return this.show(message, 'error', options);
+  }
+  
+  async warning(message, options = {}) {
+    return this.show(message, 'warning', options);
+  }
+  
+  async info(message, options = {}) {
+    return this.show(message, 'info', options);
+  }
+  
+  async bugDetected(message, options = {}) {
+    return this.show(message, 'bug-detected', options);
+  }
+  
+  async achievementUnlocked(message, options = {}) {
+    return this.show(message, 'achievement-unlocked', options);
+  }
+  
+  async codeFixed(message, options = {}) {
+    return this.show(message, 'code-fixed', options);
+  }
+  
+  /**
+   * Dismiss all notifications
+   */
+  async dismissAll() {
+    const dismissPromises = Array.from(this.activeNotifications.keys())
+      .map(id => this.dismiss(id));
     
-    // Add unique ID si not provided
-    if (!config.id) {
-      config.id = generateId();
-    }
-    
-    // Set defaults from type configuration
-    const typeConfig = NOTIFICATION_TYPES[config.type] || NOTIFICATION_TYPES.info;
-    config = {
-      duration: typeConfig.duration,
-      priority: typeConfig.priority,
-      icon: typeConfig.icon,
-      ...config // User overrides
+    await Promise.all(dismissPromises);
+    this.notificationQueue.length = 0; // Clear queue
+  }
+  
+  /**
+   * Get notification statistics
+   * Useful for debugging and analytics
+   */
+  getStats() {
+    return {
+      active: this.activeNotifications.size,
+      queued: this.notificationQueue.length,
+      maxConcurrent: this.maxConcurrent,
+      reducedMotion: this.reducedMotion,
+      soundEnabled: this.soundEnabled
     };
-    
-    // Priority-based insertion
-    const insertIndex = notificationQueue.findIndex(n => n.priority < config.priority);
-    if (insertIndex === -1) {
-      notificationQueue.push(config);
-    } else {
-      notificationQueue.splice(insertIndex, 0, config);
-    }
-    
-    // Overflow management
-    if (notificationQueue.length > CONFIG.maxNotifications * 2) {
-      // Remove lowest priority notifications
-      notificationQueue = notificationQueue
-        .sort((a, b) => b.priority - a.priority)
-        .slice(0, CONFIG.maxNotifications * 2);
-    }
-    
-    // Process immediately si space available
-    processQueue();
-    
-    return config.id;
   }
-  
-  /**
-   * PROCESS QUEUE - DISPLAY MANAGEMENT
-   * 
-   * FLOW CONTROL: Display notifications within limits
-   * - Respect max concurrent notifications
-   * - Priority-based display order
-   * - Pause/resume functionality
-   * - Tab visibility awareness
-   */
-  function processQueue() {
-    if (isPaused || 
-        activeNotifications.length >= CONFIG.maxNotifications ||
-        notificationQueue.length === 0) {
-      return;
-    }
-    
-    // Check si page is visible (don't spam invisible tabs)
-    if (CONFIG.queueWhenHidden && document.hidden) {
-      return;
-    }
-    
-    // Get next notification to display
-    const nextNotification = notificationQueue.shift();
-    if (!nextNotification) return;
-    
-    // Add to active tracking
-    activeNotifications.push(nextNotification);
-    
-    // Display notification
-    displayNotification(nextNotification);
-    
-    // Continue processing si more space available
-    setTimeout(processQueue, 100); // Brief delay para smooth staggering
-  }
-  
-  /* ========================================
-     TIMER MANAGEMENT - PAUSE/RESUME FUNCTIONALITY
-     ======================================== */
-  
-  /**
-   * PAUSE AUTO-DISMISS - USER INTERACTION RESPONSE
-   * 
-   * UX PRINCIPLE: User interaction indicates reading intent
-   * - Pause timer cuando user hovers/focuses
-   * - Resume cuando interaction ends
-   * - Maintain remaining time accurately
-   */
-  function pauseAutoDissmiss(id) {
-    const config = activeNotifications.find(n => n.id === id);
-    if (!config || !config.dismissTimer) return;
-    
-    // Calculate remaining time
-    const remainingTime = config.duration - (Date.now() - config.startTime);
-    if (remainingTime > 0) {
-      config.remainingTime = remainingTime;
-      clearTimeout(config.dismissTimer);
-      config.dismissTimer = null;
-    }
-  }
-  
-  /**
-   * RESUME AUTO-DISMISS - CONTINUE TIMER
-   */
-  function resumeAutoDissmiss(id) {
-    const config = activeNotifications.find(n => n.id === id);
-    if (!config || config.dismissTimer || !config.remainingTime) return;
-    
-    config.startTime = Date.now();
-    config.dismissTimer = setTimeout(() => {
-      dismissNotification(id);
-    }, config.remainingTime);
-    
-    config.remainingTime = null;
-  }
-  
-  /* ========================================
-     AUDIO SUPPORT - ACCESSIBILITY ENHANCEMENT
-     ======================================== */
-  
-  /**
-   * PLAY NOTIFICATION SOUND - AUDIO FEEDBACK
-   * 
-   * ACCESSIBILITY: Audio cues para visual impairments
-   * - Respects browser autoplay policies
-   * - Graceful degradation si sounds unavailable
-   * - Volume management y user preferences
-   */
-  function playNotificationSound(soundFile) {
-    if (!CONFIG.soundEnabled) return;
-    
-    try {
-      const audio = new Audio(soundFile);
-      audio.volume = 0.3; // Respectful volume level
-      
-      // Handle autoplay restrictions
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Audio autoplay prevented:', error);
-        });
-      }
-    } catch (error) {
-      console.warn('Notification sound failed:', error);
-    }
-  }
-  
-  /* ========================================
-     PAGE VISIBILITY HANDLING - BACKGROUND BEHAVIOR
-     ======================================== */
-  
-  /**
-   * PAGE VISIBILITY MANAGEMENT
-   * 
-   * PERFORMANCE + UX: Smart background behavior
-   * - Queue notifications cuando page hidden
-   * - Batch display cuando user returns
-   * - Respect user's multitasking patterns
-   */
-  function initializeVisibilityHandling() {
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        // Page became hidden - pause processing
-        console.log('📱 Page hidden - pausing notification processing');
-      } else {
-        // Page became visible - resume processing
-        console.log('👁️ Page visible - resuming notification processing');
-        processQueue();
-      }
-    });
-  }
-  
-  /* ========================================
-     PUBLIC API - CLEAN INTERFACE
-     ======================================== */
-  
-  /**
-   * PUBLIC API: SHOW NOTIFICATION
-   * 
-   * SIMPLE API DESIGN: Easy para beginners, powerful para experts
-   * 
-   * @param {string} message - Notification text content
-   * @param {string} type - 'success'|'error'|'warning'|'info'  
-   * @param {Object} options - Optional configuration overrides
-   * @returns {string} notification ID para programmatic control
-   */
-  function showNotification(message, type = 'info', options = {}) {
-    if (!message) {
-      console.warn('⚠️ Notification message is required');
-      return null;
-    }
-    
-    const config = {
-      message: message,
-      type: type,
-      ...options
-    };
-    
-    return addToQueue(config);
-  }
-  
-  /**
-   * PUBLIC API: CONVENIENCE METHODS
-   * 
-   * DEVELOPER EXPERIENCE: Common patterns made simple
-   */
-  function showSuccess(message, options = {}) {
-    return showNotification(message, 'success', options);
-  }
-  
-  function showError(message, options = {}) {
-    return showNotification(message, 'error', options);
-  }
-  
-  function showWarning(message, options = {}) {
-    return showNotification(message, 'warning', options);
-  }
-  
-  function showInfo(message, options = {}) {
-    return showNotification(message, 'info', options);
-  }
-  
-  /**
-   * PUBLIC API: SYSTEM CONTROL
-   */
-  function clearAll() {
-    // Clear queue
-    notificationQueue = [];
-    
-    // Dismiss all active notifications
-    activeNotifications.forEach(config => {
-      dismissNotification(config.id);
-    });
-  }
-  
-  function pauseSystem() {
-    isPaused = true;
-  }
-  
-  function resumeSystem() {
-    isPaused = false;
-    processQueue();
-  }
-  
-  function updateConfig(newConfig) {
-    Object.assign(CONFIG, newConfig);
-  }
-  
-  /* ========================================
-     INITIALIZATION - SYSTEM SETUP
-     ======================================== */
-  
-  /**
-   * INITIALIZE NOTIFICATION SYSTEM
-   * 
-   * SETUP: Prepare system para use
-   * - Create necessary DOM elements
-   * - Setup event listeners
-   * - Initialize accessibility features
-   */
-  function initialize() {
-    // Create ARIA live region para screen readers
-    if (CONFIG.screenReaderAnnounce) {
-      createAriaLiveRegion();
-    }
-    
-    // Setup visibility change handling
-    initializeVisibilityHandling();
-    
-    console.log('🔔 Notification system initialized');
-  }
-  
-  // Auto-initialize cuando module loads
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialize);
-  } else {
-    initialize();
-  }
-  
-  /* ========================================
-     MODULE EXPORTS - PUBLIC INTERFACE
-     ======================================== */
-  
-  return {
-    // Primary methods
-    show: showNotification,
-    showSuccess: showSuccess,
-    showError: showError,
-    showWarning: showWarning,
-    showInfo: showInfo,
-    
-    // System control
-    dismiss: dismissNotification,
-    clearAll: clearAll,
-    pause: pauseSystem,
-    resume: resumeSystem,
-    
-    // Configuration
-    updateConfig: updateConfig,
-    getConfig: () => ({ ...CONFIG }), // Return copy para immutability
-    
-    // Advanced features
-    getActiveCount: () => activeNotifications.length,
-    getQueueCount: () => notificationQueue.length,
-    
-    // Version info para debugging
-    version: '2.0.0'
+}
+
+/* =====================================================
+ * DEMO INTEGRATION FUNCTIONS
+ * Integration with the learning platform's interactive demo system
+ * Brad Traversy approach: "Make everything work together seamlessly"
+ * ===================================================== */
+
+/**
+ * Demo notification functions
+ * 
+ * These functions integrate with the existing demo system
+ * (runCode, fixCode, resetCode) to provide contextual feedback
+ */
+
+/**
+ * Enhanced demo functions with notification integration
+ * 
+ * THEORY: User feedback should be immediate and contextually relevant
+ * PRACTICE: Each demo action triggers appropriate notification type
+ * APPLICATION: Enhances the learning experience with clear feedback
+ */
+async function showDemoNotification(type, context = {}) {
+  const messages = {
+    run: DEMO_CONFIG.MESSAGES.RUN,
+    fix: DEMO_CONFIG.MESSAGES.FIX, 
+    reset: DEMO_CONFIG.MESSAGES.RESET
   };
-})();
+  
+  const notificationTypes = {
+    run: 'bug-detected',
+    fix: 'code-fixed',
+    reset: 'info'
+  };
+  
+  if (window.notifications) {
+    await window.notifications.show(
+      messages[type] || 'Demo action completed',
+      notificationTypes[type] || 'info',
+      {
+        data: context,
+        duration: APP_CONFIG.ANIMATION.NOTIFICATION_DISPLAY
+      }
+    );
+  }
+}
 
-/* ========================================
-   GLOBAL AVAILABILITY - CONVENIENT ACCESS
-   ======================================== */
+/* =====================================================
+ * CSS ANIMATIONS INJECTION
+ * Dynamic CSS for notification animations
+ * Sarah Drasner technique: "Inject styles when needed for performance"
+ * ===================================================== */
 
 /**
- * ATTACH TO GLOBAL SCOPE - BACKWARD COMPATIBILITY
+ * Inject notification animation styles
  * 
- * LEGACY SUPPORT: Maintain existing API while providing modern module
- * - showNotification function still available globally
- * - New NotificationSystem object para advanced usage
- * - Gradual migration path para existing code
+ * Creates CSS animations dynamically to avoid loading unused styles
  */
+function injectNotificationStyles() {
+  const styleId = 'notification-animations';
+  
+  // Avoid duplicate injection
+  if (document.getElementById(styleId)) return;
+  
+  const styles = `
+    @keyframes notificationProgress {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+    
+    @keyframes confetti {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 0;
+      }
+    }
+    
+    .notification:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-2xl);
+    }
+    
+    .notification--achievement {
+      background: linear-gradient(135deg, var(--dark-surface) 0%, rgba(168, 85, 247, 0.1) 100%);
+      border-color: var(--brand-400);
+      animation: achievementGlow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes achievementGlow {
+      0% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+      100% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
+    }
+    
+    .notification--bug {
+      border-left: 4px solid var(--danger-400);
+    }
+    
+    .notification--code-fixed {
+      border-left: 4px solid var(--success-400);
+    }
+    
+    /* Reduced motion alternatives */
+    @media (prefers-reduced-motion: reduce) {
+      .notification {
+        animation: none !important;
+      }
+      
+      .notification-progress {
+        animation: none !important;
+      }
+      
+      .notification--achievement {
+        animation: none !important;
+      }
+    }
+    
+    /* High contrast enhancements */
+    @media (prefers-contrast: high) {
+      .notification {
+        border-width: 2px;
+        font-weight: 600;
+      }
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: ${APP_CONFIG.BREAKPOINTS.MOBILE}px) {
+      .notification-container {
+        left: var(--space-4) !important;
+        right: var(--space-4) !important;
+        max-width: none !important;
+      }
+      
+      .notification {
+        min-width: auto;
+        max-width: none;
+      }
+      
+      .notification-actions {
+        flex-direction: column;
+      }
+    }
+  `;
+  
+  const styleElement = utils.createElement('style', { id: styleId });
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
+}
 
-// Legacy global function para backward compatibility
-window.showNotification = NotificationSystem.show;
-
-// Modern namespace para advanced usage
-window.NotificationSystem = NotificationSystem;
-
-/* ========================================
-   DEMO INTEGRATION - PROJECT-SPECIFIC FUNCTIONS
-   ======================================== */
+/* =====================================================
+ * GLOBAL FUNCTIONS FOR BACKWARD COMPATIBILITY
+ * Maintains compatibility with existing demo system
+ * Robert C. Martin: "Keep interfaces stable while improving implementation"
+ * ===================================================== */
 
 /**
- * PROJECT-SPECIFIC DEMO FUNCTIONS
+ * Enhanced global demo functions
  * 
- * DEMO INTEGRATION: Functions específicas para nuestro proyecto educativo
- * - runCode, fixCode, resetCode para interactive demos
- * - Educational messaging que contextualiza el learning
- * - Achievement-style notifications para gamification
+ * These replace the original functions from the monolithic file
+ * while maintaining the same API for backward compatibility
  */
-
-// Demo functions para interactive code examples
-window.runCode = function() {
-  NotificationSystem.showError(
-    '💀 Código ejecutado con bug de precedencia. ¿Ves el error?',
-    { 
-      duration: 6000,
-      clickToDismiss: false // Force user para read y understand
-    }
-  );
+window.runCode = async function() {
+  await showDemoNotification('run');
 };
 
-window.fixCode = function() {
-  NotificationSystem.showSuccess(
-    '🎉 ¡Excelente! Has corregido el bug de $2.3M',
-    {
-      duration: 5000,
-      icon: '🏆'
-    }
-  );
+window.fixCode = async function() {
+  await showDemoNotification('fix');
 };
 
-window.resetCode = function() {
-  NotificationSystem.showInfo(
-    '↺ Código restaurado. Intenta de nuevo.',
-    {
-      duration: 3000
-    }
-  );
+window.resetCode = async function() {
+  await showDemoNotification('reset');
 };
 
-// Educational achievement notifications
-window.showAchievement = function(title, description) {
-  NotificationSystem.show(
-    `🏆 <strong>${title}</strong><br>${description}`,
-    'success',
-    {
-      duration: 7000,
-      icon: '🎯'
-    }
-  );
+/* =====================================================
+ * MODULE INITIALIZATION & EXPORT
+ * Initialize notification system and make it globally available
+ * ===================================================== */
+
+// Inject styles when module loads
+injectNotificationStyles();
+
+// Create global notification manager instance
+const notificationManager = new NotificationManager();
+
+// Global availability for other modules
+window.notifications = notificationManager;
+window.showDemoNotification = showDemoNotification;
+
+// Convenience API for direct access
+window.notificationAPI = {
+  show: (message, type, options) => notificationManager.show(message, type, options),
+  success: (message, options) => notificationManager.success(message, options),
+  error: (message, options) => notificationManager.error(message, options),
+  warning: (message, options) => notificationManager.warning(message, options),
+  info: (message, options) => notificationManager.info(message, options),
+  dismiss: (id) => notificationManager.dismiss(id),
+  dismissAll: () => notificationManager.dismissAll(),
+  stats: () => notificationManager.getStats()
 };
 
-// Bug cost warning notifications
-window.showBugCost = function(cost, description) {
-  NotificationSystem.showWarning(
-    `💰 Este bug costó <strong>${cost}</strong><br>${description}`,
-    {
-      duration: 8000,
-      clickToDismiss: false
-    }
-  );
-};
-
-/* ========================================
-   EDUCATIONAL DOCUMENTATION - COMPREHENSIVE GUIDE
-   ======================================== */
-
-/*
-===============================
-NOTIFICATION SYSTEM - EDUCATIONAL OVERVIEW
-===============================
-
-ARCHITECTURAL PATTERNS IMPLEMENTED:
-
-1. **SINGLETON PATTERN**
-   - One notification system per application
-   - Centralized state management
-   - Consistent UX experience
-   - Prevents multiple competing systems
-
-2. **QUEUE PATTERN**
-   - Intelligent message flow control
-   - Priority-based ordering
-   - Overflow handling
-   - Batch processing for performance
-
-3. **FACTORY PATTERN**
-   - createNotificationElement() generates consistent UI
-   - Type-based configuration inheritance
-   - Extensible para new notification types
-   - Separation of creation logic
-
-4. **OBSERVER PATTERN**
-   - Page visibility detection
-   - User interaction tracking
-   - Motion preference monitoring
-   - Event-driven architecture
-
-5. **MODULE PATTERN**
-   - Private state encapsulation
-   - Clean public API
-   - Dependency injection ready
-   - Testing-friendly architecture
-
-ADVANCED FEATURES:
-
-✅ **ACCESSIBILITY-FIRST DESIGN**
-   - ARIA live regions para screen readers
-   - Keyboard navigation support
-   - Motion preference detection
-   - Focus management
-   - Audio cues (optional)
-
-✅ **PERFORMANCE OPTIMIZATION**
-   - RequestAnimationFrame para smooth animations
-   - Event delegation patterns
-   - Memory leak prevention
-   - Efficient DOM manipulation
-   - Background processing pause
-
-✅ **UX EXCELLENCE**
-   - Priority-based message ordering
-   - Hover-to-pause functionality
-   - Smart duplicate detection
-   - Responsive positioning
-   - Contextual timing (success=brief, error=persistent)
-
-✅ **DEVELOPER EXPERIENCE**
-   - Simple API: showNotification(message, type)
-   - Convenience methods: showSuccess, showError, etc.
-   - Extensive configuration options
-   - TypeScript-ready architecture
-   - Comprehensive error handling
-
-API USAGE EXAMPLES:
-
-```javascript
-// Basic usage
-showNotification('Operation completed', 'success');
-
-// Advanced usage
-NotificationSystem.showError('Invalid input', {
-  duration: 0,          // Persistent
-  clickToDismiss: false, // Must use close button
-  icon: '🚨'
-});
-
-// System control
-NotificationSystem.clearAll();
-NotificationSystem.pause();
-NotificationSystem.updateConfig({ maxNotifications: 3 });
-```
-
-CUSTOMIZATION OPTIONS:
-
-- **Position**: top-right, top-left, bottom-right, bottom-left
-- **Timing**: per-type defaults, custom durations, persistent messages
-- **Appearance**: custom icons, CSS classes, animations
-- **Behavior**: auto-dismiss, click-to-dismiss, hover-pause
-- **Accessibility**: screen reader announce, motion preferences
-- **Audio**: sound files para different types (optional)
-
-BROWSER COMPATIBILITY:
-
-✅ **Modern Browsers** (Chrome 60+, Firefox 55+, Safari 12+)
-- Full feature support including Intersection Observer
-- CSS custom properties y advanced animations
-- ES6+ features con appropriate fallbacks
-
-✅ **Progressive Enhancement**
-- Core functionality works without JavaScript
-- Enhanced features layered on top
-- Graceful degradation para older browsers
-
-TESTING STRATEGIES:
-
-1. **Unit Testing**
-   - Test queue management logic
-   - Validate sanitization functions
-   - Check timer management
-   - Verify accessibility helpers
-
-2. **Integration Testing**
-   - Test full notification lifecycle
-   - Validate DOM manipulation
-   - Check event handler setup/cleanup
-   - Verify configuration inheritance
-
-3. **Accessibility Testing**
-   - Screen reader compatibility
-   - Keyboard navigation
-   - Color contrast validation
-   - Motion preference respect
-
-4. **Performance Testing**
-   - Memory usage monitoring
-   - Animation frame rate testing
-   - Queue overflow handling
-   - Background tab behavior
-
-EXTENSION PATTERNS:
-
-1. **Custom Types**
-   ```javascript
-   NOTIFICATION_TYPES.custom = {
-     className: 'notification--custom',
-     icon: '🎨',
-     duration: 5000,
-     priority: 2
-   };
-   ```
-
-2. **Plugin System**
-   - Analytics integration
-   - Theme management
-   - Custom animation engines
-   - External service integration
-
-3. **Framework Integration**
-   - React hooks wrapper
-   - Vue.js plugin
-   - Angular service
-   - Vanilla JavaScript module
-
-SECURITY CONSIDERATIONS:
-
-- HTML sanitization prevents XSS attacks
-- CSP compatibility para strict environments  
-- No external dependencies minimize attack surface
-- Safe evaluation of user-provided content
-
-Remember: This notification system balances simplicity para beginners
-with power para advanced users. Every feature has been designed
-with real-world production use en mind, following industry best practices
-learned from the most successful software engineering educators globally.
-*/
+// Log successful module loading
+utils.logWithContext('info', 'Notifications', '🔔 Advanced notification system loaded and ready');

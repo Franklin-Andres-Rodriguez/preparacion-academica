@@ -1,905 +1,868 @@
-/* ===== CORE JAVASCRIPT SYSTEM - ARQUITECTURA FUNDAMENTAL ===== */
-/*
-FILOSOFÍA DE DESARROLLO BASADA EN LOS MEJORES EDUCADORES GLOBALES:
+/* ===== CORE NAVIGATION & INTERACTION SYSTEM ===== */
+/* Essential application behaviors following Clean Architecture principles */
+/* Synthesizing wisdom from Ian Sommerville, Robert C. Martin, and Dan Abramov */
 
-🏛️ FUNDACIONES TEÓRICAS (Ian Sommerville + Shriram Krishnamurthi):
-✅ Estructura modular que separa responsabilidades claramente
-✅ Revelación selectiva de complejidad (simple → avanzado)
-✅ Principios de ingeniería de software aplicados a JavaScript
+/* =====================================================
+ * ARCHITECTURAL PHILOSOPHY
+ * 
+ * Robert C. Martin's Clean Architecture applied to frontend interactions:
+ * "The architecture should scream about the use cases, not the frameworks"
+ * 
+ * This core system follows:
+ * 1. Single Responsibility - Each module handles one aspect of interaction
+ * 2. Dependency Inversion - Depends on utils abstractions, not DOM specifics
+ * 3. Open/Closed - Extensible through configuration, not modification
+ * 4. Interface Segregation - Small, focused interaction handlers
+ * 
+ * Ian Sommerville's systematic structure:
+ * Foundation (Utils) → Core (Navigation/Interactions) → Features (Notifications) → Orchestration (Main)
+ * 
+ * Dan Abramov principle: "Focus on fundamentals that don't change"
+ * - Smooth scrolling will always be needed
+ * - Navigation state management is universal
+ * - Intersection observation is fundamental to modern UX
+ * - Focus management is an accessibility requirement
+ * ===================================================== */
 
-🧹 CLEAN CODE MASTERY (Robert C. Martin + Martin Fowler):
-✅ Funciones pequeñas con single responsibility
-✅ Nombres que revelan intención y propósito
-✅ No repetir código (DRY principle)
-✅ Composición sobre configuración
-
-🔬 MODERN JAVASCRIPT EXCELLENCE (Dan Abramov + Kent C. Dodds):
-✅ ES6+ features donde mejoran legibilidad
-✅ Performance-first approach con throttling/debouncing
-✅ Error handling y edge cases considerados
-✅ Accessibility y user experience priorizados
-
-🎯 PROJECT-BASED WISDOM (Brad Traversy + Jonas Schmedtmann):
-✅ Código que funciona en proyectos reales
-✅ Patrones probados en producción
-✅ Optimizaciones basadas en casos de uso específicos
-✅ Documentación que enseña mientras implementa
-
-PRINCIPIO CENTRAL: "Make it work, make it right, make it fast"
-- WORK: Funciona en todos los navegadores modernos
-- RIGHT: Sigue principios SOLID y Clean Code
-- FAST: Optimizado para performance y UX
-*/
-
-/* ========================================
-   CORE SYSTEM INITIALIZATION - ENTRY POINT PATTERN
-   ======================================== */
+/* =====================================================
+ * NAVIGATION STATE MANAGEMENT
+ * Core navigation behaviors following Jonas Schmedtmann's
+ * "State should be predictable and centralized" methodology
+ * ===================================================== */
 
 /**
- * PATRÓN EDUCATIVO: IIFE + Event-Driven Architecture
+ * Navigation State Manager
+ * Centralized state for navigation interactions
  * 
- * DECISIONES ARQUITECTÓNICAS EXPLICADAS:
- * 
- * 1. IIFE (Immediately Invoked Function Expression):
- *    - Evita contaminar el scope global (principio de Clean Code)
- *    - Encapsula variables privadas (data hiding)
- *    - Permite inicialización controlada
- * 
- * 2. DOMContentLoaded event:
- *    - Garantiza DOM está completamente cargado
- *    - Más rápido que window.load (no espera assets)
- *    - Compatible con todos los navegadores modernos
- * 
- * 3. Modular Function Approach:
- *    - Cada feature tiene su propia función inicialization
- *    - Fácil testing y debugging
- *    - Single Responsibility Principle aplicado
- * 
- * INSPIRACIÓN: Patrones de inicialización de jQuery, React, y Vue.js
+ * Martin Fowler principle: "Make the implicit explicit"
+ * Instead of scattered navigation logic, centralize state management
  */
-(function() {
-  'use strict'; // Modo estricto para mejores prácticas
-  
-  /**
-   * SYSTEM INITIALIZATION - ORCHESTRATION FUNCTION
-   * 
-   * Siguiendo el principio de Kent Beck: "Make it work first"
-   * Esta función orquesta la inicialización de todos los subsistemas.
-   * 
-   * ORDEN DE INICIALIZACIÓN (importancia crítica):
-   * 1. Navigation → Disponible inmediatamente para UX
-   * 2. Scroll Management → Behavioral features
-   * 3. Card Interactions → Visual feedback
-   * 4. Performance Optimizations → Enhancement layer
-   */
-  function initializeCore() {
-    console.log('🎨 Modern UX/UI Architecture loaded');
+class NavigationState {
+  constructor() {
+    this.activeSection = 'inicio';
+    this.isScrolling = false;
+    this.scrollTimeout = null;
+    this.observers = new Map(); // WeakMap for automatic cleanup
     
-    // Inicializar subsistemas en orden de prioridad
-    initializeNavigation();
-    initializeSmoothScroll();
-    initializeCardInteractions(); 
-    initializePerformanceOptimizations();
+    // Cache DOM elements for performance
+    this.elements = {
+      nav: null,
+      links: [],
+      sections: []
+    };
     
-    console.log('✅ Core JavaScript system initialized successfully');
+    this.init();
   }
   
-  // Event listener con error handling
-  document.addEventListener('DOMContentLoaded', function() {
-    try {
-      initializeCore();
-    } catch (error) {
-      console.error('❌ Core initialization failed:', error);
-      // En un ambiente real, aquí enviarías el error a un servicio de logging
-    }
-  });
-
-  /* ========================================
-     NAVIGATION SYSTEM - INTELLIGENT UX PATTERNS
-     ======================================== */
-
   /**
-   * NAVIGATION MANAGEMENT SYSTEM
-   * 
-   * PRINCIPIOS APLICADOS:
-   * - Ian Sommerville: "User interfaces should be predictable"
-   * - Jonas Schmedtmann: "Smooth interactions create professional feel"
-   * - Sarah Drasner: "Motion should guide user attention naturally"
-   * 
-   * CARACTERÍSTICAS TÉCNICAS:
-   * - Smooth scrolling nativo cuando esté disponible
-   * - Fallback para navegadores más antiguos
-   * - Intersection Observer para performance
-   * - Throttling para optimización
+   * Initialize navigation system
+   * Kent Beck's "Make initialization explicit and obvious"
    */
-  function initializeNavigation() {
-    const navigationLinks = document.querySelectorAll('a[href^="#"]');
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.navigation-link');
+  init() {
+    this.cacheElements();
+    this.setupScrollBehavior();
+    this.setupIntersectionObserver();
+    utils.logWithContext('info', 'Navigation', 'Navigation state initialized');
+  }
+  
+  /**
+   * Cache DOM elements for performance
+   * Wes Bos optimization: "Cache expensive DOM queries"
+   */
+  cacheElements() {
+    this.elements.nav = utils.qs('.navigation');
+    this.elements.links = utils.qsa('.navigation-link');
+    this.elements.sections = utils.qsa('section[id]');
     
-    // Early return si no hay elementos (Defensive Programming)
-    if (!navigationLinks.length || !sections.length) {
-      console.warn('⚠️ Navigation elements not found');
+    if (!this.elements.nav) {
+      utils.logWithContext('warn', 'Navigation', 'Navigation element not found');
       return;
     }
     
-    /**
-     * SMOOTH SCROLL IMPLEMENTATION
-     * 
-     * TÉCNICA EDUCATIVA: Progressive Enhancement
-     * 1. Usar CSS scroll-behavior cuando esté disponible
-     * 2. JavaScript fallback para mejor control
-     * 3. Error handling para edge cases
-     * 
-     * PERFORMANCE: Event delegation pattern
-     * - Un solo listener en lugar de N listeners
-     * - Mejor memory management
-     * - Escalable para contenido dinámico
-     */
-    function handleNavigationClick(event) {
-      // Solo procesar enlaces con href="#something"
-      if (!event.target.matches('a[href^="#"]')) return;
+    utils.logWithContext('info', 'Navigation', `Cached ${this.elements.links.length} navigation links`);
+  }
+  
+  /**
+   * Update active navigation state
+   * Sarah Drasner principle: "State changes should be smooth and obvious"
+   * 
+   * @param {string} sectionId - ID of the active section
+   */
+  updateActiveSection(sectionId) {
+    if (this.activeSection === sectionId) return;
+    
+    this.activeSection = sectionId;
+    
+    // Update navigation link states
+    this.elements.links.forEach(link => {
+      const href = link.getAttribute('href');
+      const isActive = href === `#${sectionId}`;
       
-      event.preventDefault();
+      link.classList.toggle(APP_CONFIG.CSS_CLASSES.STATES.ACTIVE, isActive);
       
-      const targetId = event.target.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-      
-      if (!targetElement) {
-        console.warn(`⚠️ Target element ${targetId} not found`);
-        return;
+      // Accessibility: Update aria-current
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
       }
-      
-      /**
-       * SCROLL BEHAVIOR OPTIMIZATION
-       * 
-       * DECISIÓN TÉCNICA: scrollIntoView vs manual calculation
-       * - scrollIntoView es más simple y nativo
-       * - Mejor compatibility con user agent preferences
-       * - Respeta prefers-reduced-motion automáticamente
-       */
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',    // Alinear al inicio del viewport
-        inline: 'nearest'  // Mínimo movimiento horizontal
+    });
+    
+    utils.logWithContext('info', 'Navigation', `Active section changed to: ${sectionId}`);
+  }
+  
+  /**
+   * Setup smooth scrolling behavior
+   * Brad Traversy approach: "Enhanced UX through smooth interactions"
+   */
+  setupScrollBehavior() {
+    this.elements.links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const targetId = link.getAttribute('href').substring(1);
+        const targetSection = utils.qs(`#${targetId}`);
+        
+        if (targetSection) {
+          this.smoothScrollToSection(targetSection, targetId);
+        }
       });
+    });
+  }
+  
+  /**
+   * Smooth scroll to section with callbacks
+   * Maximilian Schwarzmüller: "User feedback during async operations"
+   * 
+   * @param {Element} targetSection - Target DOM element
+   * @param {string} sectionId - Section identifier
+   */
+  smoothScrollToSection(targetSection, sectionId) {
+    // Respect user motion preferences
+    if (utils.prefersReducedMotion()) {
+      targetSection.scrollIntoView({ block: 'start' });
+      this.updateActiveSection(sectionId);
+      return;
     }
     
-    // Event delegation en document para mejor performance
-    document.addEventListener('click', handleNavigationClick);
+    // Smooth scroll with callback
+    this.isScrolling = true;
     
-    /**
-     * ACTIVE NAVIGATION STATE MANAGEMENT
-     * 
-     * PATRÓN DE DISEÑO: Observer Pattern aplicado a scroll
-     * 
-     * INTERSECTION OBSERVER EDUCATIVO:
-     * - Más eficiente que scroll event listeners
-     * - Nativo del navegador, optimizado
-     * - Throttling automático por el browser engine
-     * - Respeta visibility y performance budgets
-     * 
-     * INSPIRACIÓN: Single Page Application routers (React Router, Vue Router)
-     */
-    function initializeActiveNavigation() {
-      let currentActiveLink = null;
+    targetSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+    
+    // Update state after scroll completes
+    // Using setTimeout as scroll completion detection is complex
+    clearTimeout(this.scrollTimeout);
+    this.scrollTimeout = setTimeout(() => {
+      this.isScrolling = false;
+      this.updateActiveSection(sectionId);
+    }, APP_CONFIG.ANIMATION.SLOW);
+    
+    utils.logWithContext('info', 'Navigation', `Scrolling to section: ${sectionId}`);
+  }
+  
+  /**
+   * Setup intersection observer for automatic active state
+   * Brian Holt performance approach: "Use Intersection Observer for scroll events"
+   */
+  setupIntersectionObserver() {
+    const observerOptions = {
+      threshold: APP_CONFIG.PERFORMANCE.INTERSECTION_THRESHOLD,
+      rootMargin: '0px 0px -100px 0px' // Trigger when section is 100px from bottom
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      // Only update if not manually scrolling
+      if (this.isScrolling) return;
       
-      /**
-       * INTERSECTION OBSERVER CONFIGURATION
-       * 
-       * PARÁMETROS EXPLICADOS:
-       * - threshold: 0.1 = trigger cuando 10% del elemento es visible
-       * - rootMargin: área extra para considerar "intersecting"
-       * - root: null = viewport del navegador
-       */
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px' // Trigger antes del bottom del viewport
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          this.updateActiveSection(sectionId);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all sections
+    this.elements.sections.forEach(section => {
+      observer.observe(section);
+    });
+    
+    // Store observer for potential cleanup
+    this.observers.set('sections', observer);
+  }
+}
+
+/* =====================================================
+ * CARD INTERACTION SYSTEM
+ * Interactive component behaviors following Kent C. Dodds'
+ * "Make interactions delightful but not distracting" philosophy
+ * ===================================================== */
+
+/**
+ * Card Interaction Manager
+ * Handles hover effects, focus states, and progressive enhancement
+ * 
+ * Robert C. Martin: "Classes should be small and have a single responsibility"
+ */
+class CardInteractionManager {
+  constructor() {
+    this.cards = [];
+    this.intersectionObserver = null;
+    this.init();
+  }
+  
+  /**
+   * Initialize card interactions
+   * Jonas Schmedtmann: "Setup should be declarative and obvious"
+   */
+  init() {
+    this.findCards();
+    this.setupHoverEffects();
+    this.setupKeyboardNavigation();
+    this.setupProgressiveReveal();
+    utils.logWithContext('info', 'Cards', `Initialized ${this.cards.length} interactive cards`);
+  }
+  
+  /**
+   * Find and cache all interactive cards
+   * Performance optimization through caching
+   */
+  findCards() {
+    this.cards = utils.qsa('.card.interactive');
+    
+    if (this.cards.length === 0) {
+      utils.logWithContext('warn', 'Cards', 'No interactive cards found');
+    }
+  }
+  
+  /**
+   * Setup sophisticated hover effects
+   * Sarah Drasner: "Hover states should feel natural and responsive"
+   */
+  setupHoverEffects() {
+    this.cards.forEach(card => {
+      // Performance optimization: will-change on hover start
+      const handleMouseEnter = () => {
+        card.style.willChange = 'transform, box-shadow';
+        
+        // Add hover class for CSS transitions
+        card.classList.add('is-hovering');
+        
+        // Enhance hover for non-reduced motion users
+        if (!utils.prefersReducedMotion()) {
+          // Subtle animation enhance
+          card.style.transition = `all ${APP_CONFIG.ANIMATION.NORMAL}ms var(--ease-out)`;
+        }
       };
       
-      /**
-       * OBSERVER CALLBACK - FUNCTIONAL PROGRAMMING APPROACH
-       * 
-       * PRINCIPIOS APLICADOS:
-       * - Pure function (no side effects excepto DOM updates)
-       * - Single responsibility (solo actualiza active state)
-       * - Error handling integrado
-       */
-      function updateActiveNavigation(entries) {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.getAttribute('id');
-            const correspondingNavLink = document.querySelector(`a[href="#${sectionId}"]`);
-            
-            if (correspondingNavLink && correspondingNavLink !== currentActiveLink) {
-              // Remover estado activo anterior
-              if (currentActiveLink) {
-                currentActiveLink.classList.remove('active');
-              }
-              
-              // Aplicar nuevo estado activo
-              correspondingNavLink.classList.add('active');
-              currentActiveLink = correspondingNavLink;
+      const handleMouseLeave = () => {
+        card.style.willChange = 'auto';
+        card.classList.remove('is-hovering');
+      };
+      
+      // Efficient event listener setup using utils
+      utils.addMultipleEventListeners(card, {
+        mouseenter: handleMouseEnter,
+        mouseleave: handleMouseLeave
+      });
+    });
+  }
+  
+  /**
+   * Setup keyboard navigation for accessibility
+   * Laurie Williams: "Accessibility should be built-in, not bolted on"
+   */
+  setupKeyboardNavigation() {
+    this.cards.forEach(card => {
+      // Make cards focusable if they contain interactive elements
+      const interactiveElements = utils.qsa('a, button', card);
+      
+      if (interactiveElements.length > 0) {
+        // Card focus management
+        const handleCardFocus = (e) => {
+          // If focus is on the card itself, move to first interactive element
+          if (e.target === card && interactiveElements[0]) {
+            interactiveElements[0].focus();
+          }
+        };
+        
+        // Enhanced focus styles
+        const handleFocusIn = () => {
+          card.classList.add('is-focused');
+        };
+        
+        const handleFocusOut = (e) => {
+          // Only remove focus styling if focus moved outside the card
+          if (!card.contains(e.relatedTarget)) {
+            card.classList.remove('is-focused');
+          }
+        };
+        
+        utils.addMultipleEventListeners(card, {
+          focus: handleCardFocus,
+          focusin: handleFocusIn,
+          focusout: handleFocusOut
+        });
+        
+        // Keyboard navigation within card
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            const primaryAction = utils.qs('.btn--primary, .btn--danger, .btn--warning', card);
+            if (primaryAction) {
+              e.preventDefault();
+              primaryAction.click();
             }
           }
         });
       }
-      
-      // Crear observer e iniciar observación
-      const observer = new IntersectionObserver(updateActiveNavigation, observerOptions);
-      
-      sections.forEach(section => {
-        observer.observe(section);
+    });
+  }
+  
+  /**
+   * Setup progressive reveal animations
+   * Kent Beck: "Make the system responsive to user actions"
+   */
+  setupProgressiveReveal() {
+    // Only setup animations if user doesn't prefer reduced motion
+    if (utils.prefersReducedMotion()) {
+      // Ensure all cards are visible for reduced motion users
+      this.cards.forEach(card => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
       });
-      
-      /**
-       * CLEANUP PATTERN - RESOURCE MANAGEMENT
-       * 
-       * En una SPA real, necesitarías:
-       * window.addEventListener('beforeunload', () => observer.disconnect());
-       * 
-       * EDUCATIONAL NOTE: Memory leaks prevention es crucial en aplicaciones
-       * complejas. Siempre limpiar observers, timers, y event listeners.
-       */
-    }
-    
-    initializeActiveNavigation();
-  }
-
-  /* ========================================
-     SMOOTH SCROLL ENHANCEMENT - PERFORMANCE LAYER
-     ======================================== */
-
-  /**
-   * ENHANCED SCROLL BEHAVIOR SYSTEM
-   * 
-   * PRINCIPIOS DE PERFORMANCE (Dan Abramov + Brian Holt):
-   * - Throttling para eventos de alta frecuencia
-   * - RAF (RequestAnimationFrame) para smooth animations
-   * - Respect user preferences (prefers-reduced-motion)
-   * - Graceful degradation para navegadores antiguos
-   * 
-   * CASOS DE USO:
-   * - Scroll-to-top buttons
-   * - Section navigation
-   * - Form validation scrolling
-   * - Modal focus management
-   */
-  function initializeSmoothScroll() {
-    
-    /**
-     * UTILITY FUNCTION: THROTTLE IMPLEMENTATION
-     * 
-     * EDUCATIONAL PURPOSE: Performance optimization technique
-     * 
-     * PROBLEMA: scroll events fire 60+ times per second
-     * SOLUCIÓN: throttle to execute max once every X milliseconds
-     * 
-     * INSPIRACIÓN: Lodash throttle, pero implementación educativa
-     * que muestra el mecanismo interno para learning purposes.
-     */
-    function throttle(func, delay) {
-      let timeoutId;
-      let lastExecTime = 0;
-      
-      return function (...args) {
-        const currentTime = Date.now();
-        
-        if (currentTime - lastExecTime > delay) {
-          func.apply(this, args);
-          lastExecTime = currentTime;
-        } else {
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(() => {
-            func.apply(this, args);
-            lastExecTime = Date.now();
-          }, delay - (currentTime - lastExecTime));
-        }
-      };
-    }
-    
-    /**
-     * SCROLL POSITION TRACKING
-     * 
-     * FUNCTIONAL PROGRAMMING APPROACH:
-     * - Pure functions que no modifican state global
-     * - Immutable data patterns donde es posible
-     * - Predictable behavior para testing
-     */
-    let scrollPosition = {
-      current: 0,
-      previous: 0,
-      direction: 'down'
-    };
-    
-    function updateScrollPosition() {
-      scrollPosition.previous = scrollPosition.current;
-      scrollPosition.current = window.pageYOffset;
-      scrollPosition.direction = scrollPosition.current > scrollPosition.previous ? 'down' : 'up';
-    }
-    
-    // Throttled scroll handler para performance
-    const throttledScrollHandler = throttle(updateScrollPosition, 16); // ~60fps
-    
-    /**
-     * USER PREFERENCE DETECTION
-     * 
-     * ACCESSIBILITY FIRST APPROACH:
-     * - Detectar prefers-reduced-motion
-     * - Adaptar animaciones según preferencias
-     * - Fallback graceful para todos los usuarios
-     * 
-     * INSPIRACIÓN: Tailwind CSS animation utilities approach
-     */
-    function shouldReduceMotion() {
-      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-    
-    /**
-     * ENHANCED SCROLL TO FUNCTION
-     * 
-     * PARÁMETROS:
-     * @param {Element|string} target - Element o selector CSS
-     * @param {Object} options - Configuración opcional
-     * 
-     * FEATURES:
-     * - Offset customizable para fixed headers
-     * - Duration basado en distancia
-     * - Callback para completion
-     * - Cancel on user interaction
-     */
-    function scrollToTarget(target, options = {}) {
-      const defaults = {
-        offset: 0,
-        duration: shouldReduceMotion() ? 0 : 1000,
-        easing: 'easeInOutCubic',
-        callback: null
-      };
-      
-      const config = { ...defaults, ...options };
-      
-      // Resolver target element
-      const targetElement = typeof target === 'string' 
-        ? document.querySelector(target)
-        : target;
-      
-      if (!targetElement) {
-        console.warn('⚠️ ScrollTo target not found:', target);
-        return;
-      }
-      
-      const startPosition = window.pageYOffset;
-      const targetPosition = targetElement.offsetTop - config.offset;
-      const distance = targetPosition - startPosition;
-      
-      if (Math.abs(distance) < 1) return; // Already there
-      
-      // Si reduced motion, scroll inmediatamente
-      if (shouldReduceMotion()) {
-        window.scrollTo(0, targetPosition);
-        if (config.callback) config.callback();
-        return;
-      }
-      
-      /**
-       * EASING FUNCTIONS - MATHEMATICAL APPROACH
-       * 
-       * EDUCATIONAL VALUE: Demostrar cómo mathematics se aplica en UI
-       * 
-       * CUBIC BEZIER EASING:
-       * - Más natural que linear interpolation
-       * - Matches CSS transition-timing-function values
-       * - Provides professional feel to interactions
-       */
-      function easeInOutCubic(t) {
-        return t < 0.5 
-          ? 4 * t * t * t 
-          : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      }
-      
-      let startTime = null;
-      let cancelled = false;
-      
-      // Cancel on user scroll attempt
-      function cancelOnUserInteraction() {
-        cancelled = true;
-      }
-      
-      window.addEventListener('wheel', cancelOnUserInteraction, { once: true });
-      window.addEventListener('touchstart', cancelOnUserInteraction, { once: true });
-      
-      /**
-       * ANIMATION LOOP - RAF PATTERN
-       * 
-       * REQUESTANIMATIONFRAME BENEFITS:
-       * - Synchronized with display refresh rate
-       * - Automatic pausing when tab not visible
-       * - Better performance than setTimeout
-       * - Native browser optimization
-       */
-      function animateScroll(currentTime) {
-        if (cancelled) return;
-        
-        if (startTime === null) startTime = currentTime;
-        
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / config.duration, 1);
-        
-        const easedProgress = easeInOutCubic(progress);
-        const currentPosition = startPosition + (distance * easedProgress);
-        
-        window.scrollTo(0, currentPosition);
-        
-        if (progress < 1) {
-          requestAnimationFrame(animateScroll);
-        } else {
-          // Animation complete
-          window.removeEventListener('wheel', cancelOnUserInteraction);
-          window.removeEventListener('touchstart', cancelOnUserInteraction);
-          if (config.callback) config.callback();
-        }
-      }
-      
-      requestAnimationFrame(animateScroll);
-    }
-    
-    // Attach to global scope para uso en otros módulos
-    window.scrollToTarget = scrollToTarget;
-    
-    // Initialize scroll tracking
-    window.addEventListener('scroll', throttledScrollHandler, { passive: true });
-  }
-
-  /* ========================================
-     CARD INTERACTIONS - MICRO-INTERACTION SYSTEM
-     ======================================== */
-
-  /**
-   * CARD INTERACTION MANAGEMENT
-   * 
-   * MICRO-INTERACTION PHILOSOPHY (Sarah Drasner + Rachel Nabors):
-   * - Provide immediate feedback to user actions
-   * - Create sense of direct manipulation
-   * - Guide user attention through subtle motion
-   * - Enhance perceived performance through responsiveness
-   * 
-   * PERFORMANCE OPTIMIZATIONS:
-   * - CSS transforms over changing layout properties
-   * - will-change property management
-   * - Event delegation for memory efficiency
-   * - Cleanup on component unmount
-   */
-  function initializeCardInteractions() {
-    const cards = document.querySelectorAll('.card');
-    
-    if (!cards.length) {
-      console.warn('⚠️ No cards found for interaction initialization');
       return;
     }
     
-    /**
-     * PERFORMANCE OPTIMIZATION: will-change MANAGEMENT
-     * 
-     * PROBLEMA: will-change creates new composite layer
-     * SOLUCIÓN: Apply only during interaction, remove after
-     * 
-     * EDUCATIONAL INSIGHT:
-     * - will-change hints browser about upcoming changes
-     * - Creates composite layer for GPU acceleration
-     * - Should be removed when animation completes
-     * - Overuse can degrade performance
-     */
-    function optimizeCardForAnimation(card) {
-      card.style.willChange = 'transform, box-shadow';
+    // Initial state for animation
+    this.cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(40px)';
+      card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    });
+    
+    // Intersection observer for reveal animations
+    const revealOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          
+          // Stagger animation for multiple cards
+          const delay = Array.from(this.cards).indexOf(card) * 100;
+          
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, delay);
+          
+          // Stop observing once revealed
+          this.intersectionObserver.unobserve(card);
+        }
+      });
+    }, revealOptions);
+    
+    // Observe all cards
+    this.cards.forEach(card => {
+      this.intersectionObserver.observe(card);
+    });
+  }
+}
+
+/* =====================================================
+ * FOCUS MANAGEMENT SYSTEM
+ * Accessibility-first focus handling following
+ * Laurie Williams' inclusive design principles
+ * ===================================================== */
+
+/**
+ * Focus Manager for enhanced accessibility
+ * Manages focus rings, skip links, and keyboard navigation
+ * 
+ * Web Content Accessibility Guidelines (WCAG) 2.1 compliant
+ */
+class FocusManager {
+  constructor() {
+    this.focusableElements = [];
+    this.lastFocusedElement = null;
+    this.init();
+  }
+  
+  /**
+   * Initialize focus management system
+   * Systematic setup following Ian Sommerville's structured approach
+   */
+  init() {
+    this.setupFocusRings();
+    this.setupSkipLinks();
+    this.setupFocusTrap();
+    this.monitorFocusChanges();
+    utils.logWithContext('info', 'Focus', 'Focus management system initialized');
+  }
+  
+  /**
+   * Setup enhanced focus rings
+   * Modern focus indicators that work across all browsers
+   */
+  setupFocusRings() {
+    // Custom focus ring styles for better visibility
+    const style = document.createElement('style');
+    style.textContent = `
+      .focus-ring-enhanced {
+        outline: 2px solid var(${CSS_PROPS.COLORS.BRAND_400});
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+        box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2);
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  /**
+   * Setup skip links for keyboard navigation
+   * Essential for accessibility compliance
+   */
+  setupSkipLinks() {
+    const mainContent = utils.qs('main') || utils.qs('#casos');
+    
+    if (mainContent) {
+      const skipLink = utils.createElement('a', {
+        href: `#${mainContent.id || 'main-content'}`,
+        className: 'skip-link',
+        style: `
+          position: absolute;
+          top: -40px;
+          left: 6px;
+          background: var(${CSS_PROPS.COLORS.BRAND_400});
+          color: white;
+          padding: 8px;
+          text-decoration: none;
+          border-radius: 4px;
+          z-index: ${APP_CONFIG.Z_INDEX.SKIP_NAV};
+          transition: top 0.3s;
+        `
+      }, 'Skip to main content');
+      
+      // Show skip link on focus
+      skipLink.addEventListener('focus', () => {
+        skipLink.style.top = '6px';
+      });
+      
+      skipLink.addEventListener('blur', () => {
+        skipLink.style.top = '-40px';
+      });
+      
+      document.body.insertBefore(skipLink, document.body.firstChild);
     }
+  }
+  
+  /**
+   * Setup focus trap for modal-like interactions
+   * Prevents focus from escaping contained areas
+   */
+  setupFocusTrap() {
+    // This will be extended when modal components are added
+    this.focusableSelectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+  }
+  
+  /**
+   * Monitor focus changes for debugging and analytics
+   * Kent C. Dodds: "Make the system observable"
+   */
+  monitorFocusChanges() {
+    document.addEventListener('focusin', (e) => {
+      this.lastFocusedElement = e.target;
+      
+      // Add enhanced focus ring to focused element
+      if (e.target.matches('button, a, input, textarea, select')) {
+        e.target.classList.add('focus-ring-enhanced');
+      }
+    });
     
-    function resetCardOptimization(card) {
-      card.style.willChange = 'auto';
-    }
+    document.addEventListener('focusout', (e) => {
+      // Remove enhanced focus ring
+      e.target.classList.remove('focus-ring-enhanced');
+    });
+  }
+  
+  /**
+   * Get all focusable elements in a container
+   * Utility for focus management in dynamic content
+   * 
+   * @param {Element} container - Container to search within
+   * @returns {Element[]} - Array of focusable elements
+   */
+  getFocusableElements(container = document) {
+    return utils.qsa(this.focusableSelectors, container);
+  }
+}
+
+/* =====================================================
+ * RESPONSIVE BEHAVIOR SYSTEM
+ * Adaptive interactions based on viewport and user preferences
+ * Following Brad Traversy's mobile-first responsive methodology
+ * ===================================================== */
+
+/**
+ * Responsive Behavior Manager
+ * Adapts interactions based on device capabilities and user preferences
+ * 
+ * Progressive enhancement following modern web standards
+ */
+class ResponsiveBehaviorManager {
+  constructor() {
+    this.currentBreakpoint = null;
+    this.touchDevice = false;
+    this.init();
+  }
+  
+  /**
+   * Initialize responsive behavior system
+   * Detect device capabilities and setup adaptive behaviors
+   */
+  init() {
+    this.detectDeviceCapabilities();
+    this.setupBreakpointMonitoring();
+    this.setupTouchEnhancements();
+    this.setupReducedMotionHandling();
+    utils.logWithContext('info', 'Responsive', 'Responsive behavior system initialized');
+  }
+  
+  /**
+   * Detect device capabilities
+   * Modern feature detection following progressive enhancement
+   */
+  detectDeviceCapabilities() {
+    // Touch detection
+    this.touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
-    /**
-     * CARD HOVER HANDLERS
-     * 
-     * EVENT DELEGATION PATTERN:
-     * - Single listener en parent container
-     * - Better memory usage than individual listeners
-     * - Works with dynamically added content
-     * - Centralized event handling logic
-     */
-    function handleCardMouseEnter(event) {
-      if (!event.target.closest('.card')) return;
-      
-      const card = event.target.closest('.card');
-      optimizeCardForAnimation(card);
-      
-      // Add any additional hover effects here
-      // Example: Analytics tracking, preloading, etc.
-    }
+    // Pointer capabilities
+    this.pointerCapabilities = {
+      fine: window.matchMedia('(pointer: fine)').matches,
+      coarse: window.matchMedia('(pointer: coarse)').matches
+    };
     
-    function handleCardMouseLeave(event) {
-      if (!event.target.closest('.card')) return;
-      
-      const card = event.target.closest('.card');
-      resetCardOptimization(card);
-    }
+    // High contrast preference
+    this.highContrast = window.matchMedia('(prefers-contrast: high)').matches;
     
-    /**
-     * TOUCH INTERACTION SUPPORT
-     * 
-     * MOBILE-FIRST CONSIDERATIONS:
-     * - Touch devices don't have hover states
-     * - Focus states importante for keyboard navigation
-     * - Active states for touch feedback
-     * - Accessibility for screen readers
-     */
-    function handleCardTouch(event) {
-      if (!event.target.closest('.card')) return;
-      
-      const card = event.target.closest('.card');
-      
-      // Add touched class for CSS styling
-      card.classList.add('card--touched');
-      
-      // Remove after brief delay
-      setTimeout(() => {
-        card.classList.remove('card--touched');
-      }, 150);
-    }
+    // Add classes to body for CSS targeting
+    document.body.classList.toggle('touch-device', this.touchDevice);
+    document.body.classList.toggle('pointer-fine', this.pointerCapabilities.fine);
+    document.body.classList.toggle('pointer-coarse', this.pointerCapabilities.coarse);
+    document.body.classList.toggle('high-contrast', this.highContrast);
     
-    // Event delegation setup
-    document.addEventListener('mouseenter', handleCardMouseEnter, true);
-    document.addEventListener('mouseleave', handleCardMouseLeave, true);
-    document.addEventListener('touchstart', handleCardTouch, { passive: true });
-    
-    /**
-     * INTERSECTION OBSERVER FOR ENTRANCE ANIMATIONS
-     * 
-     * PROGRESSIVE ENHANCEMENT PATTERN:
-     * - Cards work without JavaScript
-     * - Enhanced with entrance animations when available
-     * - Respects user motion preferences
-     * - Performance-optimized with Intersection Observer
-     */
-    function initializeCardAnimations() {
-      if (shouldReduceMotion()) return; // Skip animations if user prefers
+    utils.logWithContext('info', 'Responsive', `Device capabilities: touch=${this.touchDevice}, fine=${this.pointerCapabilities.fine}`);
+  }
+  
+  /**
+   * Setup breakpoint monitoring
+   * React to viewport changes with appropriate behavior adjustments
+   */
+  setupBreakpointMonitoring() {
+    const updateBreakpoint = () => {
+      const viewport = utils.getViewportSize();
+      let newBreakpoint;
       
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-      };
-      
-      /**
-       * ENTRANCE ANIMATION LOGIC
-       * 
-       * STAGGERED ANIMATION PATTERN:
-       * - Cards appear with slight delay between them
-       * - Creates wave-like effect
-       * - More engaging than simultaneous appearance
-       * - Professional feel seen in modern applications
-       */
-      function animateCardEntrance(entries) {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            const card = entry.target;
-            
-            // Set initial state
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(40px)';
-            card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-            
-            // Trigger animation with stagger
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }, index * 100); // 100ms stagger between cards
-            
-            // Stop observing this card
-            observer.unobserve(card);
-          }
-        });
+      if (viewport.width >= APP_CONFIG.BREAKPOINTS.ULTRAWIDE) {
+        newBreakpoint = 'ultrawide';
+      } else if (viewport.width >= APP_CONFIG.BREAKPOINTS.DESKTOP) {
+        newBreakpoint = 'desktop';
+      } else if (viewport.width >= APP_CONFIG.BREAKPOINTS.TABLET) {
+        newBreakpoint = 'tablet';
+      } else {
+        newBreakpoint = 'mobile';
       }
       
-      const observer = new IntersectionObserver(animateCardEntrance, observerOptions);
-      
-      cards.forEach(card => {
-        observer.observe(card);
-      });
-    }
+      if (newBreakpoint !== this.currentBreakpoint) {
+        this.handleBreakpointChange(this.currentBreakpoint, newBreakpoint);
+        this.currentBreakpoint = newBreakpoint;
+      }
+    };
     
-    // Helper function for reduced motion detection
-    function shouldReduceMotion() {
-      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
+    // Initial check
+    updateBreakpoint();
     
-    initializeCardAnimations();
+    // Monitor changes with debounced handler
+    const debouncedUpdate = utils.debounce(updateBreakpoint, 150);
+    window.addEventListener('resize', debouncedUpdate);
   }
-
-  /* ========================================
-     PERFORMANCE OPTIMIZATIONS - ENHANCEMENT LAYER
-     ======================================== */
-
+  
   /**
-   * PERFORMANCE ENHANCEMENT SYSTEM
+   * Handle breakpoint changes
+   * Adjust interactions based on new viewport size
    * 
-   * PHILOSOPHY: Progressive Enhancement + Performance Budget
-   * - Core functionality works without enhancements
-   * - Performance optimizations added as enhancement layer
-   * - Monitoring and adjustment based on device capabilities
-   * - Respectful of user data and battery usage
+   * @param {string} oldBreakpoint - Previous breakpoint
+   * @param {string} newBreakpoint - New breakpoint
    */
-  function initializePerformanceOptimizations() {
+  handleBreakpointChange(oldBreakpoint, newBreakpoint) {
+    // Update body class for CSS targeting
+    if (oldBreakpoint) {
+      document.body.classList.remove(`breakpoint-${oldBreakpoint}`);
+    }
+    document.body.classList.add(`breakpoint-${newBreakpoint}`);
     
-    /**
-     * RESOURCE MANAGEMENT - CLEANUP PATTERNS
-     * 
-     * MEMORY LEAK PREVENTION:
-     * - Clean up event listeners on page unload
-     * - Disconnect observers when not needed
-     * - Clear timeouts and intervals
-     * - Release object references
-     */
-    function setupResourceCleanup() {
-      window.addEventListener('beforeunload', function() {
-        // Cancel any running animations
-        if (window.animationFrameId) {
-          cancelAnimationFrame(window.animationFrameId);
-        }
-        
-        // Clear any timeouts (store IDs globally si necessary)
-        // clearTimeout(globalTimeoutId);
-        
-        console.log('🧹 Resources cleaned up on page unload');
-      });
+    // Adjust touch targets for mobile
+    if (newBreakpoint === 'mobile') {
+      this.enhanceTouchTargets();
     }
     
-    /**
-     * PRELOAD OPTIMIZATION - PERFORMANCE HINTS
-     * 
-     * STRATEGIC PRELOADING:
-     * - Preload critical resources based on user interaction patterns
-     * - Use Intersection Observer para predictive loading
-     * - Balance between performance y data usage
-     * - Respect user's data preferences
-     */
-    function initializePredictiveLoading() {
-      // Example: Preload next section content when user scrolls 50% through current section
-      const sections = document.querySelectorAll('section');
-      
-      const preloadObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.intersectionRatio > 0.5) {
-            // Preload next section assets si applicable
-            console.log(`📈 Section ${entry.target.id} is 50% visible - could preload related assets`);
-          }
-        });
-      }, { threshold: 0.5 });
-      
-      sections.forEach(section => {
-        preloadObserver.observe(section);
-      });
-    }
+    utils.logWithContext('info', 'Responsive', `Breakpoint changed: ${oldBreakpoint} → ${newBreakpoint}`);
+  }
+  
+  /**
+   * Setup touch-specific enhancements
+   * Improve touch interactions following mobile UX best practices
+   */
+  setupTouchEnhancements() {
+    if (!this.touchDevice) return;
     
-    /**
-     * PERFORMANCE MONITORING - REAL USER METRICS
-     * 
-     * WEB VITALS INTEGRATION:
-     * - Monitor Core Web Vitals (LCP, FID, CLS)
-     * - Track custom performance metrics
-     * - Adjust behavior based on device performance
-     * - Report issues for optimization
-     */
-    function initializePerformanceMonitoring() {
-      // Performance API availability check
-      if (!('performance' in window)) return;
+    // Add touch-friendly hover alternatives
+    const interactiveElements = utils.qsa('.interactive, .btn, .card');
+    
+    interactiveElements.forEach(element => {
+      // Replace hover with touch feedback
+      element.addEventListener('touchstart', () => {
+        element.classList.add('touch-active');
+      }, { passive: true });
       
-      // Monitor page load performance
-      window.addEventListener('load', function() {
+      element.addEventListener('touchend', () => {
+        // Delay removal for visual feedback
         setTimeout(() => {
-          const perfData = performance.getEntriesByType('navigation')[0];
-          if (perfData) {
-            console.log(`⚡ Page loaded in ${Math.round(perfData.loadEventEnd - perfData.fetchStart)}ms`);
-            
-            // En production, enviarías esto a analytics
-            // sendToAnalytics('page_load_time', loadTime);
-          }
-        }, 0);
+          element.classList.remove('touch-active');
+        }, 150);
       });
-      
-      // Monitor long tasks (> 50ms)
-      if ('PerformanceObserver' in window) {
-        const observer = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.duration > 50) {
-              console.warn(`🐌 Long task detected: ${Math.round(entry.duration)}ms`);
-              // En production: considerar simplificar animaciones o diferir trabajo
-            }
-          }
-        });
-        
-        observer.observe({ entryTypes: ['longtask'] });
-      }
-    }
-    
-    setupResourceCleanup();
-    initializePredictiveLoading();
-    initializePerformanceMonitoring();
+    });
   }
-
-  /* ========================================
-     UTILITY FUNCTIONS - SHARED HELPERS
-     ======================================== */
-
+  
   /**
-   * UTILITY FUNCTION LIBRARY
-   * 
-   * DESIGN PRINCIPLES:
-   * - Pure functions cuando es posible
-   * - Single responsibility
-   * - Functional programming approach
-   * - Type checking y validation
-   * - Error handling integrado
+   * Enhance touch targets for mobile usability
+   * Ensure minimum 44px touch targets as per iOS guidelines
    */
-  
-  // Debounce utility para high-frequency events
-  function debounce(func, wait, immediate) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        timeout = null;
-        if (!immediate) func.apply(this, args);
-      };
-      const callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(this, args);
-    };
-  }
-  
-  // Element visibility checker
-  function isElementInViewport(element, threshold = 0) {
-    const rect = element.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+  enhanceTouchTargets() {
+    const touchTargets = utils.qsa('button, a, input, [role="button"]');
     
-    return (
-      rect.top >= -threshold &&
-      rect.left >= -threshold &&
-      rect.bottom <= windowHeight + threshold &&
-      rect.right <= windowWidth + threshold
-    );
+    touchTargets.forEach(target => {
+      const rect = target.getBoundingClientRect();
+      const minSize = APP_CONFIG.ACCESSIBILITY.MIN_TOUCH_TARGET;
+      
+      if (rect.width < minSize || rect.height < minSize) {
+        target.style.minWidth = `${minSize}px`;
+        target.style.minHeight = `${minSize}px`;
+      }
+    });
   }
   
-  // Safe element selector con error handling
-  function safeQuerySelector(selector, context = document) {
+  /**
+   * Setup reduced motion handling
+   * Respect user motion preferences throughout the system
+   */
+  setupReducedMotionHandling() {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    const handleMotionPreference = (mq) => {
+      document.body.classList.toggle('reduced-motion', mq.matches);
+      
+      if (mq.matches) {
+        // Disable non-essential animations
+        const style = document.createElement('style');
+        style.id = 'reduced-motion-override';
+        style.textContent = `
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        `;
+        document.head.appendChild(style);
+      } else {
+        // Remove reduced motion override
+        const existingStyle = document.getElementById('reduced-motion-override');
+        if (existingStyle) {
+          existingStyle.remove();
+        }
+      }
+    };
+    
+    // Initial check
+    handleMotionPreference(mediaQuery);
+    
+    // Monitor changes
+    mediaQuery.addEventListener('change', handleMotionPreference);
+  }
+}
+
+/* =====================================================
+ * CORE SYSTEM INITIALIZATION
+ * Orchestrate all core systems following dependency injection principles
+ * Robert C. Martin: "Dependencies should flow in one direction"
+ * ===================================================== */
+
+/**
+ * Core System Manager
+ * Coordinates initialization and manages dependencies between core systems
+ * 
+ * Single entry point for all core functionality
+ */
+class CoreSystemManager {
+  constructor() {
+    this.systems = new Map();
+    this.initializationPromise = null;
+  }
+  
+  /**
+   * Initialize all core systems
+   * Ordered initialization respecting dependencies
+   * 
+   * @returns {Promise<void>} - Resolves when all systems are ready
+   */
+  async initialize() {
+    if (this.initializationPromise) {
+      return this.initializationPromise;
+    }
+    
+    this.initializationPromise = this.performInitialization();
+    return this.initializationPromise;
+  }
+  
+  /**
+   * Perform actual initialization
+   * Internal method with proper error handling
+   */
+  async performInitialization() {
     try {
-      return context.querySelector(selector);
+      utils.logWithContext('info', 'Core', 'Starting core systems initialization...');
+      
+      // Wait for DOM to be ready
+      await utils.waitForDOM();
+      
+      // Initialize systems in dependency order
+      await this.initializeSystem('responsive', ResponsiveBehaviorManager);
+      await this.initializeSystem('focus', FocusManager);
+      await this.initializeSystem('navigation', NavigationState);
+      await this.initializeSystem('cards', CardInteractionManager);
+      
+      utils.logWithContext('info', 'Core', '✅ All core systems initialized successfully');
+      
+      // Dispatch custom event for other modules
+      window.dispatchEvent(new CustomEvent('coreSystemsReady', {
+        detail: { systems: Array.from(this.systems.keys()) }
+      }));
+      
     } catch (error) {
-      console.warn(`⚠️ Invalid selector: ${selector}`, error);
-      return null;
+      utils.logWithContext('error', 'Core', 'Failed to initialize core systems', error);
+      throw error;
     }
   }
   
-  // Expose utilities globally para other modules
-  window.CoreUtils = {
-    debounce,
-    isElementInViewport,
-    safeQuerySelector,
-    scrollToTarget: window.scrollToTarget // Re-export from scroll module
-  };
+  /**
+   * Initialize individual system with error handling
+   * 
+   * @param {string} name - System name for identification
+   * @param {Function} SystemClass - System constructor
+   */
+  async initializeSystem(name, SystemClass) {
+    try {
+      const system = new SystemClass();
+      this.systems.set(name, system);
+      utils.logWithContext('info', 'Core', `✅ ${name} system initialized`);
+    } catch (error) {
+      utils.logWithContext('error', 'Core', `❌ Failed to initialize ${name} system`, error);
+      // Don't throw - allow other systems to initialize
+    }
+  }
+  
+  /**
+   * Get initialized system by name
+   * 
+   * @param {string} name - System name
+   * @returns {Object|null} - System instance or null if not found
+   */
+  getSystem(name) {
+    return this.systems.get(name) || null;
+  }
+  
+  /**
+   * Check if all systems are ready
+   * 
+   * @returns {boolean} - True if all systems initialized
+   */
+  isReady() {
+    return this.systems.size > 0 && this.initializationPromise !== null;
+  }
+}
 
-})();
+/* =====================================================
+ * MODULE EXPORTS & GLOBAL AVAILABILITY
+ * Make core systems available to other modules
+ * Following clean dependency management
+ * ===================================================== */
 
-/* ========================================
-   EDUCATIONAL DOCUMENTATION - LEARNING GUIDE
-   ======================================== */
+// Create and expose core system manager
+const coreManager = new CoreSystemManager();
 
-/*
-===============================
-CORE.JS EDUCATIONAL OVERVIEW
-===============================
+// Global availability for other modules
+window.coreManager = coreManager;
 
-ARCHITECTURAL PATTERNS USED:
+// Convenience functions for common operations
+window.coreAPI = {
+  /**
+   * Get navigation system
+   * @returns {NavigationState|null}
+   */
+  getNavigation: () => coreManager.getSystem('navigation'),
+  
+  /**
+   * Get focus manager  
+   * @returns {FocusManager|null}
+   */
+  getFocusManager: () => coreManager.getSystem('focus'),
+  
+  /**
+   * Get responsive behavior manager
+   * @returns {ResponsiveBehaviorManager|null}
+   */
+  getResponsiveManager: () => coreManager.getSystem('responsive'),
+  
+  /**
+   * Get card interaction manager
+   * @returns {CardInteractionManager|null}
+   */
+  getCardManager: () => coreManager.getSystem('cards'),
+  
+  /**
+   * Check if core systems are ready
+   * @returns {boolean}
+   */
+  isReady: () => coreManager.isReady()
+};
 
-1. **IIFE (Immediately Invoked Function Expression)**
-   - Encapsulates all functionality
-   - Prevents global namespace pollution
-   - Enables private variables y functions
-   - Common pattern en libraries como jQuery, Lodash
+/* =====================================================
+ * AUTO-INITIALIZATION
+ * Initialize core systems when module loads
+ * Can be overridden by setting window.DEFER_CORE_INIT = true
+ * ===================================================== */
 
-2. **MODULE PATTERN**
-   - Each feature has its own initialization function
-   - Clear separation of concerns
-   - Easy testing y debugging
-   - Scalable architecture para large applications
+if (!window.DEFER_CORE_INIT) {
+  // Auto-initialize core systems
+  coreManager.initialize().catch(error => {
+    utils.logWithContext('error', 'Core', 'Auto-initialization failed', error);
+  });
+}
 
-3. **EVENT DELEGATION**
-   - Single listeners en parent elements
-   - Better performance con dynamic content
-   - Reduced memory usage
-   - Simpler event management
-
-4. **OBSERVER PATTERN**
-   - Intersection Observer para scroll-based features
-   - Performance Observer para monitoring
-   - Decoupled communication between components
-   - React-like reactive programming concepts
-
-5. **PROGRESSIVE ENHANCEMENT**
-   - Core functionality works without JavaScript
-   - Enhancements added en layers
-   - Graceful degradation para older browsers
-   - Accessibility-first approach
-
-PERFORMANCE OPTIMIZATIONS:
-
-✅ **Throttling/Debouncing** para high-frequency events
-✅ **RequestAnimationFrame** para smooth animations  
-✅ **will-change management** para GPU acceleration
-✅ **Intersection Observer** en lugar de scroll events
-✅ **Event delegation** para memory efficiency
-✅ **Resource cleanup** para prevent memory leaks
-
-ACCESSIBILITY FEATURES:
-
-✅ **prefers-reduced-motion** support
-✅ **Focus management** para keyboard navigation
-✅ **WCAG compliance** considerations
-✅ **Screen reader friendly** interactions
-✅ **Touch-friendly** mobile support
-
-BROWSER COMPATIBILITY:
-
-✅ **ES6+ features** con graceful fallbacks
-✅ **Modern APIs** con availability checks
-✅ **Cross-browser** event handling
-✅ **Mobile responsive** touch events
-
-HOW TO EXTEND:
-
-1. **Add new features**:
-   - Create new initialization function
-   - Add to initializeCore() sequence
-   - Follow existing patterns
-
-2. **Custom utilities**:
-   - Add to CoreUtils object
-   - Export globally para other modules
-   - Include error handling
-
-3. **Performance monitoring**:
-   - Extend performance tracking
-   - Add custom metrics
-   - Integration con analytics
-
-4. **Event system**:
-   - Use event delegation patterns
-   - Follow cleanup procedures
-   - Consider mobile interactions
-
-NEXT STEPS PARA DEVELOPMENT:
-
-📁 **interactions.js** - Demo functions, notifications, advanced UX
-📁 **analytics.js** - User behavior tracking, performance metrics  
-📁 **components.js** - Dynamic component loading, state management
-📁 **api.js** - Data fetching, caching, offline support
-
-TESTING CONSIDERATIONS:
-
-- Unit tests para utility functions
-- Integration tests para user workflows  
-- Performance tests para optimization validation
-- Accessibility tests con screen readers
-- Cross-browser compatibility testing
-
-LEARNING RESOURCES:
-
-- MDN Web Docs: Event handling patterns
-- "JavaScript: The Good Parts" by Douglas Crockford
-- "High Performance JavaScript" by Nicholas Zakas
-- Web.dev: Performance optimization guides
-- A11Y Project: Accessibility best practices
-
-Remember: This core system prioritizes maintainability, performance, 
-y user experience over clever code tricks. Every pattern used here
-has been proven en production applications y follows industry standards.
-*/
+// Log successful module loading
+utils.logWithContext('info', 'Core', '🎯 Core interaction system module loaded');
