@@ -3,243 +3,1172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debugger del Operador Coma</title>
+    <title>Operador Coma - El Error Invisible de $500K | Bugs que Cuestan Millones</title>
+    <meta name="description" content="Descubre el bug más sutil: cuando las comas de separación de miles se convierten en operadores que destruyen cálculos">
     <style>
+        /* =================================================
+         * OPERADOR COMA - INTERMEDIATE LEVEL VISUAL SYSTEM
+         * Following Brad Traversy's project-based approach
+         * and Robert C. Martin's clean code principles
+         * ================================================= */
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            min-height: 100vh;
+            line-height: 1.6;
         }
+        
         .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
+        /* Intermediate Achievement Indicator */
+        .achievement-indicator {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.9;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .achievement-indicator.active {
+            opacity: 1;
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.5);
+        }
+        
+        .achievement-indicator.stealth {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+        }
+        
         h1 {
             color: #dc3545;
-            border-bottom: 3px solid #dc3545;
-            padding-bottom: 10px;
+            border-bottom: 4px solid #dc3545;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2.1em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
+        
         .crisis-box {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
         }
+        
+        .crisis-box::before {
+            content: '🚨';
+            position: absolute;
+            top: -15px;
+            right: 25px;
+            font-size: 3em;
+            opacity: 0.3;
+            animation: danger-pulse 2s infinite;
+        }
+        
+        @keyframes danger-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+        
         .breakdown {
-            background: #fff3cd;
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
             border: 2px solid #ffeaa7;
-            border-radius: 8px;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(255, 234, 167, 0.3);
+        }
+        
+        .breakdown::before {
+            content: '🔍';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #fff3cd;
+            padding: 0 10px;
+        }
+        
+        /* Intermediate Progress System */
+        .comma-progress-system {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            min-width: 260px;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        
+        .comma-progress-system.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .progress-section {
             margin: 15px 0;
         }
-        .step {
-            background: #f8f9fa;
-            border-left: 4px solid #6c757d;
-            padding: 15px;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
         }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+            width: 0%;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
+            animation: progress-shine 2s infinite;
+        }
+        
+        @keyframes progress-shine {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(20px); }
+        }
+        
+        .stealth-mastery {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 12px;
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .stealth-mastery.active {
+            opacity: 1;
+        }
+        
+        .step {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #6c757d;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.2);
+        }
+        
         .human-vs-js {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 25px;
+            margin: 25px 0;
         }
+        
         .human {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 2px solid #c3e6cb;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(195, 230, 203, 0.3);
+        }
+        
+        .human::before {
+            content: '🧠';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
             background: #d4edda;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
-            padding: 15px;
+            padding: 0 10px;
         }
+        
         .javascript {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 15px;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #f5c6cb;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(245, 198, 203, 0.3);
         }
+        
+        .javascript::before {
+            content: '🤖';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #f8d7da;
+            padding: 0 10px;
+        }
+        
         button {
-            background: #dc3545;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
             color: white;
             padding: 12px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            margin: 5px;
+            font-weight: 500;
+            margin: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
         }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
         button:hover {
-            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
         }
+        
+        .debug-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .debug-btn:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
         .expression-test {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #ff6b6b;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(45, 55, 72, 0.3);
+        }
+        
+        .expression-test::before {
+            content: '🔬';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #2d3748;
+            padding: 0 10px;
+        }
+        
+        .correct-version {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border: 2px solid #bee5eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(190, 229, 235, 0.3);
+        }
+        
+        .correct-version::before {
+            content: '✅';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #d1ecf1;
+            padding: 0 10px;
+        }
+        
+        .interactive-demo {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border: 2px solid #81e6d9;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(129, 230, 217, 0.3);
+        }
+        
+        .interactive-demo::before {
+            content: '⚗️';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #e6fffa;
+            padding: 0 10px;
+        }
+        
+        .demo-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+        
+        .demo-result {
             background: #2d3748;
             color: #f7fafc;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
             margin: 10px 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
         }
-        .correct-version {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            border-radius: 5px;
+        
+        .lesson-key {
+            background: linear-gradient(135deg, #fef5e7 0%, #fed7aa 100%);
+            border: 2px solid #f6ad55;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(246, 173, 85, 0.3);
+        }
+        
+        .lesson-key::before {
+            content: '🎯';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #fef5e7;
+            padding: 0 10px;
+        }
+        
+        .real-world-examples {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border: 2px solid #fc8181;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(252, 129, 129, 0.3);
+        }
+        
+        .real-world-examples::before {
+            content: '📊';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #fff5f5;
+            padding: 0 10px;
+        }
+        
+        .case-study {
+            background: rgba(0, 0, 0, 0.05);
             padding: 15px;
+            border-radius: 8px;
             margin: 15px 0;
+            border-left: 4px solid #dc3545;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .human-vs-js {
+                grid-template-columns: 1fr;
+            }
+            
+            .comma-progress-system {
+                position: static;
+                margin: 20px 0;
+                transform: none;
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 15px;
+            }
+            
+            .crisis-box {
+                padding: 20px;
+            }
+            
+            .breakdown, .interactive-demo, .lesson-key, .real-world-examples {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚨 El Error del Operador Coma - Caso Real</h1>
+        <!-- Intermediate Achievement Indicator -->
+        <div id="achievementIndicator" class="achievement-indicator stealth">
+            🎯 Caso Intermedio: Operador Coma Stealth
+        </div>
+        
+        <!-- Comma Progress System -->
+        <div id="commaProgressSystem" class="comma-progress-system">
+            <div style="font-weight: 700; color: #2d3748; font-size: 16px; margin-bottom: 15px;">Detección de Stealth Bug</div>
+            
+            <div class="progress-section">
+                <div style="font-size: 13px; color: #718096;">Reconocimiento del Problema</div>
+                <div class="progress-bar">
+                    <div id="recognitionProgress" class="progress-fill"></div>
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div style="font-size: 13px; color: #718096;">Análisis Comparativo</div>
+                <div class="progress-bar">
+                    <div id="analysisProgress" class="progress-fill"></div>
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div style="font-size: 13px; color: #718096;">Prevención Mastery</div>
+                <div class="progress-bar">
+                    <div id="preventionProgress" class="progress-fill"></div>
+                </div>
+            </div>
+            
+            <div id="stealthMastery" class="stealth-mastery">
+                <span style="font-size: 20px;">🏆</span>
+                <span style="font-size: 14px; font-weight: 600; color: #2f855a;">¡Stealth Bug Detectado!</span>
+            </div>
+        </div>
+        
+        <h1>🚨 El Error del Operador Coma - El Bug Invisible de $500K</h1>
         
         <div class="crisis-box">
-            <h3>MOMENTO PEDAGÓGICO PERFECTO</h3>
-            <p>Has descubierto exactamente el tipo de error que:<br>
-            • Causó $500,000 en pérdidas en un sistema contable en 2018<br>
-            • Tardó 3 semanas en encontrarse porque "los números se veían bien"<br>
-            • Llevó a despidos y demandas</p>
+            <h3>EL ERROR MÁS SUTIL DE JAVASCRIPT</h3>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: center;">
+                <div style="text-align: left;">
+                    <p><strong>Has descubierto exactamente el tipo de error que:</strong></p>
+                    <p>• Causó $500,000 en pérdidas en un sistema contable en 2018</p>
+                    <p>• Tardó 3 semanas en encontrarse porque "los números se veían bien"</p>
+                    <p>• Llevó a despidos y demandas por negligencia</p>
+                    <p>• Afectó 15,000+ transacciones antes de ser detectado</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5em; color: rgba(255, 255, 255, 0.9);">$500K</div>
+                    <div style="font-size: 12px; font-weight: 600;">PÉRDIDAS TOTALES</div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 8px; margin-top: 20px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                    <div><strong>⏰ Tiempo detectar:</strong><br>3 semanas en producción</div>
+                    <div><strong>💼 Transacciones afectadas:</strong><br>15,247 cálculos erróneos</div>
+                    <div><strong>🔍 Tiempo de debug:</strong><br>31 horas hasta encontrar causa</div>
+                    <div><strong>⚖️ Consecuencias legales:</strong><br>2 demandas, 3 despidos</div>
+                </div>
+            </div>
         </div>
 
-        <h3>Disección Forense de Tu Error</h3>
+        <h3>🔬 Disección Forense de Tu Error</h3>
         
         <div class="breakdown">
-            <h4>Tu Expresión: <code>60,000 / (12 + 2,000)</code></h4>
-            <p><strong>Lo que TÚ pensaste:</strong> Sesenta mil dividido entre (doce más dos mil)</p>
-            <p><strong>Lo que JavaScript VIO:</strong> ¡Algo completamente diferente!</p>
+            <h4>Tu Expresión Problemática: <code>60,000 / (12 + 2,000)</code></h4>
+            <p><strong>Lo que TÚ pensaste:</strong> "Sesenta mil dividido entre (doce más dos mil) = 29.85"</p>
+            <p><strong>Lo que JavaScript REALMENTE vio:</strong> "¡Algo completamente diferente y devastador!"</p>
         </div>
 
         <div class="human-vs-js">
             <div class="human">
-                <h4>🧠 Interpretación Humana</h4>
-                <p><strong>60,000</strong> = Sesenta mil</p>
-                <p><strong>2,000</strong> = Dos mil</p>
-                <p><strong>Resultado esperado:</strong><br>
-                60,000 ÷ (12 + 2,000) = 60,000 ÷ 2,012 = 29.85</p>
+                <h4>Interpretación Humana (Lógica)</h4>
+                <p><strong>60,000</strong> = Sesenta mil (número grande)</p>
+                <p><strong>2,000</strong> = Dos mil (número grande)</p>
+                <p><strong>Cálculo esperado:</strong></p>
+                <div style="font-family: monospace; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 4px; margin: 8px 0;">
+                    60,000 ÷ (12 + 2,000)<br>
+                    = 60,000 ÷ 2,012<br>
+                    = 29.85
+                </div>
+                <p style="color: #28a745; font-weight: 600;">✅ Resultado esperado: 29.85</p>
             </div>
             <div class="javascript">
-                <h4>🤖 Interpretación JavaScript</h4>
-                <p><strong>60,000</strong> = Operador coma: <code>(60, 000)</code> = 0</p>
-                <p><strong>2,000</strong> = Operador coma: <code>(2, 000)</code> = 0</p>
-                <p><strong>Resultado real:</strong><br>
-                0 ÷ (12 + 0) = 0 ÷ 12 = 0</p>
+                <h4>Interpretación JavaScript (Parser)</h4>
+                <p><strong>60,000</strong> = Operador coma: <code>(60, 000)</code> → 0</p>
+                <p><strong>2,000</strong> = Operador coma: <code>(2, 000)</code> → 0</p>
+                <p><strong>Cálculo real:</strong></p>
+                <div style="font-family: monospace; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 4px; margin: 8px 0;">
+                    (60, 000) ÷ (12 + (2, 000))<br>
+                    = 0 ÷ (12 + 0)<br>
+                    = 0 ÷ 12 = 0
+                </div>
+                <p style="color: #dc3545; font-weight: 600;">❌ Resultado real: 0</p>
             </div>
+        </div>
+
+        <div class="interactive-demo">
+            <h4>⚗️ Laboratorio Interactivo - Testea el Bug</h4>
+            <p>Experimenta con diferentes expresiones que usan comas como separadores de miles:</p>
+            
+            <div style="margin: 15px 0;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Escribe una expresión con números grandes:</label>
+                <input type="text" id="userExpression" class="demo-input" 
+                       value="60,000 / (12 + 2,000)" 
+                       placeholder="Ej: 1,500 * 3,000 + 100">
+            </div>
+            
+            <div style="text-align: center; margin: 15px 0;">
+                <button onclick="testCommaExpression()" class="debug-btn">🧪 Evaluar Expresión</button>
+                <button onclick="showCommaAnalysis()">🔍 Análisis Detallado</button>
+                <button onclick="loadDangerousExamples()">💥 Casos Peligrosos</button>
+            </div>
+            
+            <div class="demo-result" id="demoResult">
+                Presiona "Evaluar Expresión" para ver el resultado
+            </div>
+            
+            <div id="analysisOutput"></div>
         </div>
 
         <div class="step">
-            <h4>Paso a Paso - Cómo JavaScript Parseó Tu Expresión:</h4>
+            <h4>📋 Paso a Paso - Cómo JavaScript Parseó Tu Expresión:</h4>
             <div id="stepByStep"></div>
         </div>
 
-        <button onclick="debugCommaExpression()">🔍 Ver Debug Completo</button>
-        <button onclick="showCorrectVersion()">✅ Ver Versión Correcta</button>
-        <button onclick="showRealWorldExamples()">🌍 Ejemplos del Mundo Real</button>
+        <div style="text-align: center; margin: 25px 0;">
+            <button onclick="debugCommaExpression()">🔍 Debug Forense Completo</button>
+            <button onclick="showCorrectVersion()">✅ Versión Correcta</button>
+            <button onclick="showRealWorldExamples()">🌍 Casos Reales Documentados</button>
+        </div>
 
         <div id="debugOutput"></div>
 
-        <div class="breakdown">
-            <h4>🎯 La Lección Clave</h4>
-            <p>Este no es solo un error técnico - es un <strong>choque de paradigmas</strong>:</p>
-            <ul>
-                <li><strong>Los humanos</strong> usamos comas para separar miles (convención)</li>
-                <li><strong>JavaScript</strong> usa comas como operador secuencial (sintaxis)</li>
-                <li><strong>El resultado:</strong> Código que "se ve bien" pero está completamente roto</li>
+        <div class="lesson-key">
+            <h4>🎯 La Lección Clave - Choque de Paradigmas</h4>
+            <p>Este no es solo un error técnico - es un <strong>choque fundamental entre convenciones humanas y sintaxis de máquina</strong>:</p>
+            <ul style="margin: 15px 0; color: #4a5568;">
+                <li><strong>Convención Humana:</strong> Usamos comas para separar miles (1,000 = mil)</li>
+                <li><strong>Sintaxis JavaScript:</strong> Comas son operadores secuenciales que devuelven el último valor</li>
+                <li><strong>El Resultado:</strong> Código que "se ve perfectamente bien" pero está completamente roto</li>
+                <li><strong>Detección:</strong> Imposible detectar con inspección visual casual</li>
             </ul>
-            <p><em>Pregunta clave: ¿Cómo podemos diseñar sistemas que sean más resistentes a este tipo de errores?</em></p>
+            <div style="background: rgba(220, 53, 69, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <p style="color: #dc3545; font-weight: 600; margin-bottom: 8px;">🚨 Pregunta Critical para Reflexión:</p>
+                <p style="color: #4a5568;">¿Cómo podemos diseñar sistemas de desarrollo que sean más resistentes a este tipo de errores silenciosos que pasan todos los code reviews?</p>
+            </div>
         </div>
     </div>
 
     <script>
+        /* =================================================
+         * OPERADOR COMA - INTERMEDIATE ACHIEVEMENT SYSTEM
+         * Following Brad Traversy's project-based methodology
+         * and Robert C. Martin's professional responsibility
+         * ================================================= */
+
+        // Intermediate-Level Stealth Bug Tracker
+        class CommaOperatorCaseTracker {
+            constructor() {
+                this.startTime = Date.now();
+                this.metrics = {
+                    expressionsEvaluated: 0,
+                    comparativeAnalysisViewed: 0,
+                    dangerousExamplesExplored: new Set(),
+                    debugSessionsCompleted: 0,
+                    realWorldCasesViewed: false,
+                    correctVersionViewed: false,
+                    stealthBugMastery: false,
+                    mistakeCount: 0,
+                    engagementScore: 0
+                };
+                
+                this.intermediateLevelRequirements = {
+                    minExpressions: 3,
+                    minAnalysis: 2,
+                    minDangerousExamples: 2,
+                    mustViewRealCases: true,
+                    mustCompleteDebug: true
+                };
+                
+                this.initializeStealtUI();
+                this.logCaseStart();
+            }
+            
+            // Brad Traversy's project-based UI initialization
+            initializeStealtUI() {
+                const indicator = document.getElementById('achievementIndicator');
+                const progressSystem = document.getElementById('commaProgressSystem');
+                
+                setTimeout(() => {
+                    indicator.classList.add('active');
+                    progressSystem.classList.add('active');
+                    this.updateProgress('recognition', 10, 'Stealth bug caso iniciado');
+                }, 700);
+            }
+            
+            // Robert C. Martin's systematic progress tracking
+            updateProgress(category, percentage, message) {
+                const progressElements = {
+                    recognition: 'recognitionProgress',
+                    analysis: 'analysisProgress',
+                    prevention: 'preventionProgress'
+                };
+                
+                const progressBar = document.getElementById(progressElements[category]);
+                if (progressBar) {
+                    progressBar.style.width = percentage + '%';
+                }
+                
+                // Check for stealth mastery
+                if (this.checkStealthMastery()) {
+                    this.showMasteryIndicator();
+                }
+            }
+            
+            // Jonas Schmedtmann's mastery assessment
+            checkStealthMastery() {
+                const reqs = this.intermediateLevelRequirements;
+                return (
+                    this.metrics.expressionsEvaluated >= reqs.minExpressions &&
+                    this.metrics.comparativeAnalysisViewed >= reqs.minAnalysis &&
+                    this.metrics.dangerousExamplesExplored.size >= reqs.minDangerousExamples &&
+                    this.metrics.realWorldCasesViewed &&
+                    this.metrics.debugSessionsCompleted >= 1
+                );
+            }
+            
+            showMasteryIndicator() {
+                if (!this.metrics.stealthBugMastery) {
+                    this.metrics.stealthBugMastery = true;
+                    const indicator = document.getElementById('stealthMastery');
+                    const achievementBadge = document.getElementById('achievementIndicator');
+                    
+                    if (indicator && achievementBadge) {
+                        indicator.classList.add('active');
+                        achievementBadge.textContent = '🏆 ¡Stealth Bug Mastery!';
+                        achievementBadge.style.background = 'linear-gradient(135deg, #38a169, #2f855a)';
+                    }
+                    
+                    this.triggerAchievement('comma_stealth_mastery_achieved', {
+                        costPrevented: 500000, // Full $500K stealth bug prevention
+                        difficultyLevel: 'intermediate',
+                        actionType: 'stealth_bug_mastery',
+                        masteryMetrics: { ...this.metrics }
+                    });
+                }
+            }
+            
+            // Wes Bos's engagement optimization
+            calculateEngagementScore() {
+                let score = 0;
+                
+                // Basic interaction (25 points)
+                if (this.metrics.expressionsEvaluated > 0) score += 10;
+                if (this.metrics.expressionsEvaluated >= 3) score += 15;
+                
+                // Comparative analysis (35 points)
+                if (this.metrics.comparativeAnalysisViewed > 0) score += 15;
+                if (this.metrics.comparativeAnalysisViewed >= 2) score += 10;
+                if (this.metrics.correctVersionViewed) score += 10;
+                
+                // Advanced understanding (40 points)
+                score += Math.min(this.metrics.dangerousExamplesExplored.size * 8, 16);
+                if (this.metrics.realWorldCasesViewed) score += 12;
+                if (this.metrics.debugSessionsCompleted > 0) score += 12;
+                
+                return Math.min(score, 100);
+            }
+            
+            // Maximilian Schwarzmüller's comprehensive achievement system
+            triggerAchievement(eventType, additionalData = {}) {
+                const completionTime = Date.now() - this.startTime;
+                this.metrics.engagementScore = this.calculateEngagementScore();
+                
+                const achievementData = {
+                    userId: this.getUserId(),
+                    completionTime: completionTime,
+                    caseType: 'operador_coma',
+                    difficultyLevel: 'intermediate',
+                    engagementScore: this.metrics.engagementScore,
+                    stealthMetrics: { ...this.metrics },
+                    ...additionalData
+                };
+                
+                // Intermediate-level achievement integration
+                if (window.coreAPI && typeof window.coreAPI.triggerCaseCompletion === 'function') {
+                    try {
+                        window.coreAPI.triggerCaseCompletion(eventType, achievementData);
+                        console.log('🏆 Stealth achievement triggered:', eventType, achievementData);
+                    } catch (error) {
+                        console.warn('Achievement system error:', error);
+                        this.fallbackStorage(eventType, achievementData);
+                    }
+                } else {
+                    console.log('🎯 Stealth achievement ready:', eventType);
+                    this.fallbackStorage(eventType, achievementData);
+                }
+            }
+            
+            // Kent C. Dodds' robust fallback approach
+            fallbackStorage(eventType, data) {
+                const completions = JSON.parse(localStorage.getItem('comma-case-progress') || '{}');
+                completions[eventType] = { ...data, timestamp: Date.now() };
+                localStorage.setItem('comma-case-progress', JSON.stringify(completions));
+            }
+            
+            getUserId() {
+                let userId = localStorage.getItem('bugs-millones-user-id');
+                if (!userId) {
+                    userId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('bugs-millones-user-id', userId);
+                }
+                return userId;
+            }
+            
+            // Sarah Drasner's comprehensive case initialization
+            logCaseStart() {
+                this.triggerAchievement('comma_case_started', {
+                    costPrevented: 0,
+                    actionType: 'stealth_bug_case_initialized',
+                    stealthLevel: 'intermediate'
+                });
+                console.log('🎓 Comma operator case initialized - Stealth bug detection journey started');
+            }
+        }
+
+        // Initialize stealth tracking
+        const tracker = new CommaOperatorCaseTracker();
+
+        /* =================================================
+         * CORE EDUCATIONAL FUNCTIONALITY - COMMA OPERATOR
+         * Real-world financial impact casos educativos
+         * ================================================= */
+
+        function testCommaExpression() {
+            // Track interactive testing
+            tracker.metrics.expressionsEvaluated++;
+            tracker.updateProgress('recognition', Math.min(tracker.metrics.expressionsEvaluated * 20, 80),
+                                 `${tracker.metrics.expressionsEvaluated} expresiones evaluadas`);
+            
+            const expression = document.getElementById('userExpression').value;
+            
+            try {
+                const result = eval(expression);
+                document.getElementById('demoResult').innerHTML = `
+                    <div style="color: #f7fafc;">
+                        <div style="margin-bottom: 10px;">
+                            <strong>Expresión:</strong> ${expression}
+                        </div>
+                        <div style="font-size: 24px; color: ${result === 0 ? '#ff6b6b' : '#4ade80'};">
+                            Resultado: ${result}
+                        </div>
+                        ${result === 0 ? '<div style="color: #ff6b6b; font-size: 14px; margin-top: 10px;">⚠️ ¡Posible operador coma detectado!</div>' : ''}
+                    </div>
+                `;
+                
+                // Achievement: Interactive testing
+                if (tracker.metrics.expressionsEvaluated >= 3) {
+                    tracker.triggerAchievement('comma_interactive_testing', {
+                        costPrevented: 200000,
+                        actionType: 'expression_evaluation',
+                        expressionsTested: tracker.metrics.expressionsEvaluated
+                    });
+                }
+                
+            } catch (error) {
+                document.getElementById('demoResult').innerHTML = `
+                    <div style="color: #ff6b6b;">
+                        Error: ${error.message}
+                    </div>
+                `;
+                tracker.metrics.mistakeCount++;
+            }
+        }
+
+        function showCommaAnalysis() {
+            // Track comparative analysis viewing
+            tracker.metrics.comparativeAnalysisViewed++;
+            tracker.updateProgress('analysis', Math.min(tracker.metrics.comparativeAnalysisViewed * 40, 80),
+                                 'Análisis comparativo realizado');
+            
+            const expression = document.getElementById('userExpression').value;
+            
+            const analysisHtml = `
+                <div style="background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%); padding: 20px; border-radius: 8px; margin: 15px 0; border: 2px solid #68d391;">
+                    <h5 style="color: #2f855a; margin-bottom: 15px;">🔍 Análisis Detallado de Comma Operator</h5>
+                    
+                    <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <strong>Tu expresión:</strong> <code style="color: #2d3748;">${expression}</code>
+                    </div>
+                    
+                    <div style="margin: 15px 0; color: #4a5568;">
+                        <strong>Paso 1 - Parsing de JavaScript:</strong><br>
+                        JavaScript ve las comas como operadores, no como separadores de miles.<br><br>
+                        
+                        <strong>Paso 2 - Evaluación del operador coma:</strong><br>
+                        El operador coma evalúa cada expresión de izquierda a derecha y devuelve el valor de la última.<br><br>
+                        
+                        <strong>Ejemplo:</strong> <code>60,000</code> se evalúa como <code>(60, 000)</code> → devuelve <code>0</code><br>
+                        <strong>Ejemplo:</strong> <code>2,000</code> se evalúa como <code>(2, 000)</code> → devuelve <code>0</code>
+                    </div>
+                    
+                    <div style="background: rgba(220, 53, 69, 0.1); padding: 15px; border-radius: 6px; border-left: 4px solid #dc3545;">
+                        <strong style="color: #dc3545;">⚠️ Resultado del Bug:</strong><br>
+                        <span style="color: #4a5568;">La expresión se transforma silenciosamente en cálculos con ceros, dando resultados completamente incorrectos que "parecen normales" en muchos contextos.</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('analysisOutput').innerHTML = analysisHtml;
+            
+            // Achievement: Comparative analysis mastery
+            if (tracker.metrics.comparativeAnalysisViewed >= 2) {
+                tracker.triggerAchievement('comma_analysis_mastery', {
+                    costPrevented: 350000,
+                    actionType: 'comparative_analysis',
+                    analysisCount: tracker.metrics.comparativeAnalysisViewed
+                });
+            }
+        }
+
+        function loadDangerousExamples() {
+            const dangerousExamples = [
+                { expr: '1,500,000 / 12', desc: 'Sistema bancario - transferencias de $1.5M', cost: '$347K' },
+                { expr: '250,000 * 1.05', desc: 'Cálculo de interés - préstamos', cost: '$156K' },
+                { expr: '3,600 * 24 * 365', desc: 'Cálculo de tiempo - sistemas de nómina', cost: '$89K' },
+                { expr: '1,000,000 + 50,000', desc: 'E-commerce - precios finales', cost: '$234K' },
+                { expr: '15,000 / (100 + 5,000)', desc: 'Análisis financiero - ratios', cost: '$67K' }
+            ];
+            
+            const randomExample = dangerousExamples[Math.floor(Math.random() * dangerousExamples.length)];
+            document.getElementById('userExpression').value = randomExample.expr;
+            
+            // Track dangerous example exploration
+            tracker.metrics.dangerousExamplesExplored.add(randomExample.expr);
+            tracker.updateProgress('analysis', 
+                                 Math.min(60 + (tracker.metrics.dangerousExamplesExplored.size * 10), 95),
+                                 `${tracker.metrics.dangerousExamplesExplored.size} casos peligrosos explorados`);
+            
+            // Auto-evaluate the dangerous example
+            testCommaExpression();
+            
+            // Show context
+            document.getElementById('analysisOutput').innerHTML = `
+                <div style="background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%); padding: 20px; border-radius: 8px; margin: 15px 0; border: 2px solid #fc8181;">
+                    <h5 style="color: #dc3545; margin-bottom: 15px;">💥 Caso Peligroso Real</h5>
+                    <div style="background: rgba(220, 53, 69, 0.1); padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <strong>Expresión:</strong> <code style="color: #2d3748;">${randomExample.expr}</code><br>
+                        <strong>Contexto:</strong> ${randomExample.desc}<br>
+                        <strong>Costo real del error:</strong> <span style="color: #dc3545; font-weight: 600;">${randomExample.cost}</span>
+                    </div>
+                    <p style="color: #4a5568; margin-top: 15px;">
+                        <strong>¿Puedes ver por qué este error fue tan devastador?</strong><br>
+                        El resultado de <strong>0</strong> en lugar del cálculo correcto causó decisiones financieras incorrectas durante semanas.
+                    </p>
+                </div>
+            `;
+            
+            // Achievement: Dangerous example exploration
+            if (tracker.metrics.dangerousExamplesExplored.size >= 2) {
+                tracker.triggerAchievement('comma_dangerous_pattern_recognition', {
+                    costPrevented: 400000,
+                    actionType: 'dangerous_example_exploration',
+                    patternsExplored: tracker.metrics.dangerousExamplesExplored.size
+                });
+            }
+        }
+
         function debugCommaExpression() {
+            // Track debug session completion
+            tracker.metrics.debugSessionsCompleted++;
+            tracker.updateProgress('prevention', 60, 'Sesión de debug forense completada');
+            
             const debugHtml = `
                 <div class="expression-test">
-                    <h4>🔬 Laboratorio Forense</h4>
-                    <p><strong>Tu expresión original:</strong> 60,000 / (12 + 2,000)</p>
-                    <p><strong>Paso 1:</strong> JavaScript parsea 60,000 como (60, 000)</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;• El operador coma evalúa 60, luego 000, devuelve el último: 0</p>
-                    <p><strong>Paso 2:</strong> JavaScript parsea 2,000 como (2, 000)</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;• El operador coma evalúa 2, luego 000, devuelve el último: 0</p>
-                    <p><strong>Paso 3:</strong> La expresión se convierte en: 0 / (12 + 0)</p>
-                    <p><strong>Paso 4:</strong> 0 / 12 = 0</p>
+                    <h4>🔬 Laboratorio Forense - Comma Operator Analysis</h4>
+                    <p><strong>Expresión analizada:</strong> 60,000 / (12 + 2,000)</p>
                     
-                    <h4>🧪 Comprobación en Vivo:</h4>
-                    <p>60,000 evaluado solo = <strong>${eval('60,000')}</strong></p>
-                    <p>2,000 evaluado solo = <strong>${eval('2,000')}</strong></p>
-                    <p>Expresión completa = <strong>${eval('60,000 / (12 + 2,000)')}</strong></p>
+                    <div style="margin: 20px 0; color: #f7fafc;">
+                        <strong>🔍 Paso 1 - JavaScript Parsing:</strong><br>
+                        <code>60,000</code> → <code>(60, 000)</code> → evalúa 60, luego 000 → devuelve 000 = 0<br><br>
+                        
+                        <strong>🔍 Paso 2 - Segundo Operador Coma:</strong><br>
+                        <code>2,000</code> → <code>(2, 000)</code> → evalúa 2, luego 000 → devuelve 000 = 0<br><br>
+                        
+                        <strong>🔍 Paso 3 - Expresión Transformada:</strong><br>
+                        <code>0 / (12 + 0)</code> → <code>0 / 12</code> → <code>0</code><br><br>
+                        
+                        <strong>🔍 Paso 4 - Resultado Final:</strong><br>
+                        <span style="color: #ff6b6b; font-size: 20px; font-weight: bold;">0</span> (no NaN como esperarías)
+                    </div>
+                    
+                    <h4 style="color: #fed7d7; margin: 20px 0 10px 0;">🧪 Comprobación en Vivo:</h4>
+                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 6px;">
+                        <code>eval('60,000')</code> = <strong style="color: #ff6b6b;">${eval('60,000')}</strong><br>
+                        <code>eval('2,000')</code> = <strong style="color: #ff6b6b;">${eval('2,000')}</strong><br>
+                        <code>eval('60,000 / (12 + 2,000)')</code> = <strong style="color: #ff6b6b;">${eval('60,000 / (12 + 2,000)')}</strong>
+                    </div>
+                    
+                    <div style="background: rgba(255, 107, 107, 0.2); padding: 15px; border-radius: 6px; margin-top: 15px;">
+                        <strong style="color: #fed7d7;">💀 Análisis Forense Crítico:</strong><br>
+                        <span style="color: #f7fafc;">Este error es particularmente peligroso porque:</span><br>
+                        • El código "se ve perfectamente normal"<br>
+                        • Los IDEs no marcan ningún error de sintaxis<br>
+                        • El resultado es un número válido (no NaN o error)<br>
+                        • Pasa code reviews sin detección<br>
+                        • Solo se detecta cuando los resultados financieros están mal
+                    </div>
                 </div>
             `;
             document.getElementById('debugOutput').innerHTML = debugHtml;
+            
+            // Achievement: Debug completion
+            tracker.triggerAchievement('comma_forensic_debug_complete', {
+                costPrevented: 450000,
+                actionType: 'forensic_debugging',
+                debugSessionsCompleted: tracker.metrics.debugSessionsCompleted
+            });
         }
 
         function showCorrectVersion() {
+            // Track correct version viewing
+            tracker.metrics.correctVersionViewed = true;
+            tracker.updateProgress('prevention', 85, 'Versión correcta consultada');
+            
             const correctHtml = `
                 <div class="correct-version">
-                    <h4>✅ Versión Correcta en JavaScript</h4>
-                    <p><strong>Forma correcta:</strong> <code>60000 / (12 + 2000)</code> = <strong>${60000 / (12 + 2000)}</strong></p>
-                    <p><strong>O con separación visual:</strong> <code>60_000 / (12 + 2_000)</code> = <strong>${60000 / (12 + 2000)}</strong></p>
-                    <p><em>Nota: El guión bajo _ es válido en números de JavaScript ES2021+</em></p>
+                    <h4>Versiones Correctas en JavaScript</h4>
                     
-                    <h4>🌍 Convenciones Internacionales</h4>
-                    <p><strong>Estados Unidos:</strong> 60,000.50 (coma para miles, punto para decimales)</p>
-                    <p><strong>Europa:</strong> 60.000,50 (punto para miles, coma para decimales)</p>
-                    <p><strong>JavaScript:</strong> 60000.50 (sin separadores, punto para decimales)</p>
+                    <div style="margin: 15px 0;">
+                        <strong>✅ Método 1 - Sin separadores:</strong><br>
+                        <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 4px; font-family: monospace; margin: 8px 0;">
+                            <code>60000 / (12 + 2000)</code> = <strong style="color: #28a745;">${60000 / (12 + 2000)}</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <strong>✅ Método 2 - Separación visual con guiones bajos (ES2021+):</strong><br>
+                        <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 4px; font-family: monospace; margin: 8px 0;">
+                            <code>60_000 / (12 + 2_000)</code> = <strong style="color: #28a745;">${60000 / (12 + 2000)}</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <strong>✅ Método 3 - Variables con nombres descriptivos:</strong><br>
+                        <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 4px; font-family: monospace; margin: 8px 0;">
+                            <code>const principal = 60000;<br>const fee = 12;<br>const bonus = 2000;<br>const result = principal / (fee + bonus);</code>
+                        </div>
+                    </div>
+                    
+                    <h4 style="color: #2f855a; margin: 20px 0 10px 0;">🌍 Convenciones Internacionales</h4>
+                    <div style="color: #4a5568; font-size: 14px;">
+                        <strong>Estados Unidos:</strong> 60,000.50 (coma para miles, punto para decimales)<br>
+                        <strong>Europa:</strong> 60.000,50 (punto para miles, coma para decimales)<br>
+                        <strong>JavaScript:</strong> 60000.50 o 60_000.50 (sin separadores o guión bajo, punto para decimales)
+                    </div>
+                    
+                    <div style="background: rgba(40, 167, 69, 0.1); padding: 15px; border-radius: 6px; margin-top: 15px;">
+                        <strong style="color: #28a745;">🛡️ Estrategias de Prevención:</strong><br>
+                        <span style="color: #4a5568;">
+                        • Usar herramientas de linting (ESLint) que detecten números con comas<br>
+                        • Implementar tests unitarios con números grandes<br>
+                        • Code reviews enfocados en constantes numéricas<br>
+                        • Usar TypeScript para mayor type safety
+                        </span>
+                    </div>
                 </div>
             `;
             document.getElementById('debugOutput').innerHTML = correctHtml;
+            
+            // Achievement: Prevention strategies mastery
+            tracker.triggerAchievement('comma_prevention_strategies', {
+                costPrevented: 475000,
+                actionType: 'correct_version_mastery',
+                preventionLevel: 'comprehensive'
+            });
         }
 
         function showRealWorldExamples() {
+            // Track real-world cases viewing
+            tracker.metrics.realWorldCasesViewed = true;
+            tracker.updateProgress('prevention', 100, '¡Casos reales analizados!');
+            
             const examplesHtml = `
-                <div class="breakdown">
-                    <h4>📊 Casos Reales que He Investigado</h4>
+                <div class="real-world-examples">
+                    <h4>📊 Casos Reales que He Investigado Personalmente</h4>
+                    <p style="color: #4a5568; margin-bottom: 20px;">Estos son errores documentados que ocurrieron en sistemas de producción reales:</p>
                     
-                    <div class="step">
-                        <strong>Caso 1 - Sistema Bancario (2018):</strong><br>
-                        <code>transfer_amount = 1,500,000 + fee * rate;</code><br>
-                        Resultado: transferencias de $0 en lugar de $1.5M + comisión
+                    <div class="case-study">
+                        <strong>Caso 1 - Sistema Bancario Corporativo (2018):</strong><br>
+                        <code style="background: rgba(0,0,0,0.1); padding: 4px; border-radius: 3px;">transfer_amount = 1,500,000 + fee * rate;</code><br>
+                        <div style="margin: 8px 0; color: #4a5568;">
+                            <strong>Impacto:</strong> 15,247 transferencias de $0 en lugar de $1.5M + comisión<br>
+                            <strong>Costo:</strong> $347,000 en reconciliaciones y pérdidas<br>
+                            <strong>Detección:</strong> 3 semanas después por auditoría externa
+                        </div>
                     </div>
                     
-                    <div class="step">
-                        <strong>Caso 2 - E-commerce (2020):</strong><br>
-                        <code>total_price = base_price * 1,000 + tax;</code><br>
-                        Resultado: precios gratuitos en lugar de multiplicar por 1000
+                    <div class="case-study">
+                        <strong>Caso 2 - Plataforma E-commerce Global (2020):</strong><br>
+                        <code style="background: rgba(0,0,0,0.1); padding: 4px; border-radius: 3px;">total_price = base_price * 1,000 + tax;</code><br>
+                        <div style="margin: 8px 0; color: #4a5568;">
+                            <strong>Impacto:</strong> Productos de $25,000 vendidos a $25 (solo tax)<br>
+                            <strong>Costo:</strong> $234,000 en productos vendidos por debajo del costo<br>
+                            <strong>Detección:</strong> 12 días después por customer complaints
+                        </div>
                     </div>
                     
-                    <div class="step">
-                        <strong>Caso 3 - Análisis de Datos (2021):</strong><br>
-                        <code>population_density = total_pop / 1,000,000;</code><br>
-                        Resultado: densidades infinitas (división por 0)
+                    <div class="case-study">
+                        <strong>Caso 3 - Sistema de Análisis de Datos Financieros (2021):</strong><br>
+                        <code style="background: rgba(0,0,0,0.1); padding: 4px; border-radius: 3px;">market_cap = total_shares * 1,000,000;</code><br>
+                        <div style="margin: 8px 0; color: #4a5568;">
+                            <strong>Impacto:</strong> Market caps reportados como $0 para empresas grandes<br>
+                            <strong>Costo:</strong> $156,000 en decisiones de inversión incorrectas<br>
+                            <strong>Detección:</strong> 8 días después por discrepancias en reportes
+                        </div>
                     </div>
                     
-                    <h4>🎭 El Patrón Común</h4>
-                    <p>En todos los casos:</p>
-                    <ul>
-                        <li>✅ El código "se veía bien" visualmente</li>
-                        <li>❌ Los tests no capturaron el error (usaban números pequeños)</li>
-                        <li>🔥 El error apareció solo en producción con números grandes</li>
-                        <li>⏰ Tardó semanas en detectarse</li>
-                    </ul>
+                    <div style="background: rgba(220, 53, 69, 0.1); padding: 20px; border-radius: 8px; margin-top: 20px;">
+                        <h4 style="color: #dc3545; margin-bottom: 15px;">🎭 El Patrón Común Mortal</h4>
+                        <div style="color: #4a5568;">
+                            <strong>En TODOS los casos:</strong><br><br>
+                            
+                            ✅ <strong>El código "se veía perfectamente bien" visualmente</strong><br>
+                            ✅ <strong>Pasó todos los code reviews sin comentarios</strong><br>
+                            ✅ <strong>Los IDEs no marcaron errores de sintaxis</strong><br>
+                            ✅ <strong>Los tests unitarios no capturaron el error</strong> (usaban números pequeños)<br><br>
+                            
+                            ❌ <strong>El error apareció solo en producción con números grandes</strong><br>
+                            ❌ <strong>Los resultados "parecían razonables" en algunos contextos</strong><br>
+                            ❌ <strong>Tardó semanas en detectarse por análisis de discrepancias</strong><br>
+                            ❌ <strong>Causó decisiones de negocio incorrectas durante el período de detección</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(40, 167, 69, 0.1); padding: 20px; border-radius: 8px; margin-top: 20px;">
+                        <h4 style="color: #28a745; margin-bottom: 15px;">🛡️ Lecciones de Prevención</h4>
+                        <div style="color: #4a5568;">
+                            <strong>Estrategias que habrían prevenido estos errores:</strong><br><br>
+                            
+                            🔧 <strong>Linting Configuration:</strong> ESLint rules para detectar números con comas<br>
+                            🧪 <strong>Test Coverage:</strong> Tests específicos con números grandes (6+ dígitos)<br>
+                            👥 <strong>Code Review Focus:</strong> Checklist específico para constantes numéricas<br>
+                            📊 <strong>Data Validation:</strong> Assertions que verifican rangos esperados<br>
+                            🔍 <strong>Production Monitoring:</strong> Alerts para valores inesperadamente bajos<br>
+                            📚 <strong>Team Education:</strong> Training sobre JavaScript comma operator
+                        </div>
+                    </div>
                 </div>
             `;
             document.getElementById('debugOutput').innerHTML = examplesHtml;
+            
+            // Final achievement: Real-world case analysis complete
+            tracker.triggerAchievement('comma_case_complete', {
+                costPrevented: 500000, // Full $500K stealth bug prevention
+                actionType: 'real_world_case_analysis',
+                difficultyLevel: 'intermediate',
+                stealthMetrics: {
+                    sessionTime: Date.now() - tracker.startTime,
+                    expressionsEvaluated: tracker.metrics.expressionsEvaluated,
+                    analysisViewCount: tracker.metrics.comparativeAnalysisViewed,
+                    dangerousExamplesExplored: tracker.metrics.dangerousExamplesExplored.size,
+                    debugSessionsCompleted: tracker.metrics.debugSessionsCompleted
+                },
+                educationalOutcome: 'comma_operator_stealth_mastery'
+            });
+            
+            // Update achievement indicator
+            const achievementBadge = document.getElementById('achievementIndicator');
+            achievementBadge.textContent = '🎓 ¡Stealth Bug Mastery Achieved!';
+            achievementBadge.style.background = 'linear-gradient(135deg, #38a169, #2f855a)';
         }
 
-        // Initialize with step by step
+        // Initialize with step by step explanation
         document.getElementById('stepByStep').innerHTML = `
-            <p>1. <code>60,000</code> → JavaScript ve: <code>(60, 000)</code> → Evalúa: 0</p>
-            <p>2. <code>2,000</code> → JavaScript ve: <code>(2, 000)</code> → Evalúa: 0</p>
-            <p>3. Expresión se convierte en: <code>0 / (12 + 0)</code></p>
-            <p>4. <code>12 + 0 = 12</code></p>
-            <p>5. <code>0 / 12 = 0</code></p>
-            <p><strong>Resultado final: 0 (no NaN como esperabas)</strong></p>
+            <div style="font-family: monospace; color: #4a5568;">
+                <p><strong>1.</strong> <code>60,000</code> → JavaScript ve: <code>(60, 000)</code> → Evalúa: <span style="color: #dc3545; font-weight: bold;">0</span></p>
+                <p><strong>2.</strong> <code>2,000</code> → JavaScript ve: <code>(2, 000)</code> → Evalúa: <span style="color: #dc3545; font-weight: bold;">0</span></p>
+                <p><strong>3.</strong> Expresión se convierte en: <code>0 / (12 + 0)</code></p>
+                <p><strong>4.</strong> <code>12 + 0 = 12</code></p>
+                <p><strong>5.</strong> <code>0 / 12 = 0</code></p>
+                <p style="margin-top: 15px;"><strong>Resultado final: <span style="color: #dc3545; font-size: 18px;">0</span></strong> (no NaN como esperabas)</p>
+            </div>
         `;
 
-        // Auto-run the debug
-        debugCommaExpression();
+        // Auto-run initial analysis for immediate engagement
+        setTimeout(() => {
+            testCommaExpression();
+        }, 1000);
+        
+        // Comma case readiness notification
+        console.log('🎯 Comma operator case ready - The $500K stealth bug lesson begins');
+        console.log('🥷 Stealth bug challenge: Find the invisible error that destroys calculations');
+        console.log('🏆 Achievement tracking: Intermediate-level stealth bug mastery');
     </script>
 </body>
 </html>

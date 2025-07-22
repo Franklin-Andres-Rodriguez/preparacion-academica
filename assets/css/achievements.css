@@ -1,0 +1,18 @@
+/* 🎨 ACHIEVEMENT UI COMPONENTS */
+/* Ubicación: assets/css/achievements.css */
+
+/* Achievement badges with psychology-optimized colors */
+.achievement-badge {
+  /* Sarah Drasner-level animation systems */
+  animation: celebration-burst 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Progress rings with dopamine-optimized visual feedback */
+.progress-ring {
+  /* SVG-based progress indicators */
+}
+
+/* Achievement unlock modal */
+.achievement-modal {
+  /* Glassmorphism design matching your existing system */
+}

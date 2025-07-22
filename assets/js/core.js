@@ -50,7 +50,11 @@ class NavigationState {
       links: [],
       sections: []
     };
-    
+
+    // 🏆 NUEVO: Achievement event integration (agregar estas 2 líneas)
+    this.achievementCallbacks = [];
+    this.caseCompletions = new Map(); // Track case completion data
+        
     this.init();
   }
   
@@ -193,6 +197,72 @@ class NavigationState {
     
     // Store observer for potential cleanup
     this.observers.set('sections', observer);
+  }
+  // ← ESTE ES EL FINAL de setupIntersectionObserver
+  
+  // 🏆 AGREGAR EXACTAMENTE AQUÍ (después del cierre del método anterior):
+  
+  /**
+   * Register callback for case completion events
+   * Achievement system integration following Clean Architecture dependency inversion
+   * 
+   * @param {Function} callback - Function to call when case is completed
+   */
+  onCaseCompletion(callback) {
+    if (typeof callback === 'function') {
+      this.achievementCallbacks.push(callback);
+      utils.logWithContext('info', 'Navigation', 'Achievement callback registered');
+    }
+  }
+  
+  /**
+   * Trigger case completion events
+   * Called when user completes a case study
+   * 
+   * @param {string} caseId - Case identifier
+   * @param {Object} completionData - Data about completion
+   */
+  triggerCaseCompletion(caseId, completionData) {
+    // Store completion data
+    this.caseCompletions.set(caseId, {
+      ...completionData,
+      timestamp: Date.now(),
+      sectionId: this.activeSection
+    });
+    
+    // Notify achievement callbacks
+    this.achievementCallbacks.forEach(callback => {
+      try {
+        callback(caseId, {
+          userId: this.getCurrentUserId(),
+          completionTime: completionData.completionTime || 0,
+          mistakes: completionData.mistakes || 0,
+          caseType: completionData.caseType || 'unknown',
+          currentSection: this.activeSection,
+          timestamp: Date.now()
+        });
+      } catch (error) {
+        utils.logWithContext('error', 'Navigation', 'Achievement callback failed', error);
+      }
+    });
+    
+    utils.logWithContext('info', 'Navigation', `Case completed: ${caseId}`);
+  }
+  
+  /**
+   * Get current user ID for achievement tracking
+   * Simple implementation - can be enhanced later
+   * 
+   * @returns {string} - User identifier
+   */
+  getCurrentUserId() {
+    // Simple user ID generation/retrieval
+    let userId = localStorage.getItem('bugs-millones-user-id');
+    if (!userId) {
+      userId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('bugs-millones-user-id', userId);
+    }
+    return userId;
   }
 }
 
@@ -849,6 +919,44 @@ window.coreAPI = {
    * @returns {boolean}
    */
   isReady: () => coreManager.isReady()
+
+  // 🏆 NUEVO: Achievement integration methods (agregar estas funciones)
+  
+  /**
+   * Register achievement callback with navigation system
+   * @param {Function} callback - Achievement callback function
+   */
+  onCaseCompletion: (callback) => {
+    const nav = coreManager.getSystem('navigation');
+    if (nav && typeof nav.onCaseCompletion === 'function') {
+      nav.onCaseCompletion(callback);
+    } else {
+      console.warn('Navigation system not ready for achievement callbacks');
+    }
+  },
+  
+  /**
+   * Trigger case completion for achievement system
+   * @param {string} caseId - Case identifier 
+   * @param {Object} completionData - Completion details
+   */
+  triggerCaseCompletion: (caseId, completionData = {}) => {
+    const nav = coreManager.getSystem('navigation');
+    if (nav && typeof nav.triggerCaseCompletion === 'function') {
+      nav.triggerCaseCompletion(caseId, completionData);
+    } else {
+      console.warn('Navigation system not ready for case completion');
+    }
+  },
+  
+  /**
+   * Get case completion history
+   * @returns {Map} - Map of completed cases
+   */
+  getCaseCompletions: () => {
+    const nav = coreManager.getSystem('navigation');
+    return nav && nav.caseCompletions ? nav.caseCompletions : new Map();
+  }
 };
 
 /* =====================================================

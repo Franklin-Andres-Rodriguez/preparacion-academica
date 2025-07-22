@@ -3,44 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💡 De $2.3M de Pérdidas a Código Profesional</title>
+<title>💡 De $2.3M de Pérdidas a Código Profesional | Bugs que Cuestan Millones</title>
 <meta name="description" content="La evolución completa: cómo transformar código naive en soluciones profesionales que habrían salvado FinTechCorp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-/* ===== DESIGN TOKENS (Consistent with main site) ===== */
+/* =============================================
+ * DESIGN SYSTEM - Sarah Drasner's Visual Excellence
+ * Following atomic design principles and modern UX patterns
+ * ============================================= */
+
 :root {
-  /* Typography */
+  /* Design Tokens - Systematic approach */
   --font-primary: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Crimson Pro', Georgia, serif;
   --font-code: 'JetBrains Mono', 'Fira Code', monospace;
   
-  /* Colors */
-  --danger-primary: #ff4025;
-  --danger-glow: rgba(255, 64, 37, 0.4);
-  --warning-primary: #ff8c1a;
-  --warning-glow: rgba(255, 140, 26, 0.4);
-  --success-primary: #22c55e;
-  --success-glow: rgba(34, 197, 94, 0.4);
-  --brand-primary: #8445ff;
-  --brand-glow: rgba(132, 69, 255, 0.4);
+  /* Color Palette - Accessibility first */
+  --color-success: #22c55e;
+  --color-success-light: rgba(34, 197, 94, 0.1);
+  --color-success-glow: rgba(34, 197, 94, 0.4);
+  --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.1);
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.1);
+  --color-brand: #8b5cf6;
+  --color-brand-light: rgba(139, 92, 246, 0.1);
   
   /* Dark Theme */
-  --dark-bg-primary: #0d0d0f;
-  --dark-bg-secondary: #16181d;
-  --dark-bg-tertiary: #1f2128;
-  --dark-surface: #252830;
-  --dark-border: #2d3139;
-  --dark-text-primary: #f8fafc;
-  --dark-text-secondary: #cbd5e1;
-  --dark-text-muted: #94a3b8;
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-surface: #262626;
+  --bg-surface-hover: #2d2d2d;
+  --border-color: #404040;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
   
-  /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #8445ff 0%, #ff4025 50%, #ff8c1a 100%);
-  --gradient-success: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-  
-  /* Spacing */
+  /* Spacing System - 8pt grid */
+  --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
@@ -52,7 +55,8 @@
   --space-16: 4rem;
   --space-20: 5rem;
   
-  /* Typography */
+  /* Typography Scale */
+  --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
@@ -60,25 +64,30 @@
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
   --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
   
-  /* Animations */
-  --duration-normal: 350ms;
-  --duration-slow: 500ms;
-  --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Borders */
+  /* Borders & Radius */
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
-  --radius-3xl: 2rem;
+  --radius-full: 9999px;
   
   /* Shadows */
-  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
-  --shadow-glow-success: 0 0 30px var(--success-glow);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 30px var(--color-brand-light);
+  
+  /* Animation System */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* ===== BASE STYLES ===== */
+/* Base Styles - Reset + Typography */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -87,499 +96,402 @@
 
 body {
   font-family: var(--font-body);
-  background: var(--dark-bg-primary);
-  color: var(--dark-text-primary);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== ANIMATED BACKGROUND ===== */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(132, 69, 255, 0.05) 0%, transparent 50%);
-  animation: backgroundShift 15s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: -1;
-}
+/* =============================================
+ * COMPONENT LIBRARY - Atomic Design System
+ * ============================================= */
 
-@keyframes backgroundShift {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-10px) scale(1.02); }
-}
-
-/* ===== LAYOUT ===== */
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-}
-
-/* ===== NAVIGATION ===== */
-.nav-grid {
-  position: fixed;
-  top: var(--space-6);
-  left: var(--space-6);
-  right: var(--space-6);
-  display: flex;
-  justify-content: space-between;
-  z-index: 100;
-}
-
-.nav-btn {
+/* ATOMS */
+.btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--dark-border);
-  border-radius: var(--radius-xl);
-  color: var(--dark-text-primary);
-  text-decoration: none;
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  border-radius: var(--radius-lg);
   font-family: var(--font-primary);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  cursor: pointer;
   transition: all var(--duration-normal) var(--easing-smooth);
-}
-
-.nav-btn:hover {
-  background: var(--dark-surface);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
-}
-
-.nav-btn.success {
-  border-color: var(--success-primary);
-  background: rgba(34, 197, 94, 0.1);
-}
-
-/* ===== HEADER ===== */
-header {
-  background: var(--gradient-success);
-  padding: var(--space-20) 0 var(--space-16);
-  text-align: center;
   position: relative;
   overflow: hidden;
 }
 
-header::before {
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left var(--duration-slow) var(--easing-smooth);
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-brand), var(--color-success));
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-surface-hover);
+  transform: translateY(-1px);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-family: var(--font-code);
+  font-size: var(--text-base);
+  transition: all var(--duration-normal) var(--easing-smooth);
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-light);
+}
+
+.input:invalid {
+  border-color: var(--color-danger);
+}
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow);
+  transition: all var(--duration-normal) var(--easing-smooth);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-brand);
+}
+
+/* MOLECULES */
+.progress-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.progress-ring-circle {
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset var(--duration-slow) var(--easing-smooth);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-primary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-success {
+  background: var(--color-success-light);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+.badge-danger {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+}
+
+.badge-warning {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+/* ORGANISMS */
+.calculator-interface {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+
+.evolution-stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+
+.evolution-stepper::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 48px;
+  right: 48px;
+  height: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+.evolution-step {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-full);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+  transition: all var(--duration-normal) var(--easing-smooth);
+  cursor: pointer;
+}
+
+.evolution-step.active {
+  border-color: var(--color-success);
+  background: var(--color-success);
+  color: white;
+  box-shadow: 0 0 20px var(--color-success-glow);
+}
+
+.evolution-step.completed {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: white;
+}
+
+/* TEMPLATES */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.hero-section {
+  text-align: center;
+  padding: var(--space-20) 0 var(--space-16);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(2px);
+  background: radial-gradient(ellipse at center, var(--color-brand-light), transparent 70%);
+  animation: heroGlow 4s ease-in-out infinite alternate;
 }
 
-.header-content {
-  position: relative;
-  z-index: 2;
+@keyframes heroGlow {
+  0% { opacity: 0.3; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(1.05); }
 }
 
-.success-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: rgba(34, 197, 94, 0.2);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-xl);
-  font-family: var(--font-code);
-  font-size: var(--text-sm);
-  margin-bottom: var(--space-6);
-  backdrop-filter: blur(10px);
-}
-
-header h1 {
+.hero-title {
   font-family: var(--font-primary);
-  font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
   font-weight: 700;
   margin-bottom: var(--space-4);
-  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text-primary), var(--color-brand));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
 }
 
-.subtitle {
-  font-size: var(--text-xl);
-  opacity: 0.9;
-  font-style: italic;
-  margin-bottom: var(--space-8);
-}
-
-/* ===== EVOLUTION TRACKER ===== */
-.evolution-tracker {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--space-4);
-  margin-top: var(--space-8);
-}
-
-.evolution-step {
-  background: rgba(0, 0, 0, 0.3);
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  text-align: center;
-}
-
-.step-number {
-  font-family: var(--font-code);
-  font-size: var(--text-2xl);
-  font-weight: 600;
-  color: var(--success-primary);
-}
-
-.step-label {
-  font-size: var(--text-sm);
-  opacity: 0.8;
-  margin-top: var(--space-2);
-}
-
-/* ===== SECTIONS ===== */
 .section {
   margin-bottom: var(--space-16);
-  background: var(--dark-bg-secondary);
-  padding: var(--space-10);
-  border-radius: var(--radius-3xl);
-  border: 1px solid var(--dark-border);
-  position: relative;
-  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp var(--duration-slow) var(--easing-smooth) forwards;
 }
 
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gradient-success);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--duration-slow) var(--easing-smooth);
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.section:hover::before {
-  transform: scaleX(1);
-}
+/* =============================================
+ * COMPONENT-SPECIFIC STYLES
+ * ============================================= */
 
-.section h2 {
+.achievement-toast {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-6);
+  background: linear-gradient(135deg, var(--color-success), var(--color-brand));
+  color: white;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: all var(--duration-normal) var(--easing-bounce);
+  max-width: 320px;
   font-family: var(--font-primary);
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  margin-bottom: var(--space-6);
-  letter-spacing: -0.02em;
-}
-
-/* ===== CODE EVOLUTION DISPLAY ===== */
-.code-evolution {
-  display: grid;
-  gap: var(--space-8);
-}
-
-.code-stage {
-  background: var(--dark-surface);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-8);
-  border: 1px solid var(--dark-border);
-  position: relative;
-  transition: all var(--duration-normal) var(--easing-smooth);
-}
-
-.code-stage.active {
-  border-color: var(--success-primary);
-  box-shadow: var(--shadow-glow-success);
-}
-
-.stage-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-6);
-}
-
-.stage-title {
-  font-family: var(--font-primary);
-  font-size: var(--text-xl);
-  font-weight: 600;
-}
-
-.stage-badge {
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-lg);
-  font-family: var(--font-code);
   font-size: var(--text-sm);
   font-weight: 600;
 }
 
-.stage-badge.naive {
-  background: rgba(255, 64, 37, 0.2);
-  color: var(--danger-primary);
-  border: 1px solid var(--danger-primary);
+.achievement-toast.show {
+  transform: translateX(0);
 }
 
-.stage-badge.improved {
-  background: rgba(255, 140, 26, 0.2);
-  color: var(--warning-primary);
-  border: 1px solid var(--warning-primary);
-}
-
-.stage-badge.professional {
-  background: rgba(34, 197, 94, 0.2);
-  color: var(--success-primary);
-  border: 1px solid var(--success-primary);
-}
-
-.code-block {
-  background: #0a0c10;
-  border: 1px solid var(--dark-border);
-  border-radius: var(--radius-xl);
+.progress-sidebar {
+  position: fixed;
+  left: var(--space-6);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius-2xl);
   padding: var(--space-6);
-  margin: var(--space-4) 0;
-  font-family: var(--font-code);
-  font-size: var(--text-base);
-  color: #f8f8f2;
-  overflow-x: auto;
-  line-height: 1.6;
+  box-shadow: var(--shadow-lg);
+  color: var(--bg-primary);
+  min-width: 280px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-100%);
+  transition: all var(--duration-slow) var(--easing-smooth);
+  z-index: 100;
 }
 
-/* Syntax highlighting */
-.keyword { color: #ff79c6; }
-.number { color: #bd93f9; }
-.string { color: #f1fa8c; }
-.comment { color: #6272a4; font-style: italic; }
-.function { color: #50fa7b; }
-.variable { color: #8be9fd; }
-
-.improvements-list {
-  margin-top: var(--space-4);
-  list-style: none;
+.progress-sidebar.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
-.improvement-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
-  padding: var(--space-3);
-  background: rgba(34, 197, 94, 0.1);
-  border-radius: var(--radius-lg);
-  border-left: 3px solid var(--success-primary);
-}
-
-.improvement-icon {
-  color: var(--success-primary);
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-/* ===== INTERACTIVE CALCULATOR ===== */
-.calculator-section {
-  background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, rgba(34, 197, 94, 0.05) 100%);
-  border-color: var(--success-primary);
-}
-
-.calculator-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  margin-top: var(--space-6);
-}
-
-.calculator-panel {
-  background: var(--dark-surface);
+.calculator-results {
+  background: var(--bg-surface);
   border-radius: var(--radius-2xl);
   padding: var(--space-8);
-  border: 1px solid var(--dark-border);
-}
-
-.panel-title {
-  font-family: var(--font-primary);
-  font-size: var(--text-xl);
-  font-weight: 600;
-  margin-bottom: var(--space-6);
+  border: 1px solid var(--border-color);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-}
-
-.input-group {
-  margin-bottom: var(--space-5);
-}
-
-.input-label {
-  font-family: var(--font-primary);
-  font-weight: 500;
-  color: var(--dark-text-secondary);
-  font-size: var(--text-base);
-  margin-bottom: var(--space-2);
-  display: block;
-}
-
-.input-field {
-  width: 100%;
-  padding: var(--space-4);
-  background: var(--dark-bg-secondary);
-  border: 1px solid var(--dark-border);
-  border-radius: var(--radius-lg);
-  color: var(--dark-text-primary);
-  font-family: var(--font-code);
-  font-size: var(--text-lg);
   transition: all var(--duration-normal) var(--easing-smooth);
 }
 
-.input-field:focus {
-  outline: none;
-  border-color: var(--success-primary);
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-}
-
-.comparison-grid {
+.result-comparison {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-6);
-  margin-top: var(--space-6);
+  margin: var(--space-6) 0;
 }
 
 .result-panel {
-  background: var(--dark-bg-primary);
+  background: var(--bg-secondary);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
-  border: 1px solid var(--dark-border);
+  text-align: center;
+  border: 2px solid var(--border-color);
+  transition: all var(--duration-normal) var(--easing-smooth);
 }
 
-.result-title {
-  font-family: var(--font-primary);
-  font-weight: 600;
-  margin-bottom: var(--space-4);
-  text-align: center;
+.result-panel.success {
+  border-color: var(--color-success);
+  background: var(--color-success-light);
+}
+
+.result-panel.danger {
+  border-color: var(--color-danger);
+  background: var(--color-danger-light);
 }
 
 .result-value {
   font-family: var(--font-code);
   font-size: var(--text-2xl);
-  font-weight: 600;
-  text-align: center;
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
+  font-weight: 700;
+  margin: var(--space-4) 0;
 }
 
-.result-naive {
-  background: rgba(255, 64, 37, 0.1);
-  color: var(--danger-primary);
-  border: 1px solid var(--danger-primary);
-}
-
-.result-professional {
-  background: rgba(34, 197, 94, 0.1);
-  color: var(--success-primary);
-  border: 1px solid var(--success-primary);
-}
-
-.performance-metrics {
-  margin-top: var(--space-4);
-  font-size: var(--text-sm);
-  color: var(--dark-text-muted);
-  text-align: center;
-}
-
-/* ===== TESTING SECTION ===== */
-.test-cases {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-}
-
-.test-case {
-  background: var(--dark-surface);
+.code-showcase {
+  background: #0d1117;
   border-radius: var(--radius-xl);
   padding: var(--space-6);
-  border: 1px solid var(--dark-border);
+  margin: var(--space-6) 0;
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
 }
 
-.test-case.passed {
-  border-color: var(--success-primary);
-  background: rgba(34, 197, 94, 0.05);
-}
-
-.test-case.failed {
-  border-color: var(--danger-primary);
-  background: rgba(255, 64, 37, 0.05);
-}
-
-.test-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-3);
-}
-
-.test-name {
-  font-family: var(--font-primary);
-  font-weight: 600;
-}
-
-.test-status {
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-lg);
+.code-showcase pre {
   font-family: var(--font-code);
   font-size: var(--text-sm);
-  font-weight: 600;
+  line-height: 1.6;
+  color: #e6edf3;
+  margin: 0;
 }
 
-.test-status.pass {
-  background: rgba(34, 197, 94, 0.2);
-  color: var(--success-primary);
-}
+/* Syntax highlighting */
+.keyword { color: #ff7b72; }
+.string { color: #a5d6ff; }
+.number { color: #79c0ff; }
+.comment { color: #8b949e; font-style: italic; }
+.function { color: #d2a8ff; }
+.variable { color: #7dd3fc; }
 
-.test-status.fail {
-  background: rgba(255, 64, 37, 0.2);
-  color: var(--danger-primary);
-}
+/* =============================================
+ * RESPONSIVE DESIGN
+ * ============================================= */
 
-/* ===== BUTTONS ===== */
-.btn {
-  padding: var(--space-4) var(--space-6);
-  border-radius: var(--radius-xl);
-  border: none;
-  font-family: var(--font-primary);
-  font-weight: 600;
-  font-size: var(--text-base);
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--easing-smooth);
-  background: var(--gradient-success);
-  color: white;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-}
-
-/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
-  .calculator-grid,
-  .comparison-grid {
+  .calculator-interface {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  .progress-sidebar {
+    position: static;
+    transform: none;
+    opacity: 1;
+    margin-bottom: var(--space-8);
   }
 }
 
@@ -588,208 +500,282 @@ header h1 {
     padding: 0 var(--space-4);
   }
   
-  .nav-grid {
-    top: var(--space-4);
-    left: var(--space-4);
-    right: var(--space-4);
+  .result-comparison {
+    grid-template-columns: 1fr;
   }
   
-  header {
-    padding: var(--space-16) 0 var(--space-12);
+  .evolution-stepper {
+    flex-wrap: wrap;
+    gap: var(--space-4);
   }
   
-  .evolution-tracker {
-    grid-template-columns: repeat(2, 1fr);
+  .evolution-stepper::before {
+    display: none;
+  }
+  
+  .hero-section {
+    padding: var(--space-12) 0 var(--space-8);
   }
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* =============================================
+ * MICRO-ANIMATIONS & INTERACTIONS
+ * ============================================= */
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-brand-light);
+  border-top: 2px solid var(--color-brand);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.section {
-  animation: fadeInUp var(--duration-slow) var(--easing-smooth) forwards;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.section:nth-child(2) { animation-delay: 0.1s; }
-.section:nth-child(3) { animation-delay: 0.2s; }
-.section:nth-child(4) { animation-delay: 0.3s; }
-.section:nth-child(5) { animation-delay: 0.4s; }
+.fade-in {
+  animation: fadeInUp var(--duration-normal) var(--easing-smooth) forwards;
+}
+
+.scale-in {
+  animation: scaleIn var(--duration-normal) var(--easing-bounce) forwards;
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
 </style>
 </head>
+
 <body>
+  <!-- Achievement Toast System -->
+  <div id="achievementToast" class="achievement-toast">
+    <div class="achievement-content">
+      <span id="achievementIcon">🏆</span>
+      <span id="achievementText">Achievement Unlocked!</span>
+    </div>
+  </div>
 
-<nav class="nav-grid">
-  <a href="../../index.html" class="nav-btn success">
-    🏠 Volver al Laboratorio
-  </a>
-</nav>
-
-<header>
-  <div class="container">
-    <div class="header-content">
-      <div class="success-badge">
-        ✅ SOLUCIÓN PROFESIONAL • CÓDIGO QUE SALVA EMPRESAS
+  <!-- Progress Sidebar -->
+  <aside id="progressSidebar" class="progress-sidebar">
+    <div style="font-family: var(--font-primary); font-weight: 700; font-size: var(--text-lg); margin-bottom: var(--space-4); color: var(--bg-primary);">
+      🎯 Foundation Progress
+    </div>
+    
+    <div class="progress-section" style="margin-bottom: var(--space-4);">
+      <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); color: var(--bg-primary);">
+        Problem Understanding
       </div>
-      <h1>De $2.3M de Pérdidas a Código Profesional</h1>
-      <p class="subtitle">La evolución completa: cómo FinTechCorp habría sobrevivido</p>
-      
-      <div class="evolution-tracker">
-        <div class="evolution-step">
-          <div class="step-number">🔥</div>
-          <div class="step-label">Código Naive</div>
-        </div>
-        <div class="evolution-step">
-          <div class="step-number">🔧</div>
-          <div class="step-label">Refactoring</div>
-        </div>
-        <div class="evolution-step">
-          <div class="step-number">🧪</div>
-          <div class="step-label">Testing</div>
-        </div>
-        <div class="evolution-step">
-          <div class="step-number">✅</div>
-          <div class="step-label">Código Profesional</div>
+      <div class="progress-ring">
+        <svg width="120" height="120">
+          <circle cx="60" cy="60" r="54" stroke="rgba(0,0,0,0.1)" stroke-width="12" fill="none"/>
+          <circle id="problemProgressRing" cx="60" cy="60" r="54" stroke="var(--color-success)" 
+                  stroke-width="12" fill="none" class="progress-ring-circle"
+                  stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+        </svg>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 700; color: var(--bg-primary);">
+          <span id="problemPercentage">0%</span>
         </div>
       </div>
     </div>
-  </div>
-</header>
-
-<main class="container">
-
-  <!-- CODE EVOLUTION SECTION -->
-  <section class="section">
-    <h2>🔄 Evolución del Código: Paso a Paso</h2>
-    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-8); font-size: var(--text-xl);">
-      <strong>Siguiendo las metodologías de Martin Fowler y Robert C. Martin:</strong> El camino desde código que 
-      destruye empresas hasta código que las salva. Cada paso resuelve problemas específicos.
-    </p>
     
-    <div class="code-evolution">
-      
-      <!-- STAGE 1: NAIVE CODE -->
-      <div class="code-stage" id="stage-naive">
-        <div class="stage-header">
-          <div class="stage-title">💀 Etapa 1: Código Naive (El que quebró FinTechCorp)</div>
-          <div class="stage-badge naive">PROBLEMÁTICO</div>
+    <div class="progress-section" style="margin-bottom: var(--space-4);">
+      <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); color: var(--bg-primary);">
+        Active Learning
+      </div>
+      <div style="display: flex; gap: var(--space-2);">
+        <div id="experimentationBadge" class="badge badge-success" style="opacity: 0.3;">
+          🧪 <span id="experimentationCount">0</span> Tests
         </div>
-        
-        <div class="code-block">
-<span class="comment">// El código que causó $2.3M en pérdidas</span>
-<span class="keyword">function</span> <span class="function">calculateCompoundInterestNaive</span>(<span class="variable">principal</span>, <span class="variable">rate</span>, <span class="variable">years</span>) {
-    <span class="comment">// ¡Hard-coded para 5 años solamente!</span>
-    <span class="keyword">let</span> <span class="variable">result</span> = <span class="variable">principal</span>;
-    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// ¿Qué si rate ≠ 5%?</span>
-    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// Repetición manual</span>
-    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// Imposible escalar</span>
-    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// Propenso a errores</span>
-    <span class="variable">result</span> = <span class="variable">result</span> * <span class="number">1.05</span>;  <span class="comment">// ¿Y para 6 meses?</span>
-    <span class="keyword">return</span> <span class="variable">result</span>;
-}
+        <div id="masteryBadge" class="badge badge-success" style="opacity: 0.3;">
+          ✅ Clean Code
+        </div>
+      </div>
+    </div>
+    
+    <div id="masteryAchieved" style="background: linear-gradient(135deg, var(--color-success), var(--color-brand)); color: white; padding: var(--space-4); border-radius: var(--radius-lg); text-align: center; opacity: 0; transform: scale(0.8); transition: all var(--duration-slow) var(--easing-bounce);">
+      <div style="font-size: var(--text-lg); margin-bottom: var(--space-2);">🏆</div>
+      <div style="font-size: var(--text-sm); font-weight: 600;">Foundation Mastery Achieved!</div>
+    </div>
+  </aside>
 
-<span class="comment">// PROBLEMAS CRÍTICOS:</span>
-<span class="comment">// ❌ No funciona para diferentes tasas</span>
-<span class="comment">// ❌ No funciona para diferentes períodos</span>
-<span class="comment">// ❌ Imposible de testear completamente</span>
-<span class="comment">// ❌ Viola principios DRY y SOLID</span>
+  <!-- Navigation -->
+  <nav style="position: fixed; top: var(--space-6); left: 50%; transform: translateX(-50%); z-index: 100;">
+    <a href="../../index.html" class="btn btn-secondary">
+      🏠 Laboratorio Principal
+    </a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="badge badge-success" style="margin-bottom: var(--space-6);">
+        ✅ Solución Profesional • Foundation Level
+      </div>
+      
+      <h1 class="hero-title">
+        De $2.3M de Pérdidas a Código Profesional
+      </h1>
+      
+      <p style="font-size: var(--text-xl); color: var(--text-secondary); margin-bottom: var(--space-8); font-style: italic;">
+        La evolución completa: cómo <strong>Clean Architecture</strong> habría salvado FinTechCorp
+      </p>
+      
+      <!-- Evolution Stepper -->
+      <div class="evolution-stepper">
+        <div class="evolution-step completed" data-step="naive" title="Código Naive">
+          🔥
         </div>
-        
-        <p style="color: var(--dark-text-secondary); margin-top: var(--space-4);">
-          <strong style="color: var(--danger-primary);">Resultado:</strong> 847 clientes con balances incorrectos, 
-          $2.3M en pérdidas, empresa quebrada.
+        <div class="evolution-step completed" data-step="improved" title="Refactoring">
+          🔧
+        </div>
+        <div class="evolution-step completed" data-step="testing" title="Testing">
+          🧪
+        </div>
+        <div class="evolution-step active" data-step="professional" title="Código Profesional">
+          ✅
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    
+    <!-- Interactive Calculator Section -->
+    <section class="section">
+      <div style="text-align: center; margin-bottom: var(--space-8);">
+        <h2 style="font-family: var(--font-primary); font-size: var(--text-3xl); font-weight: 700; margin-bottom: var(--space-4);">
+          🧮 Laboratorio Interactivo
+        </h2>
+        <p style="color: var(--text-secondary); font-size: var(--text-lg);">
+          Compara el método <strong style="color: var(--color-danger);">naive que quebró FinTechCorp</strong> 
+          vs la <strong style="color: var(--color-success);">solución profesional</strong>
         </p>
       </div>
-
-      <!-- STAGE 2: IMPROVED WITH LOOP -->
-      <div class="code-stage" id="stage-improved">
-        <div class="stage-header">
-          <div class="stage-title">🔧 Etapa 2: Primer Refactoring (Loop básico)</div>
-          <div class="stage-badge improved">MEJORANDO</div>
+      
+      <div class="calculator-interface">
+        <!-- Input Panel -->
+        <div class="card">
+          <h3 style="font-family: var(--font-primary); font-size: var(--text-xl); font-weight: 600; margin-bottom: var(--space-6);">
+            📊 Parámetros de Prueba
+          </h3>
+          
+          <div style="margin-bottom: var(--space-5);">
+            <label style="display: block; font-weight: 600; margin-bottom: var(--space-2); color: var(--text-secondary);">
+              💰 Capital inicial ($)
+            </label>
+            <input type="number" id="principalInput" class="input" value="1000" min="1" step="100">
+          </div>
+          
+          <div style="margin-bottom: var(--space-5);">
+            <label style="display: block; font-weight: 600; margin-bottom: var(--space-2); color: var(--text-secondary);">
+              📈 Tasa anual (%)
+            </label>
+            <input type="number" id="rateInput" class="input" value="5" min="0" max="50" step="0.25">
+          </div>
+          
+          <div style="margin-bottom: var(--space-6);">
+            <label style="display: block; font-weight: 600; margin-bottom: var(--space-2); color: var(--text-secondary);">
+              ⏰ Tiempo (años)
+            </label>
+            <input type="number" id="timeInput" class="input" value="5" min="0.1" max="50" step="0.1">
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+            <button id="compareBtn" class="btn btn-primary">
+              🔬 Comparar
+            </button>
+            <button id="stressTestBtn" class="btn btn-secondary">
+              🔥 Stress Test
+            </button>
+          </div>
         </div>
         
-        <div class="code-block">
-<span class="comment">// Primer paso: Eliminar repetición con un loop</span>
-<span class="keyword">function</span> <span class="function">calculateCompoundInterestLoop</span>(<span class="variable">principal</span>, <span class="variable">rate</span>, <span class="variable">years</span>) {
-    <span class="keyword">let</span> <span class="variable">result</span> = <span class="variable">principal</span>;
-    <span class="keyword">const</span> <span class="variable">multiplier</span> = <span class="number">1</span> + (<span class="variable">rate</span> / <span class="number">100</span>);
-    
-    <span class="comment">// Loop simple - ya no hay hard-coding</span>
-    <span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>; <span class="variable">i</span> < <span class="variable">years</span>; <span class="variable">i</span>++) {
-        <span class="variable">result</span> *= <span class="variable">multiplier</span>;
-    }
-    
-    <span class="keyword">return</span> <span class="variable">result</span>;
-}
-
-<span class="comment">// MEJORAS LOGRADAS:</span>
-<span class="comment">// ✅ Funciona para cualquier número de años</span>
-<span class="comment">// ✅ Funciona para cualquier tasa</span>
-<span class="comment">// ⚠️  Aún no maneja períodos no enteros</span>
-<span class="comment">// ⚠️  Falta validación de entrada</span>
+        <!-- Results Panel -->
+        <div id="resultsPanel" class="calculator-results">
+          <div style="color: var(--text-secondary);">
+            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: var(--color-brand);">
+              💡 Listo para Comparar
+            </h4>
+            <p style="margin-bottom: var(--space-4);">
+              El <strong style="color: var(--color-danger);">método naive</strong> solo funciona con 5% anual<br>
+              La <strong style="color: var(--color-success);">solución profesional</strong> funciona con cualquier valor
+            </p>
+            <p style="font-size: var(--text-sm); color: var(--text-muted);">
+              Ajusta los parámetros y presiona "Comparar" para ver las diferencias
+            </p>
+          </div>
         </div>
-        
-        <ul class="improvements-list">
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span>Eliminó hard-coding de rate y años</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span>Principio DRY aplicado (Don't Repeat Yourself)</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span>Escalable para cualquier período entero</span>
-          </li>
-        </ul>
       </div>
+    </section>
 
-      <!-- STAGE 3: PROFESSIONAL SOLUTION -->
-      <div class="code-stage active" id="stage-professional">
-        <div class="stage-header">
-          <div class="stage-title">✅ Etapa 3: Solución Profesional (Clean Code)</div>
-          <div class="stage-badge professional">CÓDIGO PROFESIONAL</div>
+    <!-- Code Evolution Section -->
+    <section class="section">
+      <div style="text-align: center; margin-bottom: var(--space-8);">
+        <h2 style="font-family: var(--font-primary); font-size: var(--text-3xl); font-weight: 700; margin-bottom: var(--space-4);">
+          🔄 Evolución del Código
+        </h2>
+        <p style="color: var(--text-secondary); font-size: var(--text-lg);">
+          <strong>Robert C. Martin's Clean Code</strong> + <strong>Martin Fowler's Refactoring</strong>: 
+          Del desastre al código profesional
+        </p>
+      </div>
+      
+      <!-- Code Showcase -->
+      <div class="card">
+        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-6);">
+          <h3 style="font-family: var(--font-primary); font-size: var(--text-xl); font-weight: 600;">
+            ✅ Solución Profesional (Clean Architecture)
+          </h3>
+          <div class="badge badge-success">CÓDIGO PROFESIONAL</div>
         </div>
         
-        <div class="code-block">
-<span class="comment">// Solución que habría salvado FinTechCorp</span>
+        <div class="code-showcase">
+          <pre><code><span class="comment">// Solución que habría salvado FinTechCorp</span>
+<span class="comment">// Following SOLID principles and Clean Architecture</span>
+
 <span class="keyword">class</span> <span class="function">CompoundInterestCalculator</span> {
     
-    <span class="comment">/**</span>
-<span class="comment">     * Calcula interés compuesto usando la fórmula matemática correcta</span>
-<span class="comment">     * A = P * (1 + r)^t</span>
-<span class="comment">     * @param {number} principal - Capital inicial</span>
-<span class="comment">     * @param {number} annualRate - Tasa anual (ej: 5 para 5%)</span>
-<span class="comment">     * @param {number} timeInYears - Tiempo en años (acepta decimales)</span>
-<span class="comment">     * @returns {number} Monto final</span>
-<span class="comment">     */</span>
+    <span class="comment">/**
+     * Calcula interés compuesto usando la fórmula matemática correcta
+     * A = P * (1 + r)^t
+     * @param {number} principal - Capital inicial
+     * @param {number} annualRate - Tasa anual (ej: 5 para 5%)
+     * @param {number} timeInYears - Tiempo en años (acepta decimales)
+     * @returns {number} Monto final
+     */</span>
     <span class="keyword">static</span> <span class="function">calculate</span>(<span class="variable">principal</span>, <span class="variable">annualRate</span>, <span class="variable">timeInYears</span>) {
-        <span class="comment">// Validación de entrada (Kent Beck's Simple Design)</span>
+        <span class="comment">// Validación robusta (Kent Beck's Simple Design)</span>
         <span class="keyword">if</span> (!<span class="variable">principal</span> || <span class="variable">principal</span> <= <span class="number">0</span>) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Principal debe ser mayor que 0'</span>);
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Principal must be greater than 0'</span>);
         }
         <span class="keyword">if</span> (<span class="variable">annualRate</span> < <span class="number">0</span>) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Tasa no puede ser negativa'</span>);
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Rate cannot be negative'</span>);
         }
         <span class="keyword">if</span> (<span class="variable">timeInYears</span> < <span class="number">0</span>) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Tiempo no puede ser negativo'</span>);
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Time cannot be negative'</span>);
         }
         
-        <span class="comment">// Fórmula matemática correcta (no loops)</span>
+        <span class="comment">// Fórmula matemática correcta (no loops needed)</span>
         <span class="keyword">const</span> <span class="variable">rate</span> = <span class="variable">annualRate</span> / <span class="number">100</span>;
         <span class="keyword">return</span> <span class="variable">principal</span> * <span class="function">Math.pow</span>(<span class="number">1</span> + <span class="variable">rate</span>, <span class="variable">timeInYears</span>);
     }
     
-    <span class="comment">// Método para cálculos con composición mensual</span>
+    <span class="comment">// Extensibilidad: diferentes tipos de composición</span>
     <span class="keyword">static</span> <span class="function">calculateMonthlyCompounding</span>(<span class="variable">principal</span>, <span class="variable">annualRate</span>, <span class="variable">years</span>) {
         <span class="keyword">const</span> <span class="variable">monthlyRate</span> = <span class="variable">annualRate</span> / <span class="number">100</span> / <span class="number">12</span>;
         <span class="keyword">const</span> <span class="variable">totalMonths</span> = <span class="variable">years</span> * <span class="number">12</span>;
@@ -799,151 +785,92 @@ header h1 {
 
 <span class="comment">// USO SIMPLE Y SEGURO:</span>
 <span class="comment">// CompoundInterestCalculator.calculate(1000, 5, 5.5); // 6 meses funciona!</span>
-<span class="comment">// CompoundInterestCalculator.calculate(50000, 7.25, 20); // Cualquier valor!</span>
+<span class="comment">// CompoundInterestCalculator.calculate(50000, 7.25, 20); // Cualquier valor!</span></code></pre>
         </div>
         
-        <ul class="improvements-list">
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span><strong>Fórmula matemática correcta</strong> - No loops, usa Math.pow()</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span><strong>Validación robusta</strong> - Maneja casos edge y errores</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span><strong>Períodos decimales</strong> - Funciona para 6 meses, 1.5 años, etc.</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span><strong>Documentación completa</strong> - JSDoc para mantenibilidad</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span><strong>Métodos especializados</strong> - Composición anual y mensual</span>
-          </li>
-          <li class="improvement-item">
-            <span class="improvement-icon">✅</span>
-            <span><strong>Clase estática</strong> - No necesita instanciación</span>
-          </li>
-        </ul>
+        <div style="background: var(--color-success-light); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4); border-left: 4px solid var(--color-success);">
+          <h4 style="color: var(--color-success); margin-bottom: var(--space-3); font-family: var(--font-primary);">
+            ✅ Principios Clean Code Aplicados
+          </h4>
+          <ul style="list-style: none; color: var(--text-primary);">
+            <li style="margin-bottom: var(--space-2);">✅ <strong>Single Responsibility</strong> - Cada método hace una cosa</li>
+            <li style="margin-bottom: var(--space-2);">✅ <strong>Open/Closed</strong> - Extensible sin modificar código existente</li>
+            <li style="margin-bottom: var(--space-2);">✅ <strong>Fórmula matemática correcta</strong> - No loops, usa Math.pow()</li>
+            <li style="margin-bottom: var(--space-2);">✅ <strong>Validación robusta</strong> - Maneja todos los casos edge</li>
+            <li>✅ <strong>Documentación JSDoc</strong> - Self-documenting code</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- INTERACTIVE COMPARISON -->
-  <section class="section calculator-section">
-    <h2>⚗️ Laboratorio Interactivo: Compara los Métodos</h2>
-    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-6);">
-      Experimenta con diferentes valores y observa cómo el <strong>código profesional</strong> maneja casos 
-      que habrían roto el método naive.
-    </p>
-    
-    <div class="calculator-grid">
-      <!-- INPUT PANEL -->
-      <div class="calculator-panel">
-        <div class="panel-title">📊 Parámetros de Prueba</div>
-        
-        <div class="input-group">
-          <label class="input-label">💰 Capital inicial ($)</label>
-          <input type="number" id="principal" class="input-field" value="1000" min="1" step="100">
-        </div>
-        
-        <div class="input-group">
-          <label class="input-label">📈 Tasa anual (%)</label>
-          <input type="number" id="rate" class="input-field" value="5" min="0" max="50" step="0.25">
-        </div>
-        
-        <div class="input-group">
-          <label class="input-label">⏰ Tiempo (años)</label>
-          <input type="number" id="time" class="input-field" value="5" min="0.1" max="50" step="0.1">
-        </div>
-        
-        <div class="btn-grid">
-          <button class="btn" onclick="runComparison()">
-            🧮 Comparar Métodos
-          </button>
-          <button class="btn" onclick="runStressTest()">
-            🔥 Prueba de Estrés
-          </button>
-        </div>
+    <!-- Testing Section -->
+    <section class="section">
+      <div style="text-align: center; margin-bottom: var(--space-8);">
+        <h2 style="font-family: var(--font-primary); font-size: var(--text-3xl); font-weight: 700; margin-bottom: var(--space-4);">
+          🧪 Testing: Prevenir Errores de $2.3M
+        </h2>
+        <p style="color: var(--text-secondary); font-size: var(--text-lg);">
+          <strong>Kent C. Dodds' Testing Philosophy</strong>: Los tests que habrían detectado el problema
+        </p>
       </div>
       
-      <!-- RESULTS PANEL -->
-      <div class="calculator-panel">
-        <div class="panel-title">📊 Resultados Comparativos</div>
-        <div id="results-display">
-          <div style="text-align: center; padding: var(--space-6); color: var(--dark-text-secondary);">
-            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: var(--brand-primary);">
-              💡 Comparación Inicial
-            </h4>
-            <p style="margin-bottom: var(--space-4);">
-              <strong>Método Naive:</strong> Solo funciona con 5% de interés<br>
-              <strong>Método Profesional:</strong> Funciona con cualquier valor
-            </p>
-            <p style="font-size: var(--text-sm); color: var(--warning-primary);">
-              Cambia los parámetros arriba y presiona "Comparar Métodos" para ver las diferencias
-            </p>
-          </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6);">
+        <button id="runTestsBtn" class="btn btn-primary">
+          🔬 Ejecutar Todos los Tests
+        </button>
+        <button id="edgeTestsBtn" class="btn btn-secondary">
+          ⚡ Tests de Casos Edge
+        </button>
+      </div>
+      
+      <div id="testResults"></div>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="section">
+      <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--bg-secondary), var(--color-brand-light));">
+        <h2 style="font-family: var(--font-primary); font-size: var(--text-3xl); font-weight: 700; margin-bottom: var(--space-4);">
+          🚀 Próximos Pasos en tu Evolución
+        </h2>
+        <p style="color: var(--text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-8);">
+          Has dominado los <strong>fundamentos de Clean Code</strong>. Ahora enfrenta errores más sutiles y costosos.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);">
+          <a href="../precedencia-operadores/" class="btn btn-primary">
+            💥 Precedencia de Operadores<br>
+            <small style="opacity: 0.8;">$2.3M • Expert Level</small>
+          </a>
+          <a href="../operador-coma/" class="btn btn-primary">
+            🔥 Operador Coma<br>
+            <small style="opacity: 0.8;">$500K • Intermediate</small>
+          </a>
+          <a href="../environment/" class="btn btn-secondary">
+            🔬 Laboratorio<br>
+            <small style="opacity: 0.8;">Experimentación Segura</small>
+          </a>
         </div>
       </div>
-    </div>
-    
-    <!-- COMPARISON RESULTS -->
-    <div id="comparison-results"></div>
-  </section>
+    </section>
 
-  <!-- TESTING SECTION -->
-  <section class="section">
-    <h2>🧪 Testing: Cómo Prevenir Errores de $2.3M</h2>
-    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-6);">
-      <strong>Siguiendo Kent Beck y Kent C. Dodds:</strong> Los tests que habrían detectado el problema antes 
-      de que llegara a producción.
-    </p>
-    
-    <div class="btn-grid">
-      <button class="btn" onclick="runAllTests()">
-        🔬 Ejecutar Todos los Tests
-      </button>
-      <button class="btn" onclick="runEdgeCaseTests()">
-        ⚡ Tests de Casos Edge
-      </button>
-    </div>
-    
-    <div id="test-results"></div>
-  </section>
+  </main>
 
-  <!-- NEXT STEPS -->
-  <section class="section">
-    <h2>🚀 Próximos Pasos en tu Evolución</h2>
-    <p style="color: var(--dark-text-secondary); margin-bottom: var(--space-6);">
-      Has visto cómo transformar código naive en soluciones profesionales. Ahora es momento de enfrentar 
-      errores aún más sutiles y costosos.
-    </p>
-    
-    <div class="btn-grid">
-      <a href="../precedencia-operadores/" class="btn">
-        💥 Siguiente: Precedencia de Operadores ($2.3M)
-      </a>
-      <a href="../operador-coma/" class="btn">
-        🔥 Operador Coma ($500K)
-      </a>
-      <a href="../environment/" class="btn">
-        🔬 Laboratorio de Experimentación
-      </a>
-    </div>
-  </section>
+  <!-- JavaScript Modules -->
+  <script>
+/* =============================================
+ * CLEAN ARCHITECTURE - DOMAIN LAYER
+ * Following Robert C. Martin's Clean Code principles
+ * ============================================= */
 
-</main>
-
-<script>
-// Professional compound interest calculator (the solution that would have saved FinTechCorp)
+// Pure Business Logic - No dependencies on UI or external systems
 class CompoundInterestCalculator {
-    
     /**
      * Calculate compound interest using the correct mathematical formula
      * A = P * (1 + r)^t
+     * @param {number} principal - Initial capital
+     * @param {number} annualRate - Annual rate (e.g., 5 for 5%)
+     * @param {number} timeInYears - Time in years (accepts decimals)
+     * @returns {number} Final amount
      */
     static calculate(principal, annualRate, timeInYears) {
         // Input validation (Kent Beck's Simple Design)
@@ -957,7 +884,7 @@ class CompoundInterestCalculator {
             throw new Error('Time cannot be negative');
         }
         
-        // Correct mathematical formula (no loops needed)
+        // Correct mathematical formula
         const rate = annualRate / 100;
         return principal * Math.pow(1 + rate, timeInYears);
     }
@@ -969,450 +896,669 @@ class CompoundInterestCalculator {
     }
 }
 
-// Naive method (the one that broke FinTechCorp)
-function calculateNaive(principal, rate, years) {
-    // SIMULATION OF THE ACTUAL NAIVE METHOD PROBLEMS
-    
-    // Problem 1: Only works for hardcoded scenarios
-    if (rate !== 5) {
-        // The original code was hardcoded to 1.05
-        throw new Error("NAIVE ERROR: Código hardcodeado para 5% solamente!");
+// Naive method simulation (the one that broke FinTechCorp)
+class NaiveCalculator {
+    static calculate(principal, rate, years) {
+        // Simulate the actual problems of the naive method
+        if (rate !== 5) {
+            throw new Error("NAIVE ERROR: Hardcoded for 5% only!");
+        }
+        
+        const roundedYears = Math.round(years);
+        if (Math.abs(years - roundedYears) > 0.01) {
+            throw new Error(`NAIVE ERROR: Cannot handle ${years} years. Only integer years!`);
+        }
+        
+        if (roundedYears > 20) {
+            throw new Error("NAIVE ERROR: Code too long for more than 20 years!");
+        }
+        
+        // Manual multiplication with precision loss
+        let result = principal;
+        for (let i = 0; i < roundedYears; i++) {
+            result *= 1.05;
+            result = Math.round(result * 100) / 100; // Precision loss simulation
+        }
+        
+        return result;
     }
-    
-    // Problem 2: Rounds years incorrectly
-    const roundedYears = Math.round(years);
-    if (Math.abs(years - roundedYears) > 0.01) {
-        throw new Error(`NAIVE ERROR: No puede manejar ${years} años. Solo acepta años enteros!`);
-    }
-    
-    // Problem 3: Manual repetition (inefficient for large numbers)
-    if (roundedYears > 20) {
-        throw new Error("NAIVE ERROR: ¡Código demasiado largo para más de 20 años!");
-    }
-    
-    // Problem 4: Loss of precision with manual multiplication
-    let result = principal;
-    for (let i = 0; i < roundedYears; i++) {
-        // Simulating precision loss that would occur in manual code
-        result *= 1.05;
-        result = Math.round(result * 100) / 100; // Precision loss
-    }
-    
-    return result;
 }
 
-function runComparison() {
-    const principal = parseFloat(document.getElementById('principal').value);
-    const rate = parseFloat(document.getElementById('rate').value);
-    const time = parseFloat(document.getElementById('time').value);
-    
-    if (!principal || !rate || !time) {
-        showError('Por favor completa todos los campos');
-        return;
+/* =============================================
+ * APPLICATION LAYER - USE CASES
+ * Orchestrates business logic and UI updates
+ * ============================================= */
+
+class FoundationCaseController {
+    constructor(achievementTracker, uiManager) {
+        this.achievementTracker = achievementTracker;
+        this.ui = uiManager;
+        this.metrics = {
+            comparisons: 0,
+            stressTests: 0,
+            testsRun: 0,
+            professionalMethodUsed: false,
+            testingApplied: false
+        };
     }
     
-    let naiveResult = null;
-    let naiveError = null;
-    let professionalResult = null;
-    let monthlyResult = null;
-    
-    // Try naive method (expect it to fail in many cases)
-    try {
-        naiveResult = calculateNaive(principal, rate, time);
-    } catch (error) {
-        naiveError = error.message;
-    }
-    
-    // Professional method should always work
-    try {
-        professionalResult = CompoundInterestCalculator.calculate(principal, rate, time);
-        monthlyResult = CompoundInterestCalculator.calculateMonthlyCompounding(principal, rate, time);
-    } catch (error) {
-        showError(`Error en método profesional: ${error.message}`);
-        return;
-    }
-    
-    // Performance measurement
-    const startNaive = performance.now();
-    for (let i = 0; i < 100; i++) {
+    compareCalculationMethods(principal, rate, time) {
+        this.metrics.comparisons++;
+        this.achievementTracker.updateProgress('experimentation', 
+            Math.min(this.metrics.comparisons * 25, 75));
+        
+        let naiveResult = null;
+        let naiveError = null;
+        let professionalResult = null;
+        let monthlyResult = null;
+        
+        // Try naive method (expect failures)
         try {
-            calculateNaive(principal, rate, time);
-        } catch (e) {
-            // Ignore errors for performance test
+            naiveResult = NaiveCalculator.calculate(principal, rate, time);
+        } catch (error) {
+            naiveError = error.message;
+        }
+        
+        // Professional method should always work
+        try {
+            professionalResult = CompoundInterestCalculator.calculate(principal, rate, time);
+            monthlyResult = CompoundInterestCalculator.calculateMonthlyCompounding(principal, rate, time);
+            this.metrics.professionalMethodUsed = true;
+        } catch (error) {
+            throw new Error(`Professional method failed: ${error.message}`);
+        }
+        
+        // Performance comparison
+        const performance = this.measurePerformance(principal, rate, time);
+        
+        // Update UI
+        this.ui.showComparisonResults({
+            naive: { result: naiveResult, error: naiveError },
+            professional: professionalResult,
+            monthly: monthlyResult,
+            performance: performance,
+            inputs: { principal, rate, time }
+        });
+        
+        // Achievement triggers
+        if (this.metrics.comparisons >= 3) {
+            this.achievementTracker.trigger('foundation_experimentation_active', {
+                costPrevented: 1000000,
+                comparisons: this.metrics.comparisons
+            });
         }
     }
-    const naiveTime = performance.now() - startNaive;
     
-    const startProfessional = performance.now();
-    for (let i = 0; i < 100; i++) {
-        CompoundInterestCalculator.calculate(principal, rate, time);
-    }
-    const professionalTime = performance.now() - startProfessional;
-    
-    showComparisonResults(principal, rate, time, naiveResult, naiveError, professionalResult, monthlyResult, naiveTime, professionalTime);
-}
-
-function showComparisonResults(principal, rate, time, naiveResult, naiveError, professional, monthly, naiveTime, professionalTime) {
-    let naiveDisplay = '';
-    
-    if (naiveError) {
-        // Naive method failed - show why
-        naiveDisplay = `
-            <div class="result-panel">
-                <div class="result-title">🔥 Método Naive</div>
-                <div style="background: rgba(255, 64, 37, 0.1); border: 1px solid var(--danger-primary); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center;">
-                    <div style="color: var(--danger-primary); font-weight: 600; margin-bottom: var(--space-2);">
-                        ❌ FALLÓ
-                    </div>
-                    <div style="color: var(--dark-text-secondary); font-size: var(--text-sm);">
-                        ${naiveError}
-                    </div>
-                </div>
-                <div class="performance-metrics">
-                    ⚠️ Este es exactamente el problema que quebró FinTechCorp
-                </div>
-            </div>
-        `;
-    } else {
-        // Naive method worked - show result
-        const difference = Math.abs(professional - naiveResult);
-        const percentDiff = (difference / professional) * 100;
+    runStressTest() {
+        this.metrics.stressTests++;
         
-        naiveDisplay = `
-            <div class="result-panel">
-                <div class="result-title">🔥 Método Naive</div>
-                <div class="result-value result-naive">
-                    ${naiveResult.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                </div>
-                <div class="performance-metrics">
-                    Tiempo (100 cálculos): ${naiveTime.toFixed(2)}ms<br>
-                    Precisión: ${time % 1 === 0 ? 'Aceptable para años enteros' : '⚠️ Impreciso para decimales'}<br>
-                    Diferencia: ${percentDiff.toFixed(4)}%
-                </div>
-            </div>
-        `;
+        const stressTests = [
+            { principal: 1000000, rate: 12.5, time: 0.25, description: "High yield 3-month investment" },
+            { principal: 50000, rate: 3.75, time: 25.7, description: "Long-term retirement planning" },
+            { principal: 100, rate: 0.01, time: 100, description: "Ultra low rate, very long term" },
+            { principal: 999999, rate: 99.99, time: 10, description: "Extreme values" }
+        ];
+        
+        const results = stressTests.map(test => {
+            try {
+                const naive = NaiveCalculator.calculate(test.principal, test.rate, test.time);
+                const professional = CompoundInterestCalculator.calculate(test.principal, test.rate, test.time);
+                return { ...test, naive, professional, success: true };
+            } catch (error) {
+                const professional = CompoundInterestCalculator.calculate(test.principal, test.rate, test.time);
+                return { ...test, professional, error: error.message, success: false };
+            }
+        });
+        
+        this.ui.showStressTestResults(results);
+        
+        this.achievementTracker.trigger('foundation_stress_testing', {
+            costPrevented: 1500000,
+            stressTestsRun: this.metrics.stressTests
+        });
     }
     
-    document.getElementById('comparison-results').innerHTML = `
-        <div class="comparison-grid">
-            ${naiveDisplay}
-            
-            <div class="result-panel">
-                <div class="result-title">✅ Método Profesional</div>
-                <div class="result-value result-professional">
-                    ${professional.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                </div>
-                <div class="performance-metrics">
-                    Tiempo (100 cálculos): ${professionalTime.toFixed(2)}ms<br>
-                    Precisión: ✅ Matemáticamente exacto<br>
-                    Flexibilidad: ✅ Cualquier valor funciona
-                </div>
-            </div>
-        </div>
+    runTestSuite() {
+        this.metrics.testsRun++;
+        this.metrics.testingApplied = true;
         
-        <div style="margin-top: var(--space-6); padding: var(--space-6); background: var(--dark-surface); border-radius: var(--radius-xl); border: 1px solid var(--dark-border);">
-            <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4); color: ${naiveError ? 'var(--danger-primary)' : 'var(--success-primary)'};">
-                📊 Análisis del Resultado
-            </h4>
-            <p style="color: var(--dark-text-secondary);">
-                <strong>Capital inicial:</strong> ${principal.toLocaleString()}<br>
-                <strong>Tasa de interés:</strong> ${rate}% anual<br>
-                <strong>Período:</strong> ${time} años<br>
-                <strong>Composición mensual:</strong> ${monthly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-            </p>
-            ${naiveError ? `
-                <div style="background: rgba(255, 64, 37, 0.1); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4); border-left: 3px solid var(--danger-primary);">
-                    <p style="color: var(--danger-primary); font-weight: 600;">
-                        💀 Lección Crítica: 
-                    </p>
-                    <p style="color: var(--dark-text-secondary); margin-top: var(--space-2);">
-                        El método naive falló con estos parámetros porque fue diseñado para un caso específico (5% anual, años enteros). 
-                        El método profesional funciona para CUALQUIER escenario. <strong>Esta flexibilidad habría salvado FinTechCorp.</strong>
-                    </p>
-                </div>
-            ` : `
-                <div style="background: rgba(34, 197, 94, 0.1); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4); border-left: 3px solid var(--success-primary);">
-                    <p style="color: var(--success-primary); font-weight: 600;">
-                        ✅ En este caso ambos métodos funcionan
-                    </p>
-                    <p style="color: var(--dark-text-secondary); margin-top: var(--space-2);">
-                        Pero prueba cambiando la tasa a 7% o el tiempo a 2.5 años para ver cómo falla el método naive.
-                    </p>
-                </div>
-            `}
-        </div>
-    `;
-}
-
-function runStressTest() {
-    const stressTests = [
-        { principal: 1000000, rate: 12.5, time: 0.25, description: "Inversión de alto rendimiento a 3 meses" },
-        { principal: 50000, rate: 3.75, time: 25.7, description: "Jubilación a largo plazo con período exacto" },
-        { principal: 100, rate: 0.01, time: 100, description: "Tasa ultra baja, período muy largo" },
-        { principal: 999999, rate: 99.99, time: 10, description: "Valores extremos" }
-    ];
+        const tests = this.createTestSuite();
+        const results = tests.map(test => ({
+            ...test,
+            passed: test.fn(),
+            timestamp: Date.now()
+        }));
+        
+        this.ui.showTestResults(results);
+        
+        this.achievementTracker.trigger('foundation_testing_applied', {
+            costPrevented: 1800000,
+            testsRun: tests.length,
+            testsPassed: results.filter(r => r.passed).length
+        });
+    }
     
-    let results = '<div style="margin-top: var(--space-6);"><h4 style="font-family: var(--font-primary); margin-bottom: var(--space-4);">🔥 Resultados de Prueba de Estrés</h4>';
+    createTestSuite() {
+        return [
+            {
+                name: "Basic calculation: $1000 at 5% for 5 years",
+                fn: () => {
+                    const result = CompoundInterestCalculator.calculate(1000, 5, 5);
+                    const expected = 1276.28;
+                    return Math.abs(result - expected) < 0.01;
+                }
+            },
+            {
+                name: "Decimal time period: 2.5 years",
+                fn: () => {
+                    const result = CompoundInterestCalculator.calculate(1000, 5, 2.5);
+                    return result > 1000 && result < 1500;
+                }
+            },
+            {
+                name: "Zero rate test",
+                fn: () => {
+                    const result = CompoundInterestCalculator.calculate(1000, 0, 5);
+                    return Math.abs(result - 1000) < 0.01;
+                }
+            },
+            {
+                name: "Zero time test",
+                fn: () => {
+                    const result = CompoundInterestCalculator.calculate(1000, 5, 0);
+                    return Math.abs(result - 1000) < 0.01;
+                }
+            },
+            {
+                name: "Validation: Negative principal",
+                fn: () => {
+                    try {
+                        CompoundInterestCalculator.calculate(-1000, 5, 5);
+                        return false;
+                    } catch (error) {
+                        return error.message.includes('Principal');
+                    }
+                }
+            },
+            {
+                name: "Validation: Negative rate",
+                fn: () => {
+                    try {
+                        CompoundInterestCalculator.calculate(1000, -5, 5);
+                        return false;
+                    } catch (error) {
+                        return error.message.includes('Rate');
+                    }
+                }
+            }
+        ];
+    }
     
-    stressTests.forEach((test, index) => {
+    measurePerformance(principal, rate, time) {
+        const iterations = 1000;
+        
+        // Naive performance (if it works)
+        let naiveTime = 0;
         try {
-            const naive = calculateNaive(test.principal, test.rate, test.time);
-            const professional = CompoundInterestCalculator.calculate(test.principal, test.rate, test.time);
-            const difference = Math.abs(professional - naive);
+            const start = performance.now();
+            for (let i = 0; i < iterations; i++) {
+                NaiveCalculator.calculate(principal, rate, time);
+            }
+            naiveTime = performance.now() - start;
+        } catch (error) {
+            naiveTime = -1; // Indicates failure
+        }
+        
+        // Professional performance
+        const start = performance.now();
+        for (let i = 0; i < iterations; i++) {
+            CompoundInterestCalculator.calculate(principal, rate, time);
+        }
+        const professionalTime = performance.now() - start;
+        
+        return {
+            naive: naiveTime,
+            professional: professionalTime,
+            iterations: iterations
+        };
+    }
+    
+    checkFoundationMastery() {
+        return (
+            this.metrics.comparisons >= 3 &&
+            this.metrics.testsRun >= 1 &&
+            this.metrics.professionalMethodUsed &&
+            this.metrics.testingApplied
+        );
+    }
+}
+
+/* =============================================
+ * INFRASTRUCTURE LAYER - UI & EXTERNAL SYSTEMS
+ * Handles all UI updates and external interactions
+ * ============================================= */
+
+class FoundationUIManager {
+    constructor() {
+        this.resultsPanel = document.getElementById('resultsPanel');
+        this.testResults = document.getElementById('testResults');
+    }
+    
+    showComparisonResults(data) {
+        const { naive, professional, monthly, performance, inputs } = data;
+        
+        let naiveDisplay = '';
+        if (naive.error) {
+            naiveDisplay = `
+                <div class="result-panel danger">
+                    <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-3);">🔥 Método Naive</h4>
+                    <div style="color: var(--color-danger); font-weight: 600; margin-bottom: var(--space-2);">
+                        ❌ FAILED
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: var(--text-sm);">
+                        ${naive.error}
+                    </div>
+                    <div style="margin-top: var(--space-3); font-size: var(--text-xs); color: var(--text-muted);">
+                        ⚠️ This is exactly what broke FinTechCorp
+                    </div>
+                </div>
+            `;
+        } else {
+            const difference = Math.abs(professional - naive.result);
             const percentDiff = (difference / professional) * 100;
             
-            results += `
-                <div style="background: var(--dark-surface); padding: var(--space-4); margin-bottom: var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--dark-border);">
-                    <h5 style="color: var(--brand-primary); margin-bottom: var(--space-2);">Test ${index + 1}: ${test.description}</h5>
-                    <p style="color: var(--dark-text-secondary); font-size: var(--text-sm);">
-                        Capital: $${test.principal.toLocaleString()} | Tasa: ${test.rate}% | Tiempo: ${test.time} años<br>
-                        Naive: $${naive.toLocaleString('en-US', {maximumFractionDigits: 2})} | 
-                        Profesional: $${professional.toLocaleString('en-US', {maximumFractionDigits: 2})}<br>
-                        <span style="color: ${percentDiff > 1 ? 'var(--danger-primary)' : 'var(--success-primary)'};">
-                            Diferencia: ${percentDiff.toFixed(4)}% ${percentDiff > 1 ? '⚠️ CRÍTICA' : '✅ Aceptable'}
-                        </span>
-                    </p>
-                </div>
-            `;
-        } catch (error) {
-            results += `
-                <div style="background: rgba(255, 64, 37, 0.1); padding: var(--space-4); margin-bottom: var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--danger-primary);">
-                    <h5 style="color: var(--danger-primary); margin-bottom: var(--space-2);">Test ${index + 1}: ERROR</h5>
-                    <p style="color: var(--danger-primary);">${error.message}</p>
+            naiveDisplay = `
+                <div class="result-panel ${percentDiff > 1 ? 'danger' : 'success'}">
+                    <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-3);">🔥 Método Naive</h4>
+                    <div class="result-value" style="color: ${percentDiff > 1 ? 'var(--color-danger)' : 'var(--color-success)'};">
+                        $${naive.result.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    </div>
+                    <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-2);">
+                        Performance: ${performance.naive.toFixed(2)}ms (1000 iterations)<br>
+                        Difference: ${percentDiff.toFixed(4)}% ${percentDiff > 1 ? '⚠️ CRITICAL' : '✅ Acceptable'}
+                    </div>
                 </div>
             `;
         }
-    });
-    
-    results += '</div>';
-    document.getElementById('comparison-results').innerHTML = results;
-}
-
-function runAllTests() {
-    // Get current parameters for dynamic testing
-    const principal = parseFloat(document.getElementById('principal').value) || 1000;
-    const rate = parseFloat(document.getElementById('rate').value) || 5;
-    const time = parseFloat(document.getElementById('time').value) || 5;
-    
-    const tests = [
-        {
-            name: `Test con parámetros actuales: ${principal} al ${rate}% por ${time} años`,
-            fn: () => {
-                try {
-                    const result = CompoundInterestCalculator.calculate(principal, rate, time);
-                    return result > 0 && !isNaN(result) && isFinite(result);
-                } catch (error) {
-                    return false;
-                }
-            }
-        },
-        {
-            name: `Test naive vs profesional (valores actuales)`,
-            fn: () => {
-                try {
-                    const professional = CompoundInterestCalculator.calculate(principal, rate, time);
-                    const naive = calculateNaive(principal, rate, time);
-                    return Math.abs(professional - naive) < (professional * 0.01); // 1% tolerance
-                } catch (error) {
-                    // Naive method failed, professional should still work
-                    const professional = CompoundInterestCalculator.calculate(principal, rate, time);
-                    return professional > 0;
-                }
-            }
-        },
-        {
-            name: "Test básico: $1000 al 5% por 5 años",
-            fn: () => {
-                const result = CompoundInterestCalculator.calculate(1000, 5, 5);
-                const expected = 1276.28; // Known correct value
-                return Math.abs(result - expected) < 0.01;
-            }
-        },
-        {
-            name: `Test con período decimal: ${time > 1 ? (time - 0.5).toFixed(1) : 1.5} años`,
-            fn: () => {
-                const testTime = time > 1 ? time - 0.5 : 1.5;
-                const result = CompoundInterestCalculator.calculate(principal, rate, testTime);
-                return result > principal && result < (principal * 2); // Reasonable range
-            }
-        },
-        {
-            name: "Test de tasa cero",
-            fn: () => {
-                const result = CompoundInterestCalculator.calculate(principal, 0, time);
-                return Math.abs(result - principal) < 0.01;
-            }
-        },
-        {
-            name: "Test de tiempo cero",
-            fn: () => {
-                const result = CompoundInterestCalculator.calculate(principal, rate, 0);
-                return Math.abs(result - principal) < 0.01;
-            }
-        },
-        {
-            name: "Test de validación: Principal negativo",
-            fn: () => {
-                try {
-                    CompoundInterestCalculator.calculate(-1000, rate, time);
-                    return false; // Should have thrown error
-                } catch (error) {
-                    return error.message.includes('Principal');
-                }
-            }
-        },
-        {
-            name: "Test de validación: Tasa negativa",
-            fn: () => {
-                try {
-                    CompoundInterestCalculator.calculate(principal, -5, time);
-                    return false; // Should have thrown error
-                } catch (error) {
-                    return error.message.includes('Rate');
-                }
-            }
-        }
-    ];
-    
-    let resultsHTML = '<div class="test-cases">';
-    
-    tests.forEach(test => {
-        const passed = test.fn();
-        resultsHTML += `
-            <div class="test-case ${passed ? 'passed' : 'failed'}">
-                <div class="test-header">
-                    <div class="test-name">${test.name}</div>
-                    <div class="test-status ${passed ? 'pass' : 'fail'}">
-                        ${passed ? '✅ PASS' : '❌ FAIL'}
+        
+        this.resultsPanel.innerHTML = `
+            <div style="width: 100%;">
+                <h3 style="font-family: var(--font-primary); margin-bottom: var(--space-6); text-align: center;">
+                    📊 Comparison Results
+                </h3>
+                
+                <div class="result-comparison">
+                    ${naiveDisplay}
+                    
+                    <div class="result-panel success">
+                        <h4 style="font-family: var(--font-primary); margin-bottom: var(--space-3);">✅ Professional Method</h4>
+                        <div class="result-value" style="color: var(--color-success);">
+                            $${professional.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                        </div>
+                        <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-2);">
+                            Performance: ${performance.professional.toFixed(2)}ms (1000 iterations)<br>
+                            Precision: ✅ Mathematically exact<br>
+                            Flexibility: ✅ Any value works
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--bg-surface); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-6); border: 1px solid var(--border-color);">
+                    <h4 style="font-family: var(--font-primary); color: var(--color-brand); margin-bottom: var(--space-3);">
+                        📈 Analysis Summary
+                    </h4>
+                    <div style="color: var(--text-secondary); font-size: var(--text-sm);">
+                        <strong>Input:</strong> $${inputs.principal.toLocaleString()} at ${inputs.rate}% for ${inputs.time} years<br>
+                        <strong>Monthly compounding:</strong> $${monthly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>
+                        <strong>Key insight:</strong> ${naive.error ? 
+                            'The naive method failed with these parameters because it was designed for one specific case (5% annual, integer years). The professional method works for ANY scenario.' :
+                            'Both methods work for this case, but try changing the rate to 7% or time to 2.5 years to see how the naive method fails.'
+                        }
                     </div>
                 </div>
             </div>
         `;
-    });
+    }
     
-    resultsHTML += '</div>';
-    
-    const passedCount = tests.filter(test => test.fn()).length;
-    const summary = `
-        <div style="background: var(--dark-surface); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--dark-border); margin-bottom: var(--space-6);">
-            <h4 style="font-family: var(--font-primary); color: var(--success-primary); margin-bottom: var(--space-3);">
-                🧪 Resumen de Tests (Parámetros: ${principal}, ${rate}%, ${time} años)
-            </h4>
-            <p style="color: var(--dark-text-secondary);">
-                <strong>${passedCount}/${tests.length} tests pasaron</strong><br>
-                ${passedCount === tests.length ? 
-                  '✅ ¡Código profesional aprobado! Este código habría salvado FinTechCorp.' :
-                  '⚠️ Algunos tests fallaron. El código necesita más trabajo.'
-                }
-            </p>
-        </div>
-    `;
-    
-    document.getElementById('test-results').innerHTML = summary + resultsHTML;
-}
-
-function runEdgeCaseTests() {
-    const edgeCases = [
-        {
-            name: "Micro-inversión: $0.01 por 100 años",
-            principal: 0.01,
-            rate: 5,
-            time: 100
-        },
-        {
-            name: "Mega-inversión: $1B por 1 minuto",
-            principal: 1000000000,
-            rate: 5,
-            time: 1/525600 // 1 minute in years
-        },
-        {
-            name: "Hiperinflación: 1000% anual",
-            principal: 1000,
-            rate: 1000,
-            time: 1
-        },
-        {
-            name: "Período ultra-preciso: π años",
-            principal: 1000,
-            rate: 5,
-            time: Math.PI
-        }
-    ];
-    
-    let resultsHTML = '<div class="test-cases">';
-    
-    edgeCases.forEach(edgeCase => {
-        try {
-            const result = CompoundInterestCalculator.calculate(edgeCase.principal, edgeCase.rate, edgeCase.time);
-            const passed = !isNaN(result) && isFinite(result) && result >= 0;
-            
-            resultsHTML += `
-                <div class="test-case ${passed ? 'passed' : 'failed'}">
-                    <div class="test-header">
-                        <div class="test-name">${edgeCase.name}</div>
-                        <div class="test-status ${passed ? 'pass' : 'fail'}">
-                            ${passed ? '✅ PASS' : '❌ FAIL'}
+    showStressTestResults(results) {
+        let html = `
+            <div style="width: 100%;">
+                <h3 style="font-family: var(--font-primary); margin-bottom: var(--space-6); text-align: center;">
+                    🔥 Stress Test Results
+                </h3>
+        `;
+        
+        results.forEach((test, index) => {
+            if (test.success) {
+                const difference = Math.abs(test.professional - test.naive);
+                const percentDiff = (difference / test.professional) * 100;
+                
+                html += `
+                    <div class="card" style="margin-bottom: var(--space-4);">
+                        <h5 style="color: var(--color-brand); margin-bottom: var(--space-2);">Test ${index + 1}: ${test.description}</h5>
+                        <div style="font-size: var(--text-sm); color: var(--text-secondary);">
+                            Capital: $${test.principal.toLocaleString()} | Rate: ${test.rate}% | Time: ${test.time} years<br>
+                            Naive: $${test.naive.toLocaleString('en-US', {maximumFractionDigits: 2})} | 
+                            Professional: $${test.professional.toLocaleString('en-US', {maximumFractionDigits: 2})}<br>
+                            <span style="color: ${percentDiff > 1 ? 'var(--color-danger)' : 'var(--color-success)'};">
+                                Difference: ${percentDiff.toFixed(4)}% ${percentDiff > 1 ? '⚠️ CRITICAL' : '✅ Acceptable'}
+                            </span>
                         </div>
                     </div>
-                    <p style="color: var(--dark-text-secondary); font-size: var(--text-sm); margin-top: var(--space-2);">
-                        Entrada: $${edgeCase.principal.toLocaleString()} al ${edgeCase.rate}% por ${edgeCase.time.toFixed(6)} años<br>
-                        Resultado: $${result.toLocaleString('en-US', {maximumFractionDigits: 2})}
-                    </p>
-                </div>
-            `;
-        } catch (error) {
-            resultsHTML += `
-                <div class="test-case failed">
-                    <div class="test-header">
-                        <div class="test-name">${edgeCase.name}</div>
-                        <div class="test-status fail">❌ ERROR</div>
+                `;
+            } else {
+                html += `
+                    <div class="card" style="margin-bottom: var(--space-4); border-color: var(--color-danger);">
+                        <h5 style="color: var(--color-danger); margin-bottom: var(--space-2);">Test ${index + 1}: ERROR</h5>
+                        <div style="font-size: var(--text-sm); color: var(--color-danger);">${test.error}</div>
+                        <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-2);">
+                            Professional result: $${test.professional.toLocaleString('en-US', {maximumFractionDigits: 2})}
+                        </div>
                     </div>
-                    <p style="color: var(--danger-primary); font-size: var(--text-sm); margin-top: var(--space-2);">
-                        Error: ${error.message}
-                    </p>
+                `;
+            }
+        });
+        
+        html += '</div>';
+        this.resultsPanel.innerHTML = html;
+    }
+    
+    showTestResults(results) {
+        const passedCount = results.filter(r => r.passed).length;
+        const totalCount = results.length;
+        
+        let html = `
+            <div style="background: var(--bg-surface); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--border-color); margin-bottom: var(--space-6);">
+                <h4 style="font-family: var(--font-primary); color: var(--color-success); margin-bottom: var(--space-3);">
+                    🧪 Test Suite Results
+                </h4>
+                <div style="color: var(--text-secondary);">
+                    <strong>${passedCount}/${totalCount} tests passed</strong><br>
+                    ${passedCount === totalCount ? 
+                      '✅ Professional code approved! This code would have saved FinTechCorp.' :
+                      '⚠️ Some tests failed. Code needs more work.'
+                    }
+                </div>
+            </div>
+            
+            <div style="display: grid; gap: var(--space-3);">
+        `;
+        
+        results.forEach(test => {
+            html += `
+                <div class="card" style="border-color: ${test.passed ? 'var(--color-success)' : 'var(--color-danger)'}; background: ${test.passed ? 'var(--color-success-light)' : 'var(--color-danger-light)'};">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-family: var(--font-primary); font-weight: 600;">${test.name}</div>
+                        <div class="badge badge-${test.passed ? 'success' : 'danger'}">
+                            ${test.passed ? '✅ PASS' : '❌ FAIL'}
+                        </div>
+                    </div>
                 </div>
             `;
-        }
-    });
-    
-    resultsHTML += '</div>';
-    
-    const summary = `
-        <div style="background: var(--dark-surface); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--dark-border); margin-bottom: var(--space-6);">
-            <h4 style="font-family: var(--font-primary); color: var(--warning-primary); margin-bottom: var(--space-3);">
-                ⚡ Tests de Casos Edge
-            </h4>
-            <p style="color: var(--dark-text-secondary);">
-                Estos tests verifican que el código profesional maneja situaciones extremas que el método naive 
-                ni siquiera podría intentar.
-            </p>
-        </div>
-    `;
-    
-    document.getElementById('test-results').innerHTML = summary + resultsHTML;
-}
-
-function showError(message) {
-    document.getElementById('results-display').innerHTML = `
-        <div style="color: var(--danger-primary); text-align: center; padding: var(--space-4);">
-            ⚠️ ${message}
-        </div>
-    `;
-}
-
-// Initialize with a default comparison
-document.addEventListener('DOMContentLoaded', function() {
-    runComparison();
-    
-    // Auto-update comparison when inputs change
-    ['principal', 'rate', 'time'].forEach(id => {
-        document.getElementById(id).addEventListener('input', function() {
-            clearTimeout(this.updateTimeout);
-            this.updateTimeout = setTimeout(runComparison, 500);
         });
-    });
-});
-</script>
+        
+        html += '</div>';
+        this.testResults.innerHTML = html;
+    }
+}
 
+// Achievement System Integration
+class FoundationAchievementTracker {
+    constructor() {
+        this.startTime = Date.now();
+        this.progress = {
+            problem: 0,
+            experimentation: 0,
+            mastery: 0
+        };
+        
+        this.showProgressSidebar();
+        this.trigger('foundation_case_started', { costPrevented: 0 });
+    }
+    
+    updateProgress(category, percentage, message = '') {
+        this.progress[category] = Math.min(percentage, 100);
+        
+        if (category === 'problem') {
+            this.updateProgressRing('problemProgressRing', 'problemPercentage', percentage);
+        } else if (category === 'experimentation') {
+            this.updateExperimentationBadge(percentage);
+        } else if (category === 'mastery') {
+            this.updateMasteryBadge(percentage);
+        }
+        
+        this.checkMasteryAchievement();
+    }
+    
+    updateProgressRing(ringId, textId, percentage) {
+        const ring = document.getElementById(ringId);
+        const text = document.getElementById(textId);
+        
+        if (ring && text) {
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (percentage / 100) * circumference;
+            
+            ring.style.strokeDashoffset = offset;
+            text.textContent = Math.round(percentage) + '%';
+        }
+    }
+    
+    updateExperimentationBadge(percentage) {
+        const badge = document.getElementById('experimentationBadge');
+        const count = document.getElementById('experimentationCount');
+        
+        if (badge && count) {
+            const experimentCount = Math.floor(percentage / 25);
+            count.textContent = experimentCount;
+            badge.style.opacity = percentage > 0 ? '1' : '0.3';
+        }
+    }
+    
+    updateMasteryBadge(percentage) {
+        const badge = document.getElementById('masteryBadge');
+        if (badge) {
+            badge.style.opacity = percentage >= 50 ? '1' : '0.3';
+        }
+    }
+    
+    showProgressSidebar() {
+        const sidebar = document.getElementById('progressSidebar');
+        if (sidebar) {
+            setTimeout(() => {
+                sidebar.classList.add('visible');
+                this.updateProgress('problem', 10, 'Foundation learning started');
+            }, 1000);
+        }
+    }
+    
+    checkMasteryAchievement() {
+        const totalProgress = (this.progress.problem + this.progress.experimentation + this.progress.mastery) / 3;
+        
+        if (totalProgress >= 80) {
+            this.showMasteryAchievement();
+        }
+    }
+    
+    showMasteryAchievement() {
+        const masteryElement = document.getElementById('masteryAchieved');
+        if (masteryElement && masteryElement.style.opacity === '0') {
+            masteryElement.style.opacity = '1';
+            masteryElement.style.transform = 'scale(1)';
+            
+            this.trigger('foundation_mastery_achieved', {
+                costPrevented: 2300000,
+                totalProgress: this.progress
+            });
+        }
+    }
+    
+    trigger(eventType, data = {}) {
+        const achievementData = {
+            userId: this.getUserId(),
+            completionTime: Date.now() - this.startTime,
+            caseType: 'calculadora_interes',
+            difficultyLevel: 'foundation',
+            timestamp: Date.now(),
+            ...data
+        };
+        
+        // Show achievement toast
+        this.showAchievementToast(eventType, data);
+        
+        // Integration with main achievement system
+        if (window.coreAPI && typeof window.coreAPI.triggerCaseCompletion === 'function') {
+            try {
+                window.coreAPI.triggerCaseCompletion(eventType, achievementData);
+            } catch (error) {
+                console.warn('Achievement system error:', error);
+                this.fallbackStorage(eventType, achievementData);
+            }
+        } else {
+            this.fallbackStorage(eventType, achievementData);
+        }
+        
+        console.log('🏆 Foundation achievement:', eventType, achievementData);
+    }
+    
+    showAchievementToast(eventType, data) {
+        const toast = document.getElementById('achievementToast');
+        const icon = document.getElementById('achievementIcon');
+        const text = document.getElementById('achievementText');
+        
+        const messages = {
+            'foundation_case_started': { icon: '🎯', text: 'Foundation Learning Started!' },
+            'foundation_experimentation_active': { icon: '🧪', text: 'Active Learning Unlocked!' },
+            'foundation_testing_applied': { icon: '🔬', text: 'Testing Master!' },
+            'foundation_mastery_achieved': { icon: '🏆', text: 'Foundation Mastery Achieved!' }
+        };
+        
+        const message = messages[eventType] || { icon: '✅', text: 'Achievement Unlocked!' };
+        
+        if (toast && icon && text) {
+            icon.textContent = message.icon;
+            text.textContent = message.text;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    }
+    
+    fallbackStorage(eventType, data) {
+        const completions = JSON.parse(localStorage.getItem('foundation-case-progress') || '{}');
+        completions[eventType] = data;
+        localStorage.setItem('foundation-case-progress', JSON.stringify(completions));
+    }
+    
+    getUserId() {
+        let userId = localStorage.getItem('bugs-millones-user-id');
+        if (!userId) {
+            userId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('bugs-millones-user-id', userId);
+        }
+        return userId;
+    }
+}
+
+/* =============================================
+ * APPLICATION INITIALIZATION
+ * Dependency injection and event binding
+ * ============================================= */
+
+class FoundationCaseApp {
+    constructor() {
+        this.achievementTracker = new FoundationAchievementTracker();
+        this.uiManager = new FoundationUIManager();
+        this.controller = new FoundationCaseController(this.achievementTracker, this.uiManager);
+        
+        this.initializeEventListeners();
+        this.runInitialComparison();
+    }
+    
+    initializeEventListeners() {
+        // Input change handlers
+        const inputs = ['principalInput', 'rateInput', 'timeInput'];
+        inputs.forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('input', this.debounce(() => {
+                    this.controller.compareCalculationMethods(
+                        parseFloat(document.getElementById('principalInput').value) || 1000,
+                        parseFloat(document.getElementById('rateInput').value) || 5,
+                        parseFloat(document.getElementById('timeInput').value) || 5
+                    );
+                }, 500));
+            }
+        });
+        
+        // Button handlers
+        const compareBtn = document.getElementById('compareBtn');
+        if (compareBtn) {
+            compareBtn.addEventListener('click', () => {
+                this.controller.compareCalculationMethods(
+                    parseFloat(document.getElementById('principalInput').value) || 1000,
+                    parseFloat(document.getElementById('rateInput').value) || 5,
+                    parseFloat(document.getElementById('timeInput').value) || 5
+                );
+            });
+        }
+        
+        const stressTestBtn = document.getElementById('stressTestBtn');
+        if (stressTestBtn) {
+            stressTestBtn.addEventListener('click', () => {
+                this.controller.runStressTest();
+            });
+        }
+        
+        const runTestsBtn = document.getElementById('runTestsBtn');
+        if (runTestsBtn) {
+            runTestsBtn.addEventListener('click', () => {
+                this.controller.runTestSuite();
+            });
+        }
+        
+        const edgeTestsBtn = document.getElementById('edgeTestsBtn');
+        if (edgeTestsBtn) {
+            edgeTestsBtn.addEventListener('click', () => {
+                this.controller.runEdgeCaseTests();
+            });
+        }
+    }
+    
+    runInitialComparison() {
+        setTimeout(() => {
+            this.controller.compareCalculationMethods(1000, 5, 5);
+            this.achievementTracker.updateProgress('problem', 25, 'Initial comparison completed');
+        }, 1000);
+    }
+    
+    // Utility method for debouncing
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+}
+
+// Initialize application when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new FoundationCaseApp();
+    
+    // Make available globally for debugging
+    window.foundationApp = app;
+    
+    console.log('🎯 Foundation case initialized with Clean Architecture');
+    console.log('💡 Learn how professional practices prevent $2.3M disasters');
+    console.log('🏆 Achievement tracking: Foundation-level clean code mastery');
+});
+  </script>
 </body>
 </html>

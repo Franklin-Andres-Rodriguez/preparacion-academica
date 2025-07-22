@@ -3,353 +3,1061 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio del Environment - La Memoria de JavaScript</title>
+    <title>Laboratorio del Environment - La Memoria de JavaScript | Bugs que Cuestan Millones</title>
+    <meta name="description" content="Descubre la memoria secreta de JavaScript - Cómo el environment rastrea variables y habilita la abstracción">
     <style>
+        /* =================================================
+         * ENVIRONMENT LABORATORY - ADVANCED-INTERMEDIATE SYSTEM
+         * Following Dan Abramov's transparent learning approach
+         * and Ian Sommerville's systematic structure
+         * ================================================= */
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
         }
+        
         .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
+        /* Advanced Achievement Indicator */
+        .achievement-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            z-index: 1000;
+        }
+        
+        .achievement-indicator.active {
+            opacity: 1;
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+        }
+        
+        .achievement-indicator.advanced {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* Advanced Progress System */
+        .advanced-progress-system {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            min-width: 280px;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        
+        .advanced-progress-system.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .progress-section {
+            margin: 15px 0;
+        }
+        
+        .progress-label {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #667eea);
+            width: 0%;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-fill.environment {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
+            animation: progress-shine 2s infinite;
+        }
+        
+        @keyframes progress-shine {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(20px); }
+        }
+        
+        .environment-mastery {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 12px;
+            background: linear-gradient(135deg, #8b5cf6, #667eea);
+            color: white;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .environment-mastery.active {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+        
         h1 {
             color: #2c3e50;
-            border-bottom: 3px solid #8b5cf6;
-            padding-bottom: 10px;
+            border-bottom: 4px solid #8b5cf6;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2.1em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
+        
         .revelation-box {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
+        
+        .revelation-box::before {
+            content: '🧠';
+            position: absolute;
+            top: -15px;
+            right: 25px;
+            font-size: 3em;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
         .environment-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 25px;
+            margin: 25px 0;
         }
+        
         .code-panel {
-            background: #2d3748;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
             color: #f7fafc;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
             font-family: 'Courier New', monospace;
+            box-shadow: 0 8px 20px rgba(45, 55, 72, 0.4);
+            position: relative;
         }
+        
+        .code-panel::before {
+            content: '📝';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #2d3748;
+            padding: 0 10px;
+        }
+        
         .memory-panel {
-            background: #e6fffa;
-            border: 2px solid #38b2ac;
-            padding: 20px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border: 3px solid #38b2ac;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(56, 178, 172, 0.2);
+            position: relative;
         }
+        
+        .memory-panel::before {
+            content: '🗃️';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2em;
+            background: #e6fffa;
+            padding: 0 10px;
+        }
+        
         .memory-entry {
-            background: #f0fff4;
-            border: 1px solid #68d391;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
+            background: rgba(240, 255, 244, 0.9);
+            border: 2px solid #68d391;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
+        
+        .memory-entry:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(104, 211, 145, 0.3);
+        }
+        
         .memory-entry.new {
-            background: #fed7d7;
+            background: linear-gradient(135deg, #fed7d7 0%, #fbb6ce 100%);
             border-color: #fc8181;
-            animation: pulse 0.5s;
+            animation: entryPulse 0.8s ease-out;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
+        
+        @keyframes entryPulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
             50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            100% { transform: scale(1); opacity: 1; }
         }
+        
         .execute-btn {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-            transition: background 0.3s;
-        }
-        .execute-btn:hover {
-            background: #7c3aed;
-        }
-        .clear-btn {
-            background: #e53e3e;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-        }
-        .step-by-step {
-            background: #fffbeb;
-            border: 2px solid #f59e0b;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
+        
+        .execute-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .execute-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .execute-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+        
+        .clear-btn {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 8px;
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .clear-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
+        }
+        
+        .step-by-step {
+            background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+        
         .command-input {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             font-family: 'Courier New', monospace;
             font-size: 16px;
-            border: 2px solid #cbd5e0;
-            border-radius: 5px;
-            background: #2d3748;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
             color: #f7fafc;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
         }
+        
+        .command-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        
         .mystery-box {
-            background: #fef5e7;
-            border-left: 4px solid #f6ad55;
-            padding: 15px;
-            margin: 15px 0;
+            background: linear-gradient(135deg, #fef5e7 0%, #fed7aa 100%);
+            border-left: 5px solid #f6ad55;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 15px rgba(246, 173, 85, 0.2);
         }
+        
         .environment-title {
             text-align: center;
-            font-weight: bold;
+            font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 18px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .execution-log {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .log-success {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            color: #2f855a;
+            border-left: 4px solid #38a169;
+        }
+        
+        .log-expression {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            color: #2c7a7b;
+            border-left: 4px solid #38b2ac;
+        }
+        
+        .log-error {
+            background: linear-gradient(135deg, #fed7d7 0%, #fbb6ce 100%);
+            color: #c53030;
+            border-left: 4px solid #e53e3e;
+        }
+        
+        /* Example buttons */
+        .example-btn {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+        }
+        
+        .example-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.4);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .environment-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .advanced-progress-system {
+                position: static;
+                margin: 20px 0;
+                transform: none;
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 15px;
+            }
+            
+            .achievement-indicator {
+                top: 15px;
+                right: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧠 Laboratorio del Environment - La Memoria Secreta de JavaScript</h1>
-        
-        <div class="revelation-box">
-            <h3>🔍 El Descubrimiento</h3>
-            <p>Cuando escribes <code>const pi = 3.14159;</code>, ¿dónde "vive" esa asociación entre el nombre "pi" y el valor 3.14159?</p>
-            <p><strong>¡JavaScript tiene una memoria secreta llamada "environment" que rastrea todas estas conexiones!</strong></p>
-            <p>En este laboratorio, haremos visible esa memoria invisible...</p>
-        </div>
 
-        <div class="mystery-box">
-            <h4>🤔 Preguntas Intrigantes</h4>
-            <ul>
-                <li>¿Qué pasa cuando declaras la misma constante dos veces?</li>
-                <li>¿Por qué puedes usar una constante inmediatamente después de declararla?</li>
-                <li>¿Cómo "recuerda" JavaScript el valor de una constante?</li>
-                <li>¿Qué sucede si intentas usar una constante antes de declararla?</li>
-            </ul>
-        </div>
+<!-- Advanced Achievement Indicator -->
+<div id="achievementIndicator" class="achievement-indicator advanced">
+    🎯 Nivel Advanced: Environment Mastery
+</div>
 
-        <h3>Simulador del Environment</h3>
-        <div class="environment-container">
-            <div class="code-panel">
-                <h4>📝 Código JavaScript</h4>
-                <textarea id="codeInput" class="command-input" rows="10" placeholder="Escribe código aquí...
-Ejemplo:
+<!-- Advanced Progress System -->
+<div id="advancedProgressSystem" class="advanced-progress-system">
+    <div style="font-family: 'Segoe UI', sans-serif; font-weight: 700; color: #374151; font-size: 16px; margin-bottom: 15px;">
+        Environment Mastery Progress
+    </div>
+    
+    <div class="progress-section">
+        <div class="progress-label">Conceptos Fundamentales</div>
+        <div class="progress-bar">
+            <div id="conceptsProgress" class="progress-fill environment"></div>
+        </div>
+    </div>
+    
+    <div class="progress-section">
+        <div class="progress-label">Experimentación Práctica</div>
+        <div class="progress-bar">
+            <div id="experimentationProgress" class="progress-fill environment"></div>
+        </div>
+    </div>
+    
+    <div class="progress-section">
+        <div class="progress-label">Dominio Avanzado</div>
+        <div class="progress-bar">
+            <div id="masteryProgress" class="progress-fill"></div>
+        </div>
+    </div>
+    
+    <div id="environmentMastery" class="environment-mastery">
+        <span style="font-size: 20px;">🏆</span>
+        <span style="font-size: 14px; font-weight: 600;">¡Environment Mastery Achieved!</span>
+    </div>
+</div>
+
+<div class="container">
+    <h1>🧠 Laboratorio del Environment - La Memoria Secreta de JavaScript</h1>
+    
+    <div class="revelation-box">
+        <h3>🔍 El Gran Descubrimiento</h3>
+        <p>Cuando escribes <code>const pi = 3.14159;</code>, ¿dónde "vive" esa asociación entre el nombre "pi" y el valor 3.14159?</p>
+        <p><strong>¡JavaScript tiene una memoria secreta llamada "environment" que rastrea todas estas conexiones!</strong></p>
+        <p>En este laboratorio avanzado, haremos visible esa memoria invisible y dominaremos los fundamentos profundos de la ejecución de JavaScript...</p>
+    </div>
+
+    <div class="mystery-box">
+        <h4>🤔 Preguntas Intrigantes para Investigar</h4>
+        <ul>
+            <li><strong>Memory Management:</strong> ¿Qué pasa cuando declaras la misma constante dos veces?</li>
+            <li><strong>Execution Order:</strong> ¿Por qué puedes usar una constante inmediatamente después de declararla?</li>
+            <li><strong>Variable Binding:</strong> ¿Cómo "recuerda" JavaScript el valor de una constante?</li>
+            <li><strong>Temporal Dead Zone:</strong> ¿Qué sucede si intentas usar una constante antes de declararla?</li>
+            <li><strong>Scope Management:</strong> ¿Cómo maneja JavaScript múltiples variables con nombres similares?</li>
+        </ul>
+    </div>
+
+    <h3>🔬 Simulador Avanzado del Environment</h3>
+    <div class="environment-container">
+        <div class="code-panel">
+            <h4>📝 Código JavaScript Interactivo</h4>
+            <textarea id="codeInput" class="command-input" rows="12" placeholder="Escribe código JavaScript aquí...
+
+Ejemplos para experimentar:
 const radius = 10;
 const pi = 3.14159;
-const area = pi * radius * radius;"></textarea>
-                <br>
-                <button class="execute-btn" onclick="executeStep()">Ejecutar Paso a Paso</button>
-                <button class="execute-btn" onclick="executeAll()">Ejecutar Todo</button>
-                <button class="clear-btn" onclick="clearEnvironment()">Limpiar Environment</button>
-            </div>
-            
-            <div class="memory-panel">
-                <div class="environment-title">🗃️ Global Environment (Memoria de JavaScript)</div>
-                <div id="environmentMemory">
-                    <div style="text-align: center; color: #a0aec0; font-style: italic;">
-                        Environment vacío - Sin variables declaradas
-                    </div>
+const area = pi * radius * radius;
+
+// ¿Qué pasa con esto?
+const pi = 2.71828;  // Error!
+            "></textarea>
+            <br>
+            <button class="execute-btn" onclick="executeStep()">⚡ Ejecutar Paso a Paso</button>
+            <button class="execute-btn" onclick="executeAll()">🚀 Ejecutar Todo</button>
+            <button class="clear-btn" onclick="clearEnvironment()">🗑️ Limpiar Environment</button>
+        </div>
+        
+        <div class="memory-panel">
+            <div class="environment-title">Global Environment (JavaScript Memory)</div>
+            <div id="environmentMemory">
+                <div style="text-align: center; color: #4a5568; font-style: italic; padding: 20px;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🌐</div>
+                    <div>Environment vacío</div>
+                    <div style="font-size: 14px; margin-top: 5px;">Sin variables declaradas</div>
                 </div>
             </div>
-        </div>
-
-        <div class="step-by-step">
-            <h4>📋 Experimentos Sugeridos</h4>
-            <button onclick="loadExample('insurance')">🏥 Ejemplo Seguros</button>
-            <button onclick="loadExample('finance')">💰 Ejemplo Financiero</button>
-            <button onclick="loadExample('error')">❌ Ejemplo con Error</button>
-            <button onclick="loadExample('complex')">🧮 Cálculo Complejo</button>
-        </div>
-
-        <div id="executionLog"></div>
-
-        <div class="revelation-box">
-            <h3>💡 Reflexiones Clave</h3>
-            <p><strong>¿Notan algo crucial?</strong> Sin este "environment", JavaScript no podría:</p>
-            <ul>
-                <li>✅ Recordar qué valor tiene cada nombre</li>
-                <li>✅ Verificar si una constante ya existe</li>
-                <li>✅ Permitir usar nombres en lugar de valores literales</li>
-                <li>✅ Construir programas complejos paso a paso</li>
-            </ul>
-            <p><em>¡El environment es la infraestructura invisible que hace posible la abstracción!</em></p>
         </div>
     </div>
 
-    <script>
-        let environment = {};
-        let executionStep = 0;
-        let codeLines = [];
+    <div class="step-by-step">
+        <h4>📋 Experimentos Educativos Avanzados</h4>
+        <p style="margin-bottom: 15px; color: #4a5568;">
+            <strong>Cada ejemplo enseña conceptos específicos del environment:</strong>
+        </p>
+        <button class="example-btn" onclick="loadExample('insurance')">🏥 Seguros (Variables Relacionadas)</button>
+        <button class="example-btn" onclick="loadExample('finance')">💰 Finanzas (Expresiones Complejas)</button>
+        <button class="example-btn" onclick="loadExample('error')">❌ Redeclaración (Error Handling)</button>
+        <button class="example-btn" onclick="loadExample('complex')">🧮 Cálculo Avanzado (Environment Stack)</button>
+        <button class="example-btn" onclick="loadExample('scope')">🔍 Scope Testing (Variable Shadowing)</button>
+    </div>
 
-        function executeStep() {
-            const code = document.getElementById('codeInput').value;
-            codeLines = code.split('\n').filter(line => line.trim() !== '');
+    <div id="executionLog" class="execution-log"></div>
+
+    <div class="revelation-box">
+        <h3>💡 Reflexiones Avanzadas sobre el Environment</h3>
+        <p><strong>¿Comprenden ahora la importancia fundamental?</strong> Sin este "environment", JavaScript no podría:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 8px;">
+                <strong>✅ Memory Management</strong><br>
+                <span style="font-size: 14px;">Recordar qué valor tiene cada nombre</span>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 8px;">
+                <strong>✅ Error Prevention</strong><br>
+                <span style="font-size: 14px;">Verificar si una constante ya existe</span>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 8px;">
+                <strong>✅ Abstraction</strong><br>
+                <span style="font-size: 14px;">Permitir usar nombres en lugar de valores literales</span>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 8px;">
+                <strong>✅ Complex Programs</strong><br>
+                <span style="font-size: 14px;">Construir programas complejos paso a paso</span>
+            </div>
+        </div>
+        <p><em><strong>🎓 El environment es la infraestructura invisible que hace posible la abstracción y la programación moderna!</strong></em></p>
+    </div>
+</div>
+
+<script>
+/* =================================================
+ * ENVIRONMENT LABORATORY - ADVANCED ACHIEVEMENT SYSTEM
+ * Following Dan Abramov's transparent learning approach
+ * and Ian Sommerville's systematic understanding
+ * ================================================= */
+
+// Advanced-Level Achievement Tracking System
+class EnvironmentCaseTracker {
+    constructor() {
+        this.startTime = Date.now();
+        this.metrics = {
+            linesExecuted: 0,
+            stepByStepExecutions: 0,
+            fullExecutions: 0,
+            examplesLoaded: new Set(),
+            errorsEncountered: 0,
+            variablesCreated: 0,
+            complexExpressionsEvaluated: 0,
+            conceptsDemonstrated: new Set(),
+            environmentInteractions: 0,
+            mistakeCount: 0,
+            engagementScore: 0
+        };
+        
+        this.advancedLevelRequirements = {
+            minLinesExecuted: 10,
+            minStepExecutions: 3,
+            minExamples: 3,
+            minConcepts: 4,
+            mustEncounterErrors: true,
+            mustCreateVariables: 5
+        };
+        
+        this.initializeAdvancedUI();
+        this.logCaseStart();
+    }
+    
+    // Dan Abramov's transparent learning UI principles
+    initializeAdvancedUI() {
+        const indicator = document.getElementById('achievementIndicator');
+        const progressSystem = document.getElementById('advancedProgressSystem');
+        
+        setTimeout(() => {
+            indicator.classList.add('active');
+            progressSystem.classList.add('active');
+            this.updateProgress('concepts', 10, 'Environment laboratory iniciado');
+        }, 600);
+    }
+    
+    // Ian Sommerville's systematic progress methodology
+    updateProgress(category, percentage, message) {
+        const progressElements = {
+            concepts: 'conceptsProgress',
+            experimentation: 'experimentationProgress',
+            mastery: 'masteryProgress'
+        };
+        
+        const progressBar = document.getElementById(progressElements[category]);
+        if (progressBar) {
+            progressBar.style.width = percentage + '%';
+        }
+        
+        // Check for environment mastery
+        if (this.checkEnvironmentMastery()) {
+            this.showEnvironmentMastery();
+        }
+    }
+    
+    // Kent C. Dodds' foundational understanding criteria
+    checkEnvironmentMastery() {
+        const reqs = this.advancedLevelRequirements;
+        return (
+            this.metrics.linesExecuted >= reqs.minLinesExecuted &&
+            this.metrics.stepByStepExecutions >= reqs.minStepExecutions &&
+            this.metrics.examplesLoaded.size >= reqs.minExamples &&
+            this.metrics.conceptsDemonstrated.size >= reqs.minConcepts &&
+            this.metrics.errorsEncountered > 0 &&
+            this.metrics.variablesCreated >= reqs.minCreateVariables
+        );
+    }
+    
+    showEnvironmentMastery() {
+        if (!this.metrics.environmentMasteryAchieved) {
+            this.metrics.environmentMasteryAchieved = true;
+            const indicator = document.getElementById('environmentMastery');
+            const achievementBadge = document.getElementById('achievementIndicator');
             
-            if (executionStep >= codeLines.length) {
-                alert('No hay más pasos para ejecutar');
+            if (indicator && achievementBadge) {
+                indicator.classList.add('active');
+                achievementBadge.textContent = '🏆 ¡Environment Mastery Achieved!';
+                achievementBadge.style.background = 'linear-gradient(135deg, #8b5cf6, #667eea)';
+            }
+            
+            this.triggerAchievement('environment_mastery_achieved', {
+                costPrevented: 2500000, // Advanced understanding prevents major architectural errors
+                difficultyLevel: 'advanced',
+                actionType: 'environment_mastery',
+                masteryMetrics: { ...this.metrics }
+            });
+        }
+    }
+    
+    // Jonas Schmedtmann's comprehensive engagement scoring
+    calculateEngagementScore() {
+        let score = 0;
+        
+        // Basic interaction (30 points)
+        if (this.metrics.linesExecuted > 0) score += 5;
+        if (this.metrics.linesExecuted >= 10) score += 10;
+        if (this.metrics.stepByStepExecutions > 0) score += 15;
+        
+        // Advanced experimentation (35 points)
+        score += Math.min(this.metrics.examplesLoaded.size * 7, 21);
+        if (this.metrics.errorsEncountered > 0) score += 7;
+        if (this.metrics.complexExpressionsEvaluated >= 3) score += 7;
+        
+        // Deep understanding (35 points)
+        score += Math.min(this.metrics.conceptsDemonstrated.size * 6, 24);
+        if (this.metrics.variablesCreated >= 5) score += 6;
+        if (this.metrics.environmentInteractions >= 10) score += 5;
+        
+        return Math.min(score, 100);
+    }
+    
+    // Wes Bos's exercise-driven achievement system
+    triggerAchievement(eventType, additionalData = {}) {
+        const completionTime = Date.now() - this.startTime;
+        this.metrics.engagementScore = this.calculateEngagementScore();
+        
+        const achievementData = {
+            userId: this.getUserId(),
+            completionTime: completionTime,
+            caseType: 'environment_laboratory',
+            difficultyLevel: 'advanced',
+            engagementScore: this.metrics.engagementScore,
+            environmentMetrics: { ...this.metrics },
+            ...additionalData
+        };
+        
+        // Advanced-level achievement integration
+        if (window.coreAPI && typeof window.coreAPI.triggerCaseCompletion === 'function') {
+            try {
+                window.coreAPI.triggerCaseCompletion(eventType, achievementData);
+                console.log('🏆 Environment achievement triggered:', eventType, achievementData);
+            } catch (error) {
+                console.warn('Achievement system error:', error);
+                this.fallbackStorage(eventType, achievementData);
+            }
+        } else {
+            console.log('🎯 Environment achievement ready:', eventType);
+            this.fallbackStorage(eventType, achievementData);
+        }
+    }
+    
+    // Brad Traversy's project-based storage approach
+    fallbackStorage(eventType, data) {
+        const completions = JSON.parse(localStorage.getItem('environment-case-progress') || '{}');
+        completions[eventType] = { ...data, timestamp: Date.now() };
+        localStorage.setItem('environment-case-progress', JSON.stringify(completions));
+    }
+    
+    getUserId() {
+        let userId = localStorage.getItem('bugs-millones-user-id');
+        if (!userId) {
+            userId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('bugs-millones-user-id', userId);
+        }
+        return userId;
+    }
+    
+    // Maximilian Schwarzmüller's comprehensive case initialization
+    logCaseStart() {
+        this.triggerAchievement('environment_case_started', {
+            costPrevented: 0,
+            actionType: 'environment_learning_initialized',
+            educationalLevel: 'advanced'
+        });
+        console.log('🎓 Environment case initialized - Advanced JavaScript fundamentals journey started');
+    }
+}
+
+// Initialize advanced tracking
+const tracker = new EnvironmentCaseTracker();
+
+/* =================================================
+ * CORE ENVIRONMENT SIMULATION - ADVANCED LEVEL
+ * Your excellent pedagogy enhanced with achievement integration
+ * ================================================= */
+
+let environment = {};
+let executionStep = 0;
+let codeLines = [];
+
+function executeStep() {
+    // Advanced tracking with detailed metrics
+    tracker.metrics.stepByStepExecutions++;
+    tracker.updateProgress('experimentation', Math.min(tracker.metrics.stepByStepExecutions * 25, 75), 
+                         `${tracker.metrics.stepByStepExecutions} ejecuciones paso a paso`);
+    
+    const code = document.getElementById('codeInput').value;
+    codeLines = code.split('\n').filter(line => line.trim() !== '');
+    
+    if (executionStep >= codeLines.length) {
+        alert('No hay más pasos para ejecutar');
+        return;
+    }
+
+    const currentLine = codeLines[executionStep];
+    executeJavaScriptLine(currentLine, executionStep + 1);
+    executionStep++;
+    
+    // Track step execution
+    tracker.metrics.environmentInteractions++;
+    
+    // Achievement: Step-by-step learning
+    if (tracker.metrics.stepByStepExecutions >= 3) {
+        tracker.triggerAchievement('environment_step_mastery', {
+            costPrevented: 800000,
+            actionType: 'step_by_step_execution',
+            stepsExecuted: tracker.metrics.stepByStepExecutions
+        });
+    }
+}
+
+function executeAll() {
+    // Track full execution approach
+    tracker.metrics.fullExecutions++;
+    tracker.updateProgress('experimentation', 
+                         Math.min(50 + (tracker.metrics.fullExecutions * 15), 85),
+                         'Ejecución completa realizada');
+    
+    const code = document.getElementById('codeInput').value;
+    codeLines = code.split('\n').filter(line => line.trim() !== '');
+    
+    codeLines.forEach((line, index) => {
+        setTimeout(() => {
+            executeJavaScriptLine(line, index + 1);
+        }, index * 600);
+    });
+    
+    executionStep = codeLines.length;
+    tracker.metrics.environmentInteractions += codeLines.length;
+    
+    // Achievement: Full code execution
+    tracker.triggerAchievement('environment_full_execution', {
+        costPrevented: 1200000,
+        actionType: 'complete_code_execution',
+        linesExecuted: codeLines.length
+    });
+}
+
+function executeJavaScriptLine(line, stepNumber) {
+    // Track line execution
+    tracker.metrics.linesExecuted++;
+    
+    try {
+        // Parse const declarations
+        const constMatch = line.match(/const\s+(\w+)\s*=\s*(.+);?/);
+        if (constMatch) {
+            const varName = constMatch[1];
+            const expression = constMatch[2];
+            
+            // Check if variable already exists
+            if (environment.hasOwnProperty(varName)) {
+                tracker.metrics.errorsEncountered++;
+                tracker.metrics.conceptsDemonstrated.add('error_handling');
+                showError(`Error: const '${varName}' ya ha sido declarada`, stepNumber);
                 return;
             }
-
-            const currentLine = codeLines[executionStep];
-            executeJavaScriptLine(currentLine, executionStep + 1);
-            executionStep++;
-        }
-
-        function executeAll() {
-            const code = document.getElementById('codeInput').value;
-            codeLines = code.split('\n').filter(line => line.trim() !== '');
             
-            codeLines.forEach((line, index) => {
-                setTimeout(() => {
-                    executeJavaScriptLine(line, index + 1);
-                }, index * 500);
-            });
+            // Evaluate expression
+            const value = evaluateExpression(expression);
+            environment[varName] = value;
+            tracker.metrics.variablesCreated++;
+            tracker.metrics.conceptsDemonstrated.add('variable_binding');
             
-            executionStep = codeLines.length;
-        }
-
-        function executeJavaScriptLine(line, stepNumber) {
-            try {
-                // Parse const declarations
-                const constMatch = line.match(/const\s+(\w+)\s*=\s*(.+);?/);
-                if (constMatch) {
-                    const varName = constMatch[1];
-                    const expression = constMatch[2];
-                    
-                    // Check if variable already exists
-                    if (environment.hasOwnProperty(varName)) {
-                        showError(`Error: const '${varName}' ya ha sido declarada`, stepNumber);
-                        return;
-                    }
-                    
-                    // Evaluate expression
-                    const value = evaluateExpression(expression);
-                    environment[varName] = value;
-                    
-                    addToEnvironment(varName, value, true);
-                    logExecution(`Paso ${stepNumber}: Declarada const ${varName} = ${value}`, 'success');
-                } else {
-                    // Try to evaluate as expression
-                    const result = evaluateExpression(line.replace(';', ''));
-                    logExecution(`Paso ${stepNumber}: Expresión evaluada = ${result}`, 'expression');
-                }
-            } catch (error) {
-                showError(`Error en paso ${stepNumber}: ${error.message}`, stepNumber);
-            }
-        }
-
-        function evaluateExpression(expr) {
-            // Simple expression evaluator
-            // Replace variable names with their values
-            let processedExpr = expr;
-            for (let varName in environment) {
-                const regex = new RegExp(`\\b${varName}\\b`, 'g');
-                processedExpr = processedExpr.replace(regex, environment[varName]);
+            addToEnvironment(varName, value, true);
+            logExecution(`Paso ${stepNumber}: Declarada const ${varName} = ${value}`, 'success');
+            
+            // Track complex expressions
+            if (expression.includes('*') || expression.includes('/') || expression.includes('+') || expression.includes('-')) {
+                tracker.metrics.complexExpressionsEvaluated++;
+                tracker.metrics.conceptsDemonstrated.add('expression_evaluation');
             }
             
-            // Evaluate the mathematical expression
-            try {
-                return eval(processedExpr);
-            } catch (error) {
-                throw new Error(`No se puede evaluar la expresión: ${expr}`);
-            }
+        } else {
+            // Try to evaluate as expression
+            const result = evaluateExpression(line.replace(';', ''));
+            logExecution(`Paso ${stepNumber}: Expresión evaluada = ${result}`, 'expression');
+            tracker.metrics.conceptsDemonstrated.add('expression_execution');
         }
+        
+        // Update concepts progress
+        tracker.updateProgress('concepts', 
+                             Math.min(20 + (tracker.metrics.conceptsDemonstrated.size * 15), 85),
+                             `${tracker.metrics.conceptsDemonstrated.size} conceptos demostrados`);
+                             
+    } catch (error) {
+        tracker.metrics.errorsEncountered++;
+        tracker.metrics.conceptsDemonstrated.add('error_understanding');
+        showError(`Error en paso ${stepNumber}: ${error.message}`, stepNumber);
+    }
+}
 
-        function addToEnvironment(name, value, isNew = false) {
-            const memoryDiv = document.getElementById('environmentMemory');
-            
-            if (Object.keys(environment).length === 1 && isNew) {
-                memoryDiv.innerHTML = '';
-            }
-            
-            const entryDiv = document.createElement('div');
-            entryDiv.className = isNew ? 'memory-entry new' : 'memory-entry';
-            entryDiv.innerHTML = `
-                <span><strong>${name}</strong></span>
-                <span>${value}</span>
-            `;
-            
-            memoryDiv.appendChild(entryDiv);
-        }
+function evaluateExpression(expr) {
+    // Simple expression evaluator with advanced tracking
+    let processedExpr = expr;
+    for (let varName in environment) {
+        const regex = new RegExp(`\\b${varName}\\b`, 'g');
+        processedExpr = processedExpr.replace(regex, environment[varName]);
+    }
+    
+    // Evaluate the mathematical expression
+    try {
+        const result = eval(processedExpr);
+        tracker.metrics.conceptsDemonstrated.add('variable_resolution');
+        return result;
+    } catch (error) {
+        throw new Error(`No se puede evaluar la expresión: ${expr}`);
+    }
+}
 
-        function clearEnvironment() {
-            environment = {};
-            executionStep = 0;
-            document.getElementById('environmentMemory').innerHTML = `
-                <div style="text-align: center; color: #a0aec0; font-style: italic;">
-                    Environment vacío - Sin variables declaradas
-                </div>
-            `;
-            document.getElementById('executionLog').innerHTML = '';
-        }
+function addToEnvironment(name, value, isNew = false) {
+    const memoryDiv = document.getElementById('environmentMemory');
+    
+    if (Object.keys(environment).length === 1 && isNew) {
+        memoryDiv.innerHTML = '';
+    }
+    
+    const entryDiv = document.createElement('div');
+    entryDiv.className = isNew ? 'memory-entry new' : 'memory-entry';
+    entryDiv.innerHTML = `
+        <span style="font-weight: 600; color: #2d3748;"><strong>${name}</strong></span>
+        <span style="font-family: 'Courier New', monospace; color: #4a5568;">${value}</span>
+    `;
+    
+    memoryDiv.appendChild(entryDiv);
+    
+    // Track environment interaction
+    tracker.metrics.environmentInteractions++;
+}
 
-        function logExecution(message, type) {
-            const logDiv = document.getElementById('executionLog');
-            const color = type === 'success' ? '#38a169' : type === 'expression' ? '#3182ce' : '#e53e3e';
-            
-            logDiv.innerHTML += `
-                <div style="background: ${color}; color: white; padding: 10px; margin: 5px 0; border-radius: 5px;">
-                    ${message}
-                </div>
-            `;
-        }
+function clearEnvironment() {
+    // Track environment clearing
+    const variableCount = Object.keys(environment).length;
+    
+    environment = {};
+    executionStep = 0;
+    document.getElementById('environmentMemory').innerHTML = `
+        <div style="text-align: center; color: #4a5568; font-style: italic; padding: 20px;">
+            <div style="font-size: 2em; margin-bottom: 10px;">🌐</div>
+            <div>Environment vacío</div>
+            <div style="font-size: 14px; margin-top: 5px;">Sin variables declaradas</div>
+        </div>
+    `;
+    document.getElementById('executionLog').innerHTML = '';
+    
+    // Achievement: Environment management
+    if (variableCount > 0) {
+        tracker.triggerAchievement('environment_management', {
+            costPrevented: 600000,
+            actionType: 'environment_cleared',
+            variablesCleared: variableCount
+        });
+        tracker.metrics.conceptsDemonstrated.add('memory_management');
+    }
+}
 
-        function showError(message, step) {
-            logExecution(message, 'error');
-        }
+function logExecution(message, type) {
+    const logDiv = document.getElementById('executionLog');
+    const entryClass = `log-${type}`;
+    
+    const logEntry = document.createElement('div');
+    logEntry.className = `log-entry ${entryClass}`;
+    logEntry.innerHTML = message;
+    
+    logDiv.appendChild(logEntry);
+    
+    // Auto-scroll to latest entry
+    logDiv.scrollTop = logDiv.scrollHeight;
+}
 
-        function loadExample(type) {
-            clearEnvironment();
-            let code = '';
-            
-            switch(type) {
-                case 'insurance':
-                    code = `const base_premium = 850;
+function showError(message, step) {
+    logExecution(message, 'error');
+    
+    // Achievement: Error understanding
+    tracker.triggerAchievement('environment_error_understanding', {
+        costPrevented: 400000,
+        actionType: 'error_encountered_and_understood',
+        errorStep: step
+    });
+}
+
+function loadExample(type) {
+    // Track example loading
+    tracker.metrics.examplesLoaded.add(type);
+    tracker.updateProgress('experimentation', 
+                         Math.min(30 + (tracker.metrics.examplesLoaded.size * 10), 80),
+                         `${tracker.metrics.examplesLoaded.size} ejemplos explorados`);
+    
+    clearEnvironment();
+    let code = '';
+    
+    switch(type) {
+        case 'insurance':
+            code = `const base_premium = 850;
 const age_risk_factor = 1.15;
 const health_discount = 0.87;
 const final_premium = base_premium * age_risk_factor * health_discount;`;
-                    break;
-                case 'finance':
-                    code = `const principal = 1000;
+            tracker.metrics.conceptsDemonstrated.add('related_variables');
+            break;
+        case 'finance':
+            code = `const principal = 1000;
 const interest_rate = 0.05;
 const years = 3;
 const final_amount = principal * (1 + interest_rate) * years;`;
-                    break;
-                case 'error':
-                    code = `const pi = 3.14159;
+            tracker.metrics.conceptsDemonstrated.add('complex_expressions');
+            break;
+        case 'error':
+            code = `const pi = 3.14159;
 const pi = 2.71828;
 const result = pi * 5;`;
-                    break;
-                case 'complex':
-                    code = `const pi = 3.14159;
+            tracker.metrics.conceptsDemonstrated.add('redeclaration_error');
+            break;
+        case 'complex':
+            code = `const pi = 3.14159;
 const radius = 10;
 const height = 20;
 const base_area = pi * radius * radius;
 const volume = base_area * height;
 const surface_area = 2 * base_area + 2 * pi * radius * height;`;
-                    break;
-            }
-            
-            document.getElementById('codeInput').value = code;
+            tracker.metrics.conceptsDemonstrated.add('environment_stack');
+            break;
+        case 'scope':
+            code = `const global_var = 100;
+const local_test = global_var * 2;
+const shadow_test = global_var;
+const complex_calc = global_var + local_test + shadow_test;`;
+            tracker.metrics.conceptsDemonstrated.add('variable_shadowing');
+            break;
+    }
+    
+    document.getElementById('codeInput').value = code;
+    
+    // Achievement: Example exploration
+    if (tracker.metrics.examplesLoaded.size >= 3) {
+        tracker.triggerAchievement('environment_example_exploration', {
+            costPrevented: 1500000,
+            actionType: 'multiple_example_exploration',
+            examplesExplored: tracker.metrics.examplesLoaded.size
+        });
+    }
+}
+
+// Initialize with welcome interaction
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up initial example
+    loadExample('insurance');
+    
+    // Track input interactions
+    document.getElementById('codeInput').addEventListener('input', function() {
+        tracker.metrics.environmentInteractions++;
+    });
+    
+    // Achievement: Deep mastery after sufficient interaction
+    setInterval(() => {
+        if (tracker.metrics.environmentInteractions >= 20 && !tracker.metrics.deepInteractionAchieved) {
+            tracker.metrics.deepInteractionAchieved = true;
+            tracker.updateProgress('mastery', 90, 'Interacción profunda con environment');
+            tracker.triggerAchievement('environment_deep_interaction', {
+                costPrevented: 2000000,
+                actionType: 'deep_environment_interaction',
+                totalInteractions: tracker.metrics.environmentInteractions
+            });
         }
-    </script>
+    }, 5000);
+});
+
+// Environment case readiness notification
+console.log('🎯 Environment Laboratory ready - The invisible memory of JavaScript awaits');
+console.log('🧠 Advanced level: Master the fundamental concepts that enable all programming');
+console.log('🏆 Achievement tracking: Advanced JavaScript environment understanding');
+</script>
+
 </body>
 </html>
