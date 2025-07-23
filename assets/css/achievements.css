@@ -1,18 +1,686 @@
-/* 🎨 ACHIEVEMENT UI COMPONENTS */
-/* Ubicación: assets/css/achievements.css */
+/* ===== ACHIEVEMENT SYSTEM COMPONENTS ===== */
+/* Psychology-Optimized Gamification - Following Behavioral Design Principles */
+/* Integrates with your existing design system and glassmorphism aesthetic */
 
-/* Achievement badges with psychology-optimized colors */
+/* =====================================================
+ * ACHIEVEMENT PHILOSOPHY
+ * "Dopamine-driven engagement through variable ratio reinforcement" - Psychology Research
+ * 
+ * This system implements:
+ * 1. Self-Determination Theory - Autonomy, Mastery, Purpose
+ * 2. Flow Theory - Challenge-skill balance optimization  
+ * 3. Variable Ratio Reinforcement - Optimal reward timing
+ * 4. Social Proof Integration - Community recognition systems
+ * ===================================================== */
+
+/* =====================================================
+ * ACHIEVEMENT BADGE SYSTEM
+ * Multi-state visual indicators with celebration animations
+ * Following your existing glassmorphism and animation principles
+ * ===================================================== */
+
+/*
+ * Achievement Badge Foundation
+ * Integrates with your existing badge system from styles.css
+ */
 .achievement-badge {
-  /* Sarah Drasner-level animation systems */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  /* Size Variations */
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  
+  /* Glassmorphism Integration - Matches your navigation system */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--dark-border);
+  
+  /* Typography */
+  font-size: var(--text-2xl);
+  color: var(--dark-text-secondary);
+  
+  /* Base State - Unearned */
+  opacity: 0.4;
+  transform: scale(0.9);
+  transition: all var(--duration-normal) var(--ease-out);
+  
+  /* Prevent text selection on emoji/icons */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/*
+ * Achievement Badge Earned State
+ * Celebration animation with psychology-optimized timing
+ */
+.achievement-badge.earned {
+  opacity: 1;
+  transform: scale(1);
+  
+  /* Earned State Styling */
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--brand-400);
+  color: var(--brand-300);
+  box-shadow: 
+    0 0 20px rgba(168, 85, 247, 0.3),
+    var(--shadow-lg);
+  
+  /* Sarah Drasner-level celebration animation */
   animation: celebration-burst 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Progress rings with dopamine-optimized visual feedback */
-.progress-ring {
-  /* SVG-based progress indicators */
+/*
+ * Achievement Badge Hover States
+ * Provides additional context without overwhelming
+ */
+.achievement-badge:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
-/* Achievement unlock modal */
+.achievement-badge.earned:hover {
+  background: rgba(168, 85, 247, 0.3);
+  box-shadow: 
+    0 0 30px rgba(168, 85, 247, 0.4),
+    var(--shadow-xl);
+}
+
+/* Size Variations */
+.achievement-badge--sm {
+  width: 60px;
+  height: 60px;
+  font-size: var(--text-lg);
+}
+
+.achievement-badge--lg {
+  width: 100px;
+  height: 100px;
+  font-size: var(--text-3xl);
+}
+
+.achievement-badge--xl {
+  width: 120px;
+  height: 120px;
+  font-size: var(--text-4xl);
+}
+
+/* =====================================================
+ * ACHIEVEMENT ANIMATIONS
+ * Psychology-optimized celebration animations
+ * ===================================================== */
+
+/*
+ * Celebration Burst - Main achievement unlock animation
+ * Timing optimized for dopamine release (0.8s peak engagement)
+ */
+@keyframes celebration-burst {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/*
+ * Pulse Animation - Continuous engagement reminder
+ * Subtle, non-distracting attention draw
+ */
+@keyframes achievement-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+  }
+}
+
+.achievement-badge.pulse {
+  animation: achievement-pulse 2s ease-in-out infinite;
+}
+
+/*
+ * Shimmer Effect - For nearly-earned achievements
+ * Creates anticipation and motivation
+ */
+@keyframes achievement-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.achievement-badge.almost-earned {
+  opacity: 0.7;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(168, 85, 247, 0.1) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  background-size: 200% 100%;
+  animation: achievement-shimmer 2s linear infinite;
+}
+
+/* =====================================================
+ * PROGRESS RING SYSTEM
+ * SVG-based circular progress indicators
+ * ===================================================== */
+
+/*
+ * Progress Ring Container
+ * Integrates with your existing progress system
+ */
+.progress-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+ * Progress Ring SVG
+ * Scalable, smooth circular progress
+ */
+.progress-ring__svg {
+  transform: rotate(-90deg);
+  width: 100px;
+  height: 100px;
+}
+
+.progress-ring__circle {
+  fill: transparent;
+  stroke-width: 4;
+  stroke-linecap: round;
+  
+  /* Smooth progress animation */
+  transition: stroke-dashoffset var(--duration-slow) var(--ease-out);
+}
+
+.progress-ring__background {
+  stroke: var(--dark-border);
+}
+
+.progress-ring__progress {
+  stroke: var(--brand-400);
+  stroke-dasharray: 283; /* 2π × 45 (radius) */
+  stroke-dashoffset: 283;
+  
+  /* Subtle glow effect */
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.3));
+}
+
+/*
+ * Progress Ring Content
+ * Central content area for percentage or icon
+ */
+.progress-ring__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--brand-400);
+  text-align: center;
+}
+
+/* Progress Ring Size Variations */
+.progress-ring--sm .progress-ring__svg {
+  width: 60px;
+  height: 60px;
+}
+
+.progress-ring--lg .progress-ring__svg {
+  width: 120px;
+  height: 120px;
+}
+
+/* =====================================================
+ * ACHIEVEMENT MODAL SYSTEM
+ * Full-screen celebration and detailed information
+ * ===================================================== */
+
+/*
+ * Achievement Modal Overlay
+ * Matches your existing notification system architecture
+ */
 .achievement-modal {
-  /* Glassmorphism design matching your existing system */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  /* Glassmorphism Background - Matches your navigation */
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  
+  /* Layering */
+  z-index: var(--z-modal);
+  
+  /* Center Content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  
+  /* Entry/Exit Animation */
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.achievement-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/*
+ * Achievement Modal Content
+ * Celebration-focused design with clear information hierarchy
+ */
+.achievement-modal__content {
+  background: var(--dark-surface);
+  border: 1px solid var(--brand-400);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-12);
+  
+  /* Maximum dimensions */
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  
+  /* Glassmorphism Enhancement */
+  box-shadow: 
+    0 0 50px rgba(168, 85, 247, 0.2),
+    var(--shadow-2xl);
+  
+  /* Entry Animation */
+  transform: scale(0.8) translateY(20px);
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.achievement-modal.show .achievement-modal__content {
+  transform: scale(1) translateY(0);
+}
+
+/*
+ * Achievement Modal Header
+ * Celebration-focused with large badge display
+ */
+.achievement-modal__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.achievement-modal__badge {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--space-6);
+  font-size: var(--text-4xl);
+  
+  /* Enhanced celebration styling */
+  background: rgba(168, 85, 247, 0.3);
+  border: 2px solid var(--brand-400);
+  box-shadow: 
+    0 0 40px rgba(168, 85, 247, 0.4),
+    inset 0 0 20px rgba(168, 85, 247, 0.1);
+  
+  /* Continuous celebration animation */
+  animation: celebration-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes celebration-glow {
+  0% {
+    box-shadow: 
+      0 0 40px rgba(168, 85, 247, 0.4),
+      inset 0 0 20px rgba(168, 85, 247, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 0 60px rgba(168, 85, 247, 0.6),
+      inset 0 0 30px rgba(168, 85, 247, 0.2);
+  }
+}
+
+/*
+ * Achievement Modal Typography
+ * Clear hierarchy with celebration emphasis
+ */
+.achievement-modal__title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--brand-300);
+  margin-bottom: var(--space-2);
+}
+
+.achievement-modal__description {
+  color: var(--dark-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+}
+
+/*
+ * Achievement Stats Display
+ * Progress and impact information
+ */
+.achievement-modal__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  
+  padding: var(--space-6);
+  background: var(--dark-bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--dark-border);
+}
+
+.achievement-modal__stat {
+  text-align: center;
+}
+
+.achievement-modal__stat-value {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--brand-400);
+  display: block;
+}
+
+.achievement-modal__stat-label {
+  font-size: var(--text-sm);
+  color: var(--dark-text-secondary);
+  margin-top: var(--space-1);
+}
+
+/*
+ * Achievement Modal Actions
+ * Share and continue options
+ */
+.achievement-modal__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* =====================================================
+ * ACHIEVEMENT NOTIFICATION SYSTEM
+ * Toast-style notifications for quick achievements
+ * ===================================================== */
+
+/*
+ * Achievement Notification
+ * Extends your existing notification system
+ */
+.achievement-notification {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-6);
+  
+  /* Styling matches your notification system */
+  background: var(--dark-surface);
+  border: 1px solid var(--brand-400);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  
+  /* Enhanced visual treatment */
+  box-shadow: 
+    0 0 30px rgba(168, 85, 247, 0.3),
+    var(--shadow-xl);
+  
+  /* Layering */
+  z-index: var(--z-toast);
+  
+  /* Entry/Exit Animation */
+  transform: translateX(100%);
+  transition: transform var(--duration-normal) var(--ease-out);
+  
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.achievement-notification.show {
+  transform: translateX(0);
+}
+
+.achievement-notification__badge {
+  width: 40px;
+  height: 40px;
+  font-size: var(--text-lg);
+  flex-shrink: 0;
+  
+  /* Mini celebration */
+  animation: mini-celebration 0.6s ease-out;
+}
+
+@keyframes mini-celebration {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.achievement-notification__content {
+  flex: 1;
+}
+
+.achievement-notification__title {
+  font-weight: 600;
+  color: var(--brand-300);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-1);
+}
+
+.achievement-notification__description {
+  color: var(--dark-text-secondary);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
+/* =====================================================
+ * ACHIEVEMENT CATEGORY VARIANTS
+ * Different styles for different achievement types
+ * ===================================================== */
+
+/* Learning Achievement - Brand Colors */
+.achievement-badge--learning.earned {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--brand-400);
+  color: var(--brand-300);
+}
+
+/* Mastery Achievement - Success Colors */
+.achievement-badge--mastery.earned {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: var(--success-400);
+  color: var(--success-300);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+/* Discovery Achievement - Warning Colors */
+.achievement-badge--discovery.earned {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: var(--warning-400);
+  color: var(--warning-300);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+/* Social Achievement - Info Colors */
+.achievement-badge--social.earned {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #60a5fa;
+  color: #93c5fd;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Legendary Achievement - Special Treatment */
+.achievement-badge--legendary.earned {
+  background: linear-gradient(135deg, 
+    rgba(168, 85, 247, 0.3) 0%, 
+    rgba(245, 158, 11, 0.3) 50%, 
+    rgba(239, 68, 68, 0.3) 100%
+  );
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  
+  /* Legendary glow animation */
+  animation: legendary-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes legendary-glow {
+  0% {
+    box-shadow: 
+      0 0 30px rgba(168, 85, 247, 0.4),
+      0 0 60px rgba(245, 158, 11, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 0 50px rgba(239, 68, 68, 0.4),
+      0 0 80px rgba(168, 85, 247, 0.3);
+  }
+}
+
+/* =====================================================
+ * RESPONSIVE DESIGN
+ * Mobile-first achievement system
+ * ===================================================== */
+
+/* Tablet Adjustments */
+@media (max-width: 1024px) {
+  .achievement-modal__content {
+    max-width: 400px;
+    padding: var(--space-8);
+  }
+  
+  .achievement-modal__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .achievement-modal {
+    padding: var(--space-4);
+  }
+  
+  .achievement-modal__content {
+    max-width: none;
+    padding: var(--space-6);
+  }
+  
+  .achievement-modal__badge {
+    width: 100px;
+    height: 100px;
+    font-size: var(--text-3xl);
+  }
+  
+  .achievement-notification {
+    left: var(--space-4);
+    right: var(--space-4);
+    min-width: auto;
+  }
+  
+  .achievement-badge--lg,
+  .achievement-badge--xl {
+    width: 80px;
+    height: 80px;
+    font-size: var(--text-2xl);
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .achievement-modal__stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .achievement-modal__actions {
+    flex-direction: column;
+  }
+}
+
+/* =====================================================
+ * ACCESSIBILITY ENHANCEMENTS
+ * Inclusive achievement system
+ * ===================================================== */
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .achievement-badge,
+  .achievement-modal__content,
+  .achievement-notification {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .achievement-badge.earned {
+    animation: none;
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  .achievement-badge.earned {
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .achievement-modal__content {
+    border-width: 2px;
+  }
+}
+
+/* Focus Management */
+.achievement-badge:focus-visible,
+.achievement-modal__content:focus-visible {
+  outline: 2px solid var(--brand-400);
+  outline-offset: 2px;
+}
+
+/* Screen Reader Support */
+.achievement-badge[aria-label]:hover::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  
+  font-size: var(--text-xs);
+  color: var(--dark-text-primary);
+  white-space: nowrap;
+  z-index: var(--z-tooltip);
+  
+  /* Tooltip animation */
+  opacity: 0;
+  animation: tooltip-fade-in 0.2s ease-out 0.5s forwards;
+}
+
+@keyframes tooltip-fade-in {
+  to { opacity: 1; }
 }
