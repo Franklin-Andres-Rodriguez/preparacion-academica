@@ -1,3 +1,24 @@
+<!-- 🔧 JavaScript Files - Enlaces CORREGIDOS para funcionalidad completa -->
+  <script src="./assets/js/utils.js"></script>
+  
+  <!-- ❌ PROBLEMA: core.js no existe, debe ser core-back.js -->
+  <!-- <script src="./assets/js/core.js"></script> --> 
+  <!-- ✅ SOLUCION: -->
+  <script src="./assets/js/core-back.js"></script>
+  
+  <script src="./assets/js/notifications.js"></script>
+  <script src="./assets/js/achievements.js"></script>
+  
+  <!-- ❌ PROBLEMA: Estos archivos no existen según tu estructura -->
+  <!-- <script src="./assets/js/progress-tracker.js"></script> -->
+  <!-- <script src="./assets/js/analytics.js"></script> -->
+  
+  <!-- ✅ SOLUCIÓN: Agregar el nuevo archivo del laboratorio -->
+  <script src="./assets/js/laboratory.js"></script>
+  
+  <script src="./assets/js/main.js"></script>
+
+<!-- 📋 ARCHIVO COMPLETO CORREGIDO: -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -265,18 +286,7 @@ console.log('¿Esperabas este resultado?');</code></pre>
             <span class="output-title">📊 Resultado de Ejecución</span>
           </div>
           <div class="output-content">
-            <div class="output-line">
-              <span class="output-label">Resultado:</span>
-              <span class="output-value error">1005</span>
-            </div>
-            <div class="output-line">
-              <span class="output-label">Esperado:</span>
-              <span class="output-value">105000</span>
-            </div>
-            <div class="output-line">
-              <span class="output-label">Pérdida:</span>
-              <span class="output-value critical">$2,300,000</span>
-            </div>
+            <!-- El contenido se genera dinámicamente via JavaScript -->
           </div>
         </div>
       </div>
@@ -291,13 +301,12 @@ console.log('¿Esperabas este resultado?');</code></pre>
     </div>
   </div>
 
-  <!-- JavaScript Files - Load Order is Critical -->
+  <!-- ✅ JavaScript Files - Enlaces CORREGIDOS -->
   <script src="./assets/js/utils.js"></script>
-  <script src="./assets/js/core.js"></script>
+  <script src="./assets/js/core-back.js"></script>          <!-- Corregido: era core.js -->
   <script src="./assets/js/notifications.js"></script>
   <script src="./assets/js/achievements.js"></script>
-  <script src="./assets/js/progress-tracker.js"></script>
-  <script src="./assets/js/analytics.js"></script>
+  <script src="./assets/js/laboratory.js"></script>         <!-- ✅ NUEVO: Funcionalidad del laboratorio -->
   <script src="./assets/js/main.js"></script>
 </body>
 </html>
