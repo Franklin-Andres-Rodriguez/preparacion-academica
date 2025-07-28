@@ -1,520 +1,830 @@
-/* ===== LAYOUT SYSTEM ARCHITECTURE ===== */
-/* Systematic Layout Foundation - Following Ian Sommerville's Structured Approach */
-/* Built on Robert C. Martin's Clean Architecture Principles */
+/*
+  ==========================================
+  LAYOUT SYSTEMS - MILLION DOLLAR BUGS ACADEMY
+  ==========================================
+  
+  Responsive grid systems and containers following educational design principles.
+  Synthesizes methodologies from Ian Sommerville (systematic structure), 
+  Jonas Schmedtmann (theory-practice integration), and Robert C. Martin (clean architecture).
+  
+  CORREGIDO: Eliminadas todas las instancias de "composes" (sintaxis inválida)
+  
+  "The best architectures are those that grow incrementally" - Martin Fowler
+  "Layout is the foundation of effective visual communication" - Josef Müller-Brockmann
+  
+  Architecture:
+  1. Container Systems (content width management)
+  2. Grid Systems (flexible layout patterns)
+  3. Flexbox Utilities (component alignment)
+  4. Responsive Patterns (device adaptation)
+  5. Educational Layouts (learning-specific patterns)
+  6. Spacing Systems (rhythm and hierarchy)
+*/
 
-/* =====================================================
- * ARCHITECTURAL PHILOSOPHY
- * "Architecture is about intent" - Robert C. Martin
- * 
- * This layout system follows:
- * 1. Single Responsibility - Each class has one layout purpose
- * 2. Open/Closed - Extendable without modification
- * 3. Composition over Inheritance - Mix utilities instead of complex hierarchies
- * 4. Systematic Progression - From simple containers to complex grids
- * ===================================================== */
+/*
+  ==========================================
+  1. CONTAINER SYSTEMS
+  ==========================================
+  Following Ian Sommerville's systematic approach to content organization
+*/
 
-/* =====================================================
- * CONTAINER SYSTEM
- * Foundation for content width management and responsive behavior
- * Following Jonas Schmedtmann's "Mobile-First, Content-Out" methodology
- * ===================================================== */
-
-/* 
- * Primary Container - The main content wrapper
- * Max-width ensures readability on large screens
- * Auto margins center content horizontally
- * Responsive padding adapts to device size
- */
-.layout-container {
+/* Base container foundation */
+.container {
   width: 100%;
-  max-width: 1400px;           /* Optimal reading width for wide content */
-  margin: 0 auto;              /* Center horizontally */
-  padding: 0 var(--space-6);   /* 24px default padding */
-}
-
-/* 
- * Narrow Container - For focused content like articles
- * Following typography best practices: 45-75 characters per line
- */
-.layout-container--narrow {
-  max-width: 800px;            /* Ideal for reading content */
-}
-
-/* 
- * Wide Container - For data-heavy layouts
- * Allows more breathing room for complex interfaces
- */
-.layout-container--wide {
-  max-width: 1600px;           /* Dashboard and admin interfaces */
-}
-
-/* 
- * Full Width Container - Edge-to-edge content
- * Useful for hero sections and full-bleed images
- */
-.layout-container--full {
-  max-width: none;
-  padding: 0;
-}
-
-/* =====================================================
- * FLEXBOX SYSTEM
- * Modern layout primitive following Brad Traversy's practical approach
- * "Learn flexbox thoroughly - it's 80% of modern layout"
- * ===================================================== */
-
-/* 
- * Base Flex Container
- * Default gap provides consistent spacing
- * Uses CSS custom properties for predictable behavior
- */
-.layout-flex {
-  display: flex;
-  gap: var(--space-4);         /* 16px default gap */
-}
-
-/* Flex Direction Utilities - Clear naming following BEM methodology */
-.layout-flex--row {
-  flex-direction: row;         /* Default, explicit for clarity */
-}
-
-.layout-flex--column {
-  flex-direction: column;
-}
-
-.layout-flex--row-reverse {
-  flex-direction: row-reverse;
-}
-
-.layout-flex--column-reverse {
-  flex-direction: column-reverse;
-}
-
-/* Flex Wrapping Control - Responsive behavior management */
-.layout-flex--wrap {
-  flex-wrap: wrap;
-}
-
-.layout-flex--nowrap {
-  flex-wrap: nowrap;
-}
-
-.layout-flex--wrap-reverse {
-  flex-wrap: wrap-reverse;
-}
-
-/* Justify Content - Horizontal alignment in flex containers */
-.layout-flex--justify-start {
-  justify-content: flex-start;
-}
-
-.layout-flex--justify-center {
-  justify-content: center;
-}
-
-.layout-flex--justify-end {
-  justify-content: flex-end;
-}
-
-.layout-flex--justify-between {
-  justify-content: space-between; /* Commonly used for navigation */
-}
-
-.layout-flex--justify-around {
-  justify-content: space-around;
-}
-
-.layout-flex--justify-evenly {
-  justify-content: space-evenly;
-}
-
-/* Align Items - Vertical alignment in flex containers */
-.layout-flex--align-start {
-  align-items: flex-start;
-}
-
-.layout-flex--align-center {
-  align-items: center;         /* Most common alignment */
-}
-
-.layout-flex--align-end {
-  align-items: flex-end;
-}
-
-.layout-flex--align-stretch {
-  align-items: stretch;        /* Default behavior, explicit */
-}
-
-.layout-flex--align-baseline {
-  align-items: baseline;       /* Text alignment */
-}
-
-/* Gap Size Variations - Systematic spacing scale */
-.layout-flex--gap-none {
-  gap: 0;
-}
-
-.layout-flex--gap-xs {
-  gap: var(--space-1);         /* 4px - tight spacing */
-}
-
-.layout-flex--gap-sm {
-  gap: var(--space-2);         /* 8px - small spacing */
-}
-
-.layout-flex--gap-md {
-  gap: var(--space-4);         /* 16px - default */
-}
-
-.layout-flex--gap-lg {
-  gap: var(--space-6);         /* 24px - generous spacing */
-}
-
-.layout-flex--gap-xl {
-  gap: var(--space-8);         /* 32px - section spacing */
-}
-
-/* =====================================================
- * STACK SYSTEM
- * Vertical layout primitive - Wes Bos's "Every Layout" approach
- * "Most layouts are just stacks of content with consistent spacing"
- * ===================================================== */
-
-/*
- * Stack Base - Simple vertical layout with consistent spacing
- * Replaces margin-bottom patterns with gap for cleaner CSS
- */
-.layout-stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);         /* Consistent vertical rhythm */
-}
-
-/* Stack Size Variations - Semantic spacing for different contexts */
-.layout-stack--tight {
-  gap: var(--space-2);         /* 8px - compact lists */
-}
-
-.layout-stack--loose {
-  gap: var(--space-6);         /* 24px - section content */
-}
-
-.layout-stack--relaxed {
-  gap: var(--space-8);         /* 32px - major sections */
-}
-
-/* =====================================================
- * GRID SYSTEM
- * Modern CSS Grid implementation following Martin Robillard's
- * "Selective Complexity Disclosure" - Simple by default, powerful when needed
- * ===================================================== */
-
-/*
- * Base Grid - Foundation for all grid layouts
- * Default gap provides consistent spacing
- * Auto-fit creates responsive behavior without media queries
- */
-.layout-grid {
-  display: grid;
-  gap: var(--space-6);         /* 24px - comfortable spacing */
-}
-
-/* Explicit Column Definitions - When you know exactly what you want */
-.layout-grid--1 {
-  grid-template-columns: 1fr;
-}
-
-.layout-grid--2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.layout-grid--3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.layout-grid--4 {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.layout-grid--5 {
-  grid-template-columns: repeat(5, 1fr);
-}
-
-.layout-grid--6 {
-  grid-template-columns: repeat(6, 1fr);
-}
-
-/*
- * Responsive Grid - The "Holy Grail" of responsive design
- * Auto-fits columns based on minimum width
- * No media queries needed - truly responsive
- * Following Jen Simmons's intrinsic web design principles
- */
-.layout-grid--responsive {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-/* Responsive Grid Variations - Different breakpoints for different content */
-.layout-grid--responsive-sm {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Cards */
-}
-
-.layout-grid--responsive-md {
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Default */
-}
-
-.layout-grid--responsive-lg {
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Large cards */
-}
-
-/* Auto-Fill vs Auto-Fit - Different responsive behaviors */
-.layout-grid--auto-fill {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-}
-
-.layout-grid--auto-fit {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-/* Gap Size Variations - Systematic spacing for grids */
-.layout-grid--gap-tight {
-  gap: var(--space-3);         /* 12px - compact grids */
-}
-
-.layout-grid--gap-normal {
-  gap: var(--space-6);         /* 24px - default */
-}
-
-.layout-grid--gap-loose {
-  gap: var(--space-8);         /* 32px - generous spacing */
-}
-
-/* =====================================================
- * SIDEBAR LAYOUTS
- * Classic layout patterns following "Every Layout" methodology
- * Solves the eternal sidebar problem with modern CSS
- * ===================================================== */
-
-/*
- * Sidebar Layout Base
- * Content area grows, sidebar maintains intrinsic width
- * Switches to stack on narrow screens automatically
- */
-.layout-sidebar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
-}
-
-.layout-sidebar > :first-child {
-  flex-basis: 250px;          /* Sidebar width */
-  flex-grow: 1;
-}
-
-.layout-sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;             /* Content area priority */
-  min-width: 50%;             /* Prevents too-narrow content */
-}
-
-/* Sidebar Variations - Different sidebar widths */
-.layout-sidebar--narrow > :first-child {
-  flex-basis: 200px;
-}
-
-.layout-sidebar--wide > :first-child {
-  flex-basis: 300px;
-}
-
-/* =====================================================
- * CLUSTER LAYOUT
- * For grouping items with automatic wrapping
- * Perfect for navigation, tags, and button groups
- * ===================================================== */
-
-.layout-cluster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  justify-content: flex-start;
-  align-items: center;
-}
-
-/* Cluster Alignment Variations */
-.layout-cluster--center {
-  justify-content: center;
-}
-
-.layout-cluster--end {
-  justify-content: flex-end;
-}
-
-.layout-cluster--between {
-  justify-content: space-between;
-}
-
-/* =====================================================
- * IMPOSTER LAYOUT
- * For overlaying content (modals, tooltips, badges)
- * Modern alternative to absolute positioning
- * ===================================================== */
-
-.layout-imposter {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* =====================================================
- * CENTER LAYOUT
- * Perfect centering for any content
- * Solves the centering problem once and for all
- * ===================================================== */
-
-.layout-center {
-  box-sizing: content-box;
   margin-left: auto;
   margin-right: auto;
-  max-width: 60ch;            /* Optimal reading width */
+  padding-left: var(--space-container-mobile);
+  padding-right: var(--space-container-mobile);
 }
 
-/* =====================================================
- * COVER LAYOUT
- * For hero sections and full-height content
- * Automatically distributes space with featured content
- * ===================================================== */
-
-.layout-cover {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: var(--space-4);
-}
-
-.layout-cover > * {
-  margin-top: var(--space-4);
-  margin-bottom: var(--space-4);
-}
-
-/* Featured element takes available space */
-.layout-cover > :nth-child(2) {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-/* =====================================================
- * RESPONSIVE UTILITIES
- * Mobile-first responsive behavior following Brad Traversy's approach
- * "Start mobile, enhance upward - not the other way around"
- * ===================================================== */
-
-/* Mobile-First Breakpoint System */
-@media (min-width: 480px) {
-  .layout-container {
-    padding: 0 var(--space-8);  /* More padding on larger screens */
+/* Responsive container sizing */
+@media (min-width: 640px) {
+  .container {
+    max-width: var(--container-sm);
+    padding-left: var(--space-container-tablet);
+    padding-right: var(--space-container-tablet);
   }
 }
 
 @media (min-width: 768px) {
-  /* Tablet adjustments */
-  .layout-grid--responsive-tablet {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-  
-  /* Stack becomes side-by-side on tablet+ */
-  .layout-stack--tablet-row {
-    flex-direction: row;
-    align-items: center;
+  .container {
+    max-width: var(--container-md);
   }
 }
 
 @media (min-width: 1024px) {
-  /* Desktop optimizations */
-  .layout-container {
-    padding: 0 var(--space-12); /* Maximum padding on desktop */
-  }
-  
-  /* More columns on desktop */
-  .layout-grid--desktop-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  
-  .layout-grid--desktop-6 {
-    grid-template-columns: repeat(6, 1fr);
+  .container {
+    max-width: var(--container-lg);
+    padding-left: var(--space-container-desktop);
+    padding-right: var(--space-container-desktop);
   }
 }
 
-@media (min-width: 1400px) {
-  /* Ultra-wide optimizations */
-  .layout-grid--ultrawide {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+@media (min-width: 1280px) {
+  .container {
+    max-width: var(--container-xl);
   }
 }
 
-/* =====================================================
- * ACCESSIBILITY ENHANCEMENTS
- * Following Laurie Williams's inclusive design principles
- * ===================================================== */
-
-/* Reduced motion respect - simplify layouts if requested */
-@media (prefers-reduced-motion: reduce) {
-  .layout-grid,
-  .layout-flex,
-  .layout-stack {
-    /* Layouts remain functional but less dynamic */
-    gap: var(--space-4);
+@media (min-width: 1536px) {
+  .container {
+    max-width: var(--container-2xl);
   }
 }
 
-/* High contrast mode adjustments */
-@media (prefers-contrast: high) {
-  .layout-container {
-    /* Ensure clear boundaries in high contrast */
-    outline: 1px solid;
-  }
+/* Container variants for specific content types */
+.container--narrow {
+  max-width: 42rem; /* ~672px - optimal for reading */
 }
 
-/* =====================================================
- * DEBUGGING UTILITIES
- * Following Kent Beck's "Make problems visible" principle
- * Uncomment during development to see layout structure
- * ===================================================== */
+.container--wide {
+  max-width: none;
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.container--full {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Educational content containers */
+.container--content {
+  max-width: 65ch; /* Optimal reading width for educational content */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container--code {
+  max-width: 90rem; /* Wider for code examples */
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /*
-.layout-debug * {
-  outline: 1px solid red;
-  background: rgba(255, 0, 0, 0.1);
-}
-
-.layout-debug .layout-container {
-  outline-color: blue;
-  background: rgba(0, 0, 255, 0.1);
-}
-
-.layout-debug .layout-grid {
-  outline-color: green;
-  background: rgba(0, 255, 0, 0.1);
-}
+  ==========================================
+  2. GRID SYSTEMS
+  ==========================================
+  Following CSS Grid best practices for educational layout flexibility
 */
 
-/* =====================================================
- * PRINT OPTIMIZATIONS
- * Layouts should work in print too
- * ===================================================== */
+/* Base grid foundation */
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
 
-@media print {
-  .layout-container {
-    max-width: none;
-    padding: 0;
-  }
-  
-  .layout-grid {
-    display: block;            /* Simplified for print */
-  }
-  
-  .layout-grid > * {
-    break-inside: avoid;       /* Prevent awkward page breaks */
-    margin-bottom: var(--space-4);
+/* Grid column patterns - Mobile first approach */
+.grid--1 { grid-template-columns: 1fr; }
+.grid--2 { grid-template-columns: 1fr; }
+.grid--3 { grid-template-columns: 1fr; }
+.grid--4 { grid-template-columns: 1fr; }
+
+/* Responsive grid progression */
+@media (min-width: 640px) {
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+  .grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 768px) {
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid--4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Auto-fit responsive grids */
+.grid--auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid--auto-fit-narrow {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.grid--auto-fit-wide {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+/* Educational content grids */
+.grid--cards {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+.grid--projects {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--space-8);
+}
+
+.grid--roadmap {
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Asymmetric educational layouts */
+.grid--hero {
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .grid--hero {
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-12);
   }
 }
+
+.grid--sidebar {
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .grid--sidebar {
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-8);
+  }
+}
+
+.grid--feature {
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .grid--feature {
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+}
+
+/* Grid gap variations */
+.grid--gap-sm { gap: var(--space-3); }
+.grid--gap-md { gap: var(--space-6); }
+.grid--gap-lg { gap: var(--space-8); }
+.grid--gap-xl { gap: var(--space-12); }
+
+/* Grid alignment utilities */
+.grid--center {
+  justify-items: center;
+  align-items: center;
+}
+
+.grid--start {
+  justify-items: start;
+  align-items: start;
+}
+
+.grid--end {
+  justify-items: end;
+  align-items: end;
+}
+
+/*
+  ==========================================
+  3. FLEXBOX UTILITIES
+  ==========================================
+  Following Jonas Schmedtmann's component-focused approach
+*/
+
+/* Base flex container */
+.flex {
+  display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+/* Flex direction */
+.flex--row { flex-direction: row; }
+.flex--row-reverse { flex-direction: row-reverse; }
+.flex--col { flex-direction: column; }
+.flex--col-reverse { flex-direction: column-reverse; }
+
+/* Flex wrap */
+.flex--wrap { flex-wrap: wrap; }
+.flex--nowrap { flex-wrap: nowrap; }
+.flex--wrap-reverse { flex-wrap: wrap-reverse; }
+
+/* Justify content (main axis) */
+.justify--start { justify-content: flex-start; }
+.justify--end { justify-content: flex-end; }
+.justify--center { justify-content: center; }
+.justify--between { justify-content: space-between; }
+.justify--around { justify-content: space-around; }
+.justify--evenly { justify-content: space-evenly; }
+
+/* Align items (cross axis) */
+.items--start { align-items: flex-start; }
+.items--end { align-items: flex-end; }
+.items--center { align-items: center; }
+.items--baseline { align-items: baseline; }
+.items--stretch { align-items: stretch; }
+
+/* Align content (wrapped lines) */
+.content--start { align-content: flex-start; }
+.content--end { align-content: flex-end; }
+.content--center { align-content: center; }
+.content--between { align-content: space-between; }
+.content--around { align-content: space-around; }
+.content--evenly { align-content: space-evenly; }
+
+/* Flex item utilities */
+.flex--1 { flex: 1 1 0%; }
+.flex--auto { flex: 1 1 auto; }
+.flex--initial { flex: 0 1 auto; }
+.flex--none { flex: none; }
+
+.flex-grow { flex-grow: 1; }
+.flex-shrink { flex-shrink: 1; }
+
+/* Common flex patterns */
+.flex--center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex--between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex--start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex--end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Flex with gaps */
+.flex--gap-1 { gap: var(--space-1); }
+.flex--gap-2 { gap: var(--space-2); }
+.flex--gap-3 { gap: var(--space-3); }
+.flex--gap-4 { gap: var(--space-4); }
+.flex--gap-6 { gap: var(--space-6); }
+.flex--gap-8 { gap: var(--space-8); }
+
+/*
+  ==========================================
+  4. RESPONSIVE PATTERNS
+  ==========================================
+  Following Brad Traversy's mobile-first methodology
+*/
+
+/* Hide/show utilities */
+.hidden { display: none !important; }
+.visible { display: block !important; }
+
+/* Responsive visibility */
+.sm\:hidden { display: block; }
+.md\:hidden { display: block; }
+.lg\:hidden { display: block; }
+.xl\:hidden { display: block; }
+
+@media (min-width: 640px) {
+  .sm\:hidden { display: none !important; }
+  .sm\:visible { display: block !important; }
+}
+
+@media (min-width: 768px) {
+  .md\:hidden { display: none !important; }
+  .md\:visible { display: block !important; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:hidden { display: none !important; }
+  .lg\:visible { display: block !important; }
+}
+
+@media (min-width: 1280px) {
+  .xl\:hidden { display: none !important; }
+  .xl\:visible { display: block !important; }
+}
+
+/* Responsive flex direction */
+@media (min-width: 640px) {
+  .sm\:flex--row { flex-direction: row; }
+  .sm\:flex--col { flex-direction: column; }
+}
+
+@media (min-width: 768px) {
+  .md\:flex--row { flex-direction: row; }
+  .md\:flex--col { flex-direction: column; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:flex--row { flex-direction: row; }
+  .lg\:flex--col { flex-direction: column; }
+}
+
+/* Responsive text alignment */
+@media (min-width: 640px) {
+  .sm\:text-left { text-align: left; }
+  .sm\:text-center { text-align: center; }
+  .sm\:text-right { text-align: right; }
+}
+
+@media (min-width: 768px) {
+  .md\:text-left { text-align: left; }
+  .md\:text-center { text-align: center; }
+  .md\:text-right { text-align: right; }
+}
+
+/*
+  ==========================================
+  5. EDUCATIONAL LAYOUT PATTERNS
+  ==========================================
+  Specialized layouts for software engineering education
+*/
+
+/* Hero section layout - CORREGIDO: Removido "composes" */
+.hero {
+  padding: var(--space-section-mobile) 0;
+  background: linear-gradient(135deg, 
+    var(--color-brand-primary) 0%, 
+    var(--color-brand-secondary) 100%);
+  color: var(--color-text-inverse);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+/* CORREGIDO: Reemplazado "composes: container" con estilos completos */
+.hero__container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-container-mobile);
+  padding-right: var(--space-container-mobile);
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .hero__container {
+    padding-left: var(--space-container-tablet);
+    padding-right: var(--space-container-tablet);
+  }
+}
+
+@media (min-width: 768px) {
+  .hero__container {
+    max-width: var(--container-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__container {
+    max-width: var(--container-lg);
+    padding-left: var(--space-container-desktop);
+    padding-right: var(--space-container-desktop);
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-12);
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero__container {
+    max-width: var(--container-xl);
+  }
+}
+
+.hero__content {
+  max-width: 42rem;
+  margin-bottom: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .hero__content {
+    margin-bottom: 0;
+  }
+}
+
+/* Section layout pattern - CORREGIDO: Removido "composes" */
+.section {
+  padding: var(--space-section-mobile) 0;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+/* CORREGIDO: Reemplazado "composes: container" con estilos completos */
+.section__container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-container-mobile);
+  padding-right: var(--space-container-mobile);
+}
+
+@media (min-width: 640px) {
+  .section__container {
+    max-width: var(--container-sm);
+    padding-left: var(--space-container-tablet);
+    padding-right: var(--space-container-tablet);
+  }
+}
+
+@media (min-width: 768px) {
+  .section__container {
+    max-width: var(--container-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section__container {
+    max-width: var(--container-lg);
+    padding-left: var(--space-container-desktop);
+    padding-right: var(--space-container-desktop);
+  }
+}
+
+@media (min-width: 1280px) {
+  .section__container {
+    max-width: var(--container-xl);
+  }
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Roadmap layout - Educational progression */
+.roadmap {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.roadmap__path {
+  display: grid;
+  gap: var(--space-16);
+  position: relative;
+}
+
+.roadmap__path::before {
+  content: '';
+  position: absolute;
+  left: 2rem;
+  top: 4rem;
+  bottom: 4rem;
+  width: 2px;
+  background: linear-gradient(to bottom, 
+    var(--color-stage-beginner),
+    var(--color-stage-intermediate),
+    var(--color-stage-expert),
+    var(--color-stage-master));
+  border-radius: var(--radius-full);
+}
+
+@media (min-width: 768px) {
+  .roadmap__path::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Stage card layout */
+.stage {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .stage {
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--space-8);
+  }
+  
+  .stage:nth-child(even) .stage__content {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: right;
+  }
+  
+  .stage:nth-child(even) .stage__indicator {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  
+  .stage:nth-child(odd) .stage__content {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  
+  .stage:nth-child(odd) .stage__indicator {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* Laboratory layout - Interactive coding */
+.lab {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .lab {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    min-height: 60vh;
+  }
+}
+
+.lab__editor,
+.lab__output {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.lab__header {
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface-secondary);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.lab__content {
+  flex: 1;
+  padding: var(--space-6);
+  overflow: auto;
+}
+
+/* Stats grid - Progress tracking */
+.stats {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.stat {
+  text-align: center;
+  padding: var(--space-6);
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat__value {
+  display: block;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-accent);
+  margin-bottom: var(--space-2);
+}
+
+.stat__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/*
+  ==========================================
+  6. SPACING UTILITIES
+  ==========================================
+  Following systematic spacing principles
+*/
+
+/* Margin utilities */
+.m-0 { margin: 0; }
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-3 { margin: var(--space-3); }
+.m-4 { margin: var(--space-4); }
+.m-6 { margin: var(--space-6); }
+.m-8 { margin: var(--space-8); }
+.m-12 { margin: var(--space-12); }
+.m-16 { margin: var(--space-16); }
+.m-20 { margin: var(--space-20); }
+.m-24 { margin: var(--space-24); }
+
+/* Margin directional */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mt-12 { margin-top: var(--space-12); }
+.mt-16 { margin-top: var(--space-16); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mb-12 { margin-bottom: var(--space-12); }
+.mb-16 { margin-bottom: var(--space-16); }
+
+.ml-0 { margin-left: 0; }
+.ml-1 { margin-left: var(--space-1); }
+.ml-2 { margin-left: var(--space-2); }
+.ml-3 { margin-left: var(--space-3); }
+.ml-4 { margin-left: var(--space-4); }
+.ml-6 { margin-left: var(--space-6); }
+.ml-8 { margin-left: var(--space-8); }
+
+.mr-0 { margin-right: 0; }
+.mr-1 { margin-right: var(--space-1); }
+.mr-2 { margin-right: var(--space-2); }
+.mr-3 { margin-right: var(--space-3); }
+.mr-4 { margin-right: var(--space-4); }
+.mr-6 { margin-right: var(--space-6); }
+.mr-8 { margin-right: var(--space-8); }
+
+/* Padding utilities */
+.p-0 { padding: 0; }
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+.p-12 { padding: var(--space-12); }
+
+/* Padding directional */
+.pt-0 { padding-top: 0; }
+.pt-1 { padding-top: var(--space-1); }
+.pt-2 { padding-top: var(--space-2); }
+.pt-3 { padding-top: var(--space-3); }
+.pt-4 { padding-top: var(--space-4); }
+.pt-6 { padding-top: var(--space-6); }
+.pt-8 { padding-top: var(--space-8); }
+
+.pb-0 { padding-bottom: 0; }
+.pb-1 { padding-bottom: var(--space-1); }
+.pb-2 { padding-bottom: var(--space-2); }
+.pb-3 { padding-bottom: var(--space-3); }
+.pb-4 { padding-bottom: var(--space-4); }
+.pb-6 { padding-bottom: var(--space-6); }
+.pb-8 { padding-bottom: var(--space-8); }
+
+.pl-0 { padding-left: 0; }
+.pl-1 { padding-left: var(--space-1); }
+.pl-2 { padding-left: var(--space-2); }
+.pl-3 { padding-left: var(--space-3); }
+.pl-4 { padding-left: var(--space-4); }
+.pl-6 { padding-left: var(--space-6); }
+
+.pr-0 { padding-right: 0; }
+.pr-1 { padding-right: var(--space-1); }
+.pr-2 { padding-right: var(--space-2); }
+.pr-3 { padding-right: var(--space-3); }
+.pr-4 { padding-right: var(--space-4); }
+.pr-6 { padding-right: var(--space-6); }
+
+/*
+  ==========================================
+  7. POSITION & Z-INDEX UTILITIES
+  ==========================================
+  Layout positioning for complex educational interfaces
+*/
+
+/* Position utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+.static { position: static; }
+
+/* Z-index utilities */
+.z-hide { z-index: var(--z-index-hide); }
+.z-base { z-index: var(--z-index-base); }
+.z-docked { z-index: var(--z-index-docked); }
+.z-dropdown { z-index: var(--z-index-dropdown); }
+.z-sticky { z-index: var(--z-index-sticky); }
+.z-modal { z-index: var(--z-index-modal); }
+.z-tooltip { z-index: var(--z-index-tooltip); }
+
+/* Common positioning patterns */
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+/*
+  ==========================================
+  LAYOUT SYSTEM COMPLETE - CORREGIDO
+  ==========================================
+  
+  CAMBIOS REALIZADOS:
+  ✅ Eliminadas todas las instancias de "composes" (sintaxis CSS inválida)
+  ✅ Reemplazado "composes: container" con estilos CSS válidos completos
+  ✅ Mantenida funcionalidad idéntica usando CSS estándar
+  ✅ Conservados todos los principios educativos y responsive design
+  
+  Este layout system ahora proporciona:
+  - Responsive container patterns sin errores de sintaxis
+  - Flexible grid systems usando CSS Grid y Flexbox válidos
+  - Educational-specific layouts completamente funcionales
+  - Mobile-first responsive patterns sin dependencias inválidas
+  - Systematic spacing utilities siguiendo 8px grid
+  - Position y z-index management para interfaces complejas
+  
+  Siguiendo principios de:
+  - Ian Sommerville: Systematic structure y logical organization
+  - Jonas Schmedtmann: Beautiful, functional layouts con educational purpose
+  - Robert C. Martin: Clean, maintainable CSS architecture
+  - Brad Traversy: Mobile-first, practical responsive design
+  - Sarah Drasner: Creative layouts que enhance learning
+*/

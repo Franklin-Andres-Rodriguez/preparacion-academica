@@ -1,0 +1,633 @@
+/*
+  ==========================================
+  BASE STYLES - MILLION DOLLAR BUGS ACADEMY
+  ==========================================
+  
+  Typography and semantic element foundation following educational excellence principles.
+  Based on Ian Sommerville's systematic methodology and Jonas Schmedtmann's theory-practice integration.
+  
+  "Typography is the foundation of all visual communication" - Matthew Carter
+  "Clean code reads like well-written prose" - Robert C. Martin
+  
+  Architecture:
+  1. Typography System (hierarchy, readability, accessibility)
+  2. Semantic HTML Elements (meaning, structure, SEO)
+  3. Educational Content Styling (code, quotes, emphasis)
+  4. Interactive Elements Base (links, buttons, forms)
+*/
+
+/*
+  ==========================================
+  1. DOCUMENT FOUNDATION
+  ==========================================
+  Following Ian Sommerville's systematic structure approach
+*/
+
+html {
+  /* Establish base font-size for rem calculations */
+  font-size: var(--font-size-base);
+  
+  /* Smooth scrolling for educational navigation */
+  scroll-behavior: smooth;
+  
+  /* Optimize text rendering for educational readability */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Primary typography foundation */
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  
+  /* Semantic color application */
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  
+  /* Improve text rendering on all devices */
+  text-rendering: optimizeSpeed;
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  
+  /* Prevent layout shift during font loading */
+  font-display: swap;
+}
+
+/*
+  ==========================================
+  2. TYPOGRAPHY HIERARCHY
+  ==========================================
+  Following Jonas Schmedtmann's visual hierarchy principles
+*/
+
+/* Display Typography - Hero & Landing Sections */
+.text-display-large {
+  font: var(--typography-display-large);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--space-6);
+}
+
+.text-display-medium {
+  font: var(--typography-display-medium);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--space-5);
+}
+
+.text-display-small {
+  font: var(--typography-display-small);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--space-4);
+}
+
+/* Heading Hierarchy - Educational Content Structure */
+h1, .h1 {
+  font: var(--typography-heading-h1);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  scroll-margin-top: var(--space-20);
+}
+
+h2, .h2 {
+  font: var(--typography-heading-h2);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  margin-top: var(--space-8);
+  scroll-margin-top: var(--space-16);
+}
+
+h3, .h3 {
+  font: var(--typography-heading-h3);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  margin-top: var(--space-6);
+  scroll-margin-top: var(--space-16);
+}
+
+h4, .h4 {
+  font: var(--typography-heading-h4);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+h5, .h5 {
+  font: var(--typography-heading-h5);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+h6, .h6 {
+  font: var(--typography-heading-h6);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Body Text - Educational Content Readability */
+p, .text-body {
+  font: var(--typography-body-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  max-width: 65ch; /* Optimal reading width */
+}
+
+.text-body-large {
+  font: var(--typography-body-large);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-5);
+  max-width: 60ch;
+}
+
+.text-body-small {
+  font: var(--typography-body-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  max-width: 70ch;
+}
+
+/* Lead text for introductions */
+.text-lead {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 55ch;
+}
+
+/*
+  ==========================================
+  3. TEXT EMPHASIS & SEMANTIC MEANING
+  ==========================================
+  Following Robert C. Martin's clear communication principles
+*/
+
+/* Strong emphasis for important concepts */
+strong, b, .text-strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* Italic emphasis for definitions and foreign terms */
+em, i, .text-emphasis {
+  font-style: italic;
+  color: var(--color-text-primary);
+}
+
+/* Underline for added emphasis (not links) */
+u, .text-underline {
+  text-decoration: underline;
+  text-decoration-color: var(--color-text-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+/* Small text for disclaimers and metadata */
+small, .text-small {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-normal);
+}
+
+/* Mark/highlight for important terms */
+mark, .text-highlight {
+  background-color: var(--color-surface-warning);
+  color: var(--color-text-primary);
+  padding: var(--space-0_5) var(--space-1);
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/*
+  ==========================================
+  4. CODE & TECHNICAL CONTENT
+  ==========================================
+  Critical for software engineering education
+*/
+
+/* Inline code snippets */
+code, .text-code {
+  font: var(--typography-code-inline);
+  background-color: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-primary);
+  
+  /* Prevent code from breaking layout */
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+/* Keyboard input styling */
+kbd, .text-kbd {
+  font: var(--typography-code-inline);
+  background-color: var(--color-surface-tertiary);
+  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-secondary);
+  box-shadow: var(--shadow-sm);
+  
+  /* Keyboard visual styling */
+  background-image: linear-gradient(to bottom, 
+    var(--color-surface-primary), 
+    var(--color-surface-secondary));
+}
+
+/* Sample output styling */
+samp, .text-samp {
+  font: var(--typography-code-inline);
+  background-color: var(--color-surface-success);
+  color: var(--color-text-success);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-border-success);
+}
+
+/* Code blocks */
+pre {
+  font: var(--typography-code-block);
+  background-color: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-primary);
+  margin: var(--space-6) 0;
+  
+  /* Code block behavior */
+  overflow-x: auto;
+  white-space: pre;
+  line-height: var(--line-height-relaxed);
+  
+  /* Smooth scrolling for long code */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-secondary) transparent;
+}
+
+pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-secondary);
+  border-radius: var(--radius-full);
+}
+
+/* Code within pre blocks */
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  word-break: normal;
+  white-space: pre;
+}
+
+/*
+  ==========================================
+  5. LISTS & STRUCTURED CONTENT
+  ==========================================
+  Educational content organization
+*/
+
+/* Unordered lists */
+ul {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-6);
+}
+
+ul li {
+  margin-bottom: var(--space-2);
+  padding-left: var(--space-2);
+  position: relative;
+}
+
+/* Custom bullet points */
+ul li::before {
+  content: "•";
+  color: var(--color-text-accent);
+  font-weight: var(--font-weight-bold);
+  position: absolute;
+  left: calc(-1 * var(--space-4));
+}
+
+/* Ordered lists */
+ol {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-6);
+  counter-reset: list-counter;
+}
+
+ol li {
+  margin-bottom: var(--space-2);
+  padding-left: var(--space-2);
+  position: relative;
+  counter-increment: list-counter;
+}
+
+ol li::before {
+  content: counter(list-counter) ".";
+  color: var(--color-text-accent);
+  font-weight: var(--font-weight-semibold);
+  position: absolute;
+  left: calc(-1 * var(--space-5));
+  min-width: var(--space-4);
+  text-align: right;
+}
+
+/* Description lists for glossaries */
+dl {
+  margin: var(--space-4) 0;
+}
+
+dt {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+dd {
+  margin-left: var(--space-4);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+/*
+  ==========================================
+  6. QUOTES & CITATIONS
+  ==========================================
+  Academic and educational integrity
+*/
+
+/* Block quotes for important concepts */
+blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-6);
+  border-left: 4px solid var(--color-border-accent);
+  background-color: var(--color-surface-secondary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  position: relative;
+}
+
+blockquote::before {
+  content: """;
+  font-size: var(--font-size-4xl);
+  color: var(--color-text-accent);
+  position: absolute;
+  left: var(--space-3);
+  top: var(--space-2);
+  line-height: 1;
+}
+
+blockquote p {
+  margin-bottom: var(--space-3);
+  max-width: none;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Citation styling */
+cite {
+  font-style: normal;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+blockquote cite::before {
+  content: "— ";
+}
+
+/*
+  ==========================================
+  7. LINKS & NAVIGATION
+  ==========================================
+  Educational content connectivity
+*/
+
+/* Base link styling */
+a {
+  color: var(--color-text-accent);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-timing-fast) var(--transition-easing-smooth);
+  cursor: pointer;
+}
+
+/* Link states */
+a:hover {
+  color: var(--color-brand-primary-hover);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:focus {
+  outline: 2px solid var(--color-border-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+a:active {
+  color: var(--color-brand-primary-active);
+}
+
+/* Visited links (important for educational content) */
+a:visited {
+  color: var(--color-stage-expert);
+}
+
+/* External links indicator */
+a[href^="http"]::after,
+a[href^="//"]::after {
+  content: " ↗";
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+}
+
+/*
+  ==========================================
+  8. TABLES & DATA PRESENTATION
+  ==========================================
+  Educational data organization
+*/
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-6) 0;
+  background-color: var(--color-surface-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+th, td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+th {
+  background-color: var(--color-surface-secondary);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background-color: var(--color-surface-secondary);
+}
+
+/* Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/*
+  ==========================================
+  9. FORMS & INTERACTION ELEMENTS
+  ==========================================
+  User input foundation
+*/
+
+/* Form field base styling */
+input, textarea, select {
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-primary);
+  border: var(--form-input-border);
+  border-radius: var(--form-input-radius);
+  padding: var(--form-input-padding-x);
+  min-height: var(--form-input-height);
+  transition: var(--form-input-transition);
+  width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border: var(--form-input-border-focus);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--color-text-disabled);
+  font-style: italic;
+}
+
+/* Label styling */
+label {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+/*
+  ==========================================
+  10. UTILITY CLASSES
+  ==========================================
+  Common text styling utilities
+*/
+
+/* Text alignment */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Text transformation */
+.text-uppercase { text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+/* Font weights */
+.text-light { font-weight: var(--font-weight-light); }
+.text-normal { font-weight: var(--font-weight-normal); }
+.text-medium { font-weight: var(--font-weight-medium); }
+.text-semibold { font-weight: var(--font-weight-semibold); }
+.text-bold { font-weight: var(--font-weight-bold); }
+
+/* Font styles */
+.text-italic { font-style: italic; }
+.text-not-italic { font-style: normal; }
+
+/* Line heights */
+.leading-tight { line-height: var(--line-height-tight); }
+.leading-snug { line-height: var(--line-height-snug); }
+.leading-normal { line-height: var(--line-height-normal); }
+.leading-relaxed { line-height: var(--line-height-relaxed); }
+.leading-loose { line-height: var(--line-height-loose); }
+
+/* Text colors */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-accent { color: var(--color-text-accent); }
+.text-success { color: var(--color-text-success); }
+.text-warning { color: var(--color-text-warning); }
+.text-danger { color: var(--color-text-danger); }
+
+/* Text sizes */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+
+/*
+  ==========================================
+  BASE STYLES COMPLETE
+  ==========================================
+  
+  This base system provides:
+  - Comprehensive typography hierarchy for educational content
+  - Semantic HTML element styling following web standards
+  - Accessible color contrast and focus management
+  - Responsive text sizing and optimal reading widths
+  - Technical content styling for code and documentation
+  - Educational content organization (lists, tables, quotes)
+  
+  Following principles from:
+  - Ian Sommerville: Systematic structure and clear hierarchy
+  - Jonas Schmedtmann: Visual appeal with educational function
+  - Robert C. Martin: Clean, readable code/content presentation
+  - Sarah Drasner: Accessible, beautiful design that enhances learning
+  
+  Next: layout.css will establish grid systems and responsive containers
+*/

@@ -1,312 +1,401 @@
-<!-- 🔧 JavaScript Files - Enlaces CORREGIDOS para funcionalidad completa -->
-  <script src="./assets/js/utils.js"></script>
-  
-  <!-- ❌ PROBLEMA: core.js no existe, debe ser core-back.js -->
-  <!-- <script src="./assets/js/core.js"></script> --> 
-  <!-- ✅ SOLUCION: -->
-  <script src="./assets/js/core-back.js"></script>
-  
-  <script src="./assets/js/notifications.js"></script>
-  <script src="./assets/js/achievements.js"></script>
-  
-  <!-- ❌ PROBLEMA: Estos archivos no existen según tu estructura -->
-  <!-- <script src="./assets/js/progress-tracker.js"></script> -->
-  <!-- <script src="./assets/js/analytics.js"></script> -->
-  
-  <!-- ✅ SOLUCIÓN: Agregar el nuevo archivo del laboratorio -->
-  <script src="./assets/js/laboratory.js"></script>
-  
-  <script src="./assets/js/main.js"></script>
-
-<!-- 📋 ARCHIVO COMPLETO CORREGIDO: -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎨 UX/UI Architecture - Bugs que Cuestan Millones</title>
   
-  <!-- Preconnect for Performance -->
+  <!-- SEO & Meta -->
+  <title>Million Dollar Bugs Academy - Aprende de los Errores más Costosos del Software</title>
+  <meta name="description" content="Plataforma educativa profesional para aprender debugging y prevención de errores millonarios en software. Metodología progresiva con casos reales.">
+  <meta name="keywords" content="errores de software, debugging, educación programación, ingeniería de software, errores costosos, plataforma aprendizaje">
+  <meta name="author" content="Million Dollar Bugs Academy">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Million Dollar Bugs Academy - Errores Millonarios">
+  <meta property="og:description" content="Aprende debugging profesional estudiando errores que costaron millones de dólares">
+  <meta property="og:url" content="https://million-dollar-bugs.academy">
+  <meta property="og:image" content="https://million-dollar-bugs.academy/assets/images/og-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_ES">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Million Dollar Bugs Academy">
+  <meta name="twitter:description" content="Aprende debugging profesional con casos reales millonarios">
+  <meta name="twitter:image" content="https://million-dollar-bugs.academy/assets/images/og-preview.png">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Bug Academy">
+  
+  <!-- Preconnects -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  
-  <!-- CSS Files - Order Matters for Cascade -->
+  <!-- CSS Architecture - ORDEN CORREGIDO -->
   <link rel="stylesheet" href="./assets/css/tokens.css">
   <link rel="stylesheet" href="./assets/css/reset.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
   <link rel="stylesheet" href="./assets/css/layout.css">
-  <link rel="stylesheet" href="./assets/css/styles.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/utilities.css">
+  
+  <!-- Fonts Optimizadas -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Structured Data Mejorado -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Million Dollar Bugs Academy",
+    "description": "Plataforma educativa profesional para aprender debugging y prevención de errores millonarios en software",
+    "url": "https://million-dollar-bugs.academy",
+    "sameAs": [
+      "https://github.com/million-dollar-bugs-academy"
+    ],
+    "image": "https://million-dollar-bugs.academy/assets/images/og-preview.png",
+    "foundingDate": "2024",
+    "courseMode": ["online"],
+    "educationalLevel": "university",
+    "teaches": [
+      "Software Debugging",
+      "Error Prevention",
+      "Code Quality",
+      "Software Engineering",
+      "Clean Code Practices"
+    ],
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "name": "Million Dollar Bug Prevention Certificate",
+      "description": "Certificación en prevención de errores costosos de software"
+    },
+    "offers": {
+      "@type": "Course",
+      "name": "Debugging Profesional con Casos Millonarios",
+      "description": "Curso completo de 6 proyectos basados en errores reales",
+      "provider": {
+        "@type": "EducationalOrganization",
+        "name": "Million Dollar Bugs Academy"
+      },
+      "courseMode": "online",
+      "isAccessibleForFree": true,
+      "inLanguage": "es"
+    }
+  }
+  </script>
 </head>
 
 <body>
-  <!-- Navigation - Floating Glass Design -->
-  <nav class="navigation" role="navigation" aria-label="Navegación principal">
-    <ul class="navigation-list">
-      <li><a href="#inicio" class="navigation-link active">Inicio</a></li>
-      <li><a href="#casos" class="navigation-link">Casos</a></li>
-      <li><a href="#progreso" class="navigation-link">Progreso</a></li>
-      <li><a href="#laboratorio" class="navigation-link">Laboratorio</a></li>
-    </ul>
-  </nav>
+  <!-- Skip Navigation para Accesibilidad -->
+  <a href="#main-content" class="skip-nav">Saltar al contenido principal</a>
+  
+  <!-- ARIA Live Regions -->
+  <div aria-live="polite" aria-atomic="true" class="sr-only" id="status-updates"></div>
+  <div aria-live="assertive" aria-atomic="true" class="sr-only" id="error-announcements"></div>
 
-  <!-- Hero Section - Immersive Landing -->
-  <section class="hero" id="inicio">
-    <div class="layout-container">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          💀 Bugs que Cuestan Millones
-        </h1>
-        <p class="hero-subtitle">
-          Estudia los errores más costosos de la historia del software. 
-          Aprende de errores de $2.3M antes de repetirlos.
-        </p>
-        <div class="hero-cta">
-          <a href="#casos" class="btn btn--primary">
-            🚀 Comenzar Entrenamiento
-          </a>
-          <a href="#laboratorio" class="btn btn--ghost">
-            🔬 Explorar Laboratorio
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Cases Section - Project Showcase -->
-  <section class="section" id="casos">
-    <div class="layout-container">
-      <header class="section-header">
-        <h2 class="section-title">⚡ Casos de Estudio Reales</h2>
-        <p class="section-description">
-          Cada caso representa un error real que costó millones. 
-          Tu misión: entender, prevenir, y nunca repetir.
-        </p>
-      </header>
-
-      <div class="grid grid--responsive">
+  <!-- Header & Navigation -->
+  <header class="header" role="banner">
+    <nav class="nav" role="navigation" aria-label="Navegación principal">
+      <div class="nav__container">
+        <a href="#" class="nav__logo" aria-label="Million Dollar Bugs Academy - Inicio">
+          <span class="nav__logo-icon" aria-hidden="true">💀</span>
+          <span class="nav__logo-text">Bug Academy</span>
+        </a>
         
-        <article class="card card--learning interactive">
-          <div class="card-header">
-            <h3 class="card-title">🧮 Calculadora de Interés</h3>
-            <p class="card-description">
-              Tu primera línea de defensa. Domina los cálculos básicos 
-              antes de enfrentar los bugs que destruyeron fortunas.
-            </p>
-          </div>
-          <div class="card-footer">
-            <a href="./proyectos/calculadora-interes/" class="btn btn--primary">
-              Comenzar
+        <ul class="nav__list" role="list" id="nav-menu">
+          <li class="nav__item" role="listitem">
+            <a href="#inicio" class="nav__link nav__link--active" aria-current="page">
+              <span class="nav__link-icon" aria-hidden="true">🏠</span>
+              <span class="nav__link-text">Inicio</span>
             </a>
-            <span class="badge badge--learning">Fundamentos</span>
-          </div>
-        </article>
-
-        <article class="card card--critical interactive">
-          <div class="card-header">
-            <h3 class="card-title">💥 Precedencia de Operadores</h3>
-            <p class="card-description">
-              <strong style="color: var(--danger-400);">$2.3 MILLONES perdidos</strong> 
-              por no entender que * viene antes que +. Un algoritmo de trading 
-              que arruinó una firma de inversión.
-            </p>
-          </div>
-          <div class="card-footer">
-            <a href="./proyectos/precedencia-operadores/" class="btn btn--danger">
-              Ver Catástrofe
+          </li>
+          <li class="nav__item" role="listitem">
+            <a href="#roadmap" class="nav__link">
+              <span class="nav__link-icon" aria-hidden="true">🗺️</span>
+              <span class="nav__link-text">Roadmap</span>
             </a>
-            <span class="badge badge--critical">Crítico</span>
-          </div>
-        </article>
-
-        <article class="card card--expensive interactive">
-          <div class="card-header">
-            <h3 class="card-title">🔥 Debugger del Operador Coma</h3>
-            <p class="card-description">
-              <strong style="color: var(--warning-400);">$500K en pérdidas</strong> 
-              por una coma mal colocada. Sistema bancario que transfirió 
-              dinero a cuentas incorrectas.
-            </p>
-          </div>
-          <div class="card-footer">
-            <a href="./proyectos/operador-coma/" class="btn btn--warning">
-              Diseccionar Error
+          </li>
+          <li class="nav__item" role="listitem">
+            <a href="#progreso" class="nav__link">
+              <span class="nav__link-icon" aria-hidden="true">📊</span>
+              <span class="nav__link-text">Progreso</span>
             </a>
-            <span class="badge badge--expensive">Costoso</span>
-          </div>
-        </article>
-
-        <article class="card card--expensive interactive">
-          <div class="card-header">
-            <h3 class="card-title">🏷️ Naming Mortal</h3>
-            <p class="card-description">
-              <strong style="color: var(--warning-400);">$180K perdidos</strong> 
-              por números mágicos. Variables mal nombradas que causaron 
-              cálculos erróneos en nóminas.
-            </p>
-          </div>
-          <div class="card-footer">
-            <a href="./proyectos/naming/" class="btn btn--warning">
-              Aprender Naming
+          </li>
+          <li class="nav__item" role="listitem">
+            <a href="#laboratorio" class="nav__link">
+              <span class="nav__link-icon" aria-hidden="true">🔬</span>
+              <span class="nav__link-text">Laboratorio</span>
             </a>
-            <span class="badge badge--expensive">Costoso</span>
-          </div>
-        </article>
+          </li>
+        </ul>
 
-        <article class="card card--safe interactive">
-          <div class="card-header">
-            <h3 class="card-title">🔬 Laboratorio de Memoria</h3>
-            <p class="card-description">
-              Tu espacio seguro para experimentar. Carga ejemplos, 
-              ejecuta paso a paso, y entiende cómo JavaScript maneja la memoria.
-            </p>
-          </div>
-          <div class="card-footer">
-            <a href="./proyectos/environment/" class="btn btn--success">
-              Explorar Seguro
-            </a>
-            <span class="badge badge--safe">Seguro</span>
-          </div>
-        </article>
-
-        <article class="card card--critical interactive">
-          <div class="card-header">
-            <h3 class="card-title">🌀 Evaluación Recursiva</h3>
-            <p class="card-description">
-              <strong style="color: var(--danger-400);">847 estudiantes</strong> 
-              con calificaciones incorrectas por recursión mal implementada. 
-              El sistema universitario colapsó.
-            </p>
-          </div>
-          <div class="card-footer">
-            <a href="./proyectos/evaluacion-recursiva/" class="btn btn--danger">
-              Analizar Caos
-            </a>
-            <span class="badge badge--critical">Crítico</span>
-          </div>
-        </article>
-
+        <button class="nav__toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
       </div>
-    </div>
-  </section>
+    </nav>
+  </header>
 
-  <!-- Progress Section - Gamification Dashboard -->
-  <section class="section" id="progreso">
-    <div class="layout-container">
-      <header class="section-header">
-        <h2 class="section-title">📊 Progreso de Supervivencia</h2>
-        <p class="section-description">
-          Cada caso completado te acerca más a ser un desarrollador 
-          que no comete errores de millones de dólares.
-        </p>
-      </header>
-
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Tu Evolución como Debugger</h3>
-          <div class="progress-stats">
-            <span class="stat">
-              <span class="stat-value">0%</span>
-              <span class="stat-label">Completado</span>
-            </span>
-            <span class="stat">
-              <span class="stat-value">$0</span>
-              <span class="stat-label">Ahorrado</span>
-            </span>
+  <!-- Main Content -->
+  <main id="main-content" role="main">
+    
+    <!-- Hero Section -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero__container">
+        <div class="hero__content">
+          <h1 class="hero__title" id="hero-title">
+            <span class="hero__title-accent" aria-hidden="true">💀</span>
+            Million Dollar Bugs Academy
+          </h1>
+          <p class="hero__subtitle">
+            Aprende debugging profesional estudiando los errores más costosos de la historia del software. 
+            <strong>Desde $180K hasta $2.3M por línea de código.</strong>
+          </p>
+          <div class="hero__actions">
+            <a href="#roadmap" class="btn btn--primary btn--large">
+              <span class="btn__icon" aria-hidden="true">🚀</span>
+              <span class="btn__text">Comenzar Entrenamiento</span>
+            </a>
+            <a href="#laboratorio" class="btn btn--secondary btn--large">
+              <span class="btn__icon" aria-hidden="true">🔬</span>
+              <span class="btn__text">Explorar Laboratorio</span>
+            </a>
           </div>
         </div>
         
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 0%"></div>
-        </div>
-        
-        <div class="achievement-grid">
-          <div class="achievement">
-            <span class="achievement-icon">🐛</span>
-            <span class="achievement-text">Primer Bug</span>
-          </div>
-          <div class="achievement">
-            <span class="achievement-icon">🧮</span>
-            <span class="achievement-text">Maestro Precedencia</span>
-          </div>
-          <div class="achievement">
-            <span class="achievement-icon">🔥</span>
-            <span class="achievement-text">Sobreviviente Coma</span>
-          </div>
-          <div class="achievement">
-            <span class="achievement-icon">💰</span>
-            <span class="achievement-text">Ahorrador Millones</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Demo Section -->
-  <section class="section" id="laboratorio">
-    <div class="layout-container">
-      <header class="section-header">
-        <h2 class="section-title">🔬 Laboratorio Interactivo</h2>
-        <p class="section-description">
-          Experimenta con código real en un ambiente seguro.
-          Ve el impacto de cada línea en tiempo real.
-        </p>
-      </header>
-
-      <div class="demo-container">
-        <div class="demo-editor">
-          <div class="editor-header">
-            <span class="editor-title">💀 Bug de $2.3M - Editor Interactivo</span>
-            <div class="editor-actions">
-              <button class="btn btn--ghost" onclick="runCode()">▶️ Ejecutar</button>
-              <button class="btn btn--ghost" onclick="fixCode()">🔧 Corregir</button>
-              <button class="btn btn--ghost" onclick="resetCode()">↺ Reset</button>
+        <div class="hero__visual">
+          <div class="hero__code-preview">
+            <div class="code-editor">
+              <div class="code-editor__header">
+                <div class="code-editor__controls" aria-hidden="true">
+                  <span class="code-editor__dot code-editor__dot--red"></span>
+                  <span class="code-editor__dot code-editor__dot--yellow"></span>
+                  <span class="code-editor__dot code-editor__dot--green"></span>
+                </div>
+                <span class="code-editor__title">deadly-bug.js</span>
+              </div>
+              <pre class="code-editor__content" role="img" aria-label="Ejemplo de código con error de precedencia que costó 2.3 millones de dólares">
+<code tabindex="0">
+<span class="code-comment">// 💀 Bug de $2.3M - Error de precedencia</span>
+<span class="code-keyword">function</span> <span class="code-function">calculateProfit</span>(<span class="code-param">base</span>, <span class="code-param">mult</span>, <span class="code-param">fee</span>) {
+  <span class="code-keyword">return</span> <span class="code-param">base</span> + <span class="code-param">mult</span> * <span class="code-param">fee</span>; <span class="code-comment code-error">// ❌ Precedencia</span>
+}
+</code></pre>
+              <div class="sr-only">
+                Este código muestra un error de precedencia de operadores que causó pérdidas de 2.3 millones de dólares. 
+                La operación debería usar paréntesis: (base + mult) * fee.
+              </div>
             </div>
           </div>
-          <div class="editor-content">
-            <pre><code>// 💀 Bug que costó $2.3M - Precedencia de Operadores
-function calculateTradeProfit(baseAmount, multiplier, fee) {
-  // ❌ ERROR: Precedencia incorrecta
-  return baseAmount + multiplier * fee;  
-  
-  // ✅ CORRECTO: 
-  // return (baseAmount + multiplier) * fee;
-}
+        </div>
+      </div>
+    </section>
 
-// Simulación del bug real
-const result = calculateTradeProfit(1000, 0.05, 100);
-console.log('Resultado:', result);
-console.log('¿Esperabas este resultado?');</code></pre>
+    <!-- Methodology Section -->
+    <section class="methodology" aria-labelledby="methodology-title">
+      <div class="methodology__container">
+        <header class="methodology__header">
+          <h2 class="methodology__title" id="methodology-title">
+            <span class="methodology__title-accent" aria-hidden="true">🎯</span>
+            Metodología Profesional
+          </h2>
+          <p class="methodology__subtitle">
+            Basada en las mejores prácticas de educadores como Ian Sommerville, Robert C. Martin y Kent C. Dodds
+          </p>
+        </header>
+        
+        <div class="methodology__grid">
+          <article class="methodology__card">
+            <div class="methodology__card-icon" aria-hidden="true">📚</div>
+            <h3 class="methodology__card-title">Progresión Sistemática</h3>
+            <p class="methodology__card-description">
+              Construcción incremental desde fundamentos hasta casos expertos, 
+              siguiendo principios de complejidad selectiva.
+            </p>
+          </article>
+          
+          <article class="methodology__card">
+            <div class="methodology__card-icon" aria-hidden="true">🛠️</div>
+            <h3 class="methodology__card-title">Casos Reales</h3>
+            <p class="methodology__card-description">
+              Estudia errores documentados con impacto económico real. 
+              Aprende de tragedias millonarias antes de repetirlas.
+            </p>
+          </article>
+          
+          <article class="methodology__card">
+            <div class="methodology__card-icon" aria-hidden="true">🔬</div>
+            <h3 class="methodology__card-title">Laboratorio Interactivo</h3>
+            <p class="methodology__card-description">
+              Editor en vivo para experimentar, reproducir bugs y 
+              validar correcciones en tiempo real.
+            </p>
+          </article>
+          
+          <article class="methodology__card">
+            <div class="methodology__card-icon" aria-hidden="true">📊</div>
+            <h3 class="methodology__card-title">Analytics de Aprendizaje</h3>
+            <p class="methodology__card-description">
+              Tracking de progreso, competencias desarrolladas y 
+              dinero hipotéticamente ahorrado.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap Preview -->
+    <section class="roadmap-preview" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="roadmap-preview__container">
+        <header class="roadmap-preview__header">
+          <h2 class="roadmap-preview__title" id="roadmap-title">
+            <span class="roadmap-preview__title-accent" aria-hidden="true">🗺️</span>
+            Roadmap de Supervivencia
+          </h2>
+          <p class="roadmap-preview__subtitle">
+            4 etapas progresivas. De fundamentos seguros hasta casos millonarios.
+          </p>
+        </header>
+        
+        <div class="roadmap-preview__stages">
+          <div class="stage-card stage-card--beginner">
+            <div class="stage-card__indicator">🌱</div>
+            <h3 class="stage-card__title">Fundamentos Seguros</h3>
+            <p class="stage-card__description">Calculadora de interés + Naming profesional</p>
+            <div class="stage-card__cost">Prevención: $180K</div>
+          </div>
+          
+          <div class="stage-card stage-card--intermediate">
+            <div class="stage-card__indicator">🔍</div>
+            <h3 class="stage-card__title">Debugging Sistemático</h3>
+            <p class="stage-card__description">Recursión + Operador coma mortal</p>
+            <div class="stage-card__cost">Prevención: $500K</div>
+          </div>
+          
+          <div class="stage-card stage-card--expert">
+            <div class="stage-card__indicator">⚡</div>
+            <h3 class="stage-card__title">Casos Millonarios</h3>
+            <p class="stage-card__description">Precedencia que destruyó una firma</p>
+            <div class="stage-card__cost">Prevención: $2.3M</div>
+          </div>
+          
+          <div class="stage-card stage-card--master">
+            <div class="stage-card__indicator">👑</div>
+            <h3 class="stage-card__title">Maestría</h3>
+            <p class="stage-card__description">Clean Architecture + Prevención</p>
+            <div class="stage-card__cost">Carrera segura</div>
           </div>
         </div>
         
-        <div class="demo-output">
-          <div class="output-header">
-            <span class="output-title">📊 Resultado de Ejecución</span>
+        <div class="roadmap-preview__cta">
+          <a href="./roadmap.html" class="btn btn--primary">
+            <span class="btn__text">Ver Roadmap Completo</span>
+            <span class="btn__icon" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" aria-labelledby="stats-title">
+      <div class="stats__container">
+        <h2 class="stats__title sr-only" id="stats-title">Estadísticas de impacto</h2>
+        <div class="stats__grid">
+          <div class="stat-card">
+            <div class="stat-card__value">$2.3M</div>
+            <div class="stat-card__label">Máximo costo por bug</div>
           </div>
-          <div class="output-content">
-            <!-- El contenido se genera dinámicamente via JavaScript -->
+          <div class="stat-card">
+            <div class="stat-card__value">6</div>
+            <div class="stat-card__label">Proyectos reales</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value">4</div>
+            <div class="stat-card__label">Etapas progresivas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value">100%</div>
+            <div class="stat-card__label">Open source</div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Notification System -->
-  <div class="notification notification--success" id="notification">
-    <div class="notification-content">
-      <span class="notification-icon">✅</span>
-      <span class="notification-text">¡Excelente trabajo! Has identificado el bug.</span>
-    </div>
-  </div>
+  </main>
 
-  <!-- ✅ JavaScript Files - Enlaces CORREGIDOS -->
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__container">
+      <div class="footer__content">
+        <div class="footer__brand">
+          <span class="footer__logo" aria-hidden="true">💀</span>
+          <span class="footer__title">Million Dollar Bugs Academy</span>
+          <p class="footer__description">
+            Educación profesional en debugging y prevención de errores costosos.
+          </p>
+        </div>
+        
+        <nav class="footer__nav" aria-label="Enlaces del pie de página">
+          <div class="footer__nav-section">
+            <h3 class="footer__nav-title">Aprendizaje</h3>
+            <ul class="footer__nav-list">
+              <li><a href="./roadmap.html" class="footer__nav-link">Roadmap</a></li>
+              <li><a href="./proyectos/" class="footer__nav-link">Proyectos</a></li>
+              <li><a href="./laboratorio.html" class="footer__nav-link">Laboratorio</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer__nav-section">
+            <h3 class="footer__nav-title">Recursos</h3>
+            <ul class="footer__nav-list">
+              <li><a href="./docs/" class="footer__nav-link">Documentación</a></li>
+              <li><a href="./metodologia.html" class="footer__nav-link">Metodología</a></li>
+              <li><a href="./contribuir.html" class="footer__nav-link">Contribuir</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          © 2024 Million Dollar Bugs Academy. Proyecto educativo open source.
+        </p>
+        <div class="footer__links">
+          <a href="https://github.com/million-dollar-bugs-academy" class="footer__social" aria-label="GitHub">
+            <span aria-hidden="true">📂</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Architecture - ORDEN CORREGIDO -->
+  <script src="./assets/js/config.js"></script>
   <script src="./assets/js/utils.js"></script>
-  <script src="./assets/js/core-back.js"></script>          <!-- Corregido: era core.js -->
-  <script src="./assets/js/notifications.js"></script>
-  <script src="./assets/js/achievements.js"></script>
-  <script src="./assets/js/laboratory.js"></script>         <!-- ✅ NUEVO: Funcionalidad del laboratorio -->
-  <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/state.js"></script>
+  <script src="./assets/js/analytics.js"></script>
+  <script src="./assets/js/components.js"></script>
+  <script src="./assets/js/router.js"></script>
+  <script src="./assets/js/app.js"></script>
+
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => console.log('✅ SW registered'))
+          .catch(error => console.log('❌ SW registration failed:', error));
+      });
+    }
+  </script>
 </body>
 </html>
