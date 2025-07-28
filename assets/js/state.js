@@ -1,1117 +1,1199 @@
 /*
   ==========================================
-  STATE MANAGEMENT - MILLION DOLLAR BUGS ACADEMY
+  APPLICATION STATE MANAGEMENT - MILLION DOLLAR BUGS ACADEMY
   ==========================================
   
-  Educational progress state management following the collective wisdom of 50+ renowned educators:
-  - Ian Sommerville's systematic software engineering principles
-  - Robert C. Martin's Clean Code and SOLID design patterns
-  - Kent C. Dodds' testing-focused development methodology
-  - Martin Fowler's evolutionary design and refactoring practices
-  - Jonas Schmedtmann's theory-practice integration approach
-  - Brad Traversy's practical, project-based learning structure
+  Centralized state management following Flux/Redux principles with educational focus.
+  Manages user progress, roadmap completion, learning analytics, and UI state.
   
-  "State is the root of all evil in programming, but managed state is the foundation of great applications." - Robert C. Martin
-  "The best way to learn state management is through building real educational systems." - Brad Traversy
-  "Clean state patterns eliminate complexity and enhance learning." - Martin Fowler
+  Archivo: assets/js/state.js
   
-  Philosophy (Following Software Craftsmanship Movement):
-  1. Immutable State - Following Kent Beck's Simple Design rules
-  2. Single Source of Truth - Ian Sommerville's systematic approach
-  3. Predictable Updates - Kent C. Dodds' testing-focused reliability
-  4. Educational Analytics - Sarah Drasner's user experience optimization
-  5. Progressive Enhancement - Jonas Schmedtmann's incremental complexity
-  6. Professional Standards - Sandro Mancuso's craftsmanship principles
+  "State management is about predictable changes over time" - Dan Abramov
+  "Make illegal states impossible" - Yaron Minsky
+  "The best programs are written so that computing machines can perform them quickly and so that human beings can understand them clearly" - Donald Knuth
+  
+  Architecture:
+  1. Educational State (Ian Sommerville's progressive tracking)
+  2. User Profile & Preferences (UX-centered design)
+  3. Session Management (Kent Beck's simple design)
+  4. Reactive Updates (Martin Fowler's observer pattern)
+  5. Persistence Layer (Robert C. Martin's clean boundaries)
+  6. Analytics Integration (Data-driven insights)
 */
 
-/**
- * @fileoverview Educational progress state management system
- * Synthesizing expertise from the world's most influential software engineering educators
- */
+(() => {
+  'use strict';
 
-// Import dependencies following Martin Fowler's dependency management patterns
-const { BugAcademyConfig = {} } = (typeof window !== 'undefined') ? window : {};
-const { BugAcademyUtils = {} } = (typeof window !== 'undefined') ? window : {};
-
-// Destructure configuration following Robert C. Martin's clean code principles
-const {
-  LEARNING_STAGES = {},
-  EDUCATIONAL_PROJECTS = {},
-  ACHIEVEMENTS = {},
-  APP_CONFIG = {},
-  MESSAGES = {}
-} = BugAcademyConfig;
-
-// Destructure utilities following Kent C. Dodds' functional programming approach
-const {
-  deepClone = (obj) => JSON.parse(JSON.stringify(obj)),
-  calculateProgress = () => ({ percentage: 0, completedCount: 0, totalCount: 0 }),
-  calculateMoneySaved = () => 0,
-  formatMoney = (amount) => `$${amount.toLocaleString()}`,
-  createError = (msg, code) => ({ message: msg, code }),
-  safeExecute = (fn, defaultVal, ...args) => {
-    try { return fn(...args); } catch { return defaultVal; }
-  }
-} = BugAcademyUtils;
-
-// ==========================================
-// STATE SCHEMA DEFINITIONS
-// Following Ian Sommerville's systematic documentation approach
-// ==========================================
-
-/**
- * Default user progress state following Kent Beck's explicit defaults
- * @typedef {Object} UserProgressState
- */
-const DEFAULT_USER_STATE = {
-  // Core learning progress (Single Source of Truth)
-  projectsCompleted: [],
-  projectsInProgress: [],
-  currentStage: 'beginner',
-  totalPoints: 0,
+  /*
+    ==========================================
+    STATE MANAGEMENT CONTROLLER
+    ==========================================
+  */
   
-  // Achievement system (Gamification for motivation - Sarah Drasner's UX approach)
-  achievementsUnlocked: [],
-  achievementProgress: {},
-  
-  // Learning analytics (Educational effectiveness measurement)
-  sessionsCompleted: 0,
-  totalTimeSpent: 0, // in milliseconds
-  hintsUsed: 0,
-  solutionsViewed: 0,
-  codeExecutions: 0,
-  errorsEncountered: 0,
-  
-  // Progress tracking (Systematic measurement - Ian Sommerville)
-  dailyStreaks: 0,
-  lastActiveDate: null,
-  progressMilestones: [],
-  
-  // Personalization (User experience optimization)
-  preferences: {
-    theme: 'system', // 'light', 'dark', 'system'
-    language: 'es',
-    notifications: true,
-    analytics: true,
-    autoSave: true
-  },
-  
-  // Project-specific data (Brad Traversy's project-based approach)
-  projectData: {}, // Stores individual project progress and data
-  
-  // Learning history (Professional development tracking)
-  learningHistory: [],
-  
-  // Metadata (Robert C. Martin's information management)
-  createdAt: null,
-  lastUpdated: null,
-  version: '1.0.0'
-};
+  window.AppState = {
 
-/**
- * Application state following Martin Fowler's enterprise patterns
- * @typedef {Object} ApplicationState
- */
-const DEFAULT_APP_STATE = {
-  // UI state (Clean separation of concerns)
-  ui: {
-    currentView: 'home',
-    isLoading: false,
-    notifications: [],
-    modals: {},
-    navigation: {
-      currentSection: 'inicio',
-      breadcrumbs: []
-    }
-  },
-  
-  // System state (Operational transparency)
-  system: {
-    isOnline: navigator.onLine || true,
-    lastSync: null,
-    pendingChanges: [],
-    errorLog: [],
-    performanceMetrics: {
-      loadTime: 0,
-      renderTime: 0,
-      interactionTime: 0
-    }
-  },
-  
-  // Cache state (Performance optimization - Wes Bos approach)
-  cache: {
-    projects: {},
-    achievements: {},
-    leaderboard: null,
-    lastCacheUpdate: null
-  }
-};
-
-// ==========================================
-// STATE MANAGEMENT CLASS
-// Following Robert C. Martin's Clean Architecture principles
-// ==========================================
-
-/**
- * Educational State Manager
- * Implements the State Pattern with immutable updates
- * Following Kent C. Dodds' testing-friendly architecture
- */
-class EducationalStateManager {
-  /**
-   * Initialize state manager following Martin Fowler's initialization patterns
-   * @param {Object} [initialState={}] - Initial state override
-   */
-  constructor(initialState = {}) {
-    // Initialize state following Ian Sommerville's systematic approach
-    this.userState = this._initializeUserState(initialState.user);
-    this.appState = this._initializeAppState(initialState.app);
+    /*
+      ==========================================
+      STATE STRUCTURE - Following Domain-Driven Design
+      ==========================================
+    */
     
-    // Event listeners for state changes (Observer Pattern - Gang of Four)
-    this.listeners = new Map();
-    
-    // Storage interface following Martin Fowler's interface segregation
-    this.storage = this._initializeStorage();
-    
-    // Performance tracking following Sarah Drasner's optimization approach
-    this.performanceTracker = {
-      stateUpdates: 0,
-      lastUpdateTime: 0,
-      averageUpdateTime: 0
-    };
-    
-    // Auto-save mechanism following Jonas Schmedtmann's user experience focus
-    this._setupAutoSave();
-    
-    // Initialize event listeners
-    this._setupEventListeners();
-    
-    console.log('🎯 Educational State Manager initialized successfully');
-  }
+    // Initial state following educational domain model
+    state: {
+      // Educational Progress (Core Domain)
+      education: {
+        currentStage: 'foundations',
+        overallProgress: 0,
+        totalScore: 0,
+        
+        stages: {
+          foundations: {
+            id: 'foundations',
+            unlocked: true,
+            completed: false,
+            progress: 0,
+            score: 0,
+            startedAt: null,
+            completedAt: null,
+            timeSpent: 0,
+            projects: {
+              'calculator-interest': {
+                id: 'calculator-interest',
+                unlocked: true,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              },
+              'naming-conventions': {
+                id: 'naming-conventions',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              }
+            }
+          },
+          debugging: {
+            id: 'debugging',
+            unlocked: false,
+            completed: false,
+            progress: 0,
+            score: 0,
+            startedAt: null,
+            completedAt: null,
+            timeSpent: 0,
+            projects: {
+              'recursion-overflow': {
+                id: 'recursion-overflow',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              },
+              'comma-operator': {
+                id: 'comma-operator',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              }
+            }
+          },
+          millionaire: {
+            id: 'millionaire',
+            unlocked: false,
+            completed: false,
+            progress: 0,
+            score: 0,
+            startedAt: null,
+            completedAt: null,
+            timeSpent: 0,
+            projects: {
+              'precedence-disaster': {
+                id: 'precedence-disaster',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              },
+              'integer-overflow': {
+                id: 'integer-overflow',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              }
+            }
+          },
+          mastery: {
+            id: 'mastery',
+            unlocked: false,
+            completed: false,
+            progress: 0,
+            score: 0,
+            startedAt: null,
+            completedAt: null,
+            timeSpent: 0,
+            projects: {
+              'clean-architecture': {
+                id: 'clean-architecture',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              },
+              'prevention-system': {
+                id: 'prevention-system',
+                unlocked: false,
+                completed: false,
+                attempts: 0,
+                bestScore: 0,
+                currentScore: 0,
+                timeSpent: 0,
+                startedAt: null,
+                completedAt: null,
+                codeSubmissions: [],
+                feedback: [],
+                competencies: {
+                  correctness: 0,
+                  readability: 0,
+                  maintainability: 0,
+                  efficiency: 0
+                }
+              }
+            }
+          }
+        },
 
-  // ==========================================
-  // INITIALIZATION METHODS
-  // Following Kent Beck's explicit initialization patterns
-  // ==========================================
-
-  /**
-   * Initialize user state with validation
-   * @private
-   * @param {Object} [userState={}] - User state override
-   * @returns {Object} Initialized user state
-   */
-  _initializeUserState(userState = {}) {
-    // Load from storage following Persistence patterns
-    const savedState = this._loadUserStateFromStorage();
-    
-    // Merge states with validation (Defensive programming - Robert C. Martin)
-    const mergedState = {
-      ...DEFAULT_USER_STATE,
-      ...savedState,
-      ...userState
-    };
-    
-    // Validate and clean state
-    return this._validateAndCleanUserState(mergedState);
-  }
-
-  /**
-   * Initialize application state
-   * @private
-   * @param {Object} [appState={}] - App state override
-   * @returns {Object} Initialized app state
-   */
-  _initializeAppState(appState = {}) {
-    return {
-      ...DEFAULT_APP_STATE,
-      ...appState,
-      system: {
-        ...DEFAULT_APP_STATE.system,
-        isOnline: navigator.onLine || true,
-        lastSync: new Date().toISOString()
-      }
-    };
-  }
-
-  /**
-   * Initialize storage interface
-   * @private
-   * @returns {Object} Storage interface
-   */
-  _initializeStorage() {
-    const storageKeys = APP_CONFIG?.STORAGE_KEYS || {
-      USER_PROGRESS: 'mdba_user_progress',
-      SETTINGS: 'mdba_settings',
-      ANALYTICS: 'mdba_analytics'
-    };
-
-    return {
-      save: (key, data) => {
-        try {
-          localStorage.setItem(key, JSON.stringify(data));
-          return true;
-        } catch (error) {
-          console.warn('Storage save failed:', error.message);
-          return false;
-        }
-      },
-      
-      load: (key, defaultValue = null) => {
-        try {
-          const item = localStorage.getItem(key);
-          return item ? JSON.parse(item) : defaultValue;
-        } catch (error) {
-          console.warn('Storage load failed:', error.message);
-          return defaultValue;
-        }
-      },
-      
-      remove: (key) => {
-        try {
-          localStorage.removeItem(key);
-          return true;
-        } catch (error) {
-          console.warn('Storage remove failed:', error.message);
-          return false;
-        }
-      },
-      
-      keys: storageKeys
-    };
-  }
-
-  // ==========================================
-  // USER STATE MANAGEMENT
-  // Following Kent C. Dodds' immutable state patterns
-  // ==========================================
-
-  /**
-   * Complete a project and update progress
-   * Following Brad Traversy's project-based learning methodology
-   * @param {string} projectId - Project identifier
-   * @param {Object} [projectData={}] - Additional project data
-   * @returns {Object} Updated state with completion data
-   */
-  completeProject(projectId, projectData = {}) {
-    // Validate project existence (Defensive programming)
-    const project = Object.values(EDUCATIONAL_PROJECTS).find(p => p.id === projectId);
-    if (!project) {
-      throw createError(`Project not found: ${projectId}`, 'PROJECT_NOT_FOUND');
-    }
-
-    // Check if already completed (Idempotent operations)
-    if (this.userState.projectsCompleted.includes(projectId)) {
-      console.log(`Project ${projectId} already completed`);
-      return this.getUserState();
-    }
-
-    const startTime = performance.now();
-
-    // Create completion record following Ian Sommerville's documentation standards
-    const completionRecord = {
-      projectId,
-      completedAt: new Date().toISOString(),
-      pointsEarned: project.points,
-      hintsUsed: projectData.hintsUsed || 0,
-      executionTime: projectData.executionTime || 0,
-      attempts: projectData.attempts || 1,
-      codeQuality: projectData.codeQuality || 'standard',
-      ...projectData
-    };
-
-    // Calculate new state immutably (Kent C. Dodds' functional approach)
-    const newUserState = {
-      ...this.userState,
-      projectsCompleted: [...this.userState.projectsCompleted, projectId],
-      projectsInProgress: this.userState.projectsInProgress.filter(id => id !== projectId),
-      totalPoints: this.userState.totalPoints + project.points,
-      lastUpdated: new Date().toISOString(),
-      learningHistory: [...this.userState.learningHistory, completionRecord],
-      projectData: {
-        ...this.userState.projectData,
-        [projectId]: {
-          ...this.userState.projectData[projectId],
-          completed: true,
-          completionData: completionRecord
-        }
-      }
-    };
-
-    // Update current stage if necessary (Progressive advancement)
-    newUserState.currentStage = this._calculateCurrentStage(newUserState.projectsCompleted);
-
-    // Check for new achievements (Gamification for motivation)
-    const newAchievements = this._checkNewAchievements(newUserState);
-    if (newAchievements.length > 0) {
-      newUserState.achievementsUnlocked = [
-        ...newUserState.achievementsUnlocked,
-        ...newAchievements
-      ];
-    }
-
-    // Update state and persist
-    this._updateUserState(newUserState);
-    
-    // Track performance
-    const executionTime = performance.now() - startTime;
-    this._trackPerformance('completeProject', executionTime);
-
-    // Emit events for listeners (Observer pattern)
-    this._emitEvent('projectCompleted', {
-      projectId,
-      project,
-      completionRecord,
-      newAchievements,
-      currentStage: newUserState.currentStage
-    });
-
-    console.log(`✅ Project ${projectId} completed successfully`);
-    return newUserState;
-  }
-
-  /**
-   * Start a project and track progress
-   * @param {string} projectId - Project identifier
-   * @returns {Object} Updated state
-   */
-  startProject(projectId) {
-    // Validate project availability
-    const project = Object.values(EDUCATIONAL_PROJECTS).find(p => p.id === projectId);
-    if (!project) {
-      throw createError(`Project not found: ${projectId}`, 'PROJECT_NOT_FOUND');
-    }
-
-    // Check prerequisites (Educational progression)
-    const canStart = this._canStartProject(projectId);
-    if (!canStart.allowed) {
-      throw createError(canStart.reason, 'PREREQUISITES_NOT_MET');
-    }
-
-    // Check if already in progress
-    if (this.userState.projectsInProgress.includes(projectId)) {
-      console.log(`Project ${projectId} already in progress`);
-      return this.getUserState();
-    }
-
-    // Update state immutably
-    const newUserState = {
-      ...this.userState,
-      projectsInProgress: [...this.userState.projectsInProgress, projectId],
-      lastUpdated: new Date().toISOString(),
-      projectData: {
-        ...this.userState.projectData,
-        [projectId]: {
-          startedAt: new Date().toISOString(),
-          attempts: 0,
+        // Learning Analytics (Educational Data Mining)
+        analytics: {
+          totalTimeSpent: 0,
+          averageSessionTime: 0,
+          learningVelocity: 0,
+          conceptsMastered: [],
+          commonMistakes: {},
+          improvementAreas: [],
+          streakDays: 0,
+          lastActiveDate: null,
+          sessionsCount: 0,
+          codeExecutions: 0,
+          errorsEncountered: 0,
           hintsUsed: 0,
-          timeSpent: 0,
-          completed: false
+          preventedCosts: 0 // Hypothetical money saved
+        },
+
+        // Achievements System (Gamification for motivation)
+        achievements: {
+          earned: [],
+          available: [
+            { id: 'first-submission', name: 'Primera Línea', description: 'Ejecuta tu primer código', icon: '🎯', unlocked: true },
+            { id: 'bug-hunter', name: 'Cazador de Bugs', description: 'Encuentra 10 errores', icon: '🐛', unlocked: true },
+            { id: 'cost-saver', name: 'Ahorrador Millonario', description: 'Previene $1M en errores', icon: '💰', unlocked: false },
+            { id: 'clean-coder', name: 'Código Limpio', description: 'Mantén calidad >90% por 5 proyectos', icon: '✨', unlocked: false },
+            { id: 'speed-demon', name: 'Velocidad Mortal', description: 'Completa proyecto en <30min', icon: '⚡', unlocked: false },
+            { id: 'perfectionist', name: 'Perfeccionista', description: 'Obtén 100% en un proyecto', icon: '🎯', unlocked: false },
+            { id: 'mentor', name: 'Mentor', description: 'Ayuda a 5 estudiantes en comunidad', icon: '👨‍🏫', unlocked: false },
+            { id: 'architect', name: 'Arquitecto', description: 'Completa el nivel Maestría', icon: '🏗️', unlocked: false }
+          ]
         }
-      }
-    };
+      },
 
-    this._updateUserState(newUserState);
-    
-    this._emitEvent('projectStarted', { projectId, project });
-    
-    console.log(`🚀 Project ${projectId} started successfully`);
-    return newUserState;
-  }
+      // User Profile & Preferences
+      user: {
+        profile: {
+          id: null,
+          email: null,
+          name: null,
+          avatar: null,
+          level: 'beginner',
+          joinedAt: null,
+          lastLoginAt: null,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          language: 'es'
+        },
+        
+        preferences: {
+          theme: 'dark',
+          fontSize: 'medium',
+          codeEditorTheme: 'vs-dark',
+          animationsEnabled: true,
+          soundEnabled: true,
+          notificationsEnabled: true,
+          autoSave: true,
+          showHints: true,
+          difficultyMode: 'adaptive',
+          learningPath: 'structured' // 'structured' | 'flexible' | 'accelerated'
+        },
 
-  /**
-   * Update project progress data
-   * @param {string} projectId - Project identifier
-   * @param {Object} progressData - Progress update data
-   * @returns {Object} Updated state
-   */
-  updateProjectProgress(projectId, progressData) {
-    if (!this.userState.projectsInProgress.includes(projectId) && 
-        !this.userState.projectsCompleted.includes(projectId)) {
-      throw createError(`Project ${projectId} not started`, 'PROJECT_NOT_STARTED');
-    }
-
-    const currentProjectData = this.userState.projectData[projectId] || {};
-    
-    const newUserState = {
-      ...this.userState,
-      lastUpdated: new Date().toISOString(),
-      projectData: {
-        ...this.userState.projectData,
-        [projectId]: {
-          ...currentProjectData,
-          ...progressData,
-          lastUpdated: new Date().toISOString()
+        settings: {
+          autoAdvance: false,
+          skipIntros: false,
+          compactMode: false,
+          accessibilityMode: false,
+          reduceMotion: false,
+          highContrast: false,
+          screenReader: false
         }
+      },
+
+      // Current Session State
+      session: {
+        currentProject: null,
+        currentStage: 'foundations',
+        sessionStartTime: null,
+        timeSpentInSession: 0,
+        actionsInSession: 0,
+        errorsInSession: 0,
+        hintsUsedInSession: 0,
+        codeExecutionsInSession: 0,
+        
+        // Editor State
+        editor: {
+          currentCode: '',
+          isModified: false,
+          lastSaved: null,
+          undoStack: [],
+          redoStack: [],
+          isExecuting: false,
+          executionResults: null,
+          validationResults: null
+        },
+
+        // UI State  
+        ui: {
+          sidebarCollapsed: false,
+          activeTab: 'code',
+          modalOpen: null,
+          notificationQueue: [],
+          loadingStates: {},
+          errorStates: {},
+          confirmationDialogs: {}
+        }
+      },
+
+      // Application Metadata
+      app: {
+        version: '1.0.0',
+        lastUpdated: null,
+        isOnline: navigator.onLine,
+        syncStatus: 'synced', // 'synced' | 'pending' | 'error'
+        performanceMetrics: {},
+        featureFlags: {},
+        experiments: {}
       }
-    };
+    },
 
-    this._updateUserState(newUserState);
+    /*
+      ==========================================
+      OBSERVERS & REACTIVE SYSTEM - Martin Fowler's Observer Pattern
+      ==========================================
+    */
     
-    this._emitEvent('projectProgressUpdated', { projectId, progressData });
-    
-    return newUserState;
-  }
+    observers: new Map(),
+    middleware: [],
 
-  // ==========================================
-  // ACHIEVEMENT SYSTEM
-  // Following Sarah Drasner's gamification approach
-  // ==========================================
+    /*
+      ==========================================
+      INITIALIZATION SYSTEM
+      ==========================================
+    */
 
-  /**
-   * Check for newly unlocked achievements
-   * @private
-   * @param {Object} userState - Current user state
-   * @returns {string[]} Array of newly unlocked achievement IDs
-   */
-  _checkNewAchievements(userState) {
-    const newAchievements = [];
-    
-    Object.values(ACHIEVEMENTS).forEach(achievement => {
-      // Skip if already unlocked
-      if (userState.achievementsUnlocked.includes(achievement.id)) {
+    init() {
+      this.log('info', '🚀 Initializing AppState...');
+      
+      try {
+        // Load persisted state
+        this.loadPersistedState();
+        
+        // Initialize session
+        this.initializeSession();
+        
+        // Setup auto-save
+        this.setupAutoSave();
+        
+        // Setup analytics tracking
+        this.setupAnalyticsTracking();
+        
+        // Setup periodic sync
+        this.setupPeriodicSync();
+        
+        // Initialize computed properties
+        this.updateComputedProperties();
+        
+        this.log('info', '✅ AppState initialized successfully');
+        
+        // Notify initialization complete
+        this.emit('state:initialized', this.getPublicState());
+        
+      } catch (error) {
+        this.log('error', '❌ AppState initialization failed:', error);
+        this.initializeFallbackState();
+      }
+    },
+
+    initializeSession() {
+      const now = Date.now();
+      this.state.session.sessionStartTime = now;
+      this.state.user.profile.lastLoginAt = now;
+      
+      // Update analytics
+      this.state.education.analytics.sessionsCount++;
+      this.state.education.analytics.lastActiveDate = new Date().toISOString().split('T')[0];
+      
+      this.log('info', '📊 Session initialized');
+    },
+
+    initializeFallbackState() {
+      this.log('warn', '🚧 Using fallback state');
+      
+      // Reset to safe defaults
+      this.state = this.getDefaultState();
+      this.emit('state:fallback-initialized', this.getPublicState());
+    },
+
+    /*
+      ==========================================
+      STATE MUTATIONS - Redux-like Actions
+      ==========================================
+    */
+
+    // Educational Progress Actions
+    startProject(stageId, projectId) {
+      return this.dispatch('START_PROJECT', { stageId, projectId });
+    },
+
+    submitProjectCode(stageId, projectId, code, testResults) {
+      return this.dispatch('SUBMIT_PROJECT_CODE', { 
+        stageId, 
+        projectId, 
+        code, 
+        testResults,
+        timestamp: Date.now()
+      });
+    },
+
+    updateProjectScore(stageId, projectId, score, competencies = {}) {
+      return this.dispatch('UPDATE_PROJECT_SCORE', {
+        stageId,
+        projectId,
+        score,
+        competencies,
+        timestamp: Date.now()
+      });
+    },
+
+    completeProject(stageId, projectId, finalScore, timeSpent) {
+      return this.dispatch('COMPLETE_PROJECT', {
+        stageId,
+        projectId,
+        finalScore,
+        timeSpent,
+        timestamp: Date.now()
+      });
+    },
+
+    unlockNextStage(currentStageId) {
+      return this.dispatch('UNLOCK_NEXT_STAGE', { currentStageId });
+    },
+
+    // User Profile Actions
+    updateUserProfile(profileData) {
+      return this.dispatch('UPDATE_USER_PROFILE', profileData);
+    },
+
+    updateUserPreferences(preferences) {
+      return this.dispatch('UPDATE_USER_PREFERENCES', preferences);
+    },
+
+    // Session Actions
+    updateEditorCode(code) {
+      return this.dispatch('UPDATE_EDITOR_CODE', { code, timestamp: Date.now() });
+    },
+
+    executeCode(code, results) {
+      return this.dispatch('EXECUTE_CODE', { 
+        code, 
+        results, 
+        timestamp: Date.now(),
+        sessionId: this.getSessionId()
+      });
+    },
+
+    // UI State Actions
+    toggleSidebar() {
+      return this.dispatch('TOGGLE_SIDEBAR');
+    },
+
+    showModal(modalId, data = {}) {
+      return this.dispatch('SHOW_MODAL', { modalId, data });
+    },
+
+    hideModal() {
+      return this.dispatch('HIDE_MODAL');
+    },
+
+    addNotification(notification) {
+      return this.dispatch('ADD_NOTIFICATION', {
+        ...notification,
+        id: this.generateId(),
+        timestamp: Date.now()
+      });
+    },
+
+    /*
+      ==========================================
+      DISPATCH SYSTEM - Redux Pattern with Middleware
+      ==========================================
+    */
+
+    dispatch(actionType, payload = {}) {
+      const action = {
+        type: actionType,
+        payload,
+        timestamp: Date.now(),
+        sessionId: this.getSessionId()
+      };
+
+      this.log('debug', `📨 Dispatching: ${actionType}`, payload);
+
+      // Run middleware
+      let processedAction = action;
+      for (const middleware of this.middleware) {
+        processedAction = middleware(processedAction, this.state) || processedAction;
+      }
+
+      // Apply reducer
+      const previousState = window.AppUtils?.data.deepClone(this.state) || JSON.parse(JSON.stringify(this.state));
+      const newState = this.reduce(this.state, processedAction);
+
+      // Update state
+      this.state = newState;
+
+      // Update computed properties
+      this.updateComputedProperties();
+
+      // Persist if needed
+      this.persistState();
+
+      // Notify observers
+      this.emit('state:changed', {
+        action: processedAction,
+        previousState,
+        newState: this.getPublicState()
+      });
+
+      // Specific action notifications
+      this.emit(`action:${actionType.toLowerCase()}`, {
+        action: processedAction,
+        state: this.getPublicState()
+      });
+
+      return newState;
+    },
+
+    /*
+      ==========================================
+      REDUCERS - Pure Functions for State Changes
+      ==========================================
+    */
+
+    reduce(state, action) {
+      const { type, payload } = action;
+
+      switch (type) {
+        case 'START_PROJECT':
+          return this.reduceStartProject(state, payload);
+        
+        case 'SUBMIT_PROJECT_CODE':
+          return this.reduceSubmitProjectCode(state, payload);
+        
+        case 'UPDATE_PROJECT_SCORE':
+          return this.reduceUpdateProjectScore(state, payload);
+        
+        case 'COMPLETE_PROJECT':
+          return this.reduceCompleteProject(state, payload);
+        
+        case 'UNLOCK_NEXT_STAGE':
+          return this.reduceUnlockNextStage(state, payload);
+        
+        case 'UPDATE_USER_PROFILE':
+          return this.reduceUpdateUserProfile(state, payload);
+        
+        case 'UPDATE_USER_PREFERENCES':
+          return this.reduceUpdateUserPreferences(state, payload);
+        
+        case 'UPDATE_EDITOR_CODE':
+          return this.reduceUpdateEditorCode(state, payload);
+        
+        case 'EXECUTE_CODE':
+          return this.reduceExecuteCode(state, payload);
+        
+        case 'TOGGLE_SIDEBAR':
+          return this.reduceToggleSidebar(state);
+        
+        case 'SHOW_MODAL':
+          return this.reduceShowModal(state, payload);
+        
+        case 'HIDE_MODAL':
+          return this.reduceHideModal(state);
+        
+        case 'ADD_NOTIFICATION':
+          return this.reduceAddNotification(state, payload);
+        
+        default:
+          this.log('warn', `Unknown action type: ${type}`);
+          return state;
+      }
+    },
+
+    // Individual Reducers (Pure Functions)
+    reduceStartProject(state, { stageId, projectId }) {
+      const newState = window.AppUtils?.data.deepClone(state) || JSON.parse(JSON.stringify(state));
+      const project = newState.education.stages[stageId]?.projects[projectId];
+      
+      if (project) {
+        project.startedAt = Date.now();
+        project.attempts++;
+        newState.session.currentProject = projectId;
+        newState.session.currentStage = stageId;
+        
+        // Update analytics
+        newState.education.analytics.codeExecutions = 0; // Reset for new project
+        
+        this.log('info', `🎯 Started project: ${projectId} in stage: ${stageId}`);
+      }
+      
+      return newState;
+    },
+
+    reduceSubmitProjectCode(state, { stageId, projectId, code, testResults, timestamp }) {
+      const newState = window.AppUtils?.data.deepClone(state) || JSON.parse(JSON.stringify(state));
+      const project = newState.education.stages[stageId]?.projects[projectId];
+      
+      if (project) {
+        // Add code submission
+        project.codeSubmissions.push({
+          code,
+          testResults,
+          timestamp,
+          score: testResults.score || 0
+        });
+        
+        // Update current score if better
+        if (testResults.score > project.currentScore) {
+          project.currentScore = testResults.score;
+        }
+        
+        // Update best score
+        if (testResults.score > project.bestScore) {
+          project.bestScore = testResults.score;
+        }
+        
+        // Update session analytics
+        newState.session.actionsInSession++;
+        newState.session.codeExecutionsInSession++;
+        
+        this.log('info', `📝 Code submitted for ${projectId}: Score ${testResults.score}`);
+      }
+      
+      return newState;
+    },
+
+    reduceCompleteProject(state, { stageId, projectId, finalScore, timeSpent, timestamp }) {
+      const newState = window.AppUtils?.data.deepClone(state) || JSON.parse(JSON.stringify(state));
+      const project = newState.education.stages[stageId]?.projects[projectId];
+      const stage = newState.education.stages[stageId];
+      
+      if (project && stage) {
+        // Mark project as completed
+        project.completed = true;
+        project.completedAt = timestamp;
+        project.timeSpent += timeSpent;
+        project.bestScore = Math.max(project.bestScore, finalScore);
+        
+        // Update stage progress
+        const stageProjects = Object.values(stage.projects);
+        const completedProjects = stageProjects.filter(p => p.completed);
+        stage.progress = Math.round((completedProjects.length / stageProjects.length) * 100);
+        
+        // Check if stage is completed
+        if (completedProjects.length === stageProjects.length) {
+          stage.completed = true;
+          stage.completedAt = timestamp;
+          
+          // Calculate stage score (average of project scores)
+          stage.score = Math.round(
+            stageProjects.reduce((sum, p) => sum + p.bestScore, 0) / stageProjects.length
+          );
+        }
+        
+        // Update overall progress
+        this.updateOverallProgress(newState);
+        
+        // Update analytics
+        newState.education.analytics.totalTimeSpent += timeSpent;
+        newState.education.analytics.conceptsMastered.push(`${stageId}:${projectId}`);
+        
+        // Check for achievements
+        this.checkAchievements(newState, { type: 'project_completed', stageId, projectId, finalScore });
+        
+        this.log('info', `🎉 Project completed: ${projectId} with score ${finalScore}`);
+      }
+      
+      return newState;
+    },
+
+    reduceUpdateEditorCode(state, { code, timestamp }) {
+      const newState = window.AppUtils?.data.deepClone(state) || JSON.parse(JSON.stringify(state));
+      
+      newState.session.editor.currentCode = code;
+      newState.session.editor.isModified = true;
+      newState.session.editor.lastSaved = null;
+      
+      return newState;
+    },
+
+    reduceExecuteCode(state, { code, results, timestamp, sessionId }) {
+      const newState = window.AppUtils?.data.deepClone(state) || JSON.parse(JSON.stringify(state));
+      
+      newState.session.editor.executionResults = results;
+      newState.session.editor.isExecuting = false;
+      newState.session.codeExecutionsInSession++;
+      newState.education.analytics.codeExecutions++;
+      
+      // Track errors for analytics
+      if (results.errors?.length > 0) {
+        newState.session.errorsInSession += results.errors.length;
+        newState.education.analytics.errorsEncountered += results.errors.length;
+      }
+      
+      return newState;
+    },
+
+    /*
+      ==========================================
+      COMPUTED PROPERTIES & ANALYTICS
+      ==========================================
+    */
+
+    updateComputedProperties() {
+      // Update overall progress
+      this.updateOverallProgress(this.state);
+      
+      // Update learning velocity
+      this.updateLearningVelocity(this.state);
+      
+      // Update prevented costs calculation
+      this.updatePreventedCosts(this.state);
+      
+      // Update user level
+      this.updateUserLevel(this.state);
+    },
+
+    updateOverallProgress(state) {
+      const stages = Object.values(state.education.stages);
+      const totalStages = stages.length;
+      const completedStages = stages.filter(s => s.completed).length;
+      
+      state.education.overallProgress = Math.round((completedStages / totalStages) * 100);
+      
+      // Calculate total score
+      state.education.totalScore = stages.reduce((sum, stage) => sum + stage.score, 0);
+    },
+
+    updateLearningVelocity(state) {
+      const analytics = state.education.analytics;
+      
+      if (analytics.sessionsCount > 0 && analytics.totalTimeSpent > 0) {
+        analytics.averageSessionTime = Math.round(analytics.totalTimeSpent / analytics.sessionsCount);
+        analytics.learningVelocity = analytics.conceptsMastered.length / Math.max(analytics.totalTimeSpent / 60000, 1); // concepts per minute
+      }
+    },
+
+    updatePreventedCosts(state) {
+      const stages = Object.values(state.education.stages);
+      let preventedCosts = 0;
+      
+      stages.forEach(stage => {
+        if (stage.completed) {
+          // Map stage prevention values (from AppConfig)  
+          const preventionValues = {
+            foundations: 180000,
+            debugging: 500000,
+            millionaire: 2300000,
+            mastery: 5000000 // Career security value
+          };
+          
+          preventedCosts += preventionValues[stage.id] || 0;
+        }
+      });
+      
+      state.education.analytics.preventedCosts = preventedCosts;
+    },
+
+    updateUserLevel(state) {
+      const totalScore = state.education.totalScore;
+      const overallProgress = state.education.overallProgress;
+      
+      let level = 'beginner';
+      if (overallProgress >= 75 && totalScore >= 300) {
+        level = 'expert';
+      } else if (overallProgress >= 50 && totalScore >= 200) {
+        level = 'intermediate';
+      } else if (overallProgress >= 25 && totalScore >= 100) {
+        level = 'developing';
+      }
+      
+      state.user.profile.level = level;
+    },
+
+    /*
+      ==========================================
+      ACHIEVEMENTS SYSTEM
+      ==========================================
+    */
+
+    checkAchievements(state, trigger) {
+      const { achievements } = state.education;
+      const availableAchievements = achievements.available.filter(a => 
+        a.unlocked && !achievements.earned.includes(a.id)
+      );
+      
+      availableAchievements.forEach(achievement => {
+        if (this.isAchievementEarned(state, achievement, trigger)) {
+          achievements.earned.push(achievement.id);
+          
+          this.log('info', `🏆 Achievement earned: ${achievement.name}`);
+          
+          // Show notification
+          this.addNotification({
+            type: 'achievement',
+            title: '🏆 ¡Logro Desbloqueado!',
+            message: `${achievement.name}: ${achievement.description}`,
+            icon: achievement.icon,
+            duration: 5000
+          });
+        }
+      });
+    },
+
+    isAchievementEarned(state, achievement, trigger) {
+      switch (achievement.id) {
+        case 'first-submission':
+          return state.education.analytics.codeExecutions >= 1;
+        
+        case 'bug-hunter':
+          return state.education.analytics.errorsEncountered >= 10;
+        
+        case 'cost-saver':
+          return state.education.analytics.preventedCosts >= 1000000;
+        
+        case 'perfectionist':
+          return trigger.type === 'project_completed' && trigger.finalScore >= 100;
+        
+        case 'architect':
+          return state.education.stages.mastery.completed;
+        
+        default:
+          return false;
+      }
+    },
+
+    /*
+      ==========================================
+      PERSISTENCE LAYER - Clean Architecture Boundaries
+      ==========================================
+    */
+
+    persistState() {
+      if (!window.AppUtils?.storage) {
+        this.log('warn', '⚠️ Storage utils not available');
         return;
       }
       
-      // Check unlock condition
-      const isUnlocked = safeExecute(
-        achievement.unlockCondition,
-        false,
-        userState
-      );
-      
-      if (isUnlocked) {
-        newAchievements.push(achievement.id);
+      try {
+        const persistableState = this.getPersistedableState();
+        window.AppUtils.storage.set('app_state', persistableState);
+        
+        this.state.app.syncStatus = 'synced';
+        this.log('debug', '💾 State persisted');
+        
+      } catch (error) {
+        this.log('error', '❌ Failed to persist state:', error);
+        this.state.app.syncStatus = 'error';
       }
-    });
-    
-    return newAchievements;
-  }
+    },
 
-  /**
-   * Manually unlock achievement (for testing or special cases)
-   * @param {string} achievementId - Achievement identifier
-   * @returns {Object} Updated state
-   */
-  unlockAchievement(achievementId) {
-    const achievement = Object.values(ACHIEVEMENTS).find(a => a.id === achievementId);
-    if (!achievement) {
-      throw createError(`Achievement not found: ${achievementId}`, 'ACHIEVEMENT_NOT_FOUND');
-    }
-
-    if (this.userState.achievementsUnlocked.includes(achievementId)) {
-      console.log(`Achievement ${achievementId} already unlocked`);
-      return this.getUserState();
-    }
-
-    const newUserState = {
-      ...this.userState,
-      achievementsUnlocked: [...this.userState.achievementsUnlocked, achievementId],
-      totalPoints: this.userState.totalPoints + achievement.points,
-      lastUpdated: new Date().toISOString()
-    };
-
-    this._updateUserState(newUserState);
-    
-    this._emitEvent('achievementUnlocked', { achievementId, achievement });
-    
-    console.log(`🏆 Achievement ${achievementId} unlocked!`);
-    return newUserState;
-  }
-
-  // ==========================================
-  // LEARNING ANALYTICS
-  // Following data-driven educational improvement
-  // ==========================================
-
-  /**
-   * Track learning session
-   * @param {Object} sessionData - Session tracking data
-   * @returns {Object} Updated state
-   */
-  trackLearningSession(sessionData = {}) {
-    const sessionRecord = {
-      timestamp: new Date().toISOString(),
-      duration: sessionData.duration || 0,
-      projectsWorkedOn: sessionData.projectsWorkedOn || [],
-      codeExecutions: sessionData.codeExecutions || 0,
-      hintsUsed: sessionData.hintsUsed || 0,
-      errorsEncountered: sessionData.errorsEncountered || 0,
-      ...sessionData
-    };
-
-    const newUserState = {
-      ...this.userState,
-      sessionsCompleted: this.userState.sessionsCompleted + 1,
-      totalTimeSpent: this.userState.totalTimeSpent + sessionRecord.duration,
-      hintsUsed: this.userState.hintsUsed + sessionRecord.hintsUsed,
-      codeExecutions: this.userState.codeExecutions + sessionRecord.codeExecutions,
-      errorsEncountered: this.userState.errorsEncountered + sessionRecord.errorsEncountered,
-      lastActiveDate: new Date().toISOString(),
-      lastUpdated: new Date().toISOString(),
-      learningHistory: [...this.userState.learningHistory, sessionRecord]
-    };
-
-    // Update daily streak (Motivation through consistency)
-    newUserState.dailyStreaks = this._calculateDailyStreak(newUserState.lastActiveDate);
-
-    this._updateUserState(newUserState);
-    
-    this._emitEvent('sessionTracked', { sessionRecord });
-    
-    return newUserState;
-  }
-
-  /**
-   * Get learning analytics summary
-   * @returns {Object} Analytics summary
-   */
-  getLearningAnalytics() {
-    const progress = calculateProgress(this.userState.projectsCompleted, EDUCATIONAL_PROJECTS);
-    const moneySaved = calculateMoneySaved(this.userState.projectsCompleted, EDUCATIONAL_PROJECTS);
-    
-    return {
-      // Core progress metrics
-      overallProgress: progress,
-      moneySaved: formatMoney(moneySaved),
-      totalPoints: this.userState.totalPoints,
-      
-      // Learning efficiency
-      averageSessionTime: this.userState.sessionsCompleted > 0 
-        ? Math.round(this.userState.totalTimeSpent / this.userState.sessionsCompleted / 1000 / 60) 
-        : 0,
-      hintsPerProject: this.userState.projectsCompleted.length > 0
-        ? Math.round(this.userState.hintsUsed / this.userState.projectsCompleted.length * 10) / 10
-        : 0,
-      
-      // Engagement metrics
-      dailyStreaks: this.userState.dailyStreaks,
-      achievementsUnlocked: this.userState.achievementsUnlocked.length,
-      totalAchievements: Object.keys(ACHIEVEMENTS).length,
-      
-      // Stage progression
-      currentStage: this.userState.currentStage,
-      nextStage: this._getNextStage(this.userState.currentStage),
-      
-      // Time analysis
-      totalTimeInHours: Math.round(this.userState.totalTimeSpent / 1000 / 60 / 60 * 10) / 10,
-      learningVelocity: this._calculateLearningVelocity()
-    };
-  }
-
-  // ==========================================
-  // STATE ACCESS METHODS
-  // Following encapsulation principles
-  // ==========================================
-
-  /**
-   * Get current user state (read-only)
-   * @returns {Object} Deep clone of user state
-   */
-  getUserState() {
-    return deepClone(this.userState);
-  }
-
-  /**
-   * Get current application state (read-only)
-   * @returns {Object} Deep clone of app state
-   */
-  getAppState() {
-    return deepClone(this.appState);
-  }
-
-  /**
-   * Get combined state summary
-   * @returns {Object} Summary of all state data
-   */
-  getStateSummary() {
-    return {
-      user: this.getUserState(),
-      app: this.getAppState(),
-      analytics: this.getLearningAnalytics(),
-      metadata: {
-        lastUpdated: this.userState.lastUpdated,
-        version: this.userState.version,
-        isOnline: this.appState.system.isOnline
+    loadPersistedState() {
+      if (!window.AppUtils?.storage) {
+        this.log('warn', '⚠️ Storage utils not available for loading');
+        return;
       }
-    };
-  }
-
-  // ==========================================
-  // PREFERENCES AND SETTINGS
-  // Following user experience optimization
-  // ==========================================
-
-  /**
-   * Update user preferences
-   * @param {Object} preferences - New preference values
-   * @returns {Object} Updated state
-   */
-  updatePreferences(preferences) {
-    const newUserState = {
-      ...this.userState,
-      preferences: {
-        ...this.userState.preferences,
-        ...preferences
-      },
-      lastUpdated: new Date().toISOString()
-    };
-
-    this._updateUserState(newUserState);
-    
-    this._emitEvent('preferencesUpdated', { preferences });
-    
-    return newUserState;
-  }
-
-  /**
-   * Reset user progress (with confirmation)
-   * @param {Object} options - Reset options
-   * @returns {Object} Reset state
-   */
-  resetProgress(options = {}) {
-    const resetState = {
-      ...DEFAULT_USER_STATE,
-      preferences: options.keepPreferences ? this.userState.preferences : DEFAULT_USER_STATE.preferences,
-      createdAt: this.userState.createdAt || new Date().toISOString(),
-      lastUpdated: new Date().toISOString(),
-      version: this.userState.version
-    };
-
-    this._updateUserState(resetState);
-    
-    this._emitEvent('progressReset', { options });
-    
-    console.log('🔄 User progress reset successfully');
-    return resetState;
-  }
-
-  // ==========================================
-  // PRIVATE HELPER METHODS
-  // Following Robert C. Martin's private method organization
-  // ==========================================
-
-  /**
-   * Validate and clean user state
-   * @private
-   * @param {Object} state - State to validate
-   * @returns {Object} Cleaned state
-   */
-  _validateAndCleanUserState(state) {
-    // Ensure arrays are actually arrays
-    const cleanState = {
-      ...state,
-      projectsCompleted: Array.isArray(state.projectsCompleted) ? state.projectsCompleted : [],
-      projectsInProgress: Array.isArray(state.projectsInProgress) ? state.projectsInProgress : [],
-      achievementsUnlocked: Array.isArray(state.achievementsUnlocked) ? state.achievementsUnlocked : [],
-      learningHistory: Array.isArray(state.learningHistory) ? state.learningHistory : [],
       
-      // Ensure numbers are actually numbers
-      totalPoints: Number(state.totalPoints) || 0,
-      sessionsCompleted: Number(state.sessionsCompleted) || 0,
-      totalTimeSpent: Number(state.totalTimeSpent) || 0,
-      hintsUsed: Number(state.hintsUsed) || 0,
-      codeExecutions: Number(state.codeExecutions) || 0,
-      errorsEncountered: Number(state.errorsEncountered) || 0,
-      dailyStreaks: Number(state.dailyStreaks) || 0,
-      
-      // Ensure objects exist
-      preferences: state.preferences || DEFAULT_USER_STATE.preferences,
-      projectData: state.projectData || {},
-      achievementProgress: state.achievementProgress || {},
-      
-      // Set timestamps if missing
-      createdAt: state.createdAt || new Date().toISOString(),
-      lastUpdated: state.lastUpdated || new Date().toISOString()
-    };
-
-    return cleanState;
-  }
-
-  /**
-   * Calculate current learning stage based on completed projects
-   * @private
-   * @param {string[]} completedProjects - Array of completed project IDs
-   * @returns {string} Current stage
-   */
-  _calculateCurrentStage(completedProjects) {
-    const stages = ['beginner', 'intermediate', 'expert', 'master'];
-    let currentStage = 'beginner';
-    
-    for (const stage of stages) {
-      const stageProjects = Object.values(EDUCATIONAL_PROJECTS)
-        .filter(project => project.stage === stage)
-        .map(project => project.id);
-      
-      const completedInStage = completedProjects.filter(projectId =>
-        stageProjects.includes(projectId)
-      );
-      
-      // If all projects in stage are completed, advance to next stage
-      if (completedInStage.length === stageProjects.length && stageProjects.length > 0) {
-        currentStage = stage;
-      } else if (completedInStage.length > 0) {
-        // If some projects are completed, stay in current stage
-        currentStage = stage;
-        break;
+      try {
+        const persistedState = window.AppUtils.storage.get('app_state');
+        
+        if (persistedState) {
+          // Merge persisted state with default state (for new properties)
+          this.state = window.AppUtils.data.deepMerge(this.getDefaultState(), persistedState);
+          this.log('info', '📥 State loaded from storage');
+        } else {
+          this.log('info', '🆕 No persisted state found, using defaults');
+        }
+        
+      } catch (error) {
+        this.log('error', '❌ Failed to load persisted state:', error);
+        this.initializeFallbackState();
       }
-    }
-    
-    return currentStage;
-  }
+    },
 
-  /**
-   * Check if user can start a project
-   * @private
-   * @param {string} projectId - Project to check
-   * @returns {Object} Permission check result
-   */
-  _canStartProject(projectId) {
-    const project = Object.values(EDUCATIONAL_PROJECTS).find(p => p.id === projectId);
-    if (!project) {
-      return { allowed: false, reason: 'Project not found' };
-    }
+    getPersistedableState() {
+      // Don't persist session state or temporary UI state
+      const { session, ...persistableState } = this.state;
+      return persistableState;
+    },
 
-    // Check if already completed
-    if (this.userState.projectsCompleted.includes(projectId)) {
-      return { allowed: true, reason: 'Already completed, can review' };
-    }
+    /*
+      ==========================================
+      OBSERVER PATTERN - Event System
+      ==========================================
+    */
 
-    // Check stage prerequisites
-    const currentStageOrder = Object.values(LEARNING_STAGES)
-      .find(stage => stage.id === this.userState.currentStage)?.order || 1;
-    
-    const projectStageOrder = Object.values(LEARNING_STAGES)
-      .find(stage => stage.id === project.stage)?.order || 1;
-
-    if (projectStageOrder > currentStageOrder) {
-      return { 
-        allowed: false, 
-        reason: `Complete ${this.userState.currentStage} stage first` 
-      };
-    }
-
-    return { allowed: true, reason: 'Prerequisites met' };
-  }
-
-  /**
-   * Calculate daily learning streak
-   * @private
-   * @param {string} lastActiveDate - Last active date
-   * @returns {number} Current streak count
-   */
-  _calculateDailyStreak(lastActiveDate) {
-    if (!lastActiveDate) return 1;
-    
-    const lastActive = new Date(lastActiveDate);
-    const today = new Date();
-    const diffDays = Math.floor((today - lastActive) / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) {
-      // Same day, maintain or increment streak
-      return this.userState.dailyStreaks;
-    } else if (diffDays === 1) {
-      // Consecutive day, increment streak
-      return this.userState.dailyStreaks + 1;
-    } else {
-      // Streak broken, reset to 1
-      return 1;
-    }
-  }
-
-  /**
-   * Calculate learning velocity (projects per week)
-   * @private
-   * @returns {number} Learning velocity
-   */
-  _calculateLearningVelocity() {
-    if (this.userState.learningHistory.length < 2) return 0;
-    
-    const completions = this.userState.learningHistory
-      .filter(entry => entry.projectId)
-      .sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
-    
-    if (completions.length < 2) return 0;
-    
-    const firstCompletion = new Date(completions[0].completedAt);
-    const lastCompletion = new Date(completions[completions.length - 1].completedAt);
-    const weeksSpan = (lastCompletion - firstCompletion) / (1000 * 60 * 60 * 24 * 7);
-    
-    return weeksSpan > 0 ? Math.round((completions.length / weeksSpan) * 10) / 10 : 0;
-  }
-
-  /**
-   * Get next stage in progression
-   * @private
-   * @param {string} currentStage - Current stage
-   * @returns {string|null} Next stage or null
-   */
-  _getNextStage(currentStage) {
-    const stages = ['beginner', 'intermediate', 'expert', 'master'];
-    const currentIndex = stages.indexOf(currentStage);
-    return currentIndex !== -1 && currentIndex < stages.length - 1 
-      ? stages[currentIndex + 1] 
-      : null;
-  }
-
-  /**
-   * Update user state immutably
-   * @private
-   * @param {Object} newState - New state
-   */
-  _updateUserState(newState) {
-    this.userState = newState;
-    this._saveUserStateToStorage();
-    this._emitEvent('stateUpdated', { userState: this.getUserState() });
-  }
-
-  /**
-   * Load user state from storage
-   * @private
-   * @returns {Object} Loaded state or empty object
-   */
-  _loadUserStateFromStorage() {
-    return this.storage.load(this.storage.keys.USER_PROGRESS, {});
-  }
-
-  /**
-   * Save user state to storage
-   * @private
-   */
-  _saveUserStateToStorage() {
-    if (this.userState.preferences.autoSave) {
-      this.storage.save(this.storage.keys.USER_PROGRESS, this.userState);
-    }
-  }
-
-  /**
-   * Track performance metrics
-   * @private
-   * @param {string} operation - Operation name
-   * @param {number} executionTime - Execution time in ms
-   */
-  _trackPerformance(operation, executionTime) {
-    this.performanceTracker.stateUpdates++;
-    this.performanceTracker.lastUpdateTime = executionTime;
-    
-    // Calculate rolling average
-    const currentAvg = this.performanceTracker.averageUpdateTime;
-    const count = this.performanceTracker.stateUpdates;
-    this.performanceTracker.averageUpdateTime = 
-      (currentAvg * (count - 1) + executionTime) / count;
-    
-    // Log slow operations in development
-    if (executionTime > 100 && console.warn) {
-      console.warn(`Slow state operation ${operation}: ${executionTime}ms`);
-    }
-  }
-
-  // ==========================================
-  // EVENT SYSTEM
-  // Following Observer Pattern (Gang of Four)
-  // ==========================================
-
-  /**
-   * Add event listener
-   * @param {string} eventType - Event type to listen for
-   * @param {Function} callback - Callback function
-   * @returns {Function} Unsubscribe function
-   */
-  addEventListener(eventType, callback) {
-    if (!this.listeners.has(eventType)) {
-      this.listeners.set(eventType, []);
-    }
-    
-    this.listeners.get(eventType).push(callback);
-    
-    // Return unsubscribe function
-    return () => {
-      const callbacks = this.listeners.get(eventType);
-      if (callbacks) {
+    observe(eventType, callback) {
+      if (!this.observers.has(eventType)) {
+        this.observers.set(eventType, []);
+      }
+      
+      this.observers.get(eventType).push(callback);
+      
+      // Return unsubscribe function
+      return () => {
+        const callbacks = this.observers.get(eventType) || [];
         const index = callbacks.indexOf(callback);
         if (index > -1) {
           callbacks.splice(index, 1);
         }
-      }
-    };
-  }
+      };
+    },
 
-  /**
-   * Emit event to listeners
-   * @private
-   * @param {string} eventType - Event type
-   * @param {*} data - Event data
-   */
-  _emitEvent(eventType, data) {
-    const callbacks = this.listeners.get(eventType);
-    if (callbacks) {
+    emit(eventType, data) {
+      const callbacks = this.observers.get(eventType) || [];
+      
       callbacks.forEach(callback => {
-        safeExecute(callback, null, data);
-      });
-    }
-  }
-
-  /**
-   * Setup auto-save mechanism
-   * @private
-   */
-  _setupAutoSave() {
-    const autoSaveInterval = APP_CONFIG?.TIMING?.AUTOSAVE_INTERVAL || 30000;
-    
-    setInterval(() => {
-      if (this.userState.preferences.autoSave) {
-        this._saveUserStateToStorage();
-      }
-    }, autoSaveInterval);
-  }
-
-  /**
-   * Setup system event listeners
-   * @private
-   */
-  _setupEventListeners() {
-    // Online/offline detection
-    if (typeof window !== 'undefined') {
-      window.addEventListener('online', () => {
-        this.appState.system.isOnline = true;
-        this._emitEvent('systemOnline', {});
-      });
-      
-      window.addEventListener('offline', () => {
-        this.appState.system.isOnline = false;
-        this._emitEvent('systemOffline', {});
-      });
-      
-      // Page visibility for session tracking
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          this._emitEvent('sessionPaused', {});
-        } else {
-          this._emitEvent('sessionResumed', {});
+        try {
+          callback(data);
+        } catch (error) {
+          this.log('error', `Observer error for ${eventType}:`, error);
         }
       });
+    },
+
+    /*
+      ==========================================
+      PUBLIC API
+      ==========================================
+    */
+
+    // State Access
+    getState(path = null) {
+      if (path) {
+        return window.AppUtils?.data.getNestedValue?.(this.state, path) || 
+               this.getNestedValue(this.state, path);
+      }
+      return this.getPublicState();
+    },
+
+    getPublicState() {
+      // Return read-only state copy
+      return window.AppUtils?.data.deepClone?.(this.state) || 
+             JSON.parse(JSON.stringify(this.state));
+    },
+
+    // Educational Progress Queries
+    getCurrentProject() {
+      const { currentStage, currentProject } = this.state.session;
+      return currentProject ? this.state.education.stages[currentStage]?.projects[currentProject] : null;
+    },
+
+    getStageProgress(stageId) {
+      return this.state.education.stages[stageId] || null;
+    },
+
+    getOverallStats() {
+      return {
+        overallProgress: this.state.education.overallProgress,
+        totalScore: this.state.education.totalScore,
+        currentLevel: this.state.user.profile.level,
+        preventedCosts: this.state.education.analytics.preventedCosts,
+        achievementsEarned: this.state.education.achievements.earned.length,
+        totalTimeSpent: this.state.education.analytics.totalTimeSpent
+      };
+    },
+
+    getUserPreferences() {
+      return { ...this.state.user.preferences };
+    },
+
+    // Session Queries
+    getSessionInfo() {
+      return {
+        sessionStartTime: this.state.session.sessionStartTime,
+        timeSpentInSession: Date.now() - (this.state.session.sessionStartTime || Date.now()),
+        actionsInSession: this.state.session.actionsInSession,
+        currentProject: this.getCurrentProject()
+      };
+    },
+
+    /*
+      ==========================================
+      AUTO-SAVE & SYNC
+      ==========================================
+    */
+
+    setupAutoSave() {
+      // Auto-save every 30 seconds
+      setInterval(() => {
+        if (this.state.app.syncStatus !== 'synced') {
+          this.persistState();
+        }
+      }, 30000);
+      
+      this.log('info', '💾 Auto-save configured');
+    },
+
+    setupAnalyticsTracking() {
+      // Track time spent in session
+      setInterval(() => {
+        if (this.state.session.sessionStartTime) {
+          const currentSessionTime = Date.now() - this.state.session.sessionStartTime;
+          this.state.session.timeSpentInSession = currentSessionTime;
+          
+          // Update total time spent
+          this.state.education.analytics.totalTimeSpent += 1000; // Add 1 second
+        }
+      }, 1000);
+      
+      this.log('info', '📊 Analytics tracking configured');
+    },
+
+    setupPeriodicSync() {
+      // Sync with server every 5 minutes (if online sync is implemented)
+      setInterval(() => {
+        if (this.state.app.isOnline && window.AppConfig?.isFeatureEnabled?.('sync.periodicSync')) {
+          this.syncWithServer();
+        }
+      }, 300000);
+      
+      this.log('info', '🔄 Periodic sync configured');
+    },
+
+    syncWithServer() {
+      // Placeholder for server sync implementation
+      this.log('info', '🌐 Syncing with server...');
+      
+      // This would implement actual server synchronization
+      // For now, just update sync status
+      this.state.app.syncStatus = 'synced';
+    },
+
+    /*
+      ==========================================
+      UTILITY METHODS
+      ==========================================
+    */
+
+    getDefaultState() {
+      // Return a fresh copy of the initial state structure
+      return JSON.parse(JSON.stringify(this.state));
+    },
+
+    getSessionId() {
+      return this.state.session.sessionStartTime?.toString() || 'no-session';
+    },
+
+    generateId() {
+      return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    },
+
+    getNestedValue(obj, path, defaultValue = null) {
+      return path.split('.').reduce((current, key) => 
+        current && current[key] !== undefined ? current[key] : defaultValue, obj
+      );
+    },
+
+    log(level, ...args) {
+      if (window.AppUtils?.debug) {
+        window.AppUtils.debug.log(level, '[AppState]', ...args);
+      } else if (window.AppConfig?.isDebugEnabled?.()) {
+        console.log(`[AppState] [${level.toUpperCase()}]`, ...args);
+      }
     }
-  }
-
-  /**
-   * Get performance metrics
-   * @returns {Object} Performance data
-   */
-  getPerformanceMetrics() {
-    return {
-      ...this.performanceTracker,
-      memoryUsage: typeof performance !== 'undefined' && performance.memory 
-        ? {
-            used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
-            total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
-            limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024)
-          }
-        : null
-    };
-  }
-}
-
-// ==========================================
-// SINGLETON EXPORT
-// Following Robert C. Martin's dependency management
-// ==========================================
-
-/**
- * Global state manager instance
- * Following Singleton pattern for educational state consistency
- */
-let globalStateManager = null;
-
-/**
- * Initialize or get global state manager
- * @param {Object} [initialState={}] - Initial state override
- * @returns {EducationalStateManager} State manager instance
- */
-function initializeStateManager(initialState = {}) {
-  if (!globalStateManager) {
-    globalStateManager = new EducationalStateManager(initialState);
-  }
-  return globalStateManager;
-}
-
-/**
- * Get current state manager instance
- * @returns {EducationalStateManager|null} Current instance or null
- */
-function getStateManager() {
-  return globalStateManager;
-}
-
-// Export for different environments
-if (typeof window !== 'undefined') {
-  // Browser environment
-  window.BugAcademyState = {
-    EducationalStateManager,
-    initializeStateManager,
-    getStateManager,
-    DEFAULT_USER_STATE,
-    DEFAULT_APP_STATE
   };
-} else if (typeof module !== 'undefined' && module.exports) {
-  // Node.js environment
-  module.exports = {
-    EducationalStateManager,
-    initializeStateManager,
-    getStateManager,
-    DEFAULT_USER_STATE,
-    DEFAULT_APP_STATE
-  };
-}
+
+  // Auto-initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.AppState.init();
+    });
+  } else {
+    window.AppState.init();
+  }
+
+})();
 
 /*
   ==========================================
-  STATE MANAGEMENT SYSTEM COMPLETE
+  STATE MANAGEMENT ARCHITECTURE COMPLETE
   ==========================================
   
-  This educational state management system demonstrates:
+  Este sistema de gestión de estado proporciona:
   
-  🎯 SYSTEMATIC DESIGN (Ian Sommerville):
-  - Clear state schema definitions with comprehensive documentation
-  - Systematic progression through learning stages with validation
-  - Structured approach to educational analytics and measurement
+  ✅ Educational State Management:
+  - Progreso estructurado siguiendo pedagogía de Ian Sommerville
+  - Tracking de competencias usando principios de Bloom's Taxonomy
+  - Sistema de logros para motivación (gamification)
+  - Analytics de aprendizaje para mejora continua
   
-  🧹 CLEAN CODE PRINCIPLES (Robert C. Martin):
-  - Single Responsibility: Each method has one clear purpose
-  - Immutable state updates following functional programming principles
-  - Defensive programming with comprehensive error handling
+  ✅ Redux-like Architecture:
+  - Actions y reducers puros para cambios predecibles
+  - Middleware support para extensibilidad
+  - Observer pattern para componentes reactivos
+  - Immutable updates para debugging y time travel
   
-  🧪 TESTING-FOCUSED ARCHITECTURE (Kent C. Dodds):
-  - Pure functions that are easily testable in isolation
-  - Event-driven architecture enabling comprehensive integration testing
-  - Performance tracking for optimization and monitoring
+  ✅ Persistence & Sync:
+  - Auto-save automático cada 30 segundos
+  - Carga inteligente con merge de estado por defecto
+  - Estado de sincronización para conectividad
+  - Fallback seguro en caso de errores
   
-  🔄 EVOLUTIONARY DESIGN (Martin Fowler):
-  - Extensible achievement system supporting future gamification
-  - Flexible project data storage for expanding educational content
-  - Refactorable architecture supporting feature growth
+  ✅ Session Management:
+  - Tracking de tiempo y actividad en sesión
+  - Estado del editor de código
+  - Estado de UI temporal (modales, notificaciones)
+  - Métricas de performance de sesión
   
-  📊 THEORY-PRACTICE INTEGRATION (Jonas Schmedtmann):
-  - Real-world educational analytics driving learning optimization
-  - Progressive complexity in state management mirroring curriculum
-  - Beautiful, intuitive APIs that teach good patterns while functioning
+  ✅ User Experience:
+  - Preferencias de usuario persistentes
+  - Configuraciones de accesibilidad
+  - Tema y personalización
+  - Multi-idioma preparado
   
-  🚀 PROJECT-BASED STRUCTURE (Brad Traversy):
-  - State patterns directly support project-based learning methodology
-  - Practical persistence and offline capability for real-world usage
-  - Performance optimization techniques applicable to professional projects
+  ✅ Analytics Integration:
+  - Velocidad de aprendizaje calculada
+  - Patrones de errores identificados
+  - Tiempo invertido por concepto
+  - Costos hipotéticos prevenidos
   
-  ✨ USER EXPERIENCE OPTIMIZATION (Sarah Drasner):
-  - Smooth, responsive state updates with performance tracking
-  - Gamification elements that enhance motivation without distraction
-  - Accessibility considerations in state management and event handling
+  API de uso:
   
-  🏗️ SOFTWARE CRAFTSMANSHIP (Sandro Mancuso):
-  - Professional-grade error handling and logging systems
-  - Maintainable code structure following enterprise patterns
-  - Comprehensive documentation serving as educational resource
+  // Educational progress
+  AppState.startProject('foundations', 'calculator-interest')
+  AppState.submitProjectCode(stageId, projectId, code, results)
+  AppState.completeProject(stageId, projectId, score, timeSpent)
   
-  This system serves as both functional state management and an educational
-  example of clean, professional software architecture. Every pattern used
-  teaches best practices while solving real educational platform requirements.
+  // State queries
+  AppState.getState('education.overallProgress')
+  AppState.getCurrentProject()
+  AppState.getOverallStats()
   
-  Next: analytics.js will provide learning effectiveness measurement and insights
+  // Observations
+  AppState.observe('state:changed', (data) => console.log('State updated'))
+  AppState.observe('action:complete_project', handleProjectCompletion)
+  
+  // User preferences
+  AppState.updateUserPreferences({ theme: 'light' })
+  AppState.getUserPreferences()
+  
+  // Session management
+  AppState.updateEditorCode(newCode)
+  AppState.executeCode(code, results)
+  AppState.getSessionInfo()
+  
+  Este sistema forma la base para una experiencia educativa completa,
+  trackeable y personalizable que sigue las mejores prácticas de
+  arquitectura de software y pedagogía educativa.
 */

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modo Offline - Million Dollar Bugs Academy</title>
+  <meta name="description" content="Continúa aprendiendo debugging sin conexión. Contenido educativo disponible offline.">
+  
+  <!-- Inline styles para funcionalidad offline completa -->
+  <style>
+    :root {
+      --color-brand-primary: #2563eb;
+      --color-brand-secondary: #9333ea;
+      --color-text-primary: #0f172a;
+      --color-text-secondary: #475569;
+      --color-text-inverse: #ffffff;
+      --color-surface-primary: #ffffff;
+      --color-surface-secondary: #f8fafc;
+      --color-border-primary: #e2e8f0;
+      --color-success: #22c55e;
+      --color-warning: #f59e0b;
+      --radius-lg: 0.5rem;
+      --radius-xl: 0.75rem;
+      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+      color: var(--color-text-inverse);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-6);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .offline-container {
+      background: var(--color-surface-primary);
+      color: var(--color-text-primary);
+      padding: var(--space-8);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      max-width: 500px;
+      width: 100%;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(2rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .offline-icon {
+      font-size: 4rem;
+      margin-bottom: var(--space-4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: var(--space-4);
+      color: var(--color-text-primary);
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-6);
+    }
+
+    .offline-features {
+      background: var(--color-surface-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      margin: var(--space-6) 0;
+      text-align: left;
+    }
+
+    .offline-features h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+      color: var(--color-text-primary);
+      text-align: center;
+    }
+
+    .feature-list {
+      list-style: none;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+      color: var(--color-text-secondary);
+    }
+
+    .feature-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .buttons {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: var(--space-6);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-6);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .btn-primary {
+      background: var(--color-brand-primary);
+      color: var(--color-text-inverse);
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface-secondary);
+      color: var(--color-text-primary);
+      border: 2px solid var(--color-border-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-surface-primary);
+      border-color: var(--color-brand-primary);
+    }
+
+    .connection-status {
+      margin-top: var(--space-6);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-4);
+    }
+
+    .status-offline {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .status-online {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .footer-info {
+      margin-top: var(--space-8);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--color-border-primary);
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+    }
+
+    .footer-info a {
+      color: var(--color-brand-primary);
+      text-decoration: none;
+    }
+
+    .footer-info a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .offline-container {
+        padding: var(--space-6);
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-text-primary: #f1f5f9;
+        --color-text-secondary: #cbd5e1;
+        --color-surface-primary: #1e293b;
+        --color-surface-secondary: #334155;
+        --color-border-primary: #475569;
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      .offline-container {
+        animation: none;
+      }
+      
+      .offline-icon {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="offline-container">
+    <div class="offline-icon" aria-hidden="true">📚</div>
+    
+    <h1>Modo Offline Activado</h1>
+    <p class="subtitle">
+      No hay conexión a internet, pero puedes seguir aprendiendo con el contenido educativo ya descargado.
+    </p>
+
+    <div class="offline-features">
+      <h2>🎓 Disponible sin conexión:</h2>
+      <ul class="feature-list">
+        <li>
+          <span class="feature-icon" aria-hidden="true">📖</span>
+          <span>Contenido educativo básico y roadmap</span>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">💻</span>
+          <span>Editor de código con ejemplos</span>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">📊</span>
+          <span>Tu progreso y estadísticas guardadas</span>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">🔍</span>
+          <span>Casos de bugs millonarios descargados</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-primary" onclick="retryConnection()">
+        <span aria-hidden="true">🔄</span>
+        <span>Reintentar Conexión</span>
+      </button>
+      
+      <a href="/" class="btn btn-secondary">
+        <span aria-hidden="true">🏠</span>
+        <span>Ir al Inicio</span>
+      </a>
+    </div>
+
+    <div class="connection-status status-offline" id="connection-status">
+      <span aria-hidden="true">📴</span>
+      <span>Sin conexión a internet</span>
+    </div>
+
+    <div class="footer-info">
+      <p>
+        <strong>Million Dollar Bugs Academy</strong><br>
+        Continúa aprendiendo debugging profesional, online o offline.<br>
+        <a href="/" aria-label="Volver a la página principal">Volver al inicio</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Gestión de conectividad
+    function updateConnectionStatus() {
+      const statusElement = document.getElementById('connection-status');
+      const isOnline = navigator.onLine;
+      
+      if (isOnline) {
+        statusElement.className = 'connection-status status-online';
+        statusElement.innerHTML = '<span aria-hidden="true">🌐</span><span>Conexión restaurada</span>';
+        
+        // Auto-redirect después de 2 segundos
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      } else {
+        statusElement.className = 'connection-status status-offline';
+        statusElement.innerHTML = '<span aria-hidden="true">📴</span><span>Sin conexión a internet</span>';
+      }
+    }
+
+    function retryConnection() {
+      updateConnectionStatus();
+      
+      if (navigator.onLine) {
+        window.location.reload();
+      } else {
+        // Mostrar feedback visual
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        
+        button.innerHTML = '<span aria-hidden="true">⏳</span><span>Verificando...</span>';
+        button.disabled = true;
+        
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.disabled = false;
+          
+          if (!navigator.onLine) {
+            showRetryFeedback();
+          }
+        }, 1500);
+      }
+    }
+
+    function showRetryFeedback() {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #fef3c7;
+        color: #92400e;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #fcd34d;
+        font-size: 0.9rem;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+      `;
+      
+      notification.innerHTML = '⚠️ Aún sin conexión. Intenta de nuevo en un momento.';
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // Event listeners para cambios de conectividad
+    window.addEventListener('online', () => {
+      console.log('🌐 Conexión restaurada');
+      updateConnectionStatus();
+    });
+
+    window.addEventListener('offline', () => {
+      console.log('📴 Conexión perdida');
+      updateConnectionStatus();
+    });
+
+    // Verificar estado inicial
+    updateConnectionStatus();
+
+    // Retry automático cada 30 segundos
+    setInterval(() => {
+      if (!navigator.onLine) {
+        // Hacer un request de prueba al mismo origen
+        fetch('/', { method: 'HEAD', cache: 'no-cache' })
+          .then(() => {
+            // Si llega aquí, hay conexión
+            window.location.reload();
+          })
+          .catch(() => {
+            // Sigue sin conexión, no hacer nada
+          });
+      }
+    }, 30000);
+
+    // Analytics offline (si está disponible)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.active?.postMessage({
+          type: 'OFFLINE_PAGE_VIEW',
+          timestamp: Date.now(),
+          userAgent: navigator.userAgent
+        });
+      });
+    }
+
+    // Manejo de teclado para accesibilidad
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.matches('button')) {
+        e.target.click();
+      }
+      
+      if (e.key === 'Escape') {
+        window.location.href = '/';
+      }
+    });
+
+    console.log('📚 Página offline de Million Dollar Bugs Academy cargada');
+  </script>
+</body>
+</html>

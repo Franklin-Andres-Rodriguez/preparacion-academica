@@ -1,0 +1,210 @@
+{
+  "name": "Million Dollar Bugs Academy - Aprende Debugging Profesional",
+  "short_name": "Bug Academy",
+  "description": "Plataforma educativa para aprender debugging y prevención de errores millonarios en software mediante casos reales documentados",
+  "version": "1.0.0",
+  "start_url": "/",
+  "scope": "/",
+  "id": "million-dollar-bugs-academy",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "categories": ["education", "productivity", "developer", "learning"],
+  "lang": "es",
+  "dir": "ltr",
+  
+  "icons": [
+    {
+      "src": "/assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-96x96.png", 
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "sizes": "128x128", 
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png", 
+      "purpose": "any maskable"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot-desktop-roadmap.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Roadmap de aprendizaje progresivo - Vista de escritorio"
+    },
+    {
+      "src": "/assets/images/screenshot-desktop-laboratory.png",
+      "sizes": "1280x720", 
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Laboratorio de código interactivo - Vista de escritorio"
+    },
+    {
+      "src": "/assets/images/screenshot-mobile-progress.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Seguimiento de progreso educativo - Vista móvil"
+    },
+    {
+      "src": "/assets/images/screenshot-mobile-code.png",
+      "sizes": "390x844",
+      "type": "image/png", 
+      "form_factor": "narrow",
+      "label": "Editor de código con análisis - Vista móvil"
+    }
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Roadmap de Aprendizaje",
+      "short_name": "Roadmap",
+      "description": "Ver tu progreso y siguientes pasos educativos",
+      "url": "/index.html#roadmap",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-roadmap-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Laboratorio de Código",
+      "short_name": "Laboratorio",
+      "description": "Practicar debugging con casos reales",
+      "url": "/index.html#laboratorio", 
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-lab-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Tu Progreso",
+      "short_name": "Progreso",
+      "description": "Revisar estadísticas y logros educativos",
+      "url": "/index.html#progreso",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-progress-96x96.png", 
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  
+  "share_target": {
+    "action": "/share-bug-case",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text", 
+      "url": "url",
+      "files": [
+        {
+          "name": "code",
+          "accept": ["text/javascript", "application/json", ".js", ".json", ".html", ".css"]
+        }
+      ]
+    }
+  },
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+bugacademy",
+      "url": "/handle-protocol?url=%s"
+    }
+  ],
+  
+  "file_handlers": [
+    {
+      "action": "/handle-file",
+      "accept": {
+        "text/javascript": [".js"],
+        "application/json": [".json"],
+        "text/html": [".html"],
+        "text/css": [".css"]
+      },
+      "launch_type": "single-client"
+    }
+  ],
+  
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  
+  "prefer_related_applications": false,
+  
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.bugacademy.app",
+      "id": "com.bugacademy.app"
+    },
+    {
+      "platform": "itunes", 
+      "url": "https://apps.apple.com/app/bug-academy/id123456789"
+    }
+  ],
+  
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  
+  "permissions": [
+    "storage"
+  ],
+  
+  "features": [
+    "CrossOriginIsolated"
+  ]
+}
