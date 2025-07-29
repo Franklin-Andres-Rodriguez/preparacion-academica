@@ -1,0 +1,1259 @@
+/*
+  ==========================================
+  FEEDBACK COMPONENT SYSTEM
+  MILLION DOLLAR BUGS ACADEMY
+  ==========================================
+  
+  Comprehensive feedback system following Sarah Drasner's visual principles for user experience
+  and Don Norman's design of everyday things for intuitive feedback patterns.
+  
+  "Good design is actually a lot harder to notice than poor design, in part because good designs 
+  fit our needs so well that the design is invisible." - Don Norman
+  "Feedback is the breakfast of champions." - Ken Blanchard
+  "Visual feedback tells users what's happening, what just happened, and what's about to happen." - Sarah Drasner
+  
+  Architecture Philosophy:
+  1. Immediate Feedback - Users should always know the system state
+  2. Emotional Design - Feedback should feel encouraging and supportive
+  3. Progressive Disclosure - Information revealed at the right time and context
+  4. Accessibility First - Screen reader compatible with proper ARIA support
+  5. Educational Context - Feedback optimized for learning and skill development
+  
+  Dependencies:
+  - design-tokens.css (must be imported first)
+*/
+
+/*
+  ==========================================
+  1. PROGRESS INDICATORS
+  ==========================================
+  Visual progress tracking following educational learning theory
+*/
+
+/**
+ * Progress Bar Foundation
+ * 
+ * Design decisions explained:
+ * - Rounded appearance feels more friendly and approachable
+ * - Overflow hidden ensures fill animation stays within bounds
+ * - Relative positioning enables absolute positioning of fill element
+ * - Background gradient suggests progression and movement
+ * 
+ * Educational psychology:
+ * - Visual progress increases motivation and completion rates
+ * - Color gradient from beginner to expert reinforces learning journey
+ * - Smooth animations provide satisfying feedback for achievements
+ */
+.progress {
+  background: var(--color-surface-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  height: var(--space-2);
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/**
+ * Progress Fill Element
+ * 
+ * Animation features:
+ * - Smooth width transitions for satisfying progress feedback
+ * - Gradient background reinforces learning stage progression
+ * - Shine effect adds polish and draws attention to progress
+ * - Transform-based animations for better performance
+ */
+.progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    var(--color-stage-beginner), 
+    var(--color-stage-expert));
+  border-radius: var(--radius-full);
+  transition: width var(--transition-timing-slow) var(--transition-easing-smooth);
+  position: relative;
+  min-width: 0.25rem; /* Minimum visible progress */
+}
+
+/**
+ * Progress Shine Effect
+ * Subtle animation that indicates active progress
+ * Draws attention and provides visual interest
+ */
+.progress__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%);
+  animation: progress-shine 2s infinite;
+  border-radius: var(--radius-full);
+}
+
+@keyframes progress-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/**
+ * Progress Size Variants
+ * Different scales for various UI contexts
+ * Maintains proportional relationships
+ */
+.progress--large {
+  height: var(--space-3);
+}
+
+.progress--small {
+  height: var(--space-1);
+}
+
+.progress--xl {
+  height: var(--space-4);
+}
+
+/**
+ * Progress with Labels
+ * Text indicators for current progress state
+ * Accessibility enhancement for screen readers
+ */
+.progress-labeled {
+  position: relative;
+  margin-bottom: var(--space-6);
+}
+
+.progress-labeled__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.progress-labeled__title {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.progress-labeled__value {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/*
+  ==========================================
+  2. CIRCULAR PROGRESS INDICATORS
+  ==========================================
+  Advanced progress visualization for key metrics
+*/
+
+/**
+ * Circular Progress Container
+ * 
+ * SVG-based circular progress for sophisticated progress indication
+ * Particularly effective for completion percentages and skill levels
+ * More engaging than linear progress for achievement contexts
+ */
+.progress-circle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+}
+
+.progress-circle svg {
+  position: absolute;
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.progress-circle__track {
+  fill: none;
+  stroke: var(--color-surface-tertiary);
+  stroke-width: 4;
+}
+
+.progress-circle__fill {
+  fill: none;
+  stroke: var(--color-brand-primary);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--transition-timing-slow) var(--transition-easing-smooth);
+}
+
+/**
+ * Circular Progress Text
+ * Central text display for percentage or value
+ * Properly positioned and styled for readability
+ */
+.progress-circle__text {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+/**
+ * Circular Progress Sizes
+ * Multiple size variants for different contexts
+ */
+.progress-circle--small {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.progress-circle--small .progress-circle__text {
+  font-size: var(--font-size-xs);
+}
+
+.progress-circle--large {
+  width: 6rem;
+  height: 6rem;
+}
+
+.progress-circle--large .progress-circle__text {
+  font-size: var(--font-size-lg);
+}
+
+.progress-circle--large .progress-circle__track,
+.progress-circle--large .progress-circle__fill {
+  stroke-width: 6;
+}
+
+/*
+  ==========================================
+  3. STAGE PROGRESS COMPONENTS
+  ==========================================
+  Educational progression tracking with learning context
+*/
+
+/**
+ * Stage Progress Container
+ * 
+ * Educational features:
+ * - Visual hierarchy showing current learning stage
+ * - Color coding that reinforces skill progression
+ * - Icons that provide immediate recognition
+ * - Descriptive text that explains what each stage means
+ * 
+ * Motivational psychology:
+ * - Clear visualization of progress motivates continued learning
+ * - Stage-based progression feels achievable and structured
+ * - Color progression provides positive reinforcement
+ */
+.stage-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-primary);
+  transition: var(--transition-timing-normal);
+}
+
+.stage-progress:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+/**
+ * Stage Indicator Icon
+ * Visual representation of current learning stage
+ * Color-coded for immediate recognition
+ */
+.stage-progress__indicator {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: var(--font-weight-bold);
+  background: var(--color-stage-beginner);
+  color: var(--color-text-inverse);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/**
+ * Stage Content Area
+ * Text information about current stage
+ * Flexible layout accommodates various content lengths
+ */
+.stage-progress__content {
+  flex: 1;
+  min-width: 0; /* Allows text truncation if needed */
+}
+
+.stage-progress__title {
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-1);
+  color: var(--color-text-primary);
+}
+
+.stage-progress__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/**
+ * Stage-specific Color Variations
+ * Visual progression through learning stages
+ */
+.stage-progress--intermediate .stage-progress__indicator {
+  background: var(--color-stage-intermediate);
+}
+
+.stage-progress--expert .stage-progress__indicator {
+  background: var(--color-stage-expert);
+}
+
+.stage-progress--master .stage-progress__indicator {
+  background: var(--color-stage-master);
+}
+
+/*
+  ==========================================
+  4. NOTIFICATION SYSTEM
+  ==========================================
+  User feedback and alert system following UX best practices
+*/
+
+/**
+ * Notification Foundation
+ * 
+ * Design principles:
+ * - Clear visual hierarchy with icon, content, and actions
+ * - Sufficient padding for readability and touch targets
+ * - Border treatment that provides clear categorization
+ * - Flexible layout accommodates various content types
+ * 
+ * Accessibility features:
+ * - High contrast colors for visibility
+ * - Icon-based categorization for quick recognition
+ * - Proper semantic structure for screen readers
+ * - Keyboard navigation support for interactive elements
+ */
+.notification {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid;
+  position: relative;
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-timing-normal);
+}
+
+.notification:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/**
+ * Notification Type Variations
+ * Color-coded system for different message types
+ * Consistent with broader design system color semantics
+ */
+.notification--success {
+  background: var(--color-surface-success);
+  border-color: var(--color-border-success);
+  color: var(--color-text-success);
+}
+
+.notification--warning {
+  background: var(--color-surface-warning);
+  border-color: var(--color-border-warning);
+  color: var(--color-text-warning);
+}
+
+.notification--error {
+  background: var(--color-surface-danger);
+  border-color: var(--color-border-danger);
+  color: var(--color-text-danger);
+}
+
+.notification--info {
+  background: var(--color-brand-primary-light);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-primary);
+}
+
+/**
+ * Notification Icon
+ * Visual indicator for quick message type recognition
+ * Consistent sizing and positioning across all types
+ */
+.notification__icon {
+  flex-shrink: 0;
+  font-size: 1.2em;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**
+ * Notification Content
+ * Main message area with flexible layout
+ * Accommodates titles, descriptions, and action buttons
+ */
+.notification__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification__title {
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-1);
+  color: inherit;
+}
+
+.notification__description {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-3);
+  color: inherit;
+  opacity: 0.9;
+}
+
+.notification__actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/**
+ * Notification Close Button
+ * Dismissal functionality with proper accessibility
+ * Hover states and keyboard navigation support
+ */
+.notification__close {
+  background: none;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-timing-fast);
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification__close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.notification__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/**
+ * Toast Notifications
+ * Temporary notifications that auto-dismiss
+ * Positioned for minimal disruption to user workflow
+ */
+.toast-container {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-index-tooltip);
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  margin-bottom: var(--space-3);
+  animation: toast-slide-in var(--transition-timing-normal) var(--transition-easing-smooth);
+}
+
+.toast--dismissing {
+  animation: toast-slide-out var(--transition-timing-normal) var(--transition-easing-smooth);
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/*
+  ==========================================
+  5. MODAL SYSTEM
+  ==========================================
+  Dialog and overlay patterns following accessibility guidelines
+*/
+
+/**
+ * Modal Overlay
+ * 
+ * Accessibility requirements:
+ * - Focus trap to prevent tabbing outside modal
+ * - Escape key dismissal
+ * - Backdrop click dismissal (optional)
+ * - Proper ARIA attributes for screen readers
+ * 
+ * UX considerations:
+ * - Backdrop blur creates focus and depth
+ * - Smooth transitions reduce jarring experience
+ * - Centered positioning works across device sizes
+ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: var(--z-index-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-timing-normal) var(--transition-easing-smooth);
+}
+
+.modal-overlay--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/**
+ * Modal Container
+ * 
+ * Design features:
+ * - Maximum width prevents overly wide modals on large screens
+ * - Responsive height management with scrolling for overflow
+ * - Rounded corners and shadow create modern, friendly appearance
+ * - Transform animation provides smooth entrance/exit
+ */
+.modal {
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
+  max-width: 32rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: scale(0.95) translateY(1rem);
+  transition: transform var(--transition-timing-normal) var(--transition-easing-smooth);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-overlay--active .modal {
+  transform: scale(1) translateY(0);
+}
+
+/**
+ * Modal Header
+ * Title area with consistent spacing and typography
+ * Close button positioned for easy access
+ */
+.modal__header {
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--color-border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.modal__title {
+  font: var(--typography-heading-h3);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-timing-fast);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__close:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-secondary);
+}
+
+.modal__close:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/**
+ * Modal Content
+ * Scrollable content area with proper overflow handling
+ * Flexible layout accommodates various content types
+ */
+.modal__content {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/**
+ * Modal Footer
+ * Action buttons with proper spacing and alignment
+ * Consistent with form action patterns
+ */
+.modal__footer {
+  padding: var(--space-4) var(--space-6) var(--space-6);
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  border-top: 1px solid var(--color-border-primary);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .modal {
+    margin: var(--space-2);
+    max-width: none;
+    max-height: 95vh;
+  }
+  
+  .modal__footer {
+    flex-direction: column;
+  }
+  
+  .modal__footer .btn {
+    width: 100%;
+  }
+}
+
+/*
+  ==========================================
+  6. LOADING STATES
+  ==========================================
+  Activity indicators and loading feedback
+*/
+
+/**
+ * Loading Spinner
+ * 
+ * Animation approach:
+ * - CSS-only animation for better performance
+ * - Consistent sizing across different contexts
+ * - High contrast colors for visibility
+ * - Smooth, continuous rotation
+ */
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-border-primary);
+  border-top-color: var(--color-brand-primary);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/**
+ * Spinner Size Variants
+ * Different scales for various UI contexts
+ */
+.spinner--small {
+  width: 1rem;
+  height: 1rem;
+  border-width: 1px;
+}
+
+.spinner--large {
+  width: 3rem;
+  height: 3rem;
+  border-width: 3px;
+}
+
+.spinner--xl {
+  width: 4rem;
+  height: 4rem;
+  border-width: 4px;
+}
+
+/**
+ * Loading Overlay
+ * Full-area loading indicator for complex operations
+ * Prevents interaction during loading states
+ */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-4);
+  z-index: var(--z-index-overlay);
+}
+
+.loading-overlay__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/**
+ * Skeleton Loading
+ * Content placeholder during data loading
+ * Maintains layout stability and user expectations
+ */
+.skeleton {
+  background: linear-gradient(90deg, 
+    var(--color-surface-tertiary) 25%, 
+    var(--color-surface-secondary) 50%, 
+    var(--color-surface-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton--text {
+  height: 1rem;
+  margin-bottom: var(--space-2);
+}
+
+.skeleton--title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: var(--space-3);
+}
+
+.skeleton--paragraph {
+  height: 0.875rem;
+  margin-bottom: var(--space-1);
+}
+
+.skeleton--paragraph:last-child {
+  width: 80%;
+}
+
+.skeleton--avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+}
+
+.skeleton--button {
+  height: 2.5rem;
+  width: 6rem;
+  border-radius: var(--radius-md);
+}
+
+/*
+  ==========================================
+  7. STATUS INDICATORS
+  ==========================================
+  System state communication through visual cues
+*/
+
+/**
+ * Status Badge
+ * Compact status indicators for various system states
+ * Color-coded for immediate recognition
+ */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  border: 1px solid;
+}
+
+.status-badge--online {
+  background: var(--color-surface-success);
+  color: var(--color-text-success);
+  border-color: var(--color-border-success);
+}
+
+.status-badge--offline {
+  background: var(--color-surface-tertiary);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-secondary);
+}
+
+.status-badge--busy {
+  background: var(--color-surface-warning);
+  color: var(--color-text-warning);
+  border-color: var(--color-border-warning);
+}
+
+.status-badge--error {
+  background: var(--color-surface-danger);
+  color: var(--color-text-danger);
+  border-color: var(--color-border-danger);
+}
+
+/**
+ * Status Indicator Dot
+ * Minimal status indication for space-constrained contexts
+ */
+.status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-text-secondary);
+  display: inline-block;
+  position: relative;
+}
+
+.status-dot--online {
+  background: var(--color-success);
+}
+
+.status-dot--busy {
+  background: var(--color-warning);
+}
+
+.status-dot--error {
+  background: var(--color-danger);
+}
+
+.status-dot--pulse {
+  animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/*
+  ==========================================
+  8. ACHIEVEMENT SYSTEM
+  ==========================================
+  Educational progress celebration and motivation
+*/
+
+/**
+ * Achievement Badge
+ * Celebration of learning milestones and accomplishments
+ * Designed to motivate continued learning and engagement
+ */
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: achievement-shine 2s ease-in-out;
+}
+
+@keyframes achievement-shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.achievement-badge__icon {
+  font-size: 1.5em;
+}
+
+.achievement-badge__text {
+  font-size: var(--font-size-sm);
+}
+
+/**
+ * Achievement Unlock Animation
+ * Celebratory animation for new achievements
+ * Creates moment of delight and recognition
+ */
+.achievement-unlock {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: var(--color-surface-primary);
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
+  text-align: center;
+  z-index: var(--z-index-modal);
+  animation: achievement-unlock 3s ease-out forwards;
+}
+
+@keyframes achievement-unlock {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  90% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.achievement-unlock__icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-4);
+}
+
+.achievement-unlock__title {
+  font: var(--typography-heading-h2);
+  color: var(--color-brand-primary);
+  margin-bottom: var(--space-2);
+}
+
+.achievement-unlock__description {
+  font: var(--typography-body-medium);
+  color: var(--color-text-secondary);
+}
+
+/*
+  ==========================================
+  9. ACCESSIBILITY ENHANCEMENTS
+  ==========================================
+  Inclusive design for all users and contexts
+*/
+
+/**
+ * Screen Reader Only Content
+ * Hidden content for assistive technology
+ * Essential for progress and status communication
+ */
+.feedback__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/**
+ * High Contrast Mode Support
+ * Ensures feedback elements remain visible and functional
+ */
+@media (prefers-contrast: high) {
+  .notification,
+  .modal,
+  .progress {
+    border-width: 2px;
+  }
+  
+  .spinner {
+    border-width: 3px;
+  }
+  
+  .status-badge {
+    border-width: 2px;
+  }
+}
+
+/**
+ * Reduced Motion Support
+ * Respects user preferences for minimal animation
+ */
+@media (prefers-reduced-motion: reduce) {
+  .progress__fill::after,
+  .spinner,
+  .skeleton,
+  .status-dot--pulse,
+  .achievement-badge::before,
+  .achievement-unlock {
+    animation: none;
+  }
+  
+  .notification,
+  .modal,
+  .toast {
+    transition: none;
+  }
+  
+  .progress__fill {
+    transition: none;
+  }
+}
+
+/**
+ * Focus Management
+ * Enhanced focus indicators for keyboard navigation
+ */
+.notification:focus-within,
+.modal:focus-within {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/*
+  ==========================================
+  10. RESPONSIVE BEHAVIOR
+  ==========================================
+  Mobile-optimized feedback patterns
+*/
+
+/**
+ * Mobile Adaptations
+ * Touch-friendly interactions and optimized layouts
+ */
+@media (max-width: 640px) {
+  .toast-container {
+    top: var(--space-2);
+    right: var(--space-2);
+    left: var(--space-2);
+    max-width: none;
+  }
+  
+  .notification {
+    padding: var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+  
+  .stage-progress {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-4);
+  }
+  
+  .stage-progress__indicator {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5em;
+  }
+  
+  .progress-circle {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .progress-circle--large {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+/*
+  ==========================================
+  FEEDBACK SYSTEM COMPLETE
+  ==========================================
+  
+  This comprehensive feedback system demonstrates:
+  ✅ Immediate Feedback - Users always know system state
+  ✅ Emotional Design - Feedback feels encouraging and supportive
+  ✅ Progressive Disclosure - Information revealed at right time
+  ✅ Accessibility First - Screen reader compatible with ARIA
+  ✅ Educational Context - Optimized for learning and development
+  ✅ Performance Conscious - CSS animations over JavaScript
+  ✅ Responsive Design - Works across all device sizes
+  ✅ Inclusive Design - High contrast and reduced motion support
+  ✅ Modern UX Patterns - Toast notifications, modals, progress
+  ✅ Motivational Elements - Achievement system for engagement
+  
+  JavaScript Integration Examples:
+  
+  // Progress bar update
+  function updateProgress(element, percentage) {
+    const fill = element.querySelector('.progress__fill');
+    const label = element.querySelector('.progress-labeled__value');
+    
+    fill.style.width = `${percentage}%`;
+    if (label) label.textContent = `${percentage}%`;
+    
+    // Update ARIA attributes for accessibility
+    element.setAttribute('aria-valuenow', percentage);
+  }
+  
+  // Show toast notification
+  function showToast(message, type = 'info', duration = 5000) {
+    const container = document.querySelector('.toast-container');
+    const toast = document.createElement('div');
+    toast.className = `notification notification--${type} toast`;
+    toast.innerHTML = `
+      <div class="notification__icon">${getIconForType(type)}</div>
+      <div class="notification__content">
+        <div class="notification__description">${message}</div>
+      </div>
+      <button class="notification__close" onclick="dismissToast(this)">×</button>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.add('toast--dismissing');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
+  
+  // Modal management
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    const overlay = modal.querySelector('.modal-overlay');
+    
+    overlay.classList.add('modal-overlay--active');
+    document.body.style.overflow = 'hidden';
+    
+    // Focus management
+    const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) firstFocusable.focus();
+  }
+  
+  // Achievement unlock
+  function unlockAchievement(title, description, icon) {
+    const achievement = document.createElement('div');
+    achievement.className = 'achievement-unlock';
+    achievement.innerHTML = `
+      <div class="achievement-unlock__icon">${icon}</div>
+      <h3 class="achievement-unlock__title">${title}</h3>
+      <p class="achievement-unlock__description">${description}</p>
+    `;
+    
+    document.body.appendChild(achievement);
+    setTimeout(() => achievement.remove(), 3000);
+  }
+  
+  Usage Examples:
+  
+  <!-- Progress tracking -->
+  <div class="progress-labeled">
+    <div class="progress-labeled__info">
+      <span class="progress-labeled__title">Course Progress</span>
+      <span class="progress-labeled__value">75%</span>
+    </div>
+    <div class="progress" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress__fill" style="width: 75%"></div>
+    </div>
+  </div>
+  
+  <!-- Stage progress -->
+  <div class="stage-progress stage-progress--expert">
+    <div class="stage-progress__indicator">⚡</div>
+    <div class="stage-progress__content">
+      <div class="stage-progress__title">Expert Level</div>
+      <div class="stage-progress__description">Advanced concepts and real-world applications</div>
+    </div>
+  </div>
+  
+  <!-- Notification -->
+  <div class="notification notification--success">
+    <div class="notification__icon">✅</div>
+    <div class="notification__content">
+      <div class="notification__title">Code Executed Successfully!</div>
+      <div class="notification__description">Your solution passed all test cases.</div>
+    </div>
+    <button class="notification__close">×</button>
+  </div>
+  
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+  
+  <!-- Modal -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal">
+      <div class="modal__header">
+        <h3 class="modal__title">Confirm Action</h3>
+        <button class="modal__close">×</button>
+      </div>
+      <div class="modal__content">
+        <p>Are you sure you want to reset your progress?</p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary">Cancel</button>
+        <button class="btn btn--primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  Following Sarah Drasner's UX principles and Don Norman's design philosophy:
+  "Great feedback is invisible when everything works, but essential when guidance is needed."
+*/

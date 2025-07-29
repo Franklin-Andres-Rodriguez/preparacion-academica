@@ -1,0 +1,413 @@
+/*
+  ==========================================
+  DESIGN TOKENS & FOUNDATIONS
+  MILLION DOLLAR BUGS ACADEMY
+  ==========================================
+  
+  Sistema de tokens de diseño siguiendo principios de Design Systems.
+  Basado en Brad Frost's Atomic Design y Material Design Guidelines.
+  
+  "Design is not just what it looks like and feels like. Design is how it works." - Steve Jobs
+  "Consistency is one of the most powerful usability principles." - Jakob Nielsen
+  
+  Architecture Philosophy:
+  1. Single Source of Truth - All design decisions centralized
+  2. Systematic Scaling - Mathematical relationships between values
+  3. Semantic Naming - Names reveal purpose and context
+  4. Future-Proof - Easy to maintain and evolve
+  5. Cross-Platform - Values work across web, mobile, and desktop
+*/
+
+:root {
+  /*
+    ==========================================
+    1. COLOR SYSTEM
+    ==========================================
+    Systematic color palette following WCAG 2.1 accessibility guidelines
+  */
+  
+  /* Brand Colors - Primary Identity */
+  --color-brand-primary: #2563eb;      /* Blue 600 - Main brand color */
+  --color-brand-primary-light: #dbeafe; /* Blue 100 - Light variant */
+  --color-brand-primary-hover: #1d4ed8; /* Blue 700 - Hover state */
+  --color-brand-primary-active: #1e40af; /* Blue 800 - Active state */
+  --color-brand-secondary: #7c3aed;     /* Violet 600 - Secondary brand */
+  
+  /* Semantic Colors - Contextual Meaning */
+  --color-success: #059669;           /* Emerald 600 */
+  --color-success-light: #d1fae5;     /* Emerald 100 */
+  --color-warning: #d97706;           /* Amber 600 */
+  --color-warning-light: #fef3c7;     /* Amber 100 */
+  --color-danger: #dc2626;            /* Red 600 */
+  --color-danger-light: #fee2e2;      /* Red 100 */
+  --color-info: --color-brand-primary; /* Alias to brand */
+  
+  /* Neutral Colors - Foundation Palette */
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-black: #000000;
+  
+  /* Text Colors - Semantic Hierarchy */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-disabled: var(--color-gray-400);
+  --color-text-inverse: var(--color-white);
+  --color-text-accent: var(--color-brand-primary);
+  --color-text-success: #065f46;      /* Emerald 800 */
+  --color-text-warning: #92400e;      /* Amber 800 */
+  --color-text-danger: #991b1b;       /* Red 800 */
+  
+  /* Surface Colors - Background Layers */
+  --color-surface-primary: var(--color-white);
+  --color-surface-secondary: var(--color-gray-50);
+  --color-surface-tertiary: var(--color-gray-100);
+  --color-surface-inverse: var(--color-gray-900);
+  --color-surface-success: var(--color-success-light);
+  --color-surface-warning: var(--color-warning-light);
+  --color-surface-danger: var(--color-danger-light);
+  
+  /* Border Colors - Separation & Structure */
+  --color-border-primary: var(--color-gray-200);
+  --color-border-secondary: var(--color-gray-300);
+  --color-border-success: var(--color-success);
+  --color-border-warning: var(--color-warning);
+  --color-border-danger: var(--color-danger);
+  
+  /* Background Colors - Page Level */
+  --color-bg-primary: var(--color-white);
+  --color-bg-secondary: var(--color-gray-50);
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Educational Stage Colors - Learning Progression */
+  --color-stage-beginner: #10b981;     /* Emerald 500 - Safe to learn */
+  --color-stage-intermediate: #f59e0b; /* Amber 500 - Moderate complexity */
+  --color-stage-expert: #ef4444;       /* Red 500 - High complexity */
+  --color-stage-master: #8b5cf6;       /* Violet 500 - Master level */
+  
+  /* Cost Indicator Colors - Project Impact */
+  --color-cost-safe: var(--color-stage-beginner);
+  --color-cost-safe-dark: #059669;     /* Emerald 600 */
+  --color-cost-expensive: var(--color-stage-intermediate);
+  --color-cost-expensive-dark: #d97706; /* Amber 600 */
+  --color-cost-critical: var(--color-stage-expert);
+  --color-cost-critical-dark: #dc2626;  /* Red 600 */
+  
+  /*
+    ==========================================
+    2. TYPOGRAPHY SYSTEM
+    ==========================================
+    Systematic type scale following modular scale principles
+  */
+  
+  /* Font Families - Carefully chosen for readability */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+  
+  /* Font Weights - Semantic Hierarchy */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  /* Font Sizes - Modular Scale (1.250 - Major Third) */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px - Base size */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  --font-size-6xl: 3.75rem;   /* 60px */
+  
+  /* Line Heights - Optimal Reading Experience */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+  
+  /* Letter Spacing - Subtle Typography Enhancement */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.05em;
+  
+  /* Typography Compositions - Semantic Text Styles */
+  --typography-display-large: var(--font-weight-extrabold) var(--font-size-5xl)/var(--line-height-tight) var(--font-family-primary);
+  --typography-display-medium: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-tight) var(--font-family-primary);
+  --typography-heading-h1: var(--font-weight-bold) var(--font-size-3xl)/var(--line-height-tight) var(--font-family-primary);
+  --typography-heading-h2: var(--font-weight-semibold) var(--font-size-2xl)/var(--line-height-normal) var(--font-family-primary);
+  --typography-heading-h3: var(--font-weight-semibold) var(--font-size-xl)/var(--line-height-normal) var(--font-family-primary);
+  --typography-heading-h4: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-normal) var(--font-family-primary);
+  --typography-heading-h5: var(--font-weight-medium) var(--font-size-base)/var(--line-height-normal) var(--font-family-primary);
+  --typography-body-large: var(--font-weight-normal) var(--font-size-lg)/var(--line-height-relaxed) var(--font-family-primary);
+  --typography-body-medium: var(--font-weight-normal) var(--font-size-base)/var(--line-height-relaxed) var(--font-family-primary);
+  --typography-body-small: var(--font-weight-normal) var(--font-size-sm)/var(--line-height-normal) var(--font-family-primary);
+  
+  /*
+    ==========================================
+    3. SPACING SYSTEM
+    ==========================================
+    Consistent spacing based on 4px base unit
+  */
+  
+  --space-0: 0;
+  --space-0_5: 0.125rem;  /* 2px */
+  --space-1: 0.25rem;     /* 4px - Base unit */
+  --space-1_5: 0.375rem;  /* 6px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-4: 1rem;        /* 16px */
+  --space-5: 1.25rem;     /* 20px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-8: 2rem;        /* 32px */
+  --space-10: 2.5rem;     /* 40px */
+  --space-12: 3rem;       /* 48px */
+  --space-16: 4rem;       /* 64px */
+  --space-20: 5rem;       /* 80px */
+  --space-24: 6rem;       /* 96px */
+  --space-32: 8rem;       /* 128px */
+  
+  /* Responsive Section Spacing */
+  --space-section-mobile: var(--space-16);   /* 64px */
+  --space-section-tablet: var(--space-20);   /* 80px */
+  --space-section-desktop: var(--space-24);  /* 96px */
+  
+  /*
+    ==========================================
+    4. LAYOUT SYSTEM
+    ==========================================
+    Container sizes and breakpoints
+  */
+  
+  /* Container Sizes - Content Width Management */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  
+  /* Breakpoints - Responsive Design Points */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /*
+    ==========================================
+    5. BORDER RADIUS SYSTEM
+    ==========================================
+    Consistent corner rounding
+  */
+  
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.25rem;    /* 4px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-full: 9999px;   /* Fully rounded */
+  
+  /*
+    ==========================================
+    6. ELEVATION SYSTEM
+    ==========================================
+    Layered shadow system for depth
+  */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /*
+    ==========================================
+    7. ANIMATION SYSTEM
+    ==========================================
+    Consistent timing and easing
+  */
+  
+  /* Timing Functions - Natural Movement */
+  --transition-easing-linear: linear;
+  --transition-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Duration Values - Perceived Performance */
+  --transition-timing-fast: 150ms;
+  --transition-timing-normal: 250ms;
+  --transition-timing-slow: 350ms;
+  
+  /*
+    ==========================================
+    8. Z-INDEX SYSTEM
+    ==========================================
+    Layering hierarchy management
+  */
+  
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-tooltip: 1030;
+  --z-index-modal: 1050;
+  --z-index-overlay: 1060;
+  
+  /*
+    ==========================================
+    9. COMPONENT-SPECIFIC TOKENS
+    ==========================================
+    Specialized values for component systems
+  */
+  
+  /* Button System */
+  --button-height-small: 2rem;        /* 32px */
+  --button-height-medium: 2.5rem;     /* 40px */
+  --button-height-large: 3rem;        /* 48px */
+  --button-padding-x-small: var(--space-3);
+  --button-padding-x-medium: var(--space-4);
+  --button-padding-x-large: var(--space-6);
+  --button-radius: var(--radius-md);
+  --button-transition: all var(--transition-timing-fast) var(--transition-easing-smooth);
+  
+  /* Card System */
+  --card-padding: var(--space-6);
+  --card-radius: var(--radius-lg);
+  --card-border: 1px solid var(--color-border-primary);
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+  --card-transition: all var(--transition-timing-normal) var(--transition-easing-smooth);
+  
+  /* Form System */
+  --form-input-height: 2.5rem;        /* 40px */
+  --form-input-padding-x: var(--space-3);
+  --form-input-radius: var(--radius-md);
+  --form-input-border: 1px solid var(--color-border-primary);
+  --form-input-border-focus: 2px solid var(--color-brand-primary);
+  --form-input-transition: all var(--transition-timing-fast) var(--transition-easing-smooth);
+}
+
+/*
+  ==========================================
+  GLOBAL RESET & BASE STYLES
+  ==========================================
+  Modern CSS reset following best practices
+*/
+
+/* Box Sizing Reset - Predictable Sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove Default Margins */
+* {
+  margin: 0;
+}
+
+/* Body Defaults - Optimal Reading */
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Media Defaults - Responsive & Accessible */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form Element Consistency */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Focus Management - Accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Support - Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Support - Accessibility */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: var(--color-black);
+    --color-text-secondary: var(--color-gray-800);
+    --color-border-primary: var(--color-gray-400);
+  }
+}
+
+/* Dark Mode Support - Future Enhancement */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode tokens would go here */
+    /* Currently using light mode as default */
+  }
+}
+
+/*
+  ==========================================
+  DESIGN TOKENS COMPLETE
+  ==========================================
+  
+  This foundation provides:
+  ✅ Systematic color palette with semantic naming
+  ✅ Modular typography scale with composed styles  
+  ✅ Consistent spacing based on mathematical scale
+  ✅ Responsive layout system with containers
+  ✅ Elevation system for visual hierarchy
+  ✅ Animation timing for natural interactions
+  ✅ Z-index management for layering
+  ✅ Component-specific token specialization
+  ✅ Modern CSS reset with accessibility support
+  ✅ Future-ready architecture for theming
+  
+  Next files will import and use these tokens for:
+  - Button components (buttons.css)
+  - Card components (cards.css)
+  - Navigation components (navigation.css)
+  - Form components (forms.css)
+  - And all other component modules
+  
+  "A design system is a single source of truth which groups all the elements 
+  that will allow the teams to design, realize and develop a product." - Alla Kholmatova
+*/

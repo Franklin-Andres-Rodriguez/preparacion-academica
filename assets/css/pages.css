@@ -1,0 +1,1444 @@
+/*
+  ==========================================
+  PAGE SECTIONS SYSTEM
+  MILLION DOLLAR BUGS ACADEMY
+  ==========================================
+  
+  Comprehensive page section system following conversion-focused landing page design principles
+  and educational marketing best practices from companies like Coursera, Udacity, and Khan Academy.
+  
+  "A landing page should tell a story that guides visitors toward a single, clear action." - Oli Gardner
+  "Every section should answer the question: 'What's in it for me?'" - Joanna Wiebe
+  "Great educational marketing combines inspiration with information." - Seth Godin
+  
+  Architecture Philosophy:
+  1. Conversion Focus - Every section drives toward educational engagement
+  2. Progressive Disclosure - Information revealed in logical learning sequence
+  3. Social Proof Integration - Building trust through community and results
+  4. Mobile-First Design - Optimized for all devices and screen sizes
+  5. Educational Psychology - Leveraging motivation and achievement psychology
+  
+  Dependencies:
+  - design-tokens.css (must be imported first)
+  - All component systems (buttons, cards, navigation, etc.)
+*/
+
+/*
+  ==========================================
+  1. HERO SECTION
+  ==========================================
+  First impression and primary value proposition delivery
+*/
+
+/**
+ * Hero Section Container
+ * 
+ * Conversion psychology principles:
+ * - Above-the-fold positioning for immediate impact
+ * - Clear value proposition within 8 seconds of arrival
+ * - Visual hierarchy that guides eye movement
+ * - Strong call-to-action placement and emphasis
+ * 
+ * Design decisions:
+ * - Gradient background creates depth and visual interest
+ * - Responsive spacing ensures optimal viewing on all devices
+ * - Grid layout enables sophisticated content arrangement
+ * - Brand colors establish trust and recognition
+ * 
+ * Educational marketing:
+ * - Addresses pain points of learning programming
+ * - Promises specific, measurable outcomes
+ * - Creates urgency around skill development
+ * - Builds confidence through professional presentation
+ */
+.hero {
+  background: linear-gradient(135deg, 
+    var(--color-brand-primary) 0%, 
+    var(--color-brand-secondary) 100%);
+  color: var(--color-text-inverse);
+  padding: var(--space-section-mobile) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+/**
+ * Hero Container
+ * Responsive content organization and spacing management
+ * Grid system enables sophisticated layouts across breakpoints
+ */
+.hero__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .hero__container {
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-12);
+  }
+}
+
+/**
+ * Hero Content Area
+ * Primary messaging and call-to-action zone
+ * Optimized for conversion and engagement
+ */
+.hero__content {
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hero__content {
+    text-align: left;
+  }
+}
+
+/**
+ * Hero Title
+ * Primary headline optimized for impact and SEO
+ * Progressive typography scaling for responsive design
+ */
+.hero__title {
+  font: var(--typography-display-medium);
+  margin-bottom: var(--space-6);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-extrabold);
+}
+
+@media (min-width: 768px) {
+  .hero__title {
+    font: var(--typography-display-large);
+  }
+}
+
+/**
+ * Hero Title Accent
+ * Animated element that adds personality and draws attention
+ * Bug emoji reinforces brand identity and creates memorability
+ */
+.hero__title-accent {
+  display: inline-block;
+  margin-right: var(--space-3);
+  font-size: 1.2em;
+  animation: pulse-bug 2s infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+@keyframes pulse-bug {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  }
+  50% { 
+    transform: scale(1.1) rotate(-5deg); 
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+  }
+}
+
+/**
+ * Hero Subtitle
+ * Supporting value proposition and benefit communication
+ * Balanced length for readability and impact
+ */
+.hero__subtitle {
+  font: var(--typography-body-large);
+  margin-bottom: var(--space-8);
+  opacity: 0.9;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: var(--line-height-relaxed);
+}
+
+@media (min-width: 1024px) {
+  .hero__subtitle {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/**
+ * Hero Actions
+ * Call-to-action button group optimized for conversion
+ * Primary and secondary actions with clear hierarchy
+ */
+.hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero__actions {
+    justify-content: flex-start;
+  }
+}
+
+/**
+ * Hero Visual Area
+ * Supporting imagery and interactive elements
+ * Code preview builds credibility and sets expectations
+ */
+.hero__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero__code-preview {
+  width: 100%;
+  max-width: 400px;
+  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+  transition: transform var(--transition-timing-slow) var(--transition-easing-smooth);
+  box-shadow: var(--shadow-2xl);
+  border-radius: var(--radius-lg);
+}
+
+.hero__code-preview:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  box-shadow: var(--shadow-2xl);
+}
+
+/*
+  ==========================================
+  2. METHODOLOGY SECTION
+  ==========================================
+  Educational approach explanation and differentiation
+*/
+
+/**
+ * Methodology Section
+ * 
+ * Educational marketing strategy:
+ * - Explains unique teaching approach
+ * - Addresses common learning pain points
+ * - Builds confidence in methodology
+ * - Differentiates from competitors
+ * 
+ * Trust-building elements:
+ * - Expert endorsements through quotes
+ * - Systematic approach visualization
+ * - Clear learning outcomes
+ * - Professional presentation
+ */
+.methodology {
+  padding: var(--space-section-mobile) 0;
+  background: var(--color-bg-secondary);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .methodology {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .methodology {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+.methodology__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/**
+ * Methodology Header
+ * Section introduction with compelling copy
+ * Centered layout for maximum impact
+ */
+.methodology__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.methodology__title {
+  font: var(--typography-heading-h2);
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
+}
+
+.methodology__title-accent {
+  margin-right: var(--space-3);
+  color: var(--color-brand-primary);
+  font-size: 1.2em;
+}
+
+.methodology__subtitle {
+  font: var(--typography-body-large);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/**
+ * Methodology Grid
+ * Four-pillar approach visualization
+ * Responsive grid that adapts to screen size
+ */
+.methodology__grid {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .methodology__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .methodology__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/**
+ * Methodology Cards
+ * Individual pillar explanation with visual hierarchy
+ * Icon-based design for quick recognition and memorability
+ */
+.methodology__card {
+  background: var(--color-surface-primary);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: var(--transition-timing-normal);
+  border: 1px solid var(--color-border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.methodology__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--color-brand-primary);
+  transform: scaleX(0);
+  transition: transform var(--transition-timing-normal);
+}
+
+.methodology__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.methodology__card:hover::before {
+  transform: scaleX(1);
+}
+
+.methodology__card-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+  display: block;
+  color: var(--color-brand-primary);
+}
+
+.methodology__card-title {
+  font: var(--typography-heading-h4);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-primary);
+}
+
+.methodology__card-description {
+  font: var(--typography-body-small);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/*
+  ==========================================
+  3. ROADMAP PREVIEW SECTION
+  ==========================================
+  Learning path visualization and progression preview
+*/
+
+/**
+ * Roadmap Preview Section
+ * 
+ * Educational psychology:
+ * - Shows clear learning progression
+ * - Reduces overwhelm through staged approach
+ * - Creates excitement about skill development
+ * - Provides social proof through completion rates
+ * 
+ * Conversion strategy:
+ * - Demonstrates value before asking for commitment
+ * - Creates urgency through structured progression
+ * - Shows achievable milestones
+ * - Builds confidence in learning path
+ */
+.roadmap-preview {
+  padding: var(--space-section-mobile) 0;
+  background: var(--color-bg-primary);
+}
+
+@media (min-width: 768px) {
+  .roadmap-preview {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .roadmap-preview {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+.roadmap-preview__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.roadmap-preview__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.roadmap-preview__title {
+  font: var(--typography-heading-h2);
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
+}
+
+.roadmap-preview__title-accent {
+  margin-right: var(--space-3);
+  color: var(--color-brand-primary);
+}
+
+.roadmap-preview__subtitle {
+  font: var(--typography-body-large);
+  color: var(--color-text-secondary);
+}
+
+/**
+ * Roadmap Stages Grid
+ * Four-stage learning progression visualization
+ * Color-coded stages create clear mental model
+ */
+.roadmap-preview__stages {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-12);
+}
+
+@media (min-width: 640px) {
+  .roadmap-preview__stages {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .roadmap-preview__stages {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.roadmap-preview__cta {
+  text-align: center;
+}
+
+/**
+ * Stage Cards
+ * Individual learning stage presentation
+ * Progressive difficulty visualization through color coding
+ */
+.stage-card {
+  background: var(--color-surface-primary);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  transition: var(--transition-timing-normal);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.stage-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-primary);
+}
+
+/**
+ * Stage Card Color Indicators
+ * Top border color coding for quick stage recognition
+ * Progressive color scheme reinforces difficulty progression
+ */
+.stage-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-stage-beginner);
+}
+
+.stage-card--beginner::before {
+  background: var(--color-stage-beginner);
+}
+
+.stage-card--intermediate::before {
+  background: var(--color-stage-intermediate);
+}
+
+.stage-card--expert::before {
+  background: var(--color-stage-expert);
+}
+
+.stage-card--master::before {
+  background: var(--color-stage-master);
+}
+
+/**
+ * Stage Indicators
+ * Circular badges showing stage number and visual hierarchy
+ * Color-coded to match stage progression system
+ */
+.stage-card__indicator {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  background: var(--color-stage-beginner);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto var(--space-4);
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-md);
+}
+
+.stage-card--intermediate .stage-card__indicator {
+  background: var(--color-stage-intermediate);
+}
+
+.stage-card--expert .stage-card__indicator {
+  background: var(--color-stage-expert);
+}
+
+.stage-card--master .stage-card__indicator {
+  background: var(--color-stage-master);
+}
+
+.stage-card__title {
+  font: var(--typography-heading-h4);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-primary);
+}
+
+.stage-card__description {
+  font: var(--typography-body-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-relaxed);
+}
+
+/**
+ * Stage Card Cost Indicator
+ * Educational investment visualization
+ * Builds value perception and manages expectations
+ */
+.stage-card__cost {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-accent);
+  font-size: var(--font-size-sm);
+  background: var(--color-surface-secondary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  text-align: center;
+  display: inline-block;
+}
+
+/*
+  ==========================================
+  4. STATISTICS SECTION
+  ==========================================
+  Social proof and credibility building through numbers
+*/
+
+/**
+ * Statistics Section
+ * 
+ * Social proof strategy:
+ * - Demonstrates platform success and credibility
+ * - Shows community size and engagement
+ * - Builds trust through concrete numbers
+ * - Creates FOMO (fear of missing out)
+ * 
+ * Trust indicators:
+ * - Student count shows popularity
+ * - Completion rates show effectiveness
+ * - Job placement shows real-world value
+ * - Satisfaction scores show quality
+ */
+.stats {
+  padding: var(--space-section-mobile) 0;
+  background: var(--color-bg-secondary);
+}
+
+@media (min-width: 768px) {
+  .stats {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+.stats__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.stats__title {
+  text-align: center;
+  margin-bottom: var(--space-8);
+  font: var(--typography-heading-h2);
+  color: var(--color-text-primary);
+}
+
+/**
+ * Statistics Grid
+ * Responsive layout for key performance indicators
+ * Auto-fitting ensures optimal display across screen sizes
+ */
+.stats__grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/**
+ * Stat Cards
+ * Individual metric presentation with emphasis on numbers
+ * Large typography draws attention to impressive figures
+ */
+.stat-card {
+  background: var(--color-surface-primary);
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: var(--transition-timing-normal);
+  border: 1px solid var(--color-border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2rem;
+  height: 4px;
+  background: var(--color-brand-primary);
+  border-radius: 0 0 var(--radius-full) var(--radius-full);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/**
+ * Stat Card Values
+ * Large, prominent numbers that build credibility
+ * Color and typography emphasize importance
+ */
+.stat-card__value {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary);
+  margin-bottom: var(--space-2);
+  display: block;
+  line-height: var(--line-height-tight);
+}
+
+@media (min-width: 768px) {
+  .stat-card__value {
+    font-size: var(--font-size-5xl);
+  }
+}
+
+.stat-card__label {
+  font: var(--typography-body-small);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: var(--font-weight-medium);
+}
+
+/*
+  ==========================================
+  5. FOOTER SECTION
+  ==========================================
+  Site-wide navigation and company information
+*/
+
+/**
+ * Footer Section
+ * 
+ * Information architecture:
+ * - Primary brand information and description
+ * - Secondary navigation links
+ * - Legal and policy links
+ * - Social media connections
+ * - Contact information
+ * 
+ * SEO benefits:
+ * - Internal linking structure
+ * - Brand reinforcement
+ * - Trust signals through comprehensive information
+ * - Social proof through social media links
+ */
+.footer {
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  padding: var(--space-16) 0 var(--space-8);
+}
+
+.footer__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/**
+ * Footer Content Layout
+ * Two-column responsive layout for information organization
+ * Brand section and navigation section with clear hierarchy
+ */
+.footer__content {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .footer__content {
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-12);
+  }
+}
+
+/**
+ * Footer Brand Section
+ * Primary company information and value proposition
+ * Consistent with header branding for recognition
+ */
+.footer__brand {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footer__brand {
+    text-align: left;
+  }
+}
+
+.footer__logo {
+  font-size: 2rem;
+  margin-right: var(--space-3);
+  display: inline-block;
+}
+
+.footer__title {
+  font: var(--typography-heading-h3);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .footer__title {
+    justify-content: flex-start;
+  }
+}
+
+.footer__description {
+  font: var(--typography-body-medium);
+  color: var(--color-text-inverse);
+  opacity: 0.8;
+  max-width: 28rem;
+  line-height: var(--line-height-relaxed);
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .footer__description {
+    margin: 0;
+  }
+}
+
+/**
+ * Footer Navigation
+ * Secondary navigation links organized by category
+ * Improves site discoverability and SEO
+ */
+.footer__nav {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.footer__nav-section {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footer__nav-section {
+    text-align: left;
+  }
+}
+
+.footer__nav-title {
+  font: var(--typography-heading-h5);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-inverse);
+}
+
+.footer__nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__nav-item {
+  margin-bottom: var(--space-2);
+}
+
+.footer__nav-link {
+  display: block;
+  color: var(--color-text-inverse);
+  text-decoration: none;
+  opacity: 0.8;
+  padding: var(--space-1) 0;
+  transition: var(--transition-timing-fast);
+  font-size: var(--font-size-sm);
+}
+
+.footer__nav-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  transform: translateX(4px);
+}
+
+/**
+ * Footer Bottom Section
+ * Legal information and social media links
+ * Copyright and additional trust signals
+ */
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .footer__bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.footer__copyright {
+  font: var(--typography-body-small);
+  color: var(--color-text-inverse);
+  opacity: 0.7;
+}
+
+/**
+ * Footer Social Links
+ * Social media presence and community building
+ * Icon-based design for universal recognition
+ */
+.footer__links {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.footer__social {
+  color: var(--color-text-inverse);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: var(--transition-timing-fast);
+  font-size: 1.2rem;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.footer__social:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/*
+  ==========================================
+  6. TESTIMONIALS SECTION
+  ==========================================
+  Social proof through student success stories
+*/
+
+/**
+ * Testimonials Section
+ * 
+ * Social proof strategy:
+ * - Real student outcomes and experiences
+ * - Credibility through authentic stories
+ * - Emotional connection through personal narratives
+ * - Visual design that builds trust
+ * 
+ * Conversion psychology:
+ * - Reduces risk perception through peer validation
+ * - Shows achievable outcomes for similar people
+ * - Creates emotional connection to success
+ * - Builds community feeling and belonging
+ */
+.testimonials {
+  padding: var(--space-section-mobile) 0;
+  background: var(--color-bg-primary);
+}
+
+@media (min-width: 768px) {
+  .testimonials {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+.testimonials__container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.testimonials__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.testimonials__title {
+  font: var(--typography-heading-h2);
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
+}
+
+.testimonials__subtitle {
+  font: var(--typography-body-large);
+  color: var(--color-text-secondary);
+}
+
+/**
+ * Testimonials Grid
+ * Three-column layout showcasing diverse success stories
+ * Responsive design adapts to screen constraints
+ */
+.testimonials__grid {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/**
+ * Testimonial Cards
+ * Individual success story presentation
+ * Professional design builds credibility
+ */
+.testimonial-card {
+  background: var(--color-surface-primary);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-primary);
+  position: relative;
+  transition: var(--transition-timing-normal);
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  font-size: 3rem;
+  color: var(--color-brand-primary);
+  opacity: 0.3;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-card__content {
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.testimonial-card__quote {
+  font: var(--typography-body-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-relaxed);
+  font-style: italic;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.testimonial-card__name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-0_5);
+}
+
+.testimonial-card__role {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/*
+  ==========================================
+  7. FAQ SECTION
+  ==========================================
+  Address common concerns and objections
+*/
+
+/**
+ * FAQ Section
+ * 
+ * Conversion optimization:
+ * - Addresses common objections before they arise
+ * - Reduces purchase anxiety through information
+ * - Shows transparency and builds trust
+ * - Improves SEO through question-based content
+ * 
+ * User experience:
+ * - Expandable format saves space
+ * - Easy scanning of relevant questions
+ * - Progressive disclosure of information
+ * - Mobile-optimized interaction
+ */
+.faq {
+  padding: var(--space-section-mobile) 0;
+  background: var(--color-bg-secondary);
+}
+
+@media (min-width: 768px) {
+  .faq {
+    padding: var(--space-section-tablet) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .faq {
+    padding: var(--space-section-desktop) 0;
+  }
+}
+
+.faq__container {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.faq__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.faq__title {
+  font: var(--typography-heading-h2);
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
+}
+
+.faq__subtitle {
+  font: var(--typography-body-large);
+  color: var(--color-text-secondary);
+}
+
+/**
+ * FAQ Items
+ * Expandable question-answer pairs
+ * Interactive design encourages exploration
+ */
+.faq__item {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  overflow: hidden;
+  transition: var(--transition-timing-normal);
+}
+
+.faq__item:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.faq__question {
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  background: none;
+  border: none;
+  text-align: left;
+  font: var(--typography-body-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-timing-fast);
+}
+
+.faq__question:hover {
+  background: var(--color-surface-secondary);
+}
+
+.faq__question::after {
+  content: '+';
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary);
+  transition: transform var(--transition-timing-fast);
+}
+
+.faq__question[aria-expanded="true"]::after {
+  transform: rotate(45deg);
+}
+
+.faq__answer {
+  padding: 0 var(--space-6) var(--space-4);
+  font: var(--typography-body-medium);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  display: none;
+}
+
+.faq__answer--open {
+  display: block;
+  animation: faq-slide-down var(--transition-timing-normal) ease-out;
+}
+
+@keyframes faq-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*
+  ==========================================
+  8. RESPONSIVE OPTIMIZATIONS
+  ==========================================
+  Mobile-first responsive behavior across all sections
+*/
+
+/**
+ * Mobile Optimizations
+ * Touch-friendly interactions and optimized layouts
+ * Performance considerations for mobile devices
+ */
+@media (max-width: 640px) {
+  .hero__title {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-tight);
+  }
+  
+  .hero__subtitle {
+    font-size: var(--font-size-base);
+  }
+  
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .methodology__grid,
+  .roadmap-preview__stages,
+  .stats__grid,
+  .testimonials__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .stage-card,
+  .methodology__card,
+  .stat-card,
+  .testimonial-card {
+    padding: var(--space-4);
+  }
+  
+  .stage-card__indicator {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+/**
+ * Print Styles
+ * Optimized appearance for printed materials
+ * Educational content often needs print versions
+ */
+@media print {
+  .hero,
+  .methodology,
+  .roadmap-preview,
+  .stats,
+  .testimonials,
+  .faq,
+  .footer {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    padding: var(--space-4) 0 !important;
+  }
+  
+  .hero__actions,
+  .footer__links {
+    display: none;
+  }
+  
+  .stage-card,
+  .methodology__card,
+  .stat-card,
+  .testimonial-card,
+  .faq__item {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
+/*
+  ==========================================
+  PAGE SECTIONS SYSTEM COMPLETE
+  ==========================================
+  
+  This comprehensive page sections system demonstrates:
+  ✅ Conversion Focus - Every section drives toward educational engagement
+  ✅ Progressive Disclosure - Information revealed in logical sequence
+  ✅ Social Proof Integration - Building trust through community and results
+  ✅ Mobile-First Design - Optimized for all devices and screen sizes
+  ✅ Educational Psychology - Leveraging motivation and achievement patterns
+  ✅ SEO Optimization - Structured content for search engine visibility
+  ✅ Performance Conscious - Efficient CSS with minimal layout thrash
+  ✅ Accessibility First - Screen reader compatible with ARIA support
+  ✅ Brand Consistency - Unified visual language across all sections
+  ✅ Conversion Optimization - Strategic placement of trust signals and CTAs
+  
+  Usage Example - Complete Landing Page Structure:
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero__container">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          <span class="hero__title-accent">🐛</span>
+          Million Dollar Bugs Academy
+        </h1>
+        <p class="hero__subtitle">
+          Transform critical software bugs into career-defining learning experiences.
+        </p>
+        <div class="hero__actions">
+          <button class="btn btn--primary btn--large">Start Learning</button>
+          <button class="btn btn--secondary btn--large">View Roadmap</button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__code-preview">
+          <div class="code-editor">...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Methodology Section -->
+  <section class="methodology">
+    <div class="methodology__container">
+      <div class="methodology__header">
+        <h2 class="methodology__title">
+          <span class="methodology__title-accent">⚡</span>
+          Our Teaching Method
+        </h2>
+        <p class="methodology__subtitle">
+          Learn from real-world bugs that cost companies millions
+        </p>
+      </div>
+      <div class="methodology__grid">
+        <div class="methodology__card">
+          <div class="methodology__card-icon">🔍</div>
+          <h3 class="methodology__card-title">Analyze</h3>
+          <p class="methodology__card-description">Study real bugs from production systems</p>
+        </div>
+        <!-- More methodology cards... -->
+      </div>
+    </div>
+  </section>
+  
+  <!-- Roadmap Preview -->
+  <section class="roadmap-preview">
+    <div class="roadmap-preview__container">
+      <div class="roadmap-preview__header">
+        <h2 class="roadmap-preview__title">
+          <span class="roadmap-preview__title-accent">🎯</span>
+          Learning Roadmap
+        </h2>
+      </div>
+      <div class="roadmap-preview__stages">
+        <div class="stage-card stage-card--beginner">
+          <div class="stage-card__indicator">1</div>
+          <h3 class="stage-card__title">Beginner</h3>
+          <p class="stage-card__description">Start with basic concepts</p>
+          <div class="stage-card__cost">Safe Investment</div>
+        </div>
+        <!-- More stage cards... -->
+      </div>
+    </div>
+  </section>
+  
+  <!-- Statistics -->
+  <section class="stats">
+    <div class="stats__container">
+      <h2 class="stats__title">Join Thousands of Successful Developers</h2>
+      <div class="stats__grid">
+        <div class="stat-card">
+          <span class="stat-card__value">10,000+</span>
+          <span class="stat-card__label">Students Enrolled</span>
+        </div>
+        <!-- More stat cards... -->
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__content">
+        <div class="footer__brand">
+          <h3 class="footer__title">
+            <span class="footer__logo">🐛</span>
+            Million Dollar Bugs Academy
+          </h3>
+          <p class="footer__description">
+            Transforming software bugs into learning opportunities.
+          </p>
+        </div>
+        <nav class="footer__nav">
+          <!-- Navigation sections... -->
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2024 Million Dollar Bugs Academy</p>
+        <div class="footer__links">
+          <a href="#" class="footer__social">🐦</a>
+          <a href="#" class="footer__social">📧</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  Following conversion-focused design principles and educational marketing best practices:
+  "Every section should move the visitor closer to becoming a successful student."
+*/

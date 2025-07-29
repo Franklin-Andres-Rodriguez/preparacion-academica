@@ -38,13 +38,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <!-- CSS Architecture - ORDEN CORREGIDO -->
-  <link rel="stylesheet" href="./assets/css/tokens.css">
-  <link rel="stylesheet" href="./assets/css/reset.css">
-  <link rel="stylesheet" href="./assets/css/base.css">
-  <link rel="stylesheet" href="./assets/css/layout.css">
-  <link rel="stylesheet" href="./assets/css/components.css">
+  <!-- 🚀 NUEVO SISTEMA CSS MODULAR - MILLION DOLLAR BUGS ACADEMY -->
+  <!-- Opción 1: Importar solo el archivo principal (RECOMENDADO) -->
+  <link rel="stylesheet" href="./assets/css/main.css">
+  
+  <!-- 
+  Opción 2: Importar archivos individuales (para desarrollo/debug)
+  <link rel="stylesheet" href="./assets/css/design-tokens.css">
+  <link rel="stylesheet" href="./assets/css/buttons.css">
+  <link rel="stylesheet" href="./assets/css/cards.css">
+  <link rel="stylesheet" href="./assets/css/navigation.css">
+  <link rel="stylesheet" href="./assets/css/forms.css">
+  <link rel="stylesheet" href="./assets/css/code.css">
+  <link rel="stylesheet" href="./assets/css/feedback.css">
   <link rel="stylesheet" href="./assets/css/utilities.css">
+  <link rel="stylesheet" href="./assets/css/pages.css">
+  -->
   
   <!-- Fonts Optimizadas -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -94,7 +103,7 @@
 
 <body>
   <!-- Skip Navigation para Accesibilidad -->
-  <a href="#main-content" class="skip-nav">Saltar al contenido principal</a>
+  <a href="#main-content" class="nav__skip-link">Saltar al contenido principal</a>
   
   <!-- ARIA Live Regions -->
   <div aria-live="polite" aria-atomic="true" class="sr-only" id="status-updates"></div>
@@ -105,7 +114,7 @@
     <nav class="nav" role="navigation" aria-label="Navegación principal">
       <div class="nav__container">
         <a href="#" class="nav__logo" aria-label="Million Dollar Bugs Academy - Inicio">
-          <span class="nav__logo-icon" aria-hidden="true">💀</span>
+          <span class="nav__logo-icon" aria-hidden="true">🐛</span>
           <span class="nav__logo-text">Bug Academy</span>
         </a>
         
@@ -153,7 +162,7 @@
       <div class="hero__container">
         <div class="hero__content">
           <h1 class="hero__title" id="hero-title">
-            <span class="hero__title-accent" aria-hidden="true">💀</span>
+            <span class="hero__title-accent" aria-hidden="true">🐛</span>
             Million Dollar Bugs Academy
           </h1>
           <p class="hero__subtitle">
@@ -174,7 +183,7 @@
         
         <div class="hero__visual">
           <div class="hero__code-preview">
-            <div class="code-editor">
+            <div class="code-editor code-editor--javascript">
               <div class="code-editor__header">
                 <div class="code-editor__controls" aria-hidden="true">
                   <span class="code-editor__dot code-editor__dot--red"></span>
@@ -182,14 +191,23 @@
                   <span class="code-editor__dot code-editor__dot--green"></span>
                 </div>
                 <span class="code-editor__title">deadly-bug.js</span>
+                <div class="code-editor__actions">
+                  <button class="code-editor__action" data-action="copy">Copy</button>
+                  <button class="code-editor__action code-editor__action--primary" data-action="run">Run</button>
+                </div>
               </div>
-              <pre class="code-editor__content" role="img" aria-label="Ejemplo de código con error de precedencia que costó 2.3 millones de dólares">
+              <div class="code-editor__content">
+                <pre role="img" aria-label="Ejemplo de código con error de precedencia que costó 2.3 millones de dólares">
 <code tabindex="0">
-<span class="code-comment">// 💀 Bug de $2.3M - Error de precedencia</span>
+<span class="code-comment">// 🐛 Bug de $2.3M - Error de precedencia</span>
 <span class="code-keyword">function</span> <span class="code-function">calculateProfit</span>(<span class="code-param">base</span>, <span class="code-param">mult</span>, <span class="code-param">fee</span>) {
   <span class="code-keyword">return</span> <span class="code-param">base</span> + <span class="code-param">mult</span> * <span class="code-param">fee</span>; <span class="code-comment code-error">// ❌ Precedencia</span>
 }
 </code></pre>
+              </div>
+              <div class="code-output code-output--error">
+                Error: Precedencia incorrecta causó pérdidas millonarias
+              </div>
               <div class="sr-only">
                 Este código muestra un error de precedencia de operadores que causó pérdidas de 2.3 millones de dólares. 
                 La operación debería usar paréntesis: (base + mult) * fee.
@@ -205,7 +223,7 @@
       <div class="methodology__container">
         <header class="methodology__header">
           <h2 class="methodology__title" id="methodology-title">
-            <span class="methodology__title-accent" aria-hidden="true">🎯</span>
+            <span class="methodology__title-accent" aria-hidden="true">⚡</span>
             Metodología Profesional
           </h2>
           <p class="methodology__subtitle">
@@ -215,7 +233,7 @@
         
         <div class="methodology__grid">
           <article class="methodology__card">
-            <div class="methodology__card-icon" aria-hidden="true">📚</div>
+            <div class="methodology__card-icon" aria-hidden="true">🔍</div>
             <h3 class="methodology__card-title">Progresión Sistemática</h3>
             <p class="methodology__card-description">
               Construcción incremental desde fundamentos hasta casos expertos, 
@@ -258,7 +276,7 @@
       <div class="roadmap-preview__container">
         <header class="roadmap-preview__header">
           <h2 class="roadmap-preview__title" id="roadmap-title">
-            <span class="roadmap-preview__title-accent" aria-hidden="true">🗺️</span>
+            <span class="roadmap-preview__title-accent" aria-hidden="true">🎯</span>
             Roadmap de Supervivencia
           </h2>
           <p class="roadmap-preview__subtitle">
@@ -268,28 +286,28 @@
         
         <div class="roadmap-preview__stages">
           <div class="stage-card stage-card--beginner">
-            <div class="stage-card__indicator">🌱</div>
+            <div class="stage-card__indicator">1</div>
             <h3 class="stage-card__title">Fundamentos Seguros</h3>
             <p class="stage-card__description">Calculadora de interés + Naming profesional</p>
             <div class="stage-card__cost">Prevención: $180K</div>
           </div>
           
           <div class="stage-card stage-card--intermediate">
-            <div class="stage-card__indicator">🔍</div>
+            <div class="stage-card__indicator">2</div>
             <h3 class="stage-card__title">Debugging Sistemático</h3>
             <p class="stage-card__description">Recursión + Operador coma mortal</p>
             <div class="stage-card__cost">Prevención: $500K</div>
           </div>
           
           <div class="stage-card stage-card--expert">
-            <div class="stage-card__indicator">⚡</div>
+            <div class="stage-card__indicator">3</div>
             <h3 class="stage-card__title">Casos Millonarios</h3>
             <p class="stage-card__description">Precedencia que destruyó una firma</p>
             <div class="stage-card__cost">Prevención: $2.3M</div>
           </div>
           
           <div class="stage-card stage-card--master">
-            <div class="stage-card__indicator">👑</div>
+            <div class="stage-card__indicator">4</div>
             <h3 class="stage-card__title">Maestría</h3>
             <p class="stage-card__description">Clean Architecture + Prevención</p>
             <div class="stage-card__cost">Carrera segura</div>
@@ -337,8 +355,10 @@
     <div class="footer__container">
       <div class="footer__content">
         <div class="footer__brand">
-          <span class="footer__logo" aria-hidden="true">💀</span>
-          <span class="footer__title">Million Dollar Bugs Academy</span>
+          <h3 class="footer__title">
+            <span class="footer__logo" aria-hidden="true">🐛</span>
+            Million Dollar Bugs Academy
+          </h3>
           <p class="footer__description">
             Educación profesional en debugging y prevención de errores costosos.
           </p>
@@ -348,18 +368,18 @@
           <div class="footer__nav-section">
             <h3 class="footer__nav-title">Aprendizaje</h3>
             <ul class="footer__nav-list">
-              <li><a href="./roadmap.html" class="footer__nav-link">Roadmap</a></li>
-              <li><a href="./proyectos/" class="footer__nav-link">Proyectos</a></li>
-              <li><a href="./laboratorio.html" class="footer__nav-link">Laboratorio</a></li>
+              <li class="footer__nav-item"><a href="./roadmap.html" class="footer__nav-link">Roadmap</a></li>
+              <li class="footer__nav-item"><a href="./proyectos/" class="footer__nav-link">Proyectos</a></li>
+              <li class="footer__nav-item"><a href="./laboratorio.html" class="footer__nav-link">Laboratorio</a></li>
             </ul>
           </div>
           
           <div class="footer__nav-section">
             <h3 class="footer__nav-title">Recursos</h3>
             <ul class="footer__nav-list">
-              <li><a href="./docs/" class="footer__nav-link">Documentación</a></li>
-              <li><a href="./metodologia.html" class="footer__nav-link">Metodología</a></li>
-              <li><a href="./contribuir.html" class="footer__nav-link">Contribuir</a></li>
+              <li class="footer__nav-item"><a href="./docs/" class="footer__nav-link">Documentación</a></li>
+              <li class="footer__nav-item"><a href="./metodologia.html" class="footer__nav-link">Metodología</a></li>
+              <li class="footer__nav-item"><a href="./contribuir.html" class="footer__nav-link">Contribuir</a></li>
             </ul>
           </div>
         </nav>

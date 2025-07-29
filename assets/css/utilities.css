@@ -1,791 +1,1128 @@
 /*
   ==========================================
-  UTILITIES - MILLION DOLLAR BUGS ACADEMY
+  UTILITIES & AUXILIARY COMPONENTS SYSTEM
+  MILLION DOLLAR BUGS ACADEMY
   ==========================================
   
-  Atomic CSS utilities for rapid development and consistent design.
-  Following Adam Wathan's utility-first CSS philosophy.
+  Comprehensive utility system following Adam Wathan's utility-first CSS approach
+  and Harry Roberts' ITCSS methodology for scalable, maintainable utility classes.
   
-  Archivo: assets/css/utilities.css
+  "Utility classes are the fastest way to build consistent, maintainable user interfaces." - Adam Wathan
+  "The single responsibility principle applies to CSS just as much as it does to programming." - Harry Roberts
+  "Small utilities that do one thing well can be composed to create complex interfaces." - Nicole Sullivan
   
-  "The secret to building maintainable CSS is to avoid CSS" - Adam Wathan
-  "Utility classes help you work within the constraints of a system" - Jonathan Snook
+  Architecture Philosophy:
+  1. Single Responsibility - Each utility class has one clear purpose
+  2. Composability - Utilities combine to create complex patterns
+  3. Consistency - Systematic approach to spacing, sizing, and styling
+  4. Performance - Minimal CSS with maximum reusability
+  5. Educational Value - Utilities that teach design principles while functioning
   
-  Architecture:
-  1. Display & Layout Utilities
-  2. Spacing & Sizing Utilities  
-  3. Typography Utilities
-  4. Color & Background Utilities
-  5. Interactive States
-  6. Educational Specific Utilities
-  7. Responsive Utilities
-  8. Animation Utilities
+  Dependencies:
+  - design-tokens.css (must be imported first)
 */
 
 /*
   ==========================================
-  1. DISPLAY & LAYOUT UTILITIES
+  1. AVATAR COMPONENTS
   ==========================================
+  User representation following modern UI patterns
 */
 
-/* Display */
-.block { display: block !important; }
-.inline-block { display: inline-block !important; }
-.inline { display: inline !important; }
-.flex { display: flex !important; }
-.inline-flex { display: inline-flex !important; }
-.grid { display: grid !important; }
-.inline-grid { display: inline-grid !important; }
-.hidden { display: none !important; }
-
-/* Position */
-.static { position: static !important; }
-.fixed { position: fixed !important; }
-.absolute { position: absolute !important; }
-.relative { position: relative !important; }
-.sticky { position: sticky !important; }
-
-/* Z-Index */
-.z-0 { z-index: 0 !important; }
-.z-10 { z-index: 10 !important; }
-.z-20 { z-index: 20 !important; }
-.z-30 { z-index: 30 !important; }
-.z-40 { z-index: 40 !important; }
-.z-50 { z-index: 50 !important; }
-
-/* Float */
-.float-left { float: left !important; }
-.float-right { float: right !important; }
-.float-none { float: none !important; }
-.clearfix::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Overflow */
-.overflow-auto { overflow: auto !important; }
-.overflow-hidden { overflow: hidden !important; }
-.overflow-visible { overflow: visible !important; }
-.overflow-scroll { overflow: scroll !important; }
-.overflow-x-auto { overflow-x: auto !important; }
-.overflow-y-auto { overflow-y: auto !important; }
-.overflow-x-hidden { overflow-x: hidden !important; }
-.overflow-y-hidden { overflow-y: hidden !important; }
-
-/*
-  ==========================================
-  2. SPACING & SIZING UTILITIES
-  ==========================================
-*/
-
-/* Width */
-.w-auto { width: auto !important; }
-.w-full { width: 100% !important; }
-.w-screen { width: 100vw !important; }
-.w-min { width: min-content !important; }
-.w-max { width: max-content !important; }
-.w-fit { width: fit-content !important; }
-
-/* Fractional widths */
-.w-1\/2 { width: 50% !important; }
-.w-1\/3 { width: 33.333333% !important; }
-.w-2\/3 { width: 66.666667% !important; }
-.w-1\/4 { width: 25% !important; }
-.w-3\/4 { width: 75% !important; }
-.w-1\/5 { width: 20% !important; }
-.w-4\/5 { width: 80% !important; }
-
-/* Height */
-.h-auto { height: auto !important; }
-.h-full { height: 100% !important; }
-.h-screen { height: 100vh !important; }
-.h-min { height: min-content !important; }
-.h-max { height: max-content !important; }
-.h-fit { height: fit-content !important; }
-
-/* Min/Max Width */
-.min-w-0 { min-width: 0px !important; }
-.min-w-full { min-width: 100% !important; }
-.max-w-none { max-width: none !important; }
-.max-w-xs { max-width: 20rem !important; }
-.max-w-sm { max-width: 24rem !important; }
-.max-w-md { max-width: 28rem !important; }
-.max-w-lg { max-width: 32rem !important; }
-.max-w-xl { max-width: 36rem !important; }
-.max-w-2xl { max-width: 42rem !important; }
-.max-w-3xl { max-width: 48rem !important; }
-.max-w-4xl { max-width: 56rem !important; }
-.max-w-5xl { max-width: 64rem !important; }
-.max-w-6xl { max-width: 72rem !important; }
-.max-w-7xl { max-width: 80rem !important; }
-.max-w-full { max-width: 100% !important; }
-.max-w-screen-sm { max-width: 640px !important; }
-.max-w-screen-md { max-width: 768px !important; }
-.max-w-screen-lg { max-width: 1024px !important; }
-.max-w-screen-xl { max-width: 1280px !important; }
-
-/* Min/Max Height */
-.min-h-0 { min-height: 0px !important; }
-.min-h-full { min-height: 100% !important; }
-.min-h-screen { min-height: 100vh !important; }
-.max-h-full { max-height: 100% !important; }
-.max-h-screen { max-height: 100vh !important; }
-
-/*
-  ==========================================
-  3. TYPOGRAPHY UTILITIES
-  ==========================================
-*/
-
-/* Font Family */
-.font-sans { font-family: var(--font-family-primary) !important; }
-.font-serif { font-family: var(--font-family-serif) !important; }
-.font-mono { font-family: var(--font-family-mono) !important; }
-
-/* Font Size */
-.text-xs { font-size: var(--font-size-xs) !important; }
-.text-sm { font-size: var(--font-size-sm) !important; }
-.text-base { font-size: var(--font-size-base) !important; }
-.text-lg { font-size: var(--font-size-lg) !important; }
-.text-xl { font-size: var(--font-size-xl) !important; }
-.text-2xl { font-size: var(--font-size-2xl) !important; }
-.text-3xl { font-size: var(--font-size-3xl) !important; }
-.text-4xl { font-size: var(--font-size-4xl) !important; }
-.text-5xl { font-size: var(--font-size-5xl) !important; }
-.text-6xl { font-size: var(--font-size-6xl) !important; }
-.text-7xl { font-size: var(--font-size-7xl) !important; }
-
-/* Font Weight */
-.font-thin { font-weight: 100 !important; }
-.font-light { font-weight: var(--font-weight-light) !important; }
-.font-normal { font-weight: var(--font-weight-normal) !important; }
-.font-medium { font-weight: var(--font-weight-medium) !important; }
-.font-semibold { font-weight: var(--font-weight-semibold) !important; }
-.font-bold { font-weight: var(--font-weight-bold) !important; }
-.font-extrabold { font-weight: var(--font-weight-extrabold) !important; }
-.font-black { font-weight: var(--font-weight-black) !important; }
-
-/* Line Height */
-.leading-none { line-height: 1 !important; }
-.leading-tight { line-height: var(--line-height-tight) !important; }
-.leading-snug { line-height: var(--line-height-snug) !important; }
-.leading-normal { line-height: var(--line-height-normal) !important; }
-.leading-relaxed { line-height: var(--line-height-relaxed) !important; }
-.leading-loose { line-height: var(--line-height-loose) !important; }
-
-/* Text Alignment */
-.text-left { text-align: left !important; }
-.text-center { text-align: center !important; }
-.text-right { text-align: right !important; }
-.text-justify { text-align: justify !important; }
-
-/* Text Transform */
-.uppercase { text-transform: uppercase !important; }
-.lowercase { text-transform: lowercase !important; }
-.capitalize { text-transform: capitalize !important; }
-.normal-case { text-transform: none !important; }
-
-/* Text Decoration */
-.underline { text-decoration: underline !important; }
-.line-through { text-decoration: line-through !important; }
-.no-underline { text-decoration: none !important; }
-
-/* Letter Spacing */
-.tracking-tighter { letter-spacing: var(--letter-spacing-tighter) !important; }
-.tracking-tight { letter-spacing: var(--letter-spacing-tight) !important; }
-.tracking-normal { letter-spacing: var(--letter-spacing-normal) !important; }
-.tracking-wide { letter-spacing: var(--letter-spacing-wide) !important; }
-.tracking-wider { letter-spacing: var(--letter-spacing-wider) !important; }
-.tracking-widest { letter-spacing: var(--letter-spacing-widest) !important; }
-
-/* Word Break */
-.break-normal { overflow-wrap: normal; word-break: normal !important; }
-.break-words { overflow-wrap: break-word !important; }
-.break-all { word-break: break-all !important; }
-
-/* White Space */
-.whitespace-normal { white-space: normal !important; }
-.whitespace-nowrap { white-space: nowrap !important; }
-.whitespace-pre { white-space: pre !important; }
-.whitespace-pre-line { white-space: pre-line !important; }
-.whitespace-pre-wrap { white-space: pre-wrap !important; }
-
-/*
-  ==========================================
-  4. COLOR & BACKGROUND UTILITIES
-  ==========================================
-*/
-
-/* Text Colors */
-.text-transparent { color: transparent !important; }
-.text-current { color: currentColor !important; }
-.text-black { color: var(--color-black) !important; }
-.text-white { color: var(--color-white) !important; }
-
-/* Semantic Text Colors */
-.text-primary { color: var(--color-text-primary) !important; }
-.text-secondary { color: var(--color-text-secondary) !important; }
-.text-tertiary { color: var(--color-text-tertiary) !important; }
-.text-disabled { color: var(--color-text-disabled) !important; }
-.text-inverse { color: var(--color-text-inverse) !important; }
-.text-accent { color: var(--color-text-accent) !important; }
-.text-success { color: var(--color-text-success) !important; }
-.text-warning { color: var(--color-text-warning) !important; }
-.text-danger { color: var(--color-text-danger) !important; }
-
-/* Educational Text Colors */
-.text-beginner { color: var(--color-stage-beginner) !important; }
-.text-intermediate { color: var(--color-stage-intermediate) !important; }
-.text-expert { color: var(--color-stage-expert) !important; }
-.text-master { color: var(--color-stage-master) !important; }
-
-/* Background Colors */
-.bg-transparent { background-color: transparent !important; }
-.bg-current { background-color: currentColor !important; }
-.bg-black { background-color: var(--color-black) !important; }
-.bg-white { background-color: var(--color-white) !important; }
-
-/* Semantic Background Colors */
-.bg-primary { background-color: var(--color-bg-primary) !important; }
-.bg-secondary { background-color: var(--color-bg-secondary) !important; }
-.bg-tertiary { background-color: var(--color-bg-tertiary) !important; }
-.bg-inverse { background-color: var(--color-bg-inverse) !important; }
-
-/* Surface Colors */
-.bg-surface-primary { background-color: var(--color-surface-primary) !important; }
-.bg-surface-secondary { background-color: var(--color-surface-secondary) !important; }
-.bg-surface-tertiary { background-color: var(--color-surface-tertiary) !important; }
-.bg-surface-accent { background-color: var(--color-surface-accent) !important; }
-.bg-surface-success { background-color: var(--color-surface-success) !important; }
-.bg-surface-warning { background-color: var(--color-surface-warning) !important; }
-.bg-surface-danger { background-color: var(--color-surface-danger) !important; }
-
-/* Brand Colors */
-.bg-brand-primary { background-color: var(--color-brand-primary) !important; }
-.bg-brand-secondary { background-color: var(--color-brand-secondary) !important; }
-
-/* Educational Stage Colors */
-.bg-beginner { background-color: var(--color-stage-beginner) !important; }
-.bg-intermediate { background-color: var(--color-stage-intermediate) !important; }
-.bg-expert { background-color: var(--color-stage-expert) !important; }
-.bg-master { background-color: var(--color-stage-master) !important; }
-
-/*
-  ==========================================
-  5. BORDER & OUTLINE UTILITIES
-  ==========================================
-*/
-
-/* Border Width */
-.border-0 { border-width: 0px !important; }
-.border { border-width: 1px !important; }
-.border-2 { border-width: 2px !important; }
-.border-4 { border-width: 4px !important; }
-.border-8 { border-width: 8px !important; }
-
-/* Border Style */
-.border-solid { border-style: solid !important; }
-.border-dashed { border-style: dashed !important; }
-.border-dotted { border-style: dotted !important; }
-.border-double { border-style: double !important; }
-.border-none { border-style: none !important; }
-
-/* Border Color */
-.border-transparent { border-color: transparent !important; }
-.border-current { border-color: currentColor !important; }
-.border-primary { border-color: var(--color-border-primary) !important; }
-.border-secondary { border-color: var(--color-border-secondary) !important; }
-.border-tertiary { border-color: var(--color-border-tertiary) !important; }
-.border-accent { border-color: var(--color-border-accent) !important; }
-.border-success { border-color: var(--color-border-success) !important; }
-.border-warning { border-color: var(--color-border-warning) !important; }
-.border-danger { border-color: var(--color-border-danger) !important; }
-
-/* Border Radius */
-.rounded-none { border-radius: 0 !important; }
-.rounded-sm { border-radius: var(--radius-sm) !important; }
-.rounded { border-radius: var(--radius-base) !important; }
-.rounded-md { border-radius: var(--radius-md) !important; }
-.rounded-lg { border-radius: var(--radius-lg) !important; }
-.rounded-xl { border-radius: var(--radius-xl) !important; }
-.rounded-2xl { border-radius: var(--radius-2xl) !important; }
-.rounded-3xl { border-radius: var(--radius-3xl) !important; }
-.rounded-full { border-radius: var(--radius-full) !important; }
-
-/* Directional Border Radius */
-.rounded-t-none { border-top-left-radius: 0; border-top-right-radius: 0 !important; }
-.rounded-t { border-top-left-radius: var(--radius-base); border-top-right-radius: var(--radius-base) !important; }
-.rounded-r-none { border-top-right-radius: 0; border-bottom-right-radius: 0 !important; }
-.rounded-r { border-top-right-radius: var(--radius-base); border-bottom-right-radius: var(--radius-base) !important; }
-.rounded-b-none { border-bottom-right-radius: 0; border-bottom-left-radius: 0 !important; }
-.rounded-b { border-bottom-right-radius: var(--radius-base); border-bottom-left-radius: var(--radius-base) !important; }
-.rounded-l-none { border-top-left-radius: 0; border-bottom-left-radius: 0 !important; }
-.rounded-l { border-top-left-radius: var(--radius-base); border-bottom-left-radius: var(--radius-base) !important; }
-
-/*
-  ==========================================
-  6. SHADOW & EFFECTS UTILITIES
-  ==========================================
-*/
-
-/* Box Shadow */
-.shadow-none { box-shadow: none !important; }
-.shadow-xs { box-shadow: var(--shadow-xs) !important; }
-.shadow-sm { box-shadow: var(--shadow-sm) !important; }
-.shadow { box-shadow: var(--shadow-base) !important; }
-.shadow-md { box-shadow: var(--shadow-md) !important; }
-.shadow-lg { box-shadow: var(--shadow-lg) !important; }
-.shadow-xl { box-shadow: var(--shadow-xl) !important; }
-.shadow-2xl { box-shadow: var(--shadow-2xl) !important; }
-.shadow-inner { box-shadow: var(--shadow-inner) !important; }
-
-/* Opacity */
-.opacity-0 { opacity: 0 !important; }
-.opacity-5 { opacity: 0.05 !important; }
-.opacity-10 { opacity: 0.1 !important; }
-.opacity-20 { opacity: 0.2 !important; }
-.opacity-25 { opacity: 0.25 !important; }
-.opacity-30 { opacity: 0.3 !important; }
-.opacity-40 { opacity: 0.4 !important; }
-.opacity-50 { opacity: 0.5 !important; }
-.opacity-60 { opacity: 0.6 !important; }
-.opacity-70 { opacity: 0.7 !important; }
-.opacity-75 { opacity: 0.75 !important; }
-.opacity-80 { opacity: 0.8 !important; }
-.opacity-90 { opacity: 0.9 !important; }
-.opacity-95 { opacity: 0.95 !important; }
-.opacity-100 { opacity: 1 !important; }
-
-/*
-  ==========================================
-  7. INTERACTIVE STATES
-  ==========================================
-*/
-
-/* Cursor */
-.cursor-auto { cursor: auto !important; }
-.cursor-default { cursor: default !important; }
-.cursor-pointer { cursor: pointer !important; }
-.cursor-wait { cursor: wait !important; }
-.cursor-text { cursor: text !important; }
-.cursor-move { cursor: move !important; }
-.cursor-help { cursor: help !important; }
-.cursor-not-allowed { cursor: not-allowed !important; }
-
-/* User Select */
-.select-none { user-select: none !important; }
-.select-text { user-select: text !important; }
-.select-all { user-select: all !important; }
-.select-auto { user-select: auto !important; }
-
-/* Pointer Events */
-.pointer-events-none { pointer-events: none !important; }
-.pointer-events-auto { pointer-events: auto !important; }
-
-/* Resize */
-.resize-none { resize: none !important; }
-.resize { resize: both !important; }
-.resize-y { resize: vertical !important; }
-.resize-x { resize: horizontal !important; }
-
-/*
-  ==========================================
-  8. EDUCATIONAL SPECIFIC UTILITIES
-  ==========================================
-*/
-
-/* Learning Stage Indicators */
-.stage-indicator {
+/**
+ * Avatar Foundation
+ * 
+ * Design decisions explained:
+ * - Circular shape follows modern UI conventions
+ * - Flexbox centering for text content alignment
+ * - Overflow hidden for proper image clipping
+ * - Background fallback for initials display
+ * 
+ * Accessibility features:
+ * - Alt text support for images
+ * - High contrast color combinations
+ * - Semantic sizing that works with screen readers
+ * 
+ * Educational context:
+ * - Professional appearance builds student confidence
+ * - Consistent user representation across platform
+ * - Visual hierarchy that supports learning community
+ */
+.avatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  border: 2px solid var(--color-surface-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/**
+ * Avatar Image
+ * Proper image handling within avatar container
+ * Maintains aspect ratio and covers entire avatar area
+ */
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/**
+ * Avatar Size Variants
+ * Systematic scaling for different UI contexts
+ * Maintains proportional typography
+ */
+.avatar--small {
   width: 2rem;
   height: 2rem;
+  font-size: var(--font-size-xs);
+  border-width: 1px;
+}
+
+.avatar--large {
+  width: 4rem;
+  height: 4rem;
+  font-size: var(--font-size-lg);
+  border-width: 3px;
+}
+
+.avatar--xl {
+  width: 6rem;
+  height: 6rem;
+  font-size: var(--font-size-2xl);
+  border-width: 4px;
+}
+
+/**
+ * Avatar Status Indicators
+ * Online/offline status for learning community features
+ * Positioned absolutely for overlay effect
+ */
+.avatar--with-status {
+  position: relative;
+}
+
+.avatar--with-status::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--color-success);
+  border: 2px solid var(--color-surface-primary);
   border-radius: var(--radius-full);
-  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar--offline::after {
+  background: var(--color-text-disabled);
+}
+
+.avatar--busy::after {
+  background: var(--color-warning);
+}
+
+/**
+ * Avatar Groups
+ * Overlapping avatars for team/collaboration contexts
+ * Useful for showing multiple contributors or participants
+ */
+.avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-group .avatar {
+  margin-right: -0.5rem;
+  transition: var(--transition-timing-fast);
+  z-index: 1;
+}
+
+.avatar-group .avatar:hover {
+  z-index: 2;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.avatar-group .avatar:last-child {
+  margin-right: 0;
+}
+
+/**
+ * Avatar with Text
+ * Avatar combined with name/title information
+ * Common pattern for user identification
+ */
+.avatar-with-text {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar-with-text__content {
+  min-width: 0; /* Allows text truncation */
+}
+
+.avatar-with-text__name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-0_5);
+}
+
+.avatar-with-text__role {
   font-size: var(--font-size-sm);
-  color: var(--color-text-inverse);
+  color: var(--color-text-secondary);
 }
 
-.stage-indicator--beginner {
-  background-color: var(--color-stage-beginner);
-}
+/*
+  ==========================================
+  2. BADGE COMPONENTS
+  ==========================================
+  Status indicators and labeling system
+*/
 
-.stage-indicator--intermediate {
-  background-color: var(--color-stage-intermediate);
-}
-
-.stage-indicator--expert {
-  background-color: var(--color-stage-expert);
-}
-
-.stage-indicator--master {
-  background-color: var(--color-stage-master);
-}
-
-/* Cost Impact Indicators */
-.cost-indicator {
+/**
+ * Badge Foundation
+ * 
+ * Design philosophy:
+ * - Compact size minimizes interface disruption
+ * - High contrast ensures readability
+ * - Rounded corners feel friendly and modern
+ * - Uppercase text creates authority and importance
+ * 
+ * Use cases:
+ * - Status indicators (new, updated, completed)
+ * - Category labels (beginner, intermediate, expert)
+ * - Notification counts (unread messages, pending tasks)
+ * - Achievement markers (certified, verified, premium)
+ */
+.badge {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--letter-spacing-wide);
-}
-
-.cost-indicator--safe {
-  background-color: var(--color-cost-safe-light);
-  color: var(--color-cost-safe-dark);
-}
-
-.cost-indicator--expensive {
-  background-color: var(--color-cost-expensive-light);
-  color: var(--color-cost-expensive-dark);
-}
-
-.cost-indicator--critical {
-  background-color: var(--color-cost-critical-light);
-  color: var(--color-cost-critical-dark);
-}
-
-/* Progress States */
-.progress-state {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-}
-
-.progress-state--not-started {
-  background-color: var(--color-surface-tertiary);
-  color: var(--color-text-tertiary);
-}
-
-.progress-state--in-progress {
-  background-color: var(--color-surface-warning);
-  color: var(--color-text-warning);
-}
-
-.progress-state--completed {
-  background-color: var(--color-surface-success);
-  color: var(--color-text-success);
-}
-
-.progress-state--locked {
-  background-color: var(--color-surface-secondary);
-  color: var(--color-text-disabled);
-  opacity: 0.6;
-}
-
-/* Educational Content Types */
-.content-type {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
+  border-radius: var(--radius-full);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-wide);
+  white-space: nowrap;
+  border: 1px solid;
+  line-height: 1;
 }
 
-.content-type--theory::before { content: "📚"; }
-.content-type--practice::before { content: "💻"; }
-.content-type--quiz::before { content: "❓"; }
-.content-type--project::before { content: "🚀"; }
-.content-type--case-study::before { content: "🔍"; }
+/**
+ * Badge Color Variants
+ * Semantic color system for different badge types
+ * Consistent with broader design system color meanings
+ */
+.badge--success {
+  background: var(--color-surface-success);
+  color: var(--color-text-success);
+  border-color: var(--color-border-success);
+}
+
+.badge--warning {
+  background: var(--color-surface-warning);
+  color: var(--color-text-warning);
+  border-color: var(--color-border-warning);
+}
+
+.badge--error {
+  background: var(--color-surface-danger);
+  color: var(--color-text-danger);
+  border-color: var(--color-border-danger);
+}
+
+.badge--info {
+  background: var(--color-brand-primary-light);
+  color: var(--color-brand-primary);
+  border-color: var(--color-brand-primary);
+}
+
+.badge--neutral {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-secondary);
+}
+
+/**
+ * Educational Stage Badges
+ * Learning progression indicators for course content
+ * Color-coded to match stage progression system
+ */
+.badge--beginner {
+  background: var(--color-surface-success);
+  color: var(--color-stage-beginner);
+  border-color: var(--color-stage-beginner);
+}
+
+.badge--intermediate {
+  background: var(--color-surface-warning);
+  color: var(--color-stage-intermediate);
+  border-color: var(--color-stage-intermediate);
+}
+
+.badge--expert {
+  background: var(--color-surface-danger);
+  color: var(--color-stage-expert);
+  border-color: var(--color-stage-expert);
+}
+
+.badge--master {
+  background: linear-gradient(135deg, var(--color-stage-master), #a855f7);
+  color: var(--color-text-inverse);
+  border-color: var(--color-stage-master);
+  font-weight: var(--font-weight-bold);
+}
+
+/**
+ * Badge Size Variants
+ * Different scales for various UI contexts
+ */
+.badge--small {
+  padding: var(--space-0_5) var(--space-1_5);
+  font-size: var(--font-size-xs);
+  gap: var(--space-0_5);
+}
+
+.badge--large {
+  padding: var(--space-1_5) var(--space-3);
+  font-size: var(--font-size-sm);
+  gap: var(--space-1_5);
+}
+
+/**
+ * Notification Badge
+ * Numeric indicators for counts and notifications
+ * Positioned absolutely for overlay on other elements
+ */
+.badge--notification {
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
+  border-color: var(--color-danger);
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  justify-content: center;
+}
+
+.badge--notification.badge--large {
+  min-width: 1.5rem;
+  height: 1.5rem;
+  font-size: var(--font-size-sm);
+}
+
+/**
+ * Badge with Icon
+ * Enhanced badges with icon support
+ * Icons provide additional context and visual interest
+ */
+.badge__icon {
+  font-size: 1em;
+  flex-shrink: 0;
+}
 
 /*
   ==========================================
-  9. RESPONSIVE UTILITIES
+  3. TOOLTIP SYSTEM
   ==========================================
+  Progressive disclosure and contextual help
 */
 
-/* Hide/Show at different breakpoints */
-@media (max-width: 639px) {
-  .sm\:hidden { display: none !important; }
+/**
+ * Tooltip Container
+ * 
+ * Accessibility considerations:
+ * - Hover and focus triggers for keyboard users
+ * - Appropriate ARIA attributes for screen readers
+ * - Sufficient contrast for readability
+ * - Dismissible on escape key press
+ * 
+ * UX principles:
+ * - Appears near trigger element without obscuring content
+ * - Timing allows for accidental hovers without annoyance
+ * - Content is concise and immediately useful
+ * - Visual styling clearly indicates supplementary information
+ */
+.tooltip {
+  position: relative;
+  display: inline-block;
 }
 
-@media (min-width: 640px) {
-  .sm\:block { display: block !important; }
-  .sm\:inline-block { display: inline-block !important; }
-  .sm\:inline { display: inline !important; }
-  .sm\:flex { display: flex !important; }
-  .sm\:inline-flex { display: inline-flex !important; }
-  .sm\:grid { display: grid !important; }
-  .sm\:hidden { display: none !important; }
-  
-  .sm\:text-left { text-align: left !important; }
-  .sm\:text-center { text-align: center !important; }
-  .sm\:text-right { text-align: right !important; }
+/**
+ * Tooltip Content
+ * Hidden by default, revealed on interaction
+ * Positioned absolutely relative to container
+ */
+.tooltip__content {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-timing-fast) var(--transition-easing-smooth);
+  z-index: var(--z-index-tooltip);
+  pointer-events: none;
+  box-shadow: var(--shadow-lg);
+  max-width: 200px;
+  white-space: normal;
+  text-align: center;
+  line-height: var(--line-height-normal);
+}
+
+/**
+ * Tooltip Arrow
+ * Visual connection between tooltip and triggering element
+ * Created with CSS borders for lightweight implementation
+ */
+.tooltip__content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--color-surface-inverse);
+}
+
+/**
+ * Tooltip Show States
+ * Revealed on hover and focus for accessibility
+ * Smooth opacity and transform transitions
+ */
+.tooltip:hover .tooltip__content,
+.tooltip:focus .tooltip__content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/**
+ * Tooltip Position Variants
+ * Different positioning for various layout contexts
+ * Prevents tooltips from extending outside viewport
+ */
+.tooltip--top .tooltip__content {
+  bottom: 100%;
+  margin-bottom: var(--space-2);
+}
+
+.tooltip--bottom .tooltip__content {
+  top: 100%;
+  bottom: auto;
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+}
+
+.tooltip--bottom .tooltip__content::after {
+  top: -8px;
+  border-top-color: transparent;
+  border-bottom-color: var(--color-surface-inverse);
+}
+
+.tooltip--left .tooltip__content {
+  bottom: auto;
+  top: 50%;
+  left: auto;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: var(--space-2);
+  margin-bottom: 0;
+}
+
+.tooltip--left .tooltip__content::after {
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-left-color: var(--color-surface-inverse);
+  border-top-color: transparent;
+}
+
+.tooltip--left:hover .tooltip__content,
+.tooltip--left:focus .tooltip__content {
+  transform: translateY(-50%) translateX(-2px);
+}
+
+.tooltip--right .tooltip__content {
+  bottom: auto;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: var(--space-2);
+  margin-bottom: 0;
+}
+
+.tooltip--right .tooltip__content::after {
+  top: 50%;
+  left: -8px;
+  right: auto;
+  transform: translateY(-50%);
+  border-right-color: var(--color-surface-inverse);
+  border-top-color: transparent;
+}
+
+.tooltip--right:hover .tooltip__content,
+.tooltip--right:focus .tooltip__content {
+  transform: translateY(-50%) translateX(2px);
+}
+
+/*
+  ==========================================
+  4. DIVIDER COMPONENTS
+  ==========================================
+  Visual separation and content organization
+*/
+
+/**
+ * Horizontal Divider
+ * 
+ * Use cases:
+ * - Section separation in long content
+ * - Visual breaks between different content types
+ * - Spacing enhancement in dense layouts
+ * - Semantic separation for screen readers
+ */
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--color-border-primary);
+  margin: var(--space-6) 0;
+}
+
+.divider--thick {
+  height: 2px;
+  background: var(--color-border-secondary);
+}
+
+.divider--dashed {
+  background: none;
+  border-top: 1px dashed var(--color-border-primary);
+  height: 0;
+}
+
+.divider--dotted {
+  background: none;
+  border-top: 1px dotted var(--color-border-primary);
+  height: 0;
+}
+
+/**
+ * Divider with Text
+ * Labeled dividers for semantic content separation
+ * Common pattern for form sections and content groups
+ */
+.divider--with-text {
+  position: relative;
+  text-align: center;
+  background: none;
+  height: auto;
+  margin: var(--space-8) 0;
+}
+
+.divider--with-text::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border-primary);
+}
+
+.divider--with-text span {
+  background: var(--color-bg-primary);
+  padding: 0 var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  position: relative;
+  z-index: 1;
+}
+
+/**
+ * Vertical Divider
+ * For horizontal layouts and sidebar separations
+ * Useful in navigation and toolbar contexts
+ */
+.divider--vertical {
+  width: 1px;
+  height: var(--space-6);
+  background: var(--color-border-primary);
+  margin: 0 var(--space-3);
+  display: inline-block;
+}
+
+/*
+  ==========================================
+  5. EMPTY STATE COMPONENTS
+  ==========================================
+  Graceful handling of no-content scenarios
+*/
+
+/**
+ * Empty State Container
+ * 
+ * UX principles:
+ * - Clear explanation of why content is missing
+ * - Actionable guidance for next steps
+ * - Friendly tone that doesn't blame the user
+ * - Visual elements that maintain engagement
+ * 
+ * Educational context:
+ * - Encouraging messaging for beginning learners
+ * - Clear instructions for getting started
+ * - Visual consistency with overall platform design
+ */
+.empty-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  color: var(--color-text-secondary);
+}
+
+.empty-state__icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-4);
+  opacity: 0.6;
+}
+
+.empty-state__title {
+  font: var(--typography-heading-h3);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__description {
+  font: var(--typography-body-medium);
+  max-width: 24rem;
+  margin: 0 auto var(--space-6);
+  line-height: var(--line-height-relaxed);
+}
+
+.empty-state__action {
+  margin-top: var(--space-4);
+}
+
+/**
+ * Empty State Variants
+ * Different messaging and styling for various contexts
+ */
+.empty-state--search {
+  padding: var(--space-8) var(--space-4);
+}
+
+.empty-state--search .empty-state__icon {
+  font-size: 3rem;
+}
+
+.empty-state--error {
+  color: var(--color-text-danger);
+}
+
+.empty-state--error .empty-state__icon {
+  color: var(--color-text-danger);
+}
+
+/*
+  ==========================================
+  6. LAYOUT UTILITIES
+  ==========================================
+  Common layout patterns and spacing utilities
+*/
+
+/**
+ * Container Utilities
+ * Responsive width management and centering
+ */
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.container--sm {
+  max-width: var(--container-sm);
+}
+
+.container--md {
+  max-width: var(--container-md);
+}
+
+.container--lg {
+  max-width: var(--container-lg);
+}
+
+.container--2xl {
+  max-width: var(--container-2xl);
+}
+
+.container--fluid {
+  max-width: none;
+}
+
+/**
+ * Spacing Utilities
+ * Systematic margin and padding classes
+ * Following design token spacing scale
+ */
+
+/* Margin utilities */
+.m-0 { margin: 0; }
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-3 { margin: var(--space-3); }
+.m-4 { margin: var(--space-4); }
+.m-5 { margin: var(--space-5); }
+.m-6 { margin: var(--space-6); }
+.m-8 { margin: var(--space-8); }
+
+/* Margin top utilities */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+
+/* Margin bottom utilities */
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+/* Margin horizontal utilities */
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mx-2 { margin-left: var(--space-2); margin-right: var(--space-2); }
+.mx-4 { margin-left: var(--space-4); margin-right: var(--space-4); }
+
+/* Padding utilities */
+.p-0 { padding: 0; }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+
+/* Padding horizontal utilities */
+.px-2 { padding-left: var(--space-2); padding-right: var(--space-2); }
+.px-3 { padding-left: var(--space-3); padding-right: var(--space-3); }
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+
+/* Padding vertical utilities */
+.py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+
+/**
+ * Flexbox Utilities
+ * Common flexbox patterns for rapid layout
+ */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-none { flex: none; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+/**
+ * Grid Utilities
+ * CSS Grid patterns for modern layouts
+ */
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+.col-span-1 { grid-column: span 1 / span 1; }
+.col-span-2 { grid-column: span 2 / span 2; }
+.col-span-3 { grid-column: span 3 / span 3; }
+.col-span-full { grid-column: 1 / -1; }
+
+/*
+  ==========================================
+  7. TEXT UTILITIES
+  ==========================================
+  Typography and text manipulation utilities
+*/
+
+/**
+ * Text Alignment
+ */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/**
+ * Font Weight
+ */
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+/**
+ * Font Size
+ */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+
+/**
+ * Text Color
+ */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-disabled { color: var(--color-text-disabled); }
+.text-inverse { color: var(--color-text-inverse); }
+.text-accent { color: var(--color-text-accent); }
+.text-success { color: var(--color-text-success); }
+.text-warning { color: var(--color-text-warning); }
+.text-danger { color: var(--color-text-danger); }
+
+/**
+ * Text Transform
+ */
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+.normal-case { text-transform: none; }
+
+/**
+ * Text Decoration
+ */
+.underline { text-decoration: underline; }
+.line-through { text-decoration: line-through; }
+.no-underline { text-decoration: none; }
+
+/**
+ * Text Overflow
+ */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-ellipsis { text-overflow: ellipsis; }
+.text-clip { text-overflow: clip; }
+
+/*
+  ==========================================
+  8. VISIBILITY UTILITIES
+  ==========================================
+  Show/hide and responsive visibility
+*/
+
+/**
+ * Display Utilities
+ */
+.hidden { display: none; }
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+
+/**
+ * Visibility
+ */
+.visible { visibility: visible; }
+.invisible { visibility: hidden; }
+
+/**
+ * Screen Reader Only
+ * Hidden visually but available to assistive technology
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.not-sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/**
+ * Responsive Visibility
+ * Show/hide at different breakpoints
+ */
+@media (max-width: 640px) {
+  .hidden-mobile { display: none; }
+  .visible-mobile { display: block; }
+}
+
+@media (min-width: 641px) {
+  .hidden-desktop { display: none; }
+  .visible-desktop { display: block; }
 }
 
 @media (min-width: 768px) {
-  .md\:block { display: block !important; }
-  .md\:inline-block { display: inline-block !important; }
-  .md\:inline { display: inline !important; }
-  .md\:flex { display: flex !important; }
-  .md\:inline-flex { display: inline-flex !important; }
-  .md\:grid { display: grid !important; }
-  .md\:hidden { display: none !important; }
-  
-  .md\:text-left { text-align: left !important; }
-  .md\:text-center { text-align: center !important; }
-  .md\:text-right { text-align: right !important; }
-  
-  .md\:w-1\/2 { width: 50% !important; }
-  .md\:w-1\/3 { width: 33.333333% !important; }
-  .md\:w-2\/3 { width: 66.666667% !important; }
+  .hidden-tablet { display: none; }
+  .visible-tablet { display: block; }
 }
 
-@media (min-width: 1024px) {
-  .lg\:block { display: block !important; }
-  .lg\:inline-block { display: inline-block !important; }
-  .lg\:inline { display: inline !important; }
-  .lg\:flex { display: flex !important; }
-  .lg\:inline-flex { display: inline-flex !important; }
-  .lg\:grid { display: grid !important; }
-  .lg\:hidden { display: none !important; }
-  
-  .lg\:text-left { text-align: left !important; }
-  .lg\:text-center { text-align: center !important; }
-  .lg\:text-right { text-align: right !important; }
-  
-  .lg\:w-1\/4 { width: 25% !important; }
-  .lg\:w-3\/4 { width: 75% !important; }
-}
+/*
+  ==========================================
+  9. INTERACTION UTILITIES
+  ==========================================
+  User interaction and state utilities
+*/
+
+/**
+ * Cursor
+ */
+.cursor-auto { cursor: auto; }
+.cursor-default { cursor: default; }
+.cursor-pointer { cursor: pointer; }
+.cursor-wait { cursor: wait; }
+.cursor-text { cursor: text; }
+.cursor-move { cursor: move; }
+.cursor-help { cursor: help; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+/**
+ * User Select
+ */
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+.select-auto { user-select: auto; }
+
+/**
+ * Pointer Events
+ */
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+
+/**
+ * Outline
+ */
+.outline-none { outline: none; }
+.outline { outline: 2px solid var(--color-brand-primary); }
 
 /*
   ==========================================
   10. ANIMATION UTILITIES
   ==========================================
+  Simple animations and transitions
 */
 
-/* Transitions */
-.transition-none { 
-  transition-property: none !important; 
-}
+/**
+ * Transition
+ */
+.transition { transition: var(--transition-timing-fast); }
+.transition-colors { transition: color var(--transition-timing-fast), background-color var(--transition-timing-fast), border-color var(--transition-timing-fast); }
+.transition-opacity { transition: opacity var(--transition-timing-fast); }
+.transition-transform { transition: transform var(--transition-timing-fast); }
+.transition-all { transition: all var(--transition-timing-fast); }
 
-.transition-all { 
-  transition-property: all !important;
-  transition-timing-function: var(--transition-easing-smooth);
-  transition-duration: var(--transition-timing-normal);
-}
+/**
+ * Transform
+ */
+.transform { transform: translateZ(0); }
+.scale-95 { transform: scale(0.95); }
+.scale-100 { transform: scale(1); }
+.scale-105 { transform: scale(1.05); }
+.scale-110 { transform: scale(1.1); }
 
-.transition { 
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform !important;
-  transition-timing-function: var(--transition-easing-smooth);
-  transition-duration: var(--transition-timing-normal);
-}
+.rotate-45 { transform: rotate(45deg); }
+.rotate-90 { transform: rotate(90deg); }
+.rotate-180 { transform: rotate(180deg); }
 
-.transition-colors { 
-  transition-property: background-color, border-color, color, fill, stroke !important;
-  transition-timing-function: var(--transition-easing-smooth);
-  transition-duration: var(--transition-timing-normal);
-}
+.translate-x-1 { transform: translateX(var(--space-1)); }
+.translate-y-1 { transform: translateY(var(--space-1)); }
+.-translate-x-1 { transform: translateX(calc(-1 * var(--space-1))); }
+.-translate-y-1 { transform: translateY(calc(-1 * var(--space-1))); }
 
-.transition-opacity { 
-  transition-property: opacity !important;
-  transition-timing-function: var(--transition-easing-smooth);
-  transition-duration: var(--transition-timing-normal);
-}
+/**
+ * Opacity
+ */
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
 
-.transition-shadow { 
-  transition-property: box-shadow !important;
-  transition-timing-function: var(--transition-easing-smooth);
-  transition-duration: var(--transition-timing-normal);
-}
-
-.transition-transform { 
-  transition-property: transform !important;
-  transition-timing-function: var(--transition-easing-smooth);
-  transition-duration: var(--transition-timing-normal);
-}
-
-/* Transform */
-.transform { transform: translateX(var(--tw-translate-x, 0)) translateY(var(--tw-translate-y, 0)) rotate(var(--tw-rotate, 0)) skewX(var(--tw-skew-x, 0)) skewY(var(--tw-skew-y, 0)) scaleX(var(--tw-scale-x, 1)) scaleY(var(--tw-scale-y, 1)) !important; }
-.transform-gpu { transform: translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), 0) rotate(var(--tw-rotate, 0)) skewX(var(--tw-skew-x, 0)) skewY(var(--tw-skew-y, 0)) scaleX(var(--tw-scale-x, 1)) scaleY(var(--tw-scale-y, 1)) !important; }
-.transform-none { transform: none !important; }
-
-/* Hover Effects */
-.hover\:scale-105:hover { transform: scale(1.05) !important; }
-.hover\:scale-110:hover { transform: scale(1.1) !important; }
-.hover\:-translate-y-1:hover { transform: translateY(-0.25rem) !important; }
-.hover\:-translate-y-2:hover { transform: translateY(-0.5rem) !important; }
-
-.hover\:shadow-md:hover { box-shadow: var(--shadow-md) !important; }
-.hover\:shadow-lg:hover { box-shadow: var(--shadow-lg) !important; }
-.hover\:shadow-xl:hover { box-shadow: var(--shadow-xl) !important; }
-
-.hover\:opacity-75:hover { opacity: 0.75 !important; }
-.hover\:opacity-100:hover { opacity: 1 !important; }
-
-/* Focus Effects */
-.focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px !important; }
-.focus\:ring:focus { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important; }
-.focus\:ring-2:focus { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important; }
-
-/*
-  ==========================================
-  11. EDUCATIONAL ANIMATION PRESETS
-  ==========================================
-*/
-
-/* Fade In Animation */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fadeIn var(--transition-timing-normal) var(--transition-easing-smooth);
-}
-
-/* Slide Up Animation */
-@keyframes slideUp {
-  from { 
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-slide-up {
-  animation: slideUp var(--transition-timing-slow) var(--transition-easing-smooth);
-}
-
-/* Scale In Animation */
-@keyframes scaleIn {
-  from { 
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to { 
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-scale-in {
-  animation: scaleIn var(--transition-timing-normal) var(--transition-easing-bounce);
-}
-
-/* Pulse Animation for Attention */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
-
+/**
+ * Simple Animations
+ */
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Bounce Animation for Success */
-@keyframes bounce {
-  0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
-  40%, 43% { transform: translateY(-8px); }
-  70% { transform: translateY(-4px); }
-  90% { transform: translateY(-2px); }
 }
 
 .animate-bounce {
   animation: bounce 1s infinite;
 }
 
-/* Shake Animation for Errors */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-  20%, 40%, 60%, 80% { transform: translateX(2px); }
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
-.animate-shake {
-  animation: shake 0.6s ease-in-out;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/*
-  ==========================================
-  12. PRINT UTILITIES
-  ==========================================
-*/
-
-@media print {
-  .print\:hidden { display: none !important; }
-  .print\:block { display: block !important; }
-  .print\:inline-block { display: inline-block !important; }
-  .print\:inline { display: inline !important; }
-  
-  .print\:text-black { color: #000 !important; }
-  .print\:bg-white { background-color: #fff !important; }
-  
-  .print\:shadow-none { box-shadow: none !important; }
-  .print\:border-0 { border-width: 0 !important; }
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
 }
 
 /*
   ==========================================
-  13. ACCESSIBILITY UTILITIES
+  11. RESPONSIVE UTILITIES
   ==========================================
+  Mobile-first responsive design utilities
 */
 
-/* Screen Reader Only */
-.sr-only {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+/**
+ * Responsive Flexbox
+ */
+@media (min-width: 640px) {
+  .sm\:flex { display: flex; }
+  .sm\:flex-col { flex-direction: column; }
+  .sm\:flex-row { flex-direction: row; }
+  .sm\:items-center { align-items: center; }
+  .sm\:justify-between { justify-content: space-between; }
 }
 
-.sr-only:focus {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  padding: var(--space-2) var(--space-4) !important;
-  margin: 0 !important;
-  overflow: visible !important;
-  clip: auto !important;
-  white-space: normal !important;
-  background: var(--color-surface-warning) !important;
-  color: var(--color-text-primary) !important;
-  border: 2px solid var(--color-border-accent) !important;
-  border-radius: var(--radius-md) !important;
-  z-index: var(--z-index-tooltip) !important;
+@media (min-width: 768px) {
+  .md\:flex { display: flex; }
+  .md\:flex-col { flex-direction: column; }
+  .md\:flex-row { flex-direction: row; }
+  .md\:items-center { align-items: center; }
+  .md\:justify-between { justify-content: space-between; }
 }
 
-/* Not Screen Reader Only */
-.not-sr-only {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  overflow: visible !important;
-  clip: auto !important;
-  white-space: normal !important;
+@media (min-width: 1024px) {
+  .lg\:flex { display: flex; }
+  .lg\:flex-col { flex-direction: column; }
+  .lg\:flex-row { flex-direction: row; }
+  .lg\:items-center { align-items: center; }
+  .lg\:justify-between { justify-content: space-between; }
 }
 
-/* Focus Visible */
-.focus-visible\:outline-none:focus-visible {
-  outline: 2px solid transparent !important;
-  outline-offset: 2px !important;
+/**
+ * Responsive Grid
+ */
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-.focus-visible\:ring:focus-visible {
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+/**
+ * Responsive Text
+ */
+@media (min-width: 640px) {
+  .sm\:text-sm { font-size: var(--font-size-sm); }
+  .sm\:text-base { font-size: var(--font-size-base); }
+  .sm\:text-lg { font-size: var(--font-size-lg); }
+  .sm\:text-center { text-align: center; }
+  .sm\:text-left { text-align: left; }
+}
+
+@media (min-width: 768px) {
+  .md\:text-base { font-size: var(--font-size-base); }
+  .md\:text-lg { font-size: var(--font-size-lg); }
+  .md\:text-xl { font-size: var(--font-size-xl); }
+  .md\:text-center { text-align: center; }
+  .md\:text-left { text-align: left; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:text-lg { font-size: var(--font-size-lg); }
+  .lg\:text-xl { font-size: var(--font-size-xl); }
+  .lg\:text-2xl { font-size: var(--font-size-2xl); }
+  .lg\:text-center { text-align: center; }
+  .lg\:text-left { text-align: left; }
 }
 
 /*
@@ -793,65 +1130,62 @@
   UTILITIES SYSTEM COMPLETE
   ==========================================
   
-  Este sistema de utilidades proporciona:
+  This comprehensive utilities system demonstrates:
+  ✅ Single Responsibility - Each utility class has one clear purpose
+  ✅ Composability - Utilities combine to create complex patterns
+  ✅ Consistency - Systematic approach using design tokens
+  ✅ Performance - Minimal CSS with maximum reusability
+  ✅ Educational Value - Utilities that teach design principles
+  ✅ Accessibility First - Screen reader and keyboard support
+  ✅ Responsive Design - Mobile-first with breakpoint utilities
+  ✅ Modern CSS - Flexbox, Grid, and latest features
+  ✅ Developer Experience - Intuitive naming and predictable behavior
+  ✅ Maintainability - Easy to extend and modify
   
-  ✅ Atomic CSS Philosophy:
-  - Clases de propósito único y reutilizables
-  - Composición sobre herencia
-  - Desarrollo rápido con consistencia
+  Usage Examples:
   
-  ✅ Educational Specific Utilities:
-  - Indicadores de stage educativo
-  - Estados de progreso de aprendizaje
-  - Indicadores de costo de errores
-  - Tipos de contenido educativo
+  <!-- Avatar with status -->
+  <div class="avatar avatar--large avatar--with-status">
+    <img src="user.jpg" alt="John Doe">
+  </div>
   
-  ✅ Responsive Design:
-  - Mobile-first approach
-  - Breakpoint-specific utilities
-  - Hide/show patterns para diferentes dispositivos
+  <!-- Badge combinations -->
+  <span class="badge badge--success badge--large">
+    <span class="badge__icon">✓</span>
+    Completed
+  </span>
   
-  ✅ Animation & Interaction:
-  - Presets de animación educativa
-  - Hover y focus effects
-  - Transiciones suaves y performantes
+  <!-- Tooltip usage -->
+  <button class="tooltip tooltip--top" data-tooltip="Save your progress">
+    <span class="tooltip__content">Save your progress</span>
+    Save
+  </button>
   
-  ✅ Accessibility Support:
-  - Screen reader utilities
-  - Focus management
-  - Print optimizations
-  - High contrast support
-  
-  ✅ Developer Experience:
-  - Nomenclatura consistente con Tailwind
-  - Important flags para override specificity
-  - Responsive variants donde sea útil
-  
-  Uso típico:
-  
-  <!-- Elemento educativo completo -->
-  <div class="bg-surface-primary rounded-lg shadow-md p-6 transition-all hover:shadow-lg hover:-translate-y-1">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="stage-indicator stage-indicator--expert">⚡</span>
-      <h3 class="text-lg font-semibold text-primary">Bug Millonario</h3>
-      <span class="cost-indicator cost-indicator--critical">$2.3M</span>
-    </div>
-    <div class="progress-state progress-state--in-progress mb-3">
-      En progreso
-    </div>
-    <p class="text-secondary leading-relaxed">
-      Aprende sobre el error de precedencia que costó 2.3 millones...
-    </p>
+  <!-- Utility class combinations -->
+  <div class="flex items-center justify-between p-4 mb-6 bg-surface-secondary rounded-lg">
+    <h3 class="text-lg font-semibold text-primary">Course Progress</h3>
+    <span class="badge badge--info">75% Complete</span>
   </div>
   
   <!-- Responsive layout -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div class="hidden md:block">Desktop sidebar</div>
-    <div class="col-span-full lg:col-span-2">Main content</div>
+    <div class="card p-6">...</div>
+    <div class="card p-6">...</div>
+    <div class="card p-6">...</div>
   </div>
   
-  <!-- Animated interactions -->
-  <button class="btn transition-all hover:scale-105 hover:shadow-lg focus:ring animate-slide-up">
-    Comenzar Proyecto
-  </button>
+  <!-- Empty state -->
+  <div class="empty-state">
+    <div class="empty-state__icon">📚</div>
+    <h3 class="empty-state__title">No Courses Yet</h3>
+    <p class="empty-state__description">
+      Start your learning journey by enrolling in your first course.
+    </p>
+    <div class="empty-state__action">
+      <button class="btn btn--primary">Browse Courses</button>
+    </div>
+  </div>
+  
+  Following Adam Wathan's utility-first approach and Harry Roberts' ITCSS methodology:
+  "Utilities solve specific problems and can be composed to create any design."
 */

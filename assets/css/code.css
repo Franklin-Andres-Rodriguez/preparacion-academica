@@ -1,0 +1,1070 @@
+/*
+  ==========================================
+  CODE COMPONENT SYSTEM
+  MILLION DOLLAR BUGS ACADEMY
+  ==========================================
+  
+  Comprehensive code display and editing system following Brad Traversy's practical approach
+  to developer tools and GitHub's code presentation best practices.
+  
+  "Code is read much more often than it is written." - Guido van Rossum
+  "Clean code is simple and direct. Clean code reads like well-written prose." - Robert C. Martin
+  "Programs must be written for people to read, and only incidentally for machines to execute." - Harold Abelson
+  
+  Architecture Philosophy:
+  1. Readability First - Code should be easy to read and understand
+  2. Educational Focus - Syntax highlighting that teaches language concepts
+  3. Copy-Paste Friendly - Seamless code sharing and replication
+  4. Accessibility Aware - Screen reader compatible and keyboard navigable
+  5. Developer Experience - Tools that enhance learning and productivity
+  
+  Dependencies:
+  - design-tokens.css (must be imported first)
+*/
+
+/*
+  ==========================================
+  1. CODE EDITOR FOUNDATION
+  ==========================================
+  Modern code editor interface following VS Code design principles
+*/
+
+/**
+ * Code Editor Container
+ * 
+ * Design decisions explained:
+ * - Border radius creates modern, friendly appearance
+ * - Overflow hidden contains internal scrolling areas
+ * - Box shadow provides depth and focus
+ * - Font family optimized for code readability
+ * 
+ * Educational features:
+ * - Clear visual hierarchy between header, content, and output
+ * - Familiar interface reduces cognitive load for learners
+ * - Professional appearance builds confidence in learning environment
+ */
+.code-editor {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-6);
+}
+
+/**
+ * Code Editor Header
+ * 
+ * Features:
+ * - Mimics native window controls for familiarity
+ * - File name display for context
+ * - Action buttons for copy, run, etc.
+ * - Semantic color coding following macOS conventions
+ * 
+ * Accessibility:
+ * - Proper contrast ratios for all elements
+ * - Keyboard navigation support
+ * - Screen reader friendly labels
+ */
+.code-editor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-secondary);
+  border-bottom: 1px solid var(--color-border-primary);
+  min-height: 3rem;
+}
+
+/**
+ * Window Controls
+ * Familiar traffic light buttons that enhance the editor experience
+ * Non-functional but provide visual context and professionalism
+ */
+.code-editor__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.code-editor__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-timing-fast);
+}
+
+.code-editor__dot:hover {
+  filter: brightness(0.8);
+}
+
+.code-editor__dot--red {
+  background: #ff5f57;
+}
+
+.code-editor__dot--yellow {
+  background: #ffbd2e;
+}
+
+.code-editor__dot--green {
+  background: #28ca42;
+}
+
+/**
+ * File Title Display
+ * Shows current file context and helps with mental model building
+ * Essential for educational scenarios with multiple file examples
+ */
+.code-editor__title {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-primary);
+  text-align: center;
+  flex: 1;
+}
+
+/**
+ * Editor Actions
+ * Toolbar buttons for common operations
+ * Copy, run, reset, and other interactive functions
+ */
+.code-editor__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.code-editor__action {
+  background: none;
+  border: 1px solid var(--color-border-secondary);
+  color: var(--color-text-secondary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: var(--transition-timing-fast);
+  font-family: var(--font-family-primary);
+}
+
+.code-editor__action:hover {
+  background: var(--color-surface-tertiary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-primary);
+}
+
+.code-editor__action:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+.code-editor__action--primary {
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-brand-primary);
+}
+
+.code-editor__action--primary:hover {
+  background: var(--color-brand-primary-hover);
+  border-color: var(--color-brand-primary-hover);
+}
+
+/*
+  ==========================================
+  2. CODE CONTENT AREA
+  ==========================================
+  Main code display and editing interface
+*/
+
+/**
+ * Code Content Container
+ * 
+ * Features:
+ * - Horizontal scrolling for long lines
+ * - Proper padding for readability
+ * - Dark background optimized for code reading
+ * - Line height optimized for code scanning
+ * 
+ * Performance considerations:
+ * - Minimal reflows during scrolling
+ * - Efficient text rendering
+ * - Smooth selection and cursor movement
+ */
+.code-editor__content {
+  padding: var(--space-4);
+  background: var(--color-surface-primary);
+  overflow-x: auto;
+  min-height: 200px;
+  line-height: var(--line-height-relaxed);
+  position: relative;
+}
+
+/**
+ * Code Blocks within Editor
+ * Reset default styling to match editor appearance
+ * Seamless integration with surrounding interface
+ */
+.code-editor__content pre {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  overflow: visible;
+}
+
+.code-editor__content code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/**
+ * Line Numbers
+ * Optional line numbering for reference and navigation
+ * Helpful for educational contexts and debugging discussions
+ */
+.code-editor--with-lines {
+  display: flex;
+}
+
+.code-editor__line-numbers {
+  background: var(--color-surface-tertiary);
+  color: var(--color-text-disabled);
+  padding: var(--space-4) var(--space-3);
+  text-align: right;
+  user-select: none;
+  border-right: 1px solid var(--color-border-primary);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  min-width: 3rem;
+}
+
+.code-editor__line-numbers .line-number {
+  display: block;
+  position: relative;
+}
+
+.code-editor__line-numbers .line-number:hover {
+  color: var(--color-text-secondary);
+}
+
+/*
+  ==========================================
+  3. SYNTAX HIGHLIGHTING SYSTEM
+  ==========================================
+  Educational syntax highlighting following language-specific conventions
+*/
+
+/**
+ * Base Code Syntax Classes
+ * 
+ * Color philosophy:
+ * - Comments: Muted, de-emphasized for focus on logic
+ * - Keywords: Strong, recognizable colors for language constructs
+ * - Strings: Distinct color that stands out from logic
+ * - Numbers: Different from strings to show data types
+ * - Functions: Highlighted to show callable entities
+ * - Parameters: Distinct from regular variables
+ * 
+ * Educational benefits:
+ * - Visual pattern recognition helps with language learning
+ * - Color coding reduces cognitive load when reading code
+ * - Consistent highlighting across different code examples
+ */
+
+/* Comments - De-emphasized but readable */
+.code-comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Language Keywords - Strong visual weight */
+.code-keyword {
+  color: #8b5cf6;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Strings - Distinctive green for text values */
+.code-string {
+  color: #10b981;
+}
+
+/* Numbers - Warm color for numeric values */
+.code-number {
+  color: #f59e0b;
+}
+
+/* Functions - Blue for callable entities */
+.code-function {
+  color: #3b82f6;
+}
+
+/* Function Parameters - Red for arguments */
+.code-param {
+  color: #ef4444;
+}
+
+/* Variables - Default text color */
+.code-variable {
+  color: var(--color-text-primary);
+}
+
+/* Operators - Subtle emphasis */
+.code-operator {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Built-in Types/Classes */
+.code-type {
+  color: #06b6d4;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Constants - All caps, distinct color */
+.code-constant {
+  color: #f97316;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Error Highlights - For teaching debugging */
+.code-error {
+  color: var(--color-text-danger);
+  background: var(--color-surface-danger);
+  padding: var(--space-0_5) var(--space-1);
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.code-error::after {
+  content: '⚠️';
+  position: absolute;
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+}
+
+/* Success Highlights - For correct implementations */
+.code-success {
+  color: var(--color-text-success);
+  background: var(--color-surface-success);
+  padding: var(--space-0_5) var(--space-1);
+  border-radius: var(--radius-sm);
+}
+
+/* Line Highlights - For emphasis during teaching */
+.code-line-highlight {
+  background: rgba(59, 130, 246, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--space-4));
+  padding: 0 var(--space-4);
+  border-left: 3px solid var(--color-brand-primary);
+}
+
+/*
+  ==========================================
+  4. CODE OUTPUT DISPLAY
+  ==========================================
+  Console output and execution results visualization
+*/
+
+/**
+ * Code Output Container
+ * 
+ * Features:
+ * - Clear separation from code input
+ * - Terminal-like appearance for familiarity
+ * - Color coding for different output types
+ * - Scrollable for long outputs
+ * 
+ * Educational value:
+ * - Immediate feedback connection between code and results
+ * - Error visualization helps with debugging skills
+ * - Success confirmation builds confidence
+ */
+.code-output {
+  background: var(--color-surface-tertiary);
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border-primary);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  min-height: 100px;
+  max-height: 300px;
+  overflow-y: auto;
+  color: var(--color-text-primary);
+  position: relative;
+}
+
+.code-output::before {
+  content: '$ ';
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-bold);
+}
+
+/**
+ * Output State Variants
+ * Different visual treatments for various execution states
+ * Immediate visual feedback for learning outcomes
+ */
+.code-output--success {
+  background: var(--color-surface-success);
+  color: var(--color-text-success);
+  border-top-color: var(--color-border-success);
+}
+
+.code-output--success::before {
+  content: '✓ ';
+  color: var(--color-text-success);
+}
+
+.code-output--error {
+  background: var(--color-surface-danger);
+  color: var(--color-text-danger);
+  border-top-color: var(--color-border-danger);
+}
+
+.code-output--error::before {
+  content: '✗ ';
+  color: var(--color-text-danger);
+}
+
+.code-output--loading {
+  background: var(--color-surface-warning);
+  color: var(--color-text-warning);
+  border-top-color: var(--color-border-warning);
+}
+
+.code-output--loading::before {
+  content: '⟳ ';
+  color: var(--color-text-warning);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/**
+ * Output Content Formatting
+ * Proper formatting for different types of console output
+ */
+.code-output__content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.code-output__timestamp {
+  color: var(--color-text-disabled);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--space-2);
+}
+
+/*
+  ==========================================
+  5. INLINE CODE COMPONENTS
+  ==========================================
+  Small code snippets within text content
+*/
+
+/**
+ * Inline Code Styling
+ * 
+ * Design approach:
+ * - Subtle background for differentiation
+ * - Consistent with editor appearance
+ * - Readable within body text
+ * - Proper spacing and padding
+ * 
+ * Usage contexts:
+ * - Variable names in documentation
+ * - Short code examples in explanations
+ * - File names and paths
+ * - Command line snippets
+ */
+.code-inline {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  padding: var(--space-0_5) var(--space-1);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-mono);
+  font-size: 0.9em;
+  border: 1px solid var(--color-border-secondary);
+}
+
+/**
+ * Keyboard Key Styling
+ * For documenting keyboard shortcuts and commands
+ * Mimics physical key appearance
+ */
+.code-key {
+  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.code-key + .code-key::before {
+  content: ' + ';
+  color: var(--color-text-secondary);
+  padding: 0 var(--space-1);
+}
+
+/*
+  ==========================================
+  6. CODE BLOCK VARIATIONS
+  ==========================================
+  Different presentations for various educational contexts
+*/
+
+/**
+ * Compact Code Block
+ * Minimal padding for short snippets
+ * Good for embedding in cards or tight layouts
+ */
+.code-editor--compact {
+  margin-bottom: var(--space-4);
+}
+
+.code-editor--compact .code-editor__content {
+  padding: var(--space-3);
+  min-height: 120px;
+}
+
+.code-editor--compact .code-editor__header {
+  padding: var(--space-2) var(--space-3);
+  min-height: 2.5rem;
+}
+
+/**
+ * Full-height Code Editor
+ * For interactive coding exercises
+ * Maximizes screen real estate for complex examples
+ */
+.code-editor--full-height {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.code-editor--full-height .code-editor__content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/**
+ * Split-view Code Editor
+ * Side-by-side input and output
+ * Excellent for before/after comparisons
+ */
+.code-editor--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.code-editor--split .code-editor__content {
+  border-right: 1px solid var(--color-border-primary);
+}
+
+.code-editor--split .code-output {
+  border-top: none;
+  border-left: 1px solid var(--color-border-primary);
+}
+
+@media (max-width: 768px) {
+  .code-editor--split {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+  
+  .code-editor--split .code-editor__content {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+  
+  .code-editor--split .code-output {
+    border-left: none;
+    border-top: 1px solid var(--color-border-primary);
+  }
+}
+
+/*
+  ==========================================
+  7. LANGUAGE-SPECIFIC THEMES
+  ==========================================
+  Customized appearances for different programming languages
+*/
+
+/**
+ * JavaScript Theme
+ * Warm colors reflecting the dynamic nature of JS
+ */
+.code-editor--javascript .code-editor__header {
+  background: linear-gradient(135deg, #f7df1e 0%, #f0d91d 100%);
+  color: #323330;
+}
+
+.code-editor--javascript .code-editor__title::before {
+  content: 'JS ';
+  font-weight: var(--font-weight-bold);
+}
+
+/**
+ * Python Theme
+ * Clean, academic colors reflecting Python's readability
+ */
+.code-editor--python .code-editor__header {
+  background: linear-gradient(135deg, #3776ab 0%, #306998 100%);
+  color: white;
+}
+
+.code-editor--python .code-editor__title::before {
+  content: 'PY ';
+  font-weight: var(--font-weight-bold);
+}
+
+/**
+ * HTML Theme
+ * Structured colors reflecting markup nature
+ */
+.code-editor--html .code-editor__header {
+  background: linear-gradient(135deg, #e34c26 0%, #d63031 100%);
+  color: white;
+}
+
+.code-editor--html .code-editor__title::before {
+  content: 'HTML ';
+  font-weight: var(--font-weight-bold);
+}
+
+/**
+ * CSS Theme
+ * Styled appearance reflecting design focus
+ */
+.code-editor--css .code-editor__header {
+  background: linear-gradient(135deg, #1572b6 0%, #0f4c81 100%);
+  color: white;
+}
+
+.code-editor--css .code-editor__title::before {
+  content: 'CSS ';
+  font-weight: var(--font-weight-bold);
+}
+
+/*
+  ==========================================
+  8. INTERACTIVE CODE FEATURES
+  ==========================================
+  Enhanced functionality for educational platforms
+*/
+
+/**
+ * Code Playground
+ * Interactive editor with live preview capabilities
+ * Essential for hands-on learning experiences
+ */
+.code-playground {
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: var(--color-surface-primary);
+}
+
+.code-playground__tabs {
+  display: flex;
+  background: var(--color-surface-secondary);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.code-playground__tab {
+  background: none;
+  border: none;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition-timing-fast);
+}
+
+.code-playground__tab:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-primary);
+}
+
+.code-playground__tab--active {
+  color: var(--color-brand-primary);
+  border-bottom-color: var(--color-brand-primary);
+  background: var(--color-surface-primary);
+}
+
+.code-playground__panel {
+  display: none;
+  height: 400px;
+}
+
+.code-playground__panel--active {
+  display: block;
+}
+
+/**
+ * Code Diff Viewer
+ * Before/after comparison for teaching improvements
+ * Visual highlighting of changes and improvements
+ */
+.code-diff {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.code-diff__before,
+.code-diff__after {
+  position: relative;
+}
+
+.code-diff__before {
+  background: var(--color-surface-danger);
+  border-right: 1px solid var(--color-border-primary);
+}
+
+.code-diff__before::before {
+  content: 'Before (❌)';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+.code-diff__after {
+  background: var(--color-surface-success);
+}
+
+.code-diff__after::before {
+  content: 'After (✅)';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-success);
+  color: var(--color-text-inverse);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+.code-diff__content {
+  padding: var(--space-8) var(--space-4) var(--space-4);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .code-diff {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  
+  .code-diff__before {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+}
+
+/*
+  ==========================================
+  9. ACCESSIBILITY & RESPONSIVE DESIGN
+  ==========================================
+  Inclusive design for all learners and devices
+*/
+
+/**
+ * Screen Reader Support
+ * Hidden content for assistive technology
+ * Essential for code accessibility in educational contexts
+ */
+.code__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/**
+ * High Contrast Mode Support
+ * Ensures code remains readable in accessibility themes
+ */
+@media (prefers-contrast: high) {
+  .code-editor {
+    border-width: 2px;
+  }
+  
+  .code-inline,
+  .code-key {
+    border-width: 2px;
+  }
+  
+  .code-comment {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+}
+
+/**
+ * Reduced Motion Support
+ * Respects user preferences for minimal animation
+ */
+@media (prefers-reduced-motion: reduce) {
+  .code-editor__action,
+  .code-playground__tab {
+    transition: none;
+  }
+  
+  .code-output--loading::before {
+    animation: none;
+  }
+}
+
+/**
+ * Mobile Responsive Behavior
+ * Touch-friendly interactions and optimized layouts
+ */
+@media (max-width: 640px) {
+  .code-editor {
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--space-4);
+  }
+  
+  .code-editor__header {
+    padding: var(--space-2) var(--space-3);
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  
+  .code-editor__content {
+    padding: var(--space-3);
+    min-height: 150px;
+  }
+  
+  .code-editor__actions {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .code-editor__action {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--font-size-xs);
+  }
+  
+  /* Horizontal scrolling for long code lines */
+  .code-editor__content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Larger touch targets for mobile */
+  .code-playground__tab {
+    padding: var(--space-4);
+    min-width: 44px;
+  }
+}
+
+/**
+ * Print Styles
+ * Optimized appearance for printed educational materials
+ */
+@media print {
+  .code-editor {
+    box-shadow: none;
+    border: 2px solid #000;
+    break-inside: avoid;
+  }
+  
+  .code-editor__header {
+    background: #f5f5f5 !important;
+    color: #000 !important;
+  }
+  
+  .code-editor__actions {
+    display: none;
+  }
+  
+  .code-output {
+    background: #f9f9f9 !important;
+    color: #000 !important;
+  }
+  
+  .code-comment { color: #666 !important; }
+  .code-keyword { color: #000 !important; font-weight: bold; }
+  .code-string { color: #333 !important; }
+  .code-number { color: #333 !important; }
+  .code-function { color: #000 !important; font-weight: bold; }
+}
+
+/*
+  ==========================================
+  CODE SYSTEM COMPLETE
+  ==========================================
+  
+  This comprehensive code component system demonstrates:
+  ✅ Readability First - Code optimized for easy reading and understanding
+  ✅ Educational Focus - Syntax highlighting that teaches language concepts
+  ✅ Copy-Paste Friendly - Seamless code sharing and replication
+  ✅ Accessibility Aware - Screen reader compatible and keyboard navigable
+  ✅ Developer Experience - Tools that enhance learning and productivity
+  ✅ Responsive Design - Mobile-optimized with touch-friendly interactions
+  ✅ Modern Interface - Professional editor appearance builds confidence
+  ✅ Interactive Features - Playgrounds, diffs, and live output for engagement
+  ✅ Multi-language Support - Themed appearances for different programming languages
+  ✅ Performance Conscious - Efficient rendering and smooth interactions
+  
+  JavaScript Integration Examples:
+  
+  // Copy code functionality
+  function setupCodeCopy() {
+    document.querySelectorAll('.code-editor__action[data-action="copy"]').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        const codeContent = e.target.closest('.code-editor').querySelector('code').textContent;
+        try {
+          await navigator.clipboard.writeText(codeContent);
+          button.textContent = 'Copied!';
+          setTimeout(() => button.textContent = 'Copy', 2000);
+        } catch (err) {
+          console.error('Failed to copy code:', err);
+        }
+      });
+    });
+  }
+  
+  // Code execution simulation
+  function simulateCodeExecution(editor) {
+    const output = editor.querySelector('.code-output');
+    const code = editor.querySelector('code').textContent;
+    
+    output.className = 'code-output code-output--loading';
+    output.textContent = 'Executing...';
+    
+    setTimeout(() => {
+      // Simulate execution result
+      const success = !code.includes('error') && !code.includes('undefined');
+      output.className = `code-output code-output--${success ? 'success' : 'error'}`;
+      output.textContent = success ? 'Code executed successfully!' : 'Error: Check your syntax';
+    }, 1500);
+  }
+  
+  // Playground tab switching
+  function setupPlaygroundTabs() {
+    document.querySelectorAll('.code-playground').forEach(playground => {
+      const tabs = playground.querySelectorAll('.code-playground__tab');
+      const panels = playground.querySelectorAll('.code-playground__panel');
+      
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('code-playground__tab--active'));
+          panels.forEach(p => p.classList.remove('code-playground__panel--active'));
+          
+          tab.classList.add('code-playground__tab--active');
+          panels[index].classList.add('code-playground__panel--active');
+        });
+      });
+    });
+  }
+  
+  Usage Examples:
+  
+  <!-- Basic code editor -->
+  <div class="code-editor code-editor--javascript">
+    <div class="code-editor__header">
+      <div class="code-editor__controls">
+        <div class="code-editor__dot code-editor__dot--red"></div>
+        <div class="code-editor__dot code-editor__dot--yellow"></div>
+        <div class="code-editor__dot code-editor__dot--green"></div>
+      </div>
+      <div class="code-editor__title">app.js</div>
+      <div class="code-editor__actions">
+        <button class="code-editor__action" data-action="copy">Copy</button>
+        <button class="code-editor__action code-editor__action--primary" data-action="run">Run</button>
+      </div>
+    </div>
+    <div class="code-editor__content">
+      <pre><code class="language-javascript">
+<span class="code-keyword">function</span> <span class="code-function">greetUser</span>(<span class="code-param">name</span>) {
+  <span class="code-comment">// Display a personalized greeting</span>
+  <span class="code-keyword">const</span> <span class="code-variable">message</span> = <span class="code-string">`Hello, ${name}! Welcome to coding.`</span>;
+  <span class="code-function">console.log</span>(<span class="code-variable">message</span>);
+}
+
+<span class="code-comment">// Call the function</span>
+<span class="code-function">greetUser</span>(<span class="code-string">'Alice'</span>);
+      </code></pre>
+    </div>
+    <div class="code-output">
+      Hello, Alice! Welcome to coding.
+    </div>
+  </div>
+  
+  <!-- Inline code usage -->
+  <p>Use the <code class="code-inline">console.log()</code> function to display output. 
+  Press <kbd class="code-key">Ctrl</kbd><kbd class="code-key">Enter</kbd> to run the code.</p>
+  
+  <!-- Code comparison -->
+  <div class="code-diff">
+    <div class="code-diff__before">
+      <div class="code-diff__content">
+        <pre><code>var x = 5;
+var y = 10;
+console.log(x + y);</code></pre>
+      </div>
+    </div>
+    <div class="code-diff__after">
+      <div class="code-diff__content">
+        <pre><code>const x = 5;
+const y = 10;
+console.log(`Sum: ${x + y}`);</code></pre>
+      </div>
+    </div>
+  </div>
+  
+  Following Brad Traversy's practical developer education approach and GitHub's code presentation standards:
+  "Good code tells a story. Great code teaches while it functions."
+*/
