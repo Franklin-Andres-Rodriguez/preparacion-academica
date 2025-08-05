@@ -1,0 +1,29 @@
+# .github/CODEOWNERS
+# Code ownership and review requirements
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global ownership - Franklin es owner de todo el proyecto
+* @Franklin-Andres-Rodriguez
+
+# Security-critical files require mandatory review
+.github/workflows/ @Franklin-Andres-Rodriguez
+.github/dependabot.yml @Franklin-Andres-Rodriguez
+SECURITY.md @Franklin-Andres-Rodriguez
+.github/CODEOWNERS @Franklin-Andres-Rodriguez
+
+# Scripts de automatización - críticos para el desarrollo
+scripts/ @Franklin-Andres-Rodriguez
+
+# Documentación educativa - requiere revisión pedagógica
+docs/ @Franklin-Andres-Rodriguez
+*.md @Franklin-Andres-Rodriguez
+
+# Configuraciones de proyecto
+package.json @Franklin-Andres-Rodriguez
+*.config.js @Franklin-Andres-Rodriguez
+*.config.ts @Franklin-Andres-Rodriguez
+
+# Future: Microservices ownership (cuando implementemos)
+# /services/auth-service/ @Franklin-Andres-Rodriguez @auth-team
+# /services/competency-service/ @Franklin-Andres-Rodriguez @education-team
+# /frontend/ @Franklin-Andres-Rodriguez @frontend-team
