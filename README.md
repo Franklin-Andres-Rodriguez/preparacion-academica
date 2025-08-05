@@ -402,16 +402,6 @@ Contributing to **Phase 1** teaches:
 ### **📜 License**
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-### **🙏 Acknowledgments**
-This project builds upon the collective wisdom of **50+ world-renowned software engineering educators**, including:
-
-- **Ian Sommerville** - Software Engineering systematic methodology
-- **Robert C. Martin** - Clean Code and professional practices
-- **Martin Fowler** - Refactoring and evolutionary design
-- **Kent Beck** - Test-Driven Development and Extreme Programming
-
-**Special thanks to the open-source community** for providing the tools and frameworks that make this educational platform possible.
-
 ---
 
 ## 🎯 **Ready to Get Started?**
