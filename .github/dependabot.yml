@@ -3,28 +3,6 @@
 version: 2
 
 updates:
-  # Frontend dependencies (cuando lo tengamos)
-  - package-ecosystem: "npm"
-    directory: "/frontend"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "America/Bogota"
-    reviewers:
-      - "Franklin-Andres-Rodriguez"
-    assignees:
-      - "Franklin-Andres-Rodriguez"
-    commit-message:
-      prefix: "deps(frontend)"
-      include: "scope"
-    open-pull-requests-limit: 5
-    rebase-strategy: "auto"
-    labels:
-      - "dependencies"
-      - "frontend"
-      - "automated"
-
   # Root project dependencies
   - package-ecosystem: "npm"
     directory: "/"
@@ -45,24 +23,6 @@ updates:
     labels:
       - "dependencies"
       - "root"
-      - "automated"
-
-  # Microservices dependencies (para futuras fases)
-  - package-ecosystem: "npm"
-    directory: "/services/auth-service"
-    schedule:
-      interval: "weekly"
-      day: "tuesday"
-      time: "09:00"
-      timezone: "America/Bogota"
-    reviewers:
-      - "Franklin-Andres-Rodriguez"
-    commit-message:
-      prefix: "deps(auth)"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "auth-service"
       - "automated"
 
   # GitHub Actions dependencies
@@ -100,3 +60,46 @@ updates:
       - "dependencies"
       - "docker"
       - "automated"
+
+# ===== FUTURE CONFIGURATIONS (COMMENTED OUT) =====
+# Uncomment and configure when directories are created
+
+# Frontend dependencies (Phase 2+)
+# - package-ecosystem: "npm"
+#   directory: "/frontend"
+#   schedule:
+#     interval: "weekly"
+#     day: "monday"
+#     time: "09:00"
+#     timezone: "America/Bogota"
+#   reviewers:
+#     - "Franklin-Andres-Rodriguez"
+#   assignees:
+#     - "Franklin-Andres-Rodriguez"
+#   commit-message:
+#     prefix: "deps(frontend)"
+#     include: "scope"
+#   open-pull-requests-limit: 5
+#   rebase-strategy: "auto"
+#   labels:
+#     - "dependencies"
+#     - "frontend"
+#     - "automated"
+
+# Microservices dependencies (Phase 2+)
+# - package-ecosystem: "npm"
+#   directory: "/services/auth-service"
+#   schedule:
+#     interval: "weekly"
+#     day: "tuesday"
+#     time: "09:00"
+#     timezone: "America/Bogota"
+#   reviewers:
+#     - "Franklin-Andres-Rodriguez"
+#   commit-message:
+#     prefix: "deps(auth)"
+#     include: "scope"
+#   labels:
+#     - "dependencies"
+#     - "auth-service"
+#     - "automated"
