@@ -43,28 +43,10 @@ updates:
       - "ci-cd"
       - "automated"
 
-  # Docker dependencies (para futuras fases)
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "thursday"
-      time: "09:00"
-      timezone: "America/Bogota"
-    reviewers:
-      - "Franklin-Andres-Rodriguez"
-    commit-message:
-      prefix: "deps(docker)"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "docker"
-      - "automated"
+# Future phases configurations (commented out to prevent errors)
+# Uncomment sections as directories are created in subsequent phases
 
-# ===== FUTURE CONFIGURATIONS (COMMENTED OUT) =====
-# Uncomment and configure when directories are created
-
-# Frontend dependencies (Phase 2+)
+# Frontend dependencies (Phase 2)
 # - package-ecosystem: "npm"
 #   directory: "/frontend"
 #   schedule:
@@ -79,14 +61,12 @@ updates:
 #   commit-message:
 #     prefix: "deps(frontend)"
 #     include: "scope"
-#   open-pull-requests-limit: 5
-#   rebase-strategy: "auto"
 #   labels:
 #     - "dependencies"
 #     - "frontend"
 #     - "automated"
 
-# Microservices dependencies (Phase 2+)
+# Microservices dependencies (Phase 3)
 # - package-ecosystem: "npm"
 #   directory: "/services/auth-service"
 #   schedule:
