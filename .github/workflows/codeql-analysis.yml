@@ -1,5 +1,3 @@
-# .github/workflows/codeql-analysis.yml
-# GitHub Advanced Security - CodeQL Analysis
 name: "CodeQL Security Analysis"
 
 on:
@@ -14,7 +12,7 @@ on:
       - '**.md'
       - 'docs/**'
   schedule:
-    - cron: '30 6 * * 1'  # Weekly Monday 6:30 AM
+    - cron: '30 6 * * 1'
 
 jobs:
   analyze:
@@ -29,7 +27,6 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'javascript' ]
-        # Future: 'python', 'java', 'csharp', 'cpp', 'go'
 
     steps:
     - name: Checkout repository
@@ -39,10 +36,10 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        # Custom queries for educational platform
         queries: security-extended,security-and-quality
+        # Add this line to handle default setup conflict
+        config-file: ./.github/codeql/codeql-config.yml
         
-    # Auto-build for JavaScript/TypeScript
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
 
@@ -50,3 +47,6 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+        # Add upload override
+        upload: true
+        wait-for-processing: true
