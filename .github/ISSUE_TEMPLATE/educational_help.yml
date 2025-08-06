@@ -1,0 +1,224 @@
+name: 🎓 Educational Help Request
+description: Get help with learning concepts, debugging methodology, or development practices
+title: "[HELP] "
+labels: ["help-wanted", "educational-support", "needs-mentor"]
+assignees: ["Franklin-Andres-Rodriguez"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎓 Preparación Académica - Educational Support
+        
+        Welcome to our learning community! **Getting help is a skill** - asking good questions accelerates learning and develops professional communication abilities.
+        
+        > 💡 **Learning Insight**: This template practices **Systematic Problem Articulation** - the same methodology professional developers use when seeking help from senior colleagues.
+
+  - type: dropdown
+    id: learning_phase
+    attributes:
+      label: 📚 Current Learning Phase
+      description: Where are you in your educational journey?
+      options:
+        - "🔰 Phase 1 - Repository Setup & Security (current focus)"
+        - "🏗️ Phase 2 - Microservices Foundation (future)"
+        - "🎯 Phase 3 - Educational Content Development (future)"
+        - "🤝 Phase 4 - Collaboration Features (future)"
+        - "🚀 Phase 5 - Advanced Features & Scale (future)"
+        - "❓ Not sure which phase this relates to"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: help_category
+    attributes:
+      label: 🎯 Help Category
+      description: What type of assistance do you need?
+      options:
+        - "🔧 Development Setup (environment, tools, scripts)"
+        - "⚙️ GitHub Features (actions, templates, security)"
+        - "📋 Repository Management (branching, protection, workflows)"
+        - "🛡️ Security Practices (scanning, dependencies, policies)"
+        - "🎓 Learning Methodology (how to approach topics systematically)"
+        - "💻 Technical Concepts (understanding why things work)"
+        - "🤝 Collaboration Workflow (PRs, reviews, contributions)"
+        - "📚 Documentation (understanding or improving guides)"
+        - "🚨 Error Resolution (specific problems or bugs)"
+        - "🌟 Best Practices (professional development approaches)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: experience_level
+    attributes:
+      label: 👤 Your Experience Level
+      description: This helps us tailor our response appropriately
+      options:
+        - "🔰 Beginner - New to programming/development"
+        - "📚 Student - Learning fundamentals, some experience"
+        - "💼 Intermediate - Some professional/project experience"
+        - "🎯 Advanced - Experienced, seeking specific expertise"
+        - "👨‍🏫 Educator - Teaching others, need pedagogical insights"
+    validations:
+      required: true
+
+  - type: textarea
+    id: learning_challenge
+    attributes:
+      label: 🎯 Specific Learning Challenge
+      description: |
+        **What exactly are you trying to understand or accomplish?**
+        
+        **Educational Note**: Specific questions get specific answers. This practices **Problem Articulation** - a critical professional skill.
+      placeholder: |
+        Example: "I'm working through the repository security setup and understand WHAT Dependabot does (scans for vulnerabilities), but I don't understand WHY we need automated scanning instead of just manually updating dependencies when we remember to check them."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context_details
+    attributes:
+      label: 📋 Context & Background
+      description: |
+        **What led to this question? What are you working on?**
+        
+        **Educational Note**: Context helps mentors provide relevant, applicable guidance rather than generic answers.
+      placeholder: |
+        Example: "I'm setting up the development environment for the first time. I've successfully run the validate-prerequisites.sh script and it passes, but when I look at the GitHub Security tab, I see several Dependabot alerts and I'm not sure if I should be concerned or if this is normal during initial setup."
+
+  - type: textarea
+    id: attempted_understanding
+    attributes:
+      label: 🧠 What You've Tried to Understand
+      description: |
+        **What research/attempts have you made to solve this yourself?**
+        
+        **Educational Note**: Documenting your learning process helps mentors understand your thinking and provide more effective guidance.
+      placeholder: |
+        Example: "I've read the SECURITY.md file and the Dependabot documentation on GitHub, but I'm still confused about the difference between 'security updates' and 'version updates' and when I should accept each type of automated PR."
+      value: |
+        **Documentation I've read:**
+        - 
+        - 
+        
+        **Things I've tried:**
+        - 
+        - 
+        
+        **Specific confusion points:**
+        - 
+        - 
+
+  - type: textarea
+    id: current_understanding
+    attributes:
+      label: 💡 Your Current Understanding
+      description: |
+        **What do you think you know about this topic? Where might you be wrong?**
+        
+        **Educational Note**: Expressing your current mental model helps mentors identify misconceptions and build on correct understanding.
+      placeholder: |
+        Example: "I think Dependabot automatically updates our package.json when it finds security vulnerabilities, but I'm not sure if this happens immediately or if it waits for our approval. I also think 'version updates' are just for getting newer features, not security, but I might be wrong about that distinction."
+
+  - type: dropdown
+    id: learning_preference
+    attributes:
+      label: 🎨 Learning Style Preference
+      description: How do you learn best?
+      options:
+        - "📖 Detailed explanations with examples"
+        - "🎯 Quick practical steps to immediate solution"
+        - "🔗 Links to resources for self-study"
+        - "👥 Interactive discussion/back-and-forth"
+        - "🎨 Visual diagrams or flowcharts"
+        - "💻 Hands-on code examples"
+        - "📚 Analogies connecting to familiar concepts"
+        - "🌟 Multiple approaches - I'll take whatever helps!"
+
+  - type: textarea
+    id: ideal_outcome
+    attributes:
+      label: 🎯 Ideal Learning Outcome
+      description: |
+        **What would "success" look like after getting help?**
+        
+        **Educational Note**: Clear learning objectives guide effective mentoring and help you recognize when you've achieved understanding.
+      placeholder: |
+        Example: "I want to confidently understand when to accept Dependabot PRs vs when to investigate them further. I should be able to explain to a teammate why we use automated dependency scanning and make informed decisions about dependency updates."
+
+  - type: checkboxes
+    id: learning_goals
+    attributes:
+      label: 🎓 Learning Goals (Select all that apply)
+      description: What do you hope to gain from this help?
+      options:
+        - label: "🧠 Understand the underlying concepts/principles"
+        - label: "💻 Get hands-on practical experience"
+        - label: "🏆 Complete a specific task or milestone"
+        - label: "🔧 Debug a specific problem I'm encountering"
+        - label: "📚 Learn best practices for professional development"
+        - label: "🎯 Gain confidence to work independently on similar issues"
+        - label: "👥 Understand how this fits into team/collaborative workflows"
+        - label: "🌟 Prepare to help/teach others about this topic"
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: 📝 Additional Context
+      description: |
+        **Anything else that might help us provide better guidance?**
+        
+        **Educational Note**: Rich context enables personalized, relevant mentoring that connects to your specific situation and goals.
+      placeholder: |
+        Optional details:
+        - Your background/field of study
+        - Specific deadlines or timelines
+        - Related topics you're also learning
+        - Previous similar challenges you've faced
+        - Career goals this knowledge supports
+
+  - type: checkboxes
+    id: help_request_checklist
+    attributes:
+      label: ✅ Help Request Checklist
+      description: Please confirm before submitting
+      options:
+        - label: "🔍 I searched existing issues and discussions for similar questions"
+          required: true
+        - label: "📚 I reviewed relevant documentation and README sections"
+          required: true
+        - label: "🎯 I provided specific details about what I'm trying to understand"
+          required: true
+        - label: "🧠 I described my current understanding and confusion points"
+          required: true
+        - label: "🎨 I indicated my learning preferences to get tailored help"
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🎓 **Educational Value of Structured Help Requests**
+        
+        By completing this thoughtful help request, you're developing **professional communication skills**:
+        
+        - **🎯 Problem Articulation** - Clearly expressing learning challenges
+        - **🧠 Self-Assessment** - Understanding your own knowledge gaps
+        - **📚 Research Documentation** - Showing preparation and effort
+        - **🎨 Learning Preference Communication** - Advocating for your needs
+        - **🤝 Collaborative Learning** - Engaging with mentoring relationships
+        
+        **These communication skills are as valuable as technical knowledge!**
+        
+        ---
+        
+        ## 🌟 **What Happens Next?**
+        
+        1. **📋 Triage** - Your request will be labeled and prioritized
+        2. **👥 Assignment** - A mentor will be assigned based on expertise
+        3. **💬 Response** - Expect initial response within 24-48 hours
+        4. **🎓 Learning Discussion** - Interactive help tailored to your needs
+        5. **✅ Resolution** - We'll ensure you achieve your learning goals
+        
+        **Remember**: There are no "dumb questions" - only opportunities to learn! 🚀
