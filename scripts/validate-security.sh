@@ -109,7 +109,8 @@ get_repository_name() {
     
     # Extract repository name from various URL formats
     # Supports: https://github.com/user/repo.git, git@github.com:user/repo.git, etc.
-    echo "$remote_url" | sed -E 's#.*[:/]([^/]+/[^/]+)\.git.*#\1#' | sed 's#.*[:/]([^/]+/[^/]+)$#\1#'
+    # Use a single, readable awk command to extract user/repo from both HTTPS and SSH URLs
+    echo "$remote_url" | awk -F'[:/]' '{for(i=1;i<=NF;i++){if($(i)~"^github.com$"){print $(i+1)"/"$(i+2); exit}}}'
 }
 
 # =====================================
