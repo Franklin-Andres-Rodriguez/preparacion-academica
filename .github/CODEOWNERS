@@ -2,7 +2,7 @@
 # Code ownership and review requirements
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# Global ownership - Franklin es owner de todo el proyecto
+# Propiedad global - Franklin es owner de todo el proyecto
 * @Franklin-Andres-Rodriguez
 
 # Security-critical files require mandatory review
