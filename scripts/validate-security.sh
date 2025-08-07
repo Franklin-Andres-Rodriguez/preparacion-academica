@@ -136,7 +136,7 @@ validate_file_content ".github/dependabot.yml" "package-ecosystem.*npm" "NPM dep
 validate_file_content ".github/dependabot.yml" "package-ecosystem.*github-actions" "GitHub Actions updates"
 validate_file_content ".github/workflows/codeql-analysis.yml" "github/codeql-action" "CodeQL analysis"
 validate_file_content "SECURITY.md" "Reporting a Vulnerability" "Security reporting process"
-validate_file_content ".github/CODEOWNERS" "@Franklin-Andres-Rodriguez" "Code ownership"
+validate_file_content ".github/CODEOWNERS" "$GITHUB_USERNAME" "Code ownership"
 
 show_educational_tip "Content validation ensures configurations are not just present but actually functional"
 
