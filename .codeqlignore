@@ -1,0 +1,28 @@
+# ====================================================================
+# CodeQL Ignore Configuration - Preparación Académica
+# Educational Note: Exclude legacy learning projects from security 
+# scanning while preserving them for educational reference
+# ====================================================================
+
+# Legacy Learning Projects (Phase 0 - Pre-systematic development)
+# These represent valuable learning journey but have syntax issues
+# Will be refactored in Phase 2 as educational exercises
+proyectos/calculadora-interes/
+proyectos/environment/
+proyectos/evaluacion-recursiva/
+proyectos/naming/
+proyectos/operador-coma/
+proyectos/precedencia-operadores/
+proyectos/simulador/
+
+# Root HTML files from early development
+index.html
+offline.html
+
+# Focus security scanning on Phase 1 enterprise additions
+# These represent systematic, professional development practices
+!.github/
+!scripts/
+!README.md
+!SECURITY.md
+!CONTRIBUTING.md

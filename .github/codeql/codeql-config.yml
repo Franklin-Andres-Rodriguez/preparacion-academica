@@ -1,0 +1,15 @@
+name: 'DebugMaster Academy CodeQL Config'
+
+# Define custom queries and packs
+queries:
+  - uses: security-extended
+  - uses: security-and-quality
+
+# Path filters
+paths-ignore:
+  - 'docs/**'
+  - '**/*.md'
+  - 'tests/**'
+  - '**/test-*'
+# Educational note: Custom config gives us more control over scanning
+# while avoiding conflicts with GitHub's default setup

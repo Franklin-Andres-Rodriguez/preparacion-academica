@@ -24,7 +24,9 @@
 
   // Verificar dependencias antes de inicializar
   if (typeof window.AppConfig === 'undefined') {
-    console.warn('🔧 Analytics: AppConfig no disponible. Modo degradado activado.');
+    console.warn(
+      '🔧 Analytics: AppConfig no disponible. Modo degradado activado.'
+    );
     return;
   }
 
@@ -33,14 +35,14 @@
     ANALYTICS CORE SYSTEM
     ==========================================
   */
-  
+
   window.Analytics = {
     // Configuración del sistema
     config: {
       version: '1.0.0',
       sessionTimeout: 30 * 60 * 1000, // 30 minutos
       maxEvents: 1000, // Límite de eventos almacenados
-      debug: window.AppConfig?.ENVIRONMENT === 'development'
+      debug: window.AppConfig?.ENVIRONMENT === 'development',
     },
 
     // Estado interno
@@ -51,7 +53,7 @@
       eventsBuffer: [],
       currentProject: null,
       hintsUsed: 0,
-      errorsCount: 0
+      errorsCount: 0,
     },
 
     /*
@@ -62,21 +64,20 @@
 
     init() {
       this.log('📊 Iniciando sistema de analytics educativo...');
-      
+
       try {
         this.initializeSession();
         this.bindEvents();
         this.startPerformanceMonitoring();
         this.loadStoredData();
-        
+
         this.log('✅ Analytics system ready');
-        
+
         // Notificar inicialización exitosa
         this.trackEvent('system', 'analytics_initialized', {
           version: this.config.version,
-          sessionId: this.state.sessionId
+          sessionId: this.state.sessionId,
         });
-        
       } catch (error) {
         console.error('❌ Error inicializando analytics:', error);
       }
@@ -90,10 +91,10 @@
 
     initializeSession() {
       const now = Date.now();
-      
+
       // Verificar si hay sesión activa
       const existingSession = this.getStoredData('session');
-      
+
       if (existingSession && this.isSessionValid(existingSession)) {
         // Continuar sesión existente
         this.state.sessionId = existingSession.sessionId;
@@ -105,7 +106,7 @@
         this.state.sessionStart = now;
         this.log('🆕 Nueva sesión educativa iniciada:', this.state.sessionId);
       }
-      
+
       this.state.lastActivity = now;
       this.saveSessionData();
     },
@@ -120,9 +121,11 @@
       const now = Date.now();
       const sessionAge = now - session.startTime;
       const lastActivity = now - (session.lastActivity || session.startTime);
-      
-      return sessionAge < 24 * 60 * 60 * 1000 && // 24 horas máximo
-             lastActivity < this.config.sessionTimeout; // 30 min inactividad
+
+      return (
+        sessionAge < 24 * 60 * 60 * 1000 && // 24 horas máximo
+        lastActivity < this.config.sessionTimeout
+      ); // 30 min inactividad
     },
 
     updateActivity() {
@@ -138,7 +141,7 @@
 
     trackProgress(projectId, action, data = {}) {
       this.updateActivity();
-      
+
       const event = {
         id: this.generateEventId(),
         timestamp: new Date().toISOString(),
@@ -150,13 +153,13 @@
           ...data,
           hintsUsed: this.state.hintsUsed,
           errorsCount: this.state.errorsCount,
-          timeSpent: this.getTimeSpent()
-        }
+          timeSpent: this.getTimeSpent(),
+        },
       };
 
       this.addEvent(event);
       this.updateProgressMetrics(projectId, action, data);
-      
+
       this.log('📈 Progreso tracked:', event);
     },
 
@@ -168,15 +171,15 @@
           this.state.hintsUsed = 0;
           this.state.errorsCount = 0;
           break;
-          
+
         case 'hint_used':
           this.state.hintsUsed++;
           break;
-          
+
         case 'error_made':
           this.state.errorsCount++;
           break;
-          
+
         case 'completed':
           this.calculateCompletionMetrics(projectId, data);
           break;
@@ -190,11 +193,11 @@
         hintsUsed: this.state.hintsUsed,
         errorsCount: this.state.errorsCount,
         efficiency: this.calculateEfficiency(),
-        moneySaved: this.calculateMoneySaved(projectId)
+        moneySaved: this.calculateMoneySaved(projectId),
       };
 
       this.trackEvent('completion', 'project_completed', metrics);
-      
+
       // Actualizar progreso global
       this.updateGlobalProgress(projectId, metrics);
     },
@@ -204,13 +207,15 @@
       const maxScore = 100;
       const hintPenalty = this.state.hintsUsed * 5; // -5 puntos por hint
       const errorPenalty = this.state.errorsCount * 10; // -10 puntos por error
-      
+
       return Math.max(0, maxScore - hintPenalty - errorPenalty);
     },
 
     calculateMoneySaved(projectId) {
       // Basado en la configuración de proyectos
-      const project = window.AppConfig?.EDUCATIONAL_PROJECTS?.find(p => p.id === projectId);
+      const project = window.AppConfig?.EDUCATIONAL_PROJECTS?.find(
+        (p) => p.id === projectId
+      );
       return project ? project.costImpact : 0;
     },
 
@@ -222,7 +227,7 @@
 
     trackNavigation(from, to, method = 'click') {
       this.updateActivity();
-      
+
       const event = {
         id: this.generateEventId(),
         timestamp: new Date().toISOString(),
@@ -233,8 +238,8 @@
           from,
           to,
           method, // 'click', 'back', 'forward', 'direct'
-          timeSpent: this.getTimeSpent()
-        }
+          timeSpent: this.getTimeSpent(),
+        },
       };
 
       this.addEvent(event);
@@ -267,9 +272,13 @@
 
       const metrics = {
         loadTime: navigation ? Math.round(navigation.loadEventEnd) : 0,
-        domContentLoaded: navigation ? Math.round(navigation.domContentLoadedEventEnd) : 0,
-        firstPaint: paint.find(p => p.name === 'first-paint')?.startTime || 0,
-        firstContentfulPaint: paint.find(p => p.name === 'first-contentful-paint')?.startTime || 0
+        domContentLoaded: navigation
+          ? Math.round(navigation.domContentLoadedEventEnd)
+          : 0,
+        firstPaint: paint.find((p) => p.name === 'first-paint')?.startTime || 0,
+        firstContentfulPaint:
+          paint.find((p) => p.name === 'first-contentful-paint')?.startTime ||
+          0,
       };
 
       this.trackEvent('performance', 'page_load', metrics);
@@ -280,14 +289,15 @@
       document.addEventListener('click', (e) => {
         if (e.target.closest('.btn')) {
           const startTime = performance.now();
-          
+
           requestAnimationFrame(() => {
             const responseTime = performance.now() - startTime;
-            
-            if (responseTime > 100) { // Solo track si es > 100ms
+
+            if (responseTime > 100) {
+              // Solo track si es > 100ms
               this.trackEvent('performance', 'slow_interaction', {
                 element: e.target.closest('.btn').className,
-                responseTime: Math.round(responseTime)
+                responseTime: Math.round(responseTime),
               });
             }
           });
@@ -303,7 +313,7 @@
 
     trackEvent(category, action, data = {}) {
       this.updateActivity();
-      
+
       const event = {
         id: this.generateEventId(),
         timestamp: new Date().toISOString(),
@@ -311,7 +321,7 @@
         type: 'event',
         category,
         action,
-        data
+        data,
       };
 
       this.addEvent(event);
@@ -320,12 +330,12 @@
 
     addEvent(event) {
       this.state.eventsBuffer.push(event);
-      
+
       // Mantener buffer dentro del límite
       if (this.state.eventsBuffer.length > this.config.maxEvents) {
         this.state.eventsBuffer.shift(); // Eliminar el más antiguo
       }
-      
+
       // Persistir eventos críticos inmediatamente
       if (this.isCriticalEvent(event)) {
         this.saveEventsData();
@@ -349,8 +359,8 @@
 
     generateLearningInsights() {
       const events = this.getStoredData('events') || [];
-      const progressEvents = events.filter(e => e.type === 'progress');
-      
+      const progressEvents = events.filter((e) => e.type === 'progress');
+
       if (progressEvents.length === 0) {
         return this.getEmptyInsights();
       }
@@ -363,7 +373,7 @@
         totalMoneySaved: this.getTotalMoneySaved(progressEvents),
         learningVelocity: this.calculateLearningVelocity(progressEvents),
         strongAreas: this.identifyStrongAreas(progressEvents),
-        improvementAreas: this.identifyImprovementAreas(progressEvents)
+        improvementAreas: this.identifyImprovementAreas(progressEvents),
       };
     },
 
@@ -376,18 +386,18 @@
         totalMoneySaved: 0,
         learningVelocity: 0,
         strongAreas: [],
-        improvementAreas: []
+        improvementAreas: [],
       };
     },
 
     getUniqueProjects(events) {
       const projects = new Set();
-      events.forEach(e => e.projectId && projects.add(e.projectId));
+      events.forEach((e) => e.projectId && projects.add(e.projectId));
       return Array.from(projects);
     },
 
     getCompletedProjects(events) {
-      return events.filter(e => e.action === 'completed');
+      return events.filter((e) => e.action === 'completed');
     },
 
     getTotalTimeSpent(events) {
@@ -399,45 +409,51 @@
     getAverageHintsUsed(events) {
       const completedEvents = this.getCompletedProjects(events);
       if (completedEvents.length === 0) return 0;
-      
+
       const totalHints = completedEvents.reduce((total, e) => {
         return total + (e.data?.hintsUsed || 0);
       }, 0);
-      
-      return Math.round(totalHints / completedEvents.length * 10) / 10;
+
+      return Math.round((totalHints / completedEvents.length) * 10) / 10;
     },
 
     getTotalMoneySaved(events) {
       return events
-        .filter(e => e.action === 'completed')
+        .filter((e) => e.action === 'completed')
         .reduce((total, e) => total + (e.data?.moneySaved || 0), 0);
     },
 
     calculateLearningVelocity(events) {
       const completedEvents = this.getCompletedProjects(events);
       if (completedEvents.length < 2) return 0;
-      
-      const timeSpan = new Date(completedEvents[completedEvents.length - 1].timestamp) - 
-                      new Date(completedEvents[0].timestamp);
-      
+
+      const timeSpan =
+        new Date(completedEvents[completedEvents.length - 1].timestamp) -
+        new Date(completedEvents[0].timestamp);
+
       // Proyectos por semana
       const weeksSpan = timeSpan / (7 * 24 * 60 * 60 * 1000);
-      return Math.round(completedEvents.length / weeksSpan * 10) / 10;
+      return Math.round((completedEvents.length / weeksSpan) * 10) / 10;
     },
 
     identifyStrongAreas(events) {
       // Proyectos completados con alta eficiencia
       return events
-        .filter(e => e.action === 'completed' && (e.data?.efficiency || 0) > 80)
-        .map(e => e.projectId);
+        .filter(
+          (e) => e.action === 'completed' && (e.data?.efficiency || 0) > 80
+        )
+        .map((e) => e.projectId);
     },
 
     identifyImprovementAreas(events) {
       // Proyectos con muchos hints o errores
       return events
-        .filter(e => e.action === 'completed' && 
-                    ((e.data?.hintsUsed || 0) > 3 || (e.data?.errorsCount || 0) > 5))
-        .map(e => e.projectId);
+        .filter(
+          (e) =>
+            e.action === 'completed' &&
+            ((e.data?.hintsUsed || 0) > 3 || (e.data?.errorsCount || 0) > 5)
+        )
+        .map((e) => e.projectId);
     },
 
     /*
@@ -463,14 +479,16 @@
         clearTimeout(inactivityTimer);
         inactivityTimer = setTimeout(() => {
           this.trackEvent('session', 'inactive', {
-            duration: this.config.sessionTimeout
+            duration: this.config.sessionTimeout,
           });
         }, this.config.sessionTimeout);
       };
 
-      ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
-        document.addEventListener(event, resetInactivityTimer, true);
-      });
+      ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(
+        (event) => {
+          document.addEventListener(event, resetInactivityTimer, true);
+        }
+      );
 
       // Tracking de errores JavaScript
       window.addEventListener('error', (e) => {
@@ -478,14 +496,14 @@
           message: e.message,
           filename: e.filename,
           lineno: e.lineno,
-          colno: e.colno
+          colno: e.colno,
         });
       });
 
       // Tracking de promises rechazadas
       window.addEventListener('unhandledrejection', (e) => {
         this.trackEvent('error', 'unhandled_promise_rejection', {
-          reason: e.reason?.toString() || 'Unknown'
+          reason: e.reason?.toString() || 'Unknown',
         });
       });
     },
@@ -500,9 +518,9 @@
       const sessionData = {
         sessionId: this.state.sessionId,
         startTime: this.state.sessionStart,
-        lastActivity: this.state.lastActivity
+        lastActivity: this.state.lastActivity,
       };
-      
+
       this.setStoredData('session', sessionData);
     },
 
@@ -513,7 +531,7 @@
     saveAllData() {
       this.saveSessionData();
       this.saveEventsData();
-      
+
       // Guardar insights generados
       const insights = this.generateLearningInsights();
       this.setStoredData('insights', insights);
@@ -527,15 +545,15 @@
     },
 
     updateGlobalProgress(projectId, metrics) {
-      let progress = this.getStoredData('progress') || {};
-      
+      const progress = this.getStoredData('progress') || {};
+
       progress[projectId] = {
         ...progress[projectId],
         completed: true,
         completedAt: new Date().toISOString(),
-        metrics
+        metrics,
       };
-      
+
       this.setStoredData('progress', progress);
     },
 
@@ -586,10 +604,10 @@
 
     // Resetear datos (para testing o nueva instalación)
     reset() {
-      ['session', 'events', 'insights', 'progress'].forEach(key => {
+      ['session', 'events', 'insights', 'progress'].forEach((key) => {
         localStorage.removeItem(`bug_academy_${key}`);
       });
-      
+
       this.state = {
         sessionId: null,
         sessionStart: null,
@@ -597,9 +615,9 @@
         eventsBuffer: [],
         currentProject: null,
         hintsUsed: 0,
-        errorsCount: 0
+        errorsCount: 0,
       };
-      
+
       this.log('🔄 Analytics data reset');
     },
 
@@ -623,9 +641,9 @@
         insights: this.generateLearningInsights(),
         progress: this.getProgress(),
         eventsCount: this.state.eventsBuffer.length,
-        sessionDuration: this.getTimeSpent()
+        sessionDuration: this.getTimeSpent(),
       };
-    }
+    },
   };
 
   /*
@@ -645,7 +663,6 @@
 
   // Exponer método global para fácil acceso
   window.track = window.Analytics.track.bind(window.Analytics);
-
 })();
 
 /*

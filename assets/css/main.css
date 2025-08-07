@@ -170,7 +170,7 @@
   /* Improve font rendering performance */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   /* Optimize box model for consistent sizing */
   box-sizing: border-box;
 }
@@ -183,11 +183,11 @@
 html {
   /* Enable smooth scrolling for anchor links */
   scroll-behavior: smooth;
-  
+
   /* Improve text rendering on high-DPI displays */
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  
+
   /* Set base font size for rem calculations */
   font-size: 16px;
 }
@@ -204,17 +204,17 @@ body {
   line-height: var(--line-height-relaxed);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
-  
+
   /* Remove default margins for consistent layout */
   margin: 0;
-  
+
   /* Improve font rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   /* Optimize text rendering */
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1;
+  font-feature-settings: 'kern' 1;
 }
 
 /**
@@ -436,48 +436,48 @@ legend {
     box-shadow: none !important;
     text-shadow: none !important;
   }
-  
+
   a,
   a:visited {
     text-decoration: underline;
     color: black !important;
   }
-  
+
   a[href]::after {
-    content: " (" attr(href) ")";
+    content: ' (' attr(href) ')';
     font-size: 0.8em;
   }
-  
+
   abbr[title]::after {
-    content: " (" attr(title) ")";
+    content: ' (' attr(title) ')';
   }
-  
+
   pre {
     white-space: pre-wrap !important;
     border: 1px solid black;
   }
-  
+
   blockquote {
     border: 1px solid black;
     page-break-inside: avoid;
   }
-  
+
   thead {
     display: table-header-group;
   }
-  
+
   tr,
   img {
     page-break-inside: avoid;
   }
-  
+
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3;
   }
-  
+
   h2,
   h3 {
     page-break-after: avoid;
@@ -496,12 +496,12 @@ legend {
     --color-bg-primary: #ffffff;
     --color-border-primary: #000000;
   }
-  
+
   a {
     text-decoration: underline;
     text-decoration-thickness: 2px;
   }
-  
+
   button,
   input,
   select,
@@ -524,7 +524,7 @@ legend {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   html {
     scroll-behavior: auto;
   }

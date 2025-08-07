@@ -28,7 +28,7 @@
     APPLICATION CONTROLLER
     ==========================================
   */
-  
+
   window.App = {
     // Configuración de la aplicación
     config: {
@@ -40,8 +40,8 @@
         analytics: true,
         offlineMode: true,
         progressTracking: true,
-        achievements: true
-      }
+        achievements: true,
+      },
     },
 
     // Estado de la aplicación
@@ -52,22 +52,14 @@
       errors: [],
       performance: {},
       lastActivity: null,
-      isOnline: navigator.onLine
+      isOnline: navigator.onLine,
     },
 
     // Dependencias requeridas
-    dependencies: [
-      'AppConfig',
-      'AppUtils', 
-      'AppState'
-    ],
+    dependencies: ['AppConfig', 'AppUtils', 'AppState'],
 
     // Sistemas opcionales (no bloquean inicialización)
-    optionalSystems: [
-      'Analytics',
-      'Components', 
-      'Router'
-    ],
+    optionalSystems: ['Analytics', 'Components', 'Router'],
 
     /*
       ==========================================
@@ -77,37 +69,38 @@
 
     async init() {
       const startTime = performance.now();
-      
-      console.log(`🚀 Iniciando ${this.config.name} v${this.config.version}...`);
-      
+
+      console.log(
+        `🚀 Iniciando ${this.config.name} v${this.config.version}...`
+      );
+
       try {
         // Configurar entorno
         this.setupEnvironment();
-        
+
         // Verificar dependencias críticas
         await this.checkDependencies();
-        
+
         // Inicializar sistemas core
         await this.initializeCoreSystem();
-        
+
         // Inicializar sistemas opcionales
         await this.initializeOptionalSystems();
-        
+
         // Configurar manejo de errores global
         this.setupErrorHandling();
-        
+
         // Configurar monitoreo de performance
         this.setupPerformanceMonitoring();
-        
+
         // Configurar conectividad
         this.setupConnectivityMonitoring();
-        
+
         // Configurar actividad del usuario
         this.setupActivityTracking();
-        
+
         // Finalizar inicialización
         await this.finalizeInitialization(startTime);
-        
       } catch (error) {
         console.error('❌ Error crítico durante inicialización:', error);
         this.handleInitializationError(error);
@@ -125,7 +118,7 @@
       const hostname = window.location.hostname;
       const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
       const isDev = hostname.includes('dev') || hostname.includes('staging');
-      
+
       if (isLocal) {
         this.config.environment = 'development';
         this.config.debug = true;
@@ -156,18 +149,20 @@
 
     async checkDependencies() {
       this.log('🔍 Verificando dependencias...');
-      
-      const missing = this.dependencies.filter(dep => 
-        typeof window[dep] === 'undefined'
+
+      const missing = this.dependencies.filter(
+        (dep) => typeof window[dep] === 'undefined'
       );
-      
+
       if (missing.length > 0) {
-        throw new Error(`Dependencias críticas faltantes: ${missing.join(', ')}`);
+        throw new Error(
+          `Dependencias críticas faltantes: ${missing.join(', ')}`
+        );
       }
-      
+
       // Verificar compatibilidad del navegador
       await this.checkBrowserCompatibility();
-      
+
       this.log('✅ Dependencias verificadas');
     },
 
@@ -177,7 +172,7 @@
         addEventListener: 'addEventListener' in window,
         JSON: 'JSON' in window,
         Promise: 'Promise' in window,
-        fetch: 'fetch' in window
+        fetch: 'fetch' in window,
       };
 
       const unsupported = Object.entries(required)
@@ -185,20 +180,24 @@
         .map(([feature]) => feature);
 
       if (unsupported.length > 0) {
-        throw new Error(`Navegador no compatible. Características faltantes: ${unsupported.join(', ')}`);
+        throw new Error(
+          `Navegador no compatible. Características faltantes: ${unsupported.join(', ')}`
+        );
       }
 
       // Verificar características modernas (no críticas)
       const modern = {
         serviceWorker: 'serviceWorker' in navigator,
         intersectionObserver: 'IntersectionObserver' in window,
-        webGL: this.checkWebGLSupport()
+        webGL: this.checkWebGLSupport(),
       };
 
       this.state.browserCapabilities = { ...required, ...modern };
-      
+
       if (!modern.serviceWorker) {
-        console.warn('⚠️ Service Worker no soportado - funcionalidad offline limitada');
+        console.warn(
+          '⚠️ Service Worker no soportado - funcionalidad offline limitada'
+        );
       }
     },
 
@@ -219,15 +218,17 @@
 
     async initializeCoreSystem() {
       this.log('⚙️ Inicializando sistemas core...');
-      
+
       const coreInits = [];
 
       // AppState (gestión de estado educativo)
       if (window.AppState) {
-        coreInits.push(this.initializeSystem('AppState', () => {
-          window.AppState.init();
-          return Promise.resolve();
-        }));
+        coreInits.push(
+          this.initializeSystem('AppState', () => {
+            window.AppState.init();
+            return Promise.resolve();
+          })
+        );
       }
 
       await Promise.all(coreInits);
@@ -236,8 +237,8 @@
 
     async initializeOptionalSystems() {
       this.log('🔧 Inicializando sistemas opcionales...');
-      
-      const optionalInits = this.optionalSystems.map(systemName => {
+
+      const optionalInits = this.optionalSystems.map((systemName) => {
         if (window[systemName]) {
           return this.initializeSystem(systemName, () => {
             if (window[systemName].init) {
@@ -251,43 +252,44 @@
 
       // No fallar si sistemas opcionales fallan
       const results = await Promise.allSettled(optionalInits);
-      
+
       const failed = results
-        .filter(result => result.status === 'rejected')
+        .filter((result) => result.status === 'rejected')
         .map((result, index) => ({
           system: this.optionalSystems[index],
-          error: result.reason
+          error: result.reason,
         }));
 
       if (failed.length > 0) {
         console.warn('⚠️ Algunos sistemas opcionales fallaron:', failed);
       }
 
-      this.log(`✅ Sistemas opcionales: ${results.length - failed.length}/${results.length} exitosos`);
+      this.log(
+        `✅ Sistemas opcionales: ${results.length - failed.length}/${results.length} exitosos`
+      );
     },
 
     async initializeSystem(name, initFunc) {
       const startTime = performance.now();
-      
+
       try {
         await initFunc();
-        
+
         const duration = performance.now() - startTime;
         this.state.systems.set(name, {
           status: 'initialized',
           duration,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         });
-        
+
         this.log(`✅ ${name} inicializado en ${Math.round(duration)}ms`);
-        
       } catch (error) {
         this.state.systems.set(name, {
           status: 'failed',
           error: error.message,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         });
-        
+
         console.error(`❌ Error inicializando ${name}:`, error);
         throw error;
       }
@@ -307,7 +309,7 @@
           filename: e.filename,
           lineno: e.lineno,
           colno: e.colno,
-          error: e.error
+          error: e.error,
         });
       });
 
@@ -315,22 +317,26 @@
       window.addEventListener('unhandledrejection', (e) => {
         this.handleGlobalError('promise', {
           reason: e.reason,
-          promise: e.promise
+          promise: e.promise,
         });
-        
+
         // Prevenir que aparezca en consola
         e.preventDefault();
       });
 
       // Errores de recursos (imágenes, scripts, etc.)
-      window.addEventListener('error', (e) => {
-        if (e.target !== window) {
-          this.handleGlobalError('resource', {
-            source: e.target.src || e.target.href,
-            tagName: e.target.tagName
-          });
-        }
-      }, true);
+      window.addEventListener(
+        'error',
+        (e) => {
+          if (e.target !== window) {
+            this.handleGlobalError('resource', {
+              source: e.target.src || e.target.href,
+              tagName: e.target.tagName,
+            });
+          }
+        },
+        true
+      );
 
       this.log('🛡️ Manejo de errores configurado');
     },
@@ -343,11 +349,11 @@
         timestamp: new Date().toISOString(),
         url: window.location.href,
         userAgent: navigator.userAgent,
-        appState: this.getSystemsStatus()
+        appState: this.getSystemsStatus(),
       };
 
       this.state.errors.push(error);
-      
+
       // Mantener solo los últimos 50 errores
       if (this.state.errors.length > 50) {
         this.state.errors.shift();
@@ -360,7 +366,7 @@
       if (window.Analytics && this.config.features.analytics) {
         window.Analytics.trackEvent('error', `global_${type}`, {
           errorId: error.id,
-          message: details.message || details.reason || 'Unknown error'
+          message: details.message || details.reason || 'Unknown error',
         });
       }
 
@@ -375,7 +381,7 @@
             this.recoverFromStorageError();
           }
           break;
-          
+
         case 'resource':
           if (details.tagName === 'SCRIPT') {
             this.recoverFromScriptError(details.source);
@@ -438,8 +444,9 @@
         // First Input Delay
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          entries.forEach(entry => {
-            this.state.performance.fid = entry.processingStart - entry.startTime;
+          entries.forEach((entry) => {
+            this.state.performance.fid =
+              entry.processingStart - entry.startTime;
           });
         });
         fidObserver.observe({ entryTypes: ['first-input'] });
@@ -447,7 +454,7 @@
         // Cumulative Layout Shift
         const clsObserver = new PerformanceObserver((list) => {
           let clsValue = 0;
-          list.getEntries().forEach(entry => {
+          list.getEntries().forEach((entry) => {
             if (!entry.hadRecentInput) {
               clsValue += entry.value;
             }
@@ -455,7 +462,6 @@
           this.state.performance.cls = clsValue;
         });
         clsObserver.observe({ entryTypes: ['layout-shift'] });
-
       } catch (error) {
         console.warn('⚠️ Performance Observer falló:', error);
       }
@@ -467,13 +473,17 @@
         this.state.performance.memory = {
           used: Math.round(memory.usedJSHeapSize / 1048576), // MB
           total: Math.round(memory.totalJSHeapSize / 1048576), // MB
-          limit: Math.round(memory.jsHeapSizeLimit / 1048576) // MB
+          limit: Math.round(memory.jsHeapSizeLimit / 1048576), // MB
         };
 
         // Advertir si el uso de memoria es alto
-        const usagePercent = (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100;
+        const usagePercent =
+          (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100;
         if (usagePercent > 80) {
-          console.warn('⚠️ Alto uso de memoria:', usagePercent.toFixed(1) + '%');
+          console.warn(
+            '⚠️ Alto uso de memoria:',
+            usagePercent.toFixed(1) + '%'
+          );
         }
       };
 
@@ -488,19 +498,20 @@
 
       const measureFPS = (currentTime) => {
         frameCount++;
-        
-        if (currentTime - lastTime >= 1000) { // Cada segundo
+
+        if (currentTime - lastTime >= 1000) {
+          // Cada segundo
           fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
           this.state.performance.fps = fps;
-          
+
           if (fps < 30) {
             console.warn('⚠️ FPS bajo detectado:', fps);
           }
-          
+
           frameCount = 0;
           lastTime = currentTime;
         }
-        
+
         requestAnimationFrame(measureFPS);
       };
 
@@ -545,20 +556,23 @@
 
       // Analytics de conectividad
       if (window.Analytics) {
-        window.Analytics.trackEvent('connectivity', isOnline ? 'online' : 'offline');
+        window.Analytics.trackEvent(
+          'connectivity',
+          isOnline ? 'online' : 'offline'
+        );
       }
     },
 
     monitorConnectionQuality() {
       const connection = navigator.connection;
-      
+
       if (connection) {
         const updateConnectionInfo = () => {
           this.state.connectionInfo = {
             effectiveType: connection.effectiveType,
             downlink: connection.downlink,
             rtt: connection.rtt,
-            saveData: connection.saveData
+            saveData: connection.saveData,
           };
 
           // Ajustar características basado en conexión
@@ -574,13 +588,13 @@
 
     enableDataSavingMode() {
       console.log('📱 Modo ahorro de datos activado');
-      
+
       // Deshabilitar características que consumen datos
       this.config.features.analytics = false;
-      
+
       // Reducir calidad de imágenes
       document.body.classList.add('data-saving-mode');
-      
+
       this.showUserNotification('Modo ahorro de datos activado', 'info');
     },
 
@@ -591,13 +605,20 @@
     */
 
     setupActivityTracking() {
-      const activities = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
-      
+      const activities = [
+        'mousedown',
+        'mousemove',
+        'keypress',
+        'scroll',
+        'touchstart',
+        'click',
+      ];
+
       const updateActivity = this.throttle(() => {
         this.state.lastActivity = Date.now();
       }, 1000);
 
-      activities.forEach(event => {
+      activities.forEach((event) => {
         document.addEventListener(event, updateActivity, { passive: true });
       });
 
@@ -621,7 +642,7 @@
 
     handleInactivity(minutes) {
       console.log(`😴 Usuario inactivo por ${minutes} minutos`);
-      
+
       // Analytics de inactividad
       if (window.Analytics) {
         window.Analytics.trackEvent('user', 'inactive', { minutes });
@@ -644,35 +665,39 @@
 
       // Notificar inicialización completa
       this.notifyInitializationComplete(duration);
-      
+
       // Configurar health checks
       this.setupHealthChecks();
-      
+
       // Mostrar información de debug si está habilitado
       if (this.config.debug) {
         this.showDebugInfo();
       }
 
-      this.log(`🎉 ${this.config.name} inicializado en ${Math.round(duration)}ms`);
+      this.log(
+        `🎉 ${this.config.name} inicializado en ${Math.round(duration)}ms`
+      );
     },
 
     notifyInitializationComplete(duration) {
       // Event personalizado para otros scripts
-      document.dispatchEvent(new CustomEvent('appInitialized', {
-        detail: {
-          duration,
-          systems: Array.from(this.state.systems.keys()),
-          performance: this.state.performance,
-          timestamp: Date.now()
-        }
-      }));
+      document.dispatchEvent(
+        new CustomEvent('appInitialized', {
+          detail: {
+            duration,
+            systems: Array.from(this.state.systems.keys()),
+            performance: this.state.performance,
+            timestamp: Date.now(),
+          },
+        })
+      );
 
       // Clase CSS para indicar app lista
       document.body.classList.add('app-initialized');
-      
+
       // Remover loading states
       const loaders = document.querySelectorAll('.loading, .skeleton');
-      loaders.forEach(loader => {
+      loaders.forEach((loader) => {
         loader.style.display = 'none';
       });
 
@@ -680,7 +705,7 @@
       if (window.Analytics && this.config.features.analytics) {
         window.Analytics.trackEvent('app', 'initialized', {
           duration: Math.round(duration),
-          systemsCount: this.state.systems.size
+          systemsCount: this.state.systems.size,
         });
       }
     },
@@ -699,12 +724,12 @@
         performance: this.state.performance,
         errors: this.state.errors.length,
         memory: this.state.performance.memory?.used || 0,
-        isOnline: this.state.isOnline
+        isOnline: this.state.isOnline,
       };
 
       // Verificar problemas críticos
       const issues = this.detectHealthIssues(health);
-      
+
       if (issues.length > 0) {
         console.warn('⚠️ Problemas de salud detectados:', issues);
         this.handleHealthIssues(issues);
@@ -720,13 +745,14 @@
       const failedSystems = Object.entries(health.systems)
         .filter(([name, status]) => status === 'failed')
         .map(([name]) => name);
-      
+
       if (failedSystems.length > 0) {
         issues.push({ type: 'failed_systems', systems: failedSystems });
       }
 
       // Alto uso de memoria
-      if (health.memory > 100) { // > 100MB
+      if (health.memory > 100) {
+        // > 100MB
         issues.push({ type: 'high_memory', usage: health.memory });
       }
 
@@ -739,7 +765,7 @@
     },
 
     handleHealthIssues(issues) {
-      issues.forEach(issue => {
+      issues.forEach((issue) => {
         switch (issue.type) {
           case 'high_memory':
             this.optimizeMemoryUsage();
@@ -762,10 +788,10 @@
 
     handleInitializationError(error) {
       console.error('💥 Inicialización falló:', error);
-      
+
       // Mostrar error al usuario
       this.showCriticalError(error);
-      
+
       // Intentar modo degradado
       this.enterDegradedMode();
     },
@@ -782,19 +808,19 @@
         </details>
         <button onclick="window.location.reload()">🔄 Recargar Página</button>
       `;
-      
+
       document.body.prepend(errorDiv);
     },
 
     enterDegradedMode() {
       console.log('🚧 Entrando en modo degradado...');
-      
+
       document.body.classList.add('degraded-mode');
       this.config.features = {
         analytics: false,
         offlineMode: false,
         progressTracking: false,
-        achievements: false
+        achievements: false,
       };
     },
 
@@ -816,11 +842,11 @@
     optimizeMemoryUsage() {
       // Limpiar caches y optimizar memoria
       this.clearOldErrors();
-      
+
       if (window.Analytics) {
         window.Analytics.cleanupOldData();
       }
-      
+
       // Forzar garbage collection si está disponible
       if (window.gc) {
         window.gc();
@@ -828,14 +854,14 @@
     },
 
     clearOldErrors() {
-      const oneHourAgo = Date.now() - (60 * 60 * 1000);
-      this.state.errors = this.state.errors.filter(error => 
-        new Date(error.timestamp).getTime() > oneHourAgo
+      const oneHourAgo = Date.now() - 60 * 60 * 1000;
+      this.state.errors = this.state.errors.filter(
+        (error) => new Date(error.timestamp).getTime() > oneHourAgo
       );
     },
 
     attemptSystemRecovery(failedSystems) {
-      failedSystems.forEach(systemName => {
+      failedSystems.forEach((systemName) => {
         if (window[systemName] && window[systemName].init) {
           console.log(`🔄 Intentando recovery de ${systemName}...`);
           try {
@@ -853,13 +879,13 @@
 
     throttle(func, limit) {
       let inThrottle;
-      return function() {
+      return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
           func.apply(context, args);
           inThrottle = true;
-          setTimeout(() => inThrottle = false, limit);
+          setTimeout(() => (inThrottle = false), limit);
         }
       };
     },
@@ -893,18 +919,18 @@
         performance: this.getPerformanceMetrics(),
         errorCount: this.state.errors.length,
         isOnline: this.state.isOnline,
-        lastActivity: this.state.lastActivity
+        lastActivity: this.state.lastActivity,
       };
     },
 
     restart() {
       console.log('🔄 Reiniciando aplicación...');
-      
+
       // Limpiar estado
       this.state.systems.clear();
       this.state.errors = [];
       this.state.initialized = false;
-      
+
       // Reinicializar
       this.init();
     },
@@ -923,7 +949,7 @@
       if (this.config.debug) {
         console.log('[App]', ...args);
       }
-    }
+    },
   };
 
   /*
@@ -945,7 +971,6 @@
   if (typeof window !== 'undefined') {
     window.DebugApp = window.App;
   }
-
 })();
 
 /*

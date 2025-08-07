@@ -1,0 +1,8 @@
+# Same as ESLint ignore - preserve legacy learning projects
+proyectos/**
+index.html
+offiline.html
+node_modules/**
+dist/**
+build/**
+.git/**

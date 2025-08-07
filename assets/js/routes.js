@@ -32,14 +32,14 @@
     ROUTER CORE SYSTEM
     ==========================================
   */
-  
+
   window.Router = {
     // Configuración del router
     config: {
       defaultRoute: '#inicio',
       scrollOffset: 80, // Offset para header fijo
       transitionDuration: 300,
-      historyEnabled: true
+      historyEnabled: true,
     },
 
     // Estado del router
@@ -48,7 +48,7 @@
       previousRoute: null,
       routeHistory: [],
       isNavigating: false,
-      scrollPositions: new Map()
+      scrollPositions: new Map(),
     },
 
     // Rutas definidas y sus configuraciones
@@ -58,29 +58,29 @@
         title: 'Inicio - Million Dollar Bugs Academy',
         section: 'inicio',
         analytics: 'home_section',
-        prerequisites: []
+        prerequisites: [],
       },
       '#roadmap': {
         name: 'roadmap',
         title: 'Roadmap de Aprendizaje - Bug Academy',
         section: 'roadmap',
         analytics: 'roadmap_section',
-        prerequisites: []
+        prerequisites: [],
       },
       '#progreso': {
         name: 'progreso',
         title: 'Tu Progreso - Bug Academy',
         section: 'progreso',
         analytics: 'progress_section',
-        prerequisites: []
+        prerequisites: [],
       },
       '#laboratorio': {
         name: 'laboratorio',
         title: 'Laboratorio de Código - Bug Academy',
         section: 'laboratorio',
         analytics: 'laboratory_section',
-        prerequisites: []
-      }
+        prerequisites: [],
+      },
     },
 
     /*
@@ -91,23 +91,22 @@
 
     init() {
       console.log('🧭 Inicializando sistema de navegación...');
-      
+
       try {
         this.bindEvents();
         this.loadInitialRoute();
         this.setupPageTransitions();
         this.initializeScrollRestoration();
-        
+
         console.log('✅ Router inicializado correctamente');
-        
+
         // Analytics de inicialización
         if (window.Analytics) {
           window.Analytics.trackEvent('router', 'initialized', {
             totalRoutes: Object.keys(this.routes).length,
-            initialRoute: this.state.currentRoute
+            initialRoute: this.state.currentRoute,
           });
         }
-        
       } catch (error) {
         console.error('❌ Error inicializando router:', error);
       }
@@ -141,9 +140,12 @@
       });
 
       // Scroll tracking para restauración
-      window.addEventListener('scroll', this.throttle(() => {
-        this.saveScrollPosition();
-      }, 100));
+      window.addEventListener(
+        'scroll',
+        this.throttle(() => {
+          this.saveScrollPosition();
+        }, 100)
+      );
 
       console.log('🔗 Eventos de router vinculados');
     },
@@ -157,7 +159,7 @@
     handleHashChange(e) {
       const newHash = window.location.hash || this.config.defaultRoute;
       const oldHash = this.extractHashFromUrl(e.oldURL);
-      
+
       this.navigateToRoute(newHash, oldHash, 'hashchange');
     },
 
@@ -171,7 +173,7 @@
       if (!link) return;
 
       const href = link.getAttribute('href');
-      
+
       // Verificar si es una ruta válida
       if (this.routes[href] || href.startsWith('#')) {
         e.preventDefault();
@@ -184,10 +186,10 @@
       if (!e.altKey) return;
 
       const keyMap = {
-        '1': '#inicio',
-        '2': '#roadmap', 
-        '3': '#progreso',
-        '4': '#laboratorio'
+        1: '#inicio',
+        2: '#roadmap',
+        3: '#progreso',
+        4: '#laboratorio',
       };
 
       const targetRoute = keyMap[e.key];
@@ -210,7 +212,7 @@
       }
 
       const normalizedRoute = this.normalizeRoute(route);
-      
+
       if (!this.isValidRoute(normalizedRoute)) {
         console.warn(`❌ Ruta inválida: ${route}`);
         this.navigateTo(this.config.defaultRoute, 'fallback');
@@ -228,11 +230,11 @@
 
     navigateToRoute(newRoute, oldRoute, method) {
       if (this.state.isNavigating) return;
-      
+
       this.state.isNavigating = true;
-      
+
       const routeConfig = this.routes[newRoute];
-      
+
       if (!routeConfig) {
         console.warn(`⚠️ Configuración de ruta no encontrada: ${newRoute}`);
         this.state.isNavigating = false;
@@ -289,14 +291,14 @@
     updateRouteState(newRoute, oldRoute) {
       this.state.previousRoute = oldRoute;
       this.state.currentRoute = newRoute;
-      
+
       // Actualizar historial (máximo 50 entradas)
       this.state.routeHistory.push({
         route: newRoute,
         timestamp: Date.now(),
-        title: this.routes[newRoute]?.title
+        title: this.routes[newRoute]?.title,
       });
-      
+
       if (this.state.routeHistory.length > 50) {
         this.state.routeHistory.shift();
       }
@@ -304,13 +306,13 @@
 
     updateActiveNavigation(activeRoute) {
       const navLinks = document.querySelectorAll('.nav__link[href^="#"]');
-      
-      navLinks.forEach(link => {
+
+      navLinks.forEach((link) => {
         const href = link.getAttribute('href');
         const isActive = href === activeRoute;
-        
+
         link.classList.toggle('nav__link--active', isActive);
-        
+
         if (isActive) {
           link.setAttribute('aria-current', 'page');
         } else {
@@ -339,21 +341,26 @@
       }
 
       // Verificar si hay posición guardada
-      const savedPosition = this.state.scrollPositions.get(this.state.currentRoute);
-      
-      if (savedPosition && this.state.previousRoute === this.state.currentRoute) {
+      const savedPosition = this.state.scrollPositions.get(
+        this.state.currentRoute
+      );
+
+      if (
+        savedPosition &&
+        this.state.previousRoute === this.state.currentRoute
+      ) {
         // Restaurar posición guardada
         window.scrollTo({
           top: savedPosition,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       } else {
         // Scroll a la sección con offset
         const targetPosition = target.offsetTop - this.config.scrollOffset;
-        
+
         window.scrollTo({
           top: Math.max(0, targetPosition),
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }
     },
@@ -385,29 +392,32 @@
       if (!route || route === '#') {
         return this.config.defaultRoute;
       }
-      
+
       if (!route.startsWith('#')) {
         return '#' + route;
       }
-      
+
       return route;
     },
 
     checkPrerequisites(routeConfig) {
-      if (!routeConfig.prerequisites || routeConfig.prerequisites.length === 0) {
+      if (
+        !routeConfig.prerequisites ||
+        routeConfig.prerequisites.length === 0
+      ) {
         return true;
       }
 
       // Verificar prerequisites educativos
       const progress = this.getEducationalProgress();
-      
-      return routeConfig.prerequisites.every(prereq => {
+
+      return routeConfig.prerequisites.every((prereq) => {
         return progress[prereq]?.completed;
       });
     },
 
     handlePrerequisiteFailure(routeConfig) {
-      const missingPrereqs = routeConfig.prerequisites.filter(prereq => {
+      const missingPrereqs = routeConfig.prerequisites.filter((prereq) => {
         const progress = this.getEducationalProgress();
         return !progress[prereq]?.completed;
       });
@@ -422,7 +432,7 @@
       if (window.Analytics) {
         window.Analytics.trackEvent('router', 'prerequisite_failure', {
           route: routeConfig.name,
-          missingPrereqs
+          missingPrereqs,
         });
       }
     },
@@ -432,11 +442,11 @@
       if (window.Analytics) {
         return window.Analytics.getProgress();
       }
-      
+
       if (window.AppState) {
         return window.AppState.getProgress();
       }
-      
+
       return {};
     },
 
@@ -449,13 +459,13 @@
     executeRouteCallbacks(newRoute, oldRoute, method) {
       // Callbacks generales
       this.onRouteChange(newRoute, oldRoute, method);
-      
+
       // Callbacks específicos de ruta
       const routeConfig = this.routes[newRoute];
       if (routeConfig.onEnter) {
         routeConfig.onEnter(newRoute, oldRoute, method);
       }
-      
+
       if (oldRoute && this.routes[oldRoute]?.onLeave) {
         this.routes[oldRoute].onLeave(oldRoute, newRoute, method);
       }
@@ -466,27 +476,29 @@
       if (window.Analytics) {
         const routeConfig = this.routes[newRoute];
         window.Analytics.trackNavigation(oldRoute, newRoute, method);
-        
+
         if (routeConfig.analytics) {
           window.Analytics.trackEvent('section', 'viewed', {
             section: routeConfig.analytics,
-            method
+            method,
           });
         }
       }
 
       // Actualizar metadatos de página
       this.updatePageMetadata(newRoute);
-      
+
       // Trigger custom event para otros módulos
-      document.dispatchEvent(new CustomEvent('routeChanged', {
-        detail: {
-          newRoute,
-          oldRoute,
-          method,
-          timestamp: Date.now()
-        }
-      }));
+      document.dispatchEvent(
+        new CustomEvent('routeChanged', {
+          detail: {
+            newRoute,
+            oldRoute,
+            method,
+            timestamp: Date.now(),
+          },
+        })
+      );
     },
 
     updatePageMetadata(route) {
@@ -509,11 +521,13 @@
 
     notifyRouteComplete(newRoute, oldRoute, method) {
       console.log(`✅ Navegación completada: ${newRoute}`);
-      
+
       // Notificar finalización a otros módulos
-      document.dispatchEvent(new CustomEvent('routeTransitionComplete', {
-        detail: { newRoute, oldRoute, method }
-      }));
+      document.dispatchEvent(
+        new CustomEvent('routeTransitionComplete', {
+          detail: { newRoute, oldRoute, method },
+        })
+      );
     },
 
     /*
@@ -524,29 +538,29 @@
 
     loadInitialRoute() {
       const currentHash = window.location.hash || this.config.defaultRoute;
-      
+
       // Navegación inicial sin transición
       this.state.currentRoute = currentHash;
       this.updateActiveNavigation(currentHash);
-      
+
       const routeConfig = this.routes[currentHash];
       if (routeConfig) {
         this.updatePageTitle(routeConfig.title);
-        
+
         // Scroll inicial suave
         setTimeout(() => {
           this.scrollToSection(routeConfig.section);
         }, 100);
       }
-      
+
       console.log(`🎯 Ruta inicial cargada: ${currentHash}`);
     },
 
     setupPageTransitions() {
       // Configurar transiciones CSS si están disponibles
       const sections = document.querySelectorAll('[id]');
-      
-      sections.forEach(section => {
+
+      sections.forEach((section) => {
         section.style.transition = `opacity ${this.config.transitionDuration}ms ease`;
       });
     },
@@ -558,13 +572,13 @@
 
     throttle(func, limit) {
       let inThrottle;
-      return function() {
+      return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
           func.apply(context, args);
           inThrottle = true;
-          setTimeout(() => inThrottle = false, limit);
+          setTimeout(() => (inThrottle = false), limit);
         }
       };
     },
@@ -583,9 +597,9 @@
         section: config.section || config.name,
         analytics: config.analytics || `${config.name}_section`,
         prerequisites: config.prerequisites || [],
-        ...config
+        ...config,
       };
-      
+
       console.log(`📝 Ruta registrada: ${hash}`);
     },
 
@@ -602,7 +616,8 @@
     // Ir a ruta anterior
     goBack() {
       if (this.state.routeHistory.length > 1) {
-        const previousRoute = this.state.routeHistory[this.state.routeHistory.length - 2];
+        const previousRoute =
+          this.state.routeHistory[this.state.routeHistory.length - 2];
         this.navigateTo(previousRoute.route, 'back');
       }
     },
@@ -628,9 +643,9 @@
       return {
         ...this.state,
         config: this.config,
-        routesCount: Object.keys(this.routes).length
+        routesCount: Object.keys(this.routes).length,
       };
-    }
+    },
   };
 
   /*
@@ -650,7 +665,6 @@
 
   // Exponer método global para navegación fácil
   window.navigate = window.Router.navigateTo.bind(window.Router);
-
 })();
 
 /*

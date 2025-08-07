@@ -1,0 +1,249 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for the educational platform
+title: '[FEATURE] '
+labels: ['enhancement', 'needs-evaluation']
+assignees: ['Franklin-Andres-Rodriguez']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🌟 Preparación Académica - Feature Request
+
+        Thank you for suggesting improvements to our educational platform! **Well-structured feature requests** help us prioritize development and ensure new features truly enhance the learning experience.
+
+        > 💡 **Educational Insight**: This template applies **systematic problem-solving methodology** - the same structured thinking we teach for debugging complex systems.
+
+  - type: dropdown
+    id: feature_category
+    attributes:
+      label: 🎯 Feature Category
+      description: Which area would this feature improve?
+      options:
+        - '📚 Educational Content (methodology, examples, tutorials)'
+        - '🔧 Development Tools (scripts, automation, productivity)'
+        - '⚙️ GitHub Integration (workflows, templates, actions)'
+        - '🔒 Security & Quality (testing, validation, compliance)'
+        - '📊 Analytics & Tracking (progress, metrics, insights)'
+        - '🤝 Collaboration (peer review, mentoring, sharing)'
+        - '🏗️ Infrastructure (setup, deployment, scaling)'
+        - '📱 User Experience (interface, accessibility, usability)'
+        - '🎮 Gamification (achievements, progress, motivation)'
+        - 'Other (please specify in description)'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user_type
+    attributes:
+      label: 👤 Primary User Type
+      description: Who would benefit most from this feature?
+      options:
+        - '🎓 Students/Learners (primary educational audience)'
+        - '👨‍🏫 Instructors/Mentors (teaching and guidance)'
+        - '👩‍💻 Developers/Contributors (platform development)'
+        - '🏢 Institution Administrators (program management)'
+        - '🌍 Community Members (open source contributors)'
+        - 'All Users (universal benefit)'
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: 🎯 Problem Statement
+      description: |
+        **What specific problem or pain point does this feature address?**
+
+        **Educational Note**: Following **Problem-First Thinking** - clearly define the problem before proposing solutions. This prevents solution bias and ensures we address real needs.
+      placeholder: |
+        Example: "New students struggle to understand why certain development practices matter. They follow scripts and commands without grasping the underlying principles, leading to shallow learning and difficulty applying concepts to new situations."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user_story
+    attributes:
+      label: 📖 User Story
+      description: |
+        **Describe the feature from the user's perspective.**
+
+        **Educational Note**: User stories create **empathy-driven design** - understanding the user's context and goals leads to better educational experiences.
+      placeholder: |
+        **As a** [type of user]
+        **I want** [specific capability/feature]  
+        **So that** [benefit/value achieved]
+
+        Example:
+        **As a** beginner student learning development automation
+        **I want** interactive explanations that appear while scripts run
+        **So that** I understand what each step does and why it's important, rather than just following commands blindly
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: |
+        **Your suggested approach to solving this problem.**
+
+        **Educational Note**: This practices **Solution Design** methodology - moving from problem understanding to systematic solution architecture.
+      placeholder: |
+        Example: "Add an interactive mode to development scripts where:
+        1. Before each major step, script pauses and displays educational popup
+        2. Popup explains what the next step does and why it's needed
+        3. Student can choose 'Learn More' for deeper explanation or 'Continue' to proceed
+        4. Progress tracking saves which explanations were viewed for follow-up"
+
+  - type: textarea
+    id: alternative_solutions
+    attributes:
+      label: 🔄 Alternative Solutions
+      description: |
+        **Other approaches you've considered.**
+
+        **Educational Note**: Considering alternatives demonstrates **Critical Thinking** - evaluating multiple approaches before committing to implementation.
+      placeholder: |
+        Example alternatives:
+        1. Add comments throughout scripts with detailed explanations
+        2. Create separate documentation with step-by-step breakdowns  
+        3. Build video walkthroughs that run alongside scripts
+        4. Implement CLI help system with context-aware explanations
+
+  - type: textarea
+    id: success_criteria
+    attributes:
+      label: 🎯 Success Criteria
+      description: |
+        **How will we know this feature is successful?**
+
+        **Educational Note**: Defining **measurable outcomes** enables data-driven evaluation - a core principle in educational program assessment.
+      placeholder: |
+        Example success criteria:
+        - 80% of new students engage with interactive explanations
+        - Average setup time increases by <10% despite added educational content
+        - Student feedback shows 90%+ better understanding of setup process
+        - Reduced support requests about "why do we need this step?"
+      value: |
+        **Quantitative Metrics:**
+        - 
+        - 
+
+        **Qualitative Indicators:**
+        - 
+        -
+
+  - type: dropdown
+    id: priority_level
+    attributes:
+      label: 📊 Priority Level
+      description: How important is this feature for the educational mission?
+      options:
+        - '🔥 Critical - Essential for core educational experience'
+        - '🔴 High - Significantly improves learning outcomes'
+        - '🟡 Medium - Nice to have, moderate learning benefit'
+        - '🔵 Low - Minor improvement, low urgency'
+        - '💜 Future - Great idea for later phases'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: implementation_complexity
+    attributes:
+      label: ⚙️ Estimated Implementation Complexity
+      description: How complex do you think this feature would be to implement?
+      options:
+        - '🟢 Simple - Few hours of work, minimal dependencies'
+        - '🟡 Medium - Few days of work, moderate complexity'
+        - '🟠 Complex - Weeks of work, significant architecture changes'
+        - '🔴 Very Complex - Major feature requiring extensive planning'
+        - '❓ Unknown - Not sure about implementation difficulty'
+
+  - type: textarea
+    id: educational_impact
+    attributes:
+      label: 🎓 Educational Impact Analysis
+      description: |
+        **How does this feature enhance the learning experience?**
+
+        **Educational Note**: Analyzing pedagogical impact ensures features align with educational goals, not just technical convenience.
+      placeholder: |
+        **Learning Outcomes Enhanced:**
+        - Students understand the 'why' behind development practices
+        - Improved retention through active engagement vs passive following
+        - Better preparation for independent problem-solving
+
+        **Educational Principles Applied:**
+        - Active learning (engagement vs passive consumption)
+        - Scaffolded learning (progressive complexity)
+        - Contextual understanding (why, not just how)
+
+  - type: textarea
+    id: mockups_examples
+    attributes:
+      label: 🎨 Mockups / Examples
+      description: |
+        **Visual representations, code examples, or workflow diagrams.**
+
+        **Educational Note**: Visual communication accelerates understanding and reduces misinterpretation - key principles in technical communication.
+      placeholder: |
+        You can include:
+        - ASCII art mockups
+        - Code snippets showing desired behavior
+        - Workflow diagrams using text
+        - Links to similar implementations
+        - Screenshots of inspiration sources
+
+  - type: checkboxes
+    id: feature_considerations
+    attributes:
+      label: 🤔 Additional Considerations
+      description: Important factors for this feature
+      options:
+        - label: '♿ Accessibility considerations needed'
+        - label: '🌍 Internationalization support required'
+        - label: '📱 Mobile/responsive design important'
+        - label: '🔐 Security implications to consider'
+        - label: '📊 Analytics/tracking capabilities needed'
+        - label: '🔧 Backward compatibility required'
+        - label: '📚 Documentation updates needed'
+        - label: '🧪 Testing strategy considerations'
+
+  - type: checkboxes
+    id: research_checklist
+    attributes:
+      label: ✅ Research Checklist
+      description: Please confirm your preparation
+      options:
+        - label: '🔍 I searched existing issues for similar requests'
+          required: true
+        - label: '📚 I reviewed current documentation and features'
+          required: true
+        - label: '🎯 I clearly defined the problem this solves'
+          required: true
+        - label: '💡 I provided specific, actionable solution details'
+          required: true
+        - label: '📊 I included measurable success criteria'
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ## 🎓 **Educational Value of Structured Feature Requests**
+
+        This template teaches professional **requirements gathering** and **solution design**:
+
+        - **🎯 Problem Analysis** - Understanding root causes vs symptoms
+        - **👤 User-Centered Design** - Focusing on user needs and context  
+        - **💡 Solution Architecture** - Systematic approach to feature design
+        - **⚖️ Trade-off Analysis** - Considering alternatives and complexity
+        - **📊 Success Metrics** - Defining measurable outcomes
+
+        **These skills are essential for professional software development!**
+
+        ---
+
+        Thank you for helping improve **Preparación Académica**! Your thoughtful feature request contributes to our mission of creating world-class educational experiences. 🌟

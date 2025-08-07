@@ -1,0 +1,84 @@
+# .github/dependabot.yml
+# Configuración automática de Dependabot para security y maintenance
+version: 2
+
+updates:
+  # Root project dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'America/Bogota'
+    reviewers:
+      - 'Franklin-Andres-Rodriguez'
+    assignees:
+      - 'Franklin-Andres-Rodriguez'
+    commit-message:
+      prefix: 'deps(root)'
+      include: 'scope'
+    open-pull-requests-limit: 3
+    rebase-strategy: 'auto'
+    labels:
+      - 'dependencies'
+      - 'root'
+      - 'automated'
+
+  # GitHub Actions dependencies
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'wednesday'
+      time: '09:00'
+      timezone: 'America/Bogota'
+    reviewers:
+      - 'Franklin-Andres-Rodriguez'
+    commit-message:
+      prefix: 'ci'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'ci-cd'
+      - 'automated'
+# Future phases configurations (commented out to prevent errors)
+# Uncomment sections as directories are created in subsequent phases
+
+# Frontend dependencies (Phase 2)
+# - package-ecosystem: "npm"
+#   directory: "/frontend"
+#   schedule:
+#     interval: "weekly"
+#     day: "monday"
+#     time: "09:00"
+#     timezone: "America/Bogota"
+#   reviewers:
+#     - "Franklin-Andres-Rodriguez"
+#   assignees:
+#     - "Franklin-Andres-Rodriguez"
+#   commit-message:
+#     prefix: "deps(frontend)"
+#     include: "scope"
+#   labels:
+#     - "dependencies"
+#     - "frontend"
+#     - "automated"
+
+# Microservices dependencies (Phase 3)
+# - package-ecosystem: "npm"
+#   directory: "/services/auth-service"
+#   schedule:
+#     interval: "weekly"
+#     day: "tuesday"
+#     time: "09:00"
+#     timezone: "America/Bogota"
+#   reviewers:
+#     - "Franklin-Andres-Rodriguez"
+#   commit-message:
+#     prefix: "deps(auth)"
+#     include: "scope"
+#   labels:
+#     - "dependencies"
+#     - "auth-service"
+#     - "automated"
