@@ -2,35 +2,35 @@
 const core = require('@actions/core');
 
 /**
- * SICP Assessment Action para Preparación Académica
+ * SICP Assessment Action for Academic Preparation
  * 
- * Evalúa adherencia a la metodología de debugging sistemático:
+ * Evaluates adherence to the systematic debugging methodology:
  * 1. Systematic Observation
  * 2. Hypothesis Formation  
  * 3. Systematic Testing
  * 4. Root Cause Analysis
  * 5. Solution Implementation
  * 
- * Educational Note: Esta action modela cómo automatizar quality assurance
- * y educational assessment - skills críticos para desarrollo profesional.
+ * Educational Note: This action models how to automate quality assurance
+ * and educational assessment—critical skills for professional development.
  */
 
 class SICPAssessment {
   constructor(inputs) {
-    this.filesChanged = inputs.filesChanged.split('\n').filter(f => f.trim());
+    this.filesChanged = inputs.filesChanged.split('\n').filter((f) => f.trim());
     this.prDescription = inputs.prDescription;
     this.issueContent = inputs.issueContent;
     this.assessmentLevel = inputs.assessmentLevel;
-    
+
     // SICP Scoring Framework
     this.scores = {
       systematicObservation: 0,
       hypothesisFormation: 0,
       systematicTesting: 0,
       rootCauseAnalysis: 0,
-      solutionImplementation: 0
+      solutionImplementation: 0,
     };
-    
+
     this.recommendations = [];
     this.educationalNotes = [];
   }
@@ -50,7 +50,7 @@ class SICPAssessment {
       /issue[s]?\s*[:.]*/i,
       /behavior[s]?\s*[:.]*/i,
       /reproduction\s+steps/i,
-      /steps\s+to\s+reproduce/i
+      /steps\s+to\s+reproduce/i,
     ];
 
     // Check for environment documentation
@@ -60,54 +60,64 @@ class SICPAssessment {
       /version[s]?[:\s]/i,
       /node\.?js/i,
       /docker/i,
-      /browser/i
+      /browser/i,
     ];
 
     const content = `${this.prDescription} ${this.issueContent}`.toLowerCase();
 
     // Score problem documentation (40 points)
-    const problemMatches = problemPatterns.filter(pattern => pattern.test(content));
+    const problemMatches = problemPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(40, problemMatches.length * 10);
-    
+
     if (problemMatches.length > 0) {
-      observations.push("✅ Problem symptoms documented");
+      observations.push('✅ Problem symptoms documented');
     } else {
-      observations.push("⚠️ Problem symptoms could be better documented");
-      this.recommendations.push("Document specific symptoms and behaviors observed");
+      observations.push('⚠️ Problem symptoms could be better documented');
+      this.recommendations.push(
+        'Document specific symptoms and behaviors observed'
+      );
     }
 
-    // Score environment documentation (30 points)  
-    const envMatches = environmentPatterns.filter(pattern => pattern.test(content));
+    // Score environment documentation (30 points)
+    const envMatches = environmentPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(30, envMatches.length * 8);
 
     if (envMatches.length >= 2) {
-      observations.push("✅ Environment context provided");
+      observations.push('✅ Environment context provided');
     } else {
-      observations.push("⚠️ Environment details could be more comprehensive");
-      this.recommendations.push("Include environment details: OS, versions, configuration");
+      observations.push('⚠️ Environment details could be more comprehensive');
+      this.recommendations.push(
+        'Include environment details: OS, versions, configuration'
+      );
     }
 
     // Score reproduction steps (30 points)
     if (/steps?\s+(to\s+)?reproduce/i.test(content)) {
       score += 30;
-      observations.push("✅ Reproduction steps provided");
+      observations.push('✅ Reproduction steps provided');
     } else {
-      observations.push("⚠️ Clear reproduction steps would help");
-      this.recommendations.push("Provide step-by-step reproduction instructions");
+      observations.push('⚠️ Clear reproduction steps would help');
+      this.recommendations.push(
+        'Provide step-by-step reproduction instructions'
+      );
     }
 
     this.scores.systematicObservation = Math.min(100, score);
-    
+
     this.educationalNotes.push(
-      "🎓 Systematic Observation: Professional debugging starts with precise symptom documentation. " +
-      "This prevents wasted time on wrong assumptions and enables others to help effectively."
+      '🎓 Systematic Observation: Professional debugging starts with precise symptom documentation. ' +
+        'This prevents wasted time on wrong assumptions and enables others to help effectively.'
     );
 
     return observations;
   }
 
   /**
-   * Phase 2: Hypothesis Formation Assessment  
+   * Phase 2: Hypothesis Formation Assessment
    * Evaluates systematic cause analysis and testable predictions
    */
   assessHypothesisFormation() {
@@ -125,7 +135,7 @@ class SICPAssessment {
       /hypothesis/i,
       /suspect[s]?/i,
       /likely/i,
-      /probably/i
+      /probably/i,
     ];
 
     // Check for alternative consideration
@@ -134,45 +144,57 @@ class SICPAssessment {
       /other\s+possibility/i,
       /could\s+also\s+be/i,
       /might\s+be/i,
-      /or\s+maybe/i
+      /or\s+maybe/i,
     ];
 
     // Score causal reasoning (50 points)
-    const causeMatches = causePatterns.filter(pattern => pattern.test(content));
+    const causeMatches = causePatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(50, causeMatches.length * 15);
 
     if (causeMatches.length >= 2) {
-      observations.push("✅ Causal reasoning demonstrated");
+      observations.push('✅ Causal reasoning demonstrated');
     } else {
-      observations.push("⚠️ Causal analysis could be more explicit");
-      this.recommendations.push("Explain WHY you think this solution addresses the root cause");
+      observations.push('⚠️ Causal analysis could be more explicit');
+      this.recommendations.push(
+        'Explain WHY you think this solution addresses the root cause'
+      );
     }
 
     // Score alternative consideration (30 points)
-    const altMatches = alternativePatterns.filter(pattern => pattern.test(content));
+    const altMatches = alternativePatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(30, altMatches.length * 10);
 
     if (altMatches.length > 0) {
-      observations.push("✅ Alternative approaches considered");
+      observations.push('✅ Alternative approaches considered');
     } else {
-      observations.push("⚠️ Consider mentioning alternative approaches explored");
-      this.recommendations.push("Discuss other solutions considered and why this approach was chosen");
+      observations.push(
+        '⚠️ Consider mentioning alternative approaches explored'
+      );
+      this.recommendations.push(
+        'Discuss other solutions considered and why this approach was chosen'
+      );
     }
 
     // Score prediction/testing (20 points)
     if (/test[s]?\s+this|verify|validate|confirm/i.test(content)) {
       score += 20;
-      observations.push("✅ Solution testing approach mentioned");
+      observations.push('✅ Solution testing approach mentioned');
     } else {
-      observations.push("⚠️ Solution validation approach could be clearer");
-      this.recommendations.push("Describe how you'll verify this solution works");
+      observations.push('⚠️ Solution validation approach could be clearer');
+      this.recommendations.push(
+        "Describe how you'll verify this solution works"
+      );
     }
 
     this.scores.hypothesisFormation = Math.min(100, score);
 
     this.educationalNotes.push(
-      "🎓 Hypothesis Formation: Professional developers form testable hypotheses about causes " +
-      "rather than trying random solutions. This systematic approach saves time and builds understanding."
+      '🎓 Hypothesis Formation: Professional developers form testable hypotheses about causes ' +
+        'rather than trying random solutions. This systematic approach saves time and builds understanding.'
     );
 
     return observations;
@@ -187,11 +209,12 @@ class SICPAssessment {
     const observations = [];
 
     // Check for test files
-    const testFiles = this.filesChanged.filter(file => 
-      file.includes('test') || 
-      file.includes('spec') || 
-      file.endsWith('.test.js') ||
-      file.endsWith('.spec.js')
+    const testFiles = this.filesChanged.filter(
+      (file) =>
+        file.includes('test') ||
+        file.includes('spec') ||
+        file.endsWith('.test.js') ||
+        file.endsWith('.spec.js')
     );
 
     // Score test coverage (40 points)
@@ -199,8 +222,10 @@ class SICPAssessment {
       score += 40;
       observations.push(`✅ Test files included: ${testFiles.join(', ')}`);
     } else {
-      observations.push("⚠️ No test files detected in changes");
-      this.recommendations.push("Add tests to verify the fix and prevent regression");
+      observations.push('⚠️ No test files detected in changes');
+      this.recommendations.push(
+        'Add tests to verify the fix and prevent regression'
+      );
     }
 
     const content = `${this.prDescription} ${this.issueContent}`.toLowerCase();
@@ -212,17 +237,21 @@ class SICPAssessment {
       /manual[ly]?\s+test/i,
       /verify/i,
       /validate/i,
-      /confirm/i
+      /confirm/i,
     ];
 
-    const testMatches = testingPatterns.filter(pattern => pattern.test(content));
+    const testMatches = testingPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(35, testMatches.length * 10);
 
     if (testMatches.length >= 2) {
-      observations.push("✅ Testing approach documented");
+      observations.push('✅ Testing approach documented');
     } else {
-      observations.push("⚠️ Testing methodology could be more detailed");
-      this.recommendations.push("Describe your testing approach: unit, integration, manual verification");
+      observations.push('⚠️ Testing methodology could be more detailed');
+      this.recommendations.push(
+        'Describe your testing approach: unit, integration, manual verification'
+      );
     }
 
     // Check for edge case consideration (25 points)
@@ -231,24 +260,28 @@ class SICPAssessment {
       /boundary/i,
       /error\s+handling/i,
       /exception[s]?/i,
-      /failure\s+case[s]?/i
+      /failure\s+case[s]?/i,
     ];
 
-    const edgeMatches = edgeCasePatterns.filter(pattern => pattern.test(content));
+    const edgeMatches = edgeCasePatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(25, edgeMatches.length * 8);
 
     if (edgeMatches.length > 0) {
-      observations.push("✅ Edge case consideration evident");
+      observations.push('✅ Edge case consideration evident');
     } else {
-      observations.push("⚠️ Edge case testing could be mentioned");
-      this.recommendations.push("Consider and test edge cases and error conditions");
+      observations.push('⚠️ Edge case testing could be mentioned');
+      this.recommendations.push(
+        'Consider and test edge cases and error conditions'
+      );
     }
 
     this.scores.systematicTesting = Math.min(100, score);
 
     this.educationalNotes.push(
-      "🎓 Systematic Testing: Effective testing isolates variables and covers edge cases. " +
-      "This prevents bugs from reaching production and builds confidence in solutions."
+      '🎓 Systematic Testing: Effective testing isolates variables and covers edge cases. ' +
+        'This prevents bugs from reaching production and builds confidence in solutions.'
     );
 
     return observations;
@@ -271,17 +304,21 @@ class SICPAssessment {
       /analysis\s+shows/i,
       /investigation\s+reveals/i,
       /found\s+that/i,
-      /discovered/i
+      /discovered/i,
     ];
 
-    const evidenceMatches = evidencePatterns.filter(pattern => pattern.test(content));
+    const evidenceMatches = evidencePatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(40, evidenceMatches.length * 12);
 
     if (evidenceMatches.length >= 2) {
-      observations.push("✅ Evidence-based analysis demonstrated");
+      observations.push('✅ Evidence-based analysis demonstrated');
     } else {
-      observations.push("⚠️ Evidence-based reasoning could be stronger");
-      this.recommendations.push("Support conclusions with specific evidence and investigation results");
+      observations.push('⚠️ Evidence-based reasoning could be stronger');
+      this.recommendations.push(
+        'Support conclusions with specific evidence and investigation results'
+      );
     }
 
     // Check for root cause identification (35 points)
@@ -290,17 +327,21 @@ class SICPAssessment {
       /fundamental\s+issue/i,
       /underlying\s+problem/i,
       /real\s+cause/i,
-      /actual\s+cause/i
+      /actual\s+cause/i,
     ];
 
-    const rootMatches = rootCausePatterns.filter(pattern => pattern.test(content));
+    const rootMatches = rootCausePatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(35, rootMatches.length * 12);
 
     if (rootMatches.length > 0) {
-      observations.push("✅ Root cause analysis attempted");
+      observations.push('✅ Root cause analysis attempted');
     } else {
-      observations.push("⚠️ Root cause identification could be more explicit");
-      this.recommendations.push("Clearly identify the root cause vs. surface symptoms");
+      observations.push('⚠️ Root cause identification could be more explicit');
+      this.recommendations.push(
+        'Clearly identify the root cause vs. surface symptoms'
+      );
     }
 
     // Check for systematic elimination (25 points)
@@ -309,24 +350,30 @@ class SICPAssessment {
       /eliminated/i,
       /not\s+caused\s+by/i,
       /investigated.*but/i,
-      /tried.*didn't/i
+      /tried.*didn't/i,
     ];
 
-    const elimMatches = eliminationPatterns.filter(pattern => pattern.test(content));
+    const elimMatches = eliminationPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(25, elimMatches.length * 8);
 
     if (elimMatches.length > 0) {
-      observations.push("✅ Systematic elimination process evident");
+      observations.push('✅ Systematic elimination process evident');
     } else {
-      observations.push("⚠️ Systematic elimination process could be documented");
-      this.recommendations.push("Document what you ruled out during investigation");
+      observations.push(
+        '⚠️ Systematic elimination process could be documented'
+      );
+      this.recommendations.push(
+        'Document what you ruled out during investigation'
+      );
     }
 
     this.scores.rootCauseAnalysis = Math.min(100, score);
 
     this.educationalNotes.push(
-      "🎓 Root Cause Analysis: Professional debugging identifies true causes, not just symptoms. " +
-      "This prevents the same issue from recurring and builds systematic problem-solving skills."
+      '🎓 Root Cause Analysis: Professional debugging identifies true causes, not just symptoms. ' +
+        'This prevents the same issue from recurring and builds systematic problem-solving skills.'
     );
 
     return observations;
@@ -349,16 +396,20 @@ class SICPAssessment {
       /focused\s+fix/i,
       /targeted/i,
       /surgical/i,
-      /precise/i
+      /precise/i,
     ];
 
-    const minimalMatches = minimalPatterns.filter(pattern => pattern.test(content));
+    const minimalMatches = minimalPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     if (minimalMatches.length > 0 || this.filesChanged.length <= 3) {
       score += 30;
-      observations.push("✅ Minimal change approach evident");
+      observations.push('✅ Minimal change approach evident');
     } else {
-      observations.push("⚠️ Consider if change scope could be more focused");
-      this.recommendations.push("Aim for minimal, focused changes that address the specific issue");
+      observations.push('⚠️ Consider if change scope could be more focused');
+      this.recommendations.push(
+        'Aim for minimal, focused changes that address the specific issue'
+      );
     }
 
     // Check for verification approach (35 points)
@@ -367,17 +418,21 @@ class SICPAssessment {
       /confirm/i,
       /test[s]?\s+pass/i,
       /works\s+as\s+expected/i,
-      /manual[ly]?\s+tested/i
+      /manual[ly]?\s+tested/i,
     ];
 
-    const verifyMatches = verificationPatterns.filter(pattern => pattern.test(content));
+    const verifyMatches = verificationPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(35, verifyMatches.length * 12);
 
     if (verifyMatches.length >= 2) {
-      observations.push("✅ Solution verification documented");
+      observations.push('✅ Solution verification documented');
     } else {
-      observations.push("⚠️ Solution verification could be more thorough");
-      this.recommendations.push("Document how you verified the fix works and doesn't break other functionality");
+      observations.push('⚠️ Solution verification could be more thorough');
+      this.recommendations.push(
+        "Document how you verified the fix works and doesn't break other functionality"
+      );
     }
 
     // Check for side effect consideration (35 points)
@@ -387,24 +442,28 @@ class SICPAssessment {
       /affect[s]?\s+other/i,
       /regression/i,
       /break[s]?\s+existing/i,
-      /backward[s]?\s+compatible/i
+      /backward[s]?\s+compatible/i,
     ];
 
-    const sideMatches = sideEffectPatterns.filter(pattern => pattern.test(content));
+    const sideMatches = sideEffectPatterns.filter((pattern) =>
+      pattern.test(content)
+    );
     score += Math.min(35, sideMatches.length * 12);
 
     if (sideMatches.length > 0) {
-      observations.push("✅ Side effect consideration evident");
+      observations.push('✅ Side effect consideration evident');
     } else {
-      observations.push("⚠️ Side effect analysis could be mentioned");
-      this.recommendations.push("Consider and document potential side effects of the change");
+      observations.push('⚠️ Side effect analysis could be mentioned');
+      this.recommendations.push(
+        'Consider and document potential side effects of the change'
+      );
     }
 
     this.scores.solutionImplementation = Math.min(100, score);
 
     this.educationalNotes.push(
-      "🎓 Solution Implementation: Professional fixes are minimal, verified, and consider side effects. " +
-      "This reduces risk of introducing new bugs while solving the original problem."
+      '🎓 Solution Implementation: Professional fixes are minimal, verified, and consider side effects. ' +
+        'This reduces risk of introducing new bugs while solving the original problem.'
     );
 
     return observations;
@@ -415,27 +474,29 @@ class SICPAssessment {
    */
   calculateOverallScore() {
     const scores = Object.values(this.scores);
-    const overallScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-    
+    const overallScore = Math.round(
+      scores.reduce((a, b) => a + b, 0) / scores.length
+    );
+
     // Add overall assessment insights
     if (overallScore >= 85) {
       this.educationalNotes.push(
-        "🌟 Excellent SICP methodology adherence! This demonstrates professional-level systematic debugging approach."
+        '🌟 Excellent SICP methodology adherence! This demonstrates professional-level systematic debugging approach.'
       );
     } else if (overallScore >= 70) {
       this.educationalNotes.push(
-        "✅ Good SICP methodology application. Consider the recommendations to reach professional excellence."
+        '✅ Good SICP methodology application. Consider the recommendations to reach professional excellence.'
       );
     } else if (overallScore >= 50) {
       this.educationalNotes.push(
-        "📚 Moderate SICP methodology usage. Focus on the missing phases to develop systematic debugging skills."
+        '📚 Moderate SICP methodology usage. Focus on the missing phases to develop systematic debugging skills.'
       );
     } else {
       this.educationalNotes.push(
-        "⚠️ Limited SICP methodology application. This is a great opportunity to practice systematic debugging approaches."
+        '⚠️ Limited SICP methodology application. This is a great opportunity to practice systematic debugging approaches.'
       );
       this.recommendations.unshift(
-        "Consider applying the SICP methodology: Observation → Hypothesis → Testing → Analysis → Implementation"
+        'Consider applying the SICP methodology: Observation → Hypothesis → Testing → Analysis → Implementation'
       );
     }
 
@@ -451,7 +512,7 @@ class SICPAssessment {
     const testingResults = this.assessSystematicTesting();
     const analysisResults = this.assessRootCauseAnalysis();
     const implementationResults = this.assessSolutionImplementation();
-    
+
     const overallScore = this.calculateOverallScore();
 
     return {
@@ -464,8 +525,8 @@ class SICPAssessment {
         hypothesisFormation: hypothesisResults,
         systematicTesting: testingResults,
         rootCauseAnalysis: analysisResults,
-        solutionImplementation: implementationResults
-      }
+        solutionImplementation: implementationResults,
+      },
     };
   }
 }
@@ -482,10 +543,12 @@ async function run() {
       filesChanged: core.getInput('files-changed') || '',
       prDescription: core.getInput('pr-description') || '',
       issueContent: core.getInput('issue-content') || '',
-      assessmentLevel: core.getInput('assessment-level') || 'standard'
+      assessmentLevel: core.getInput('assessment-level') || 'standard',
     };
 
-    core.info(`Assessing ${inputs.filesChanged.split('\n').filter(f => f.trim()).length} changed files`);
+    core.info(
+      `Assessing ${inputs.filesChanged.split('\n').filter((f) => f.trim()).length} changed files`
+    );
 
     // Run assessment
     const assessment = new SICPAssessment(inputs);
@@ -493,26 +556,53 @@ async function run() {
 
     // Set outputs
     core.setOutput('sicp-score', report.overallScore.toString());
-    core.setOutput('systematic-observation', report.scores.systematicObservation.toString());
-    core.setOutput('hypothesis-formation', report.scores.hypothesisFormation.toString());
-    core.setOutput('systematic-testing', report.scores.systematicTesting.toString());
-    core.setOutput('root-cause-analysis', report.scores.rootCauseAnalysis.toString());
-    core.setOutput('solution-implementation', report.scores.solutionImplementation.toString());
+    core.setOutput(
+      'systematic-observation',
+      report.scores.systematicObservation.toString()
+    );
+    core.setOutput(
+      'hypothesis-formation',
+      report.scores.hypothesisFormation.toString()
+    );
+    core.setOutput(
+      'systematic-testing',
+      report.scores.systematicTesting.toString()
+    );
+    core.setOutput(
+      'root-cause-analysis',
+      report.scores.rootCauseAnalysis.toString()
+    );
+    core.setOutput(
+      'solution-implementation',
+      report.scores.solutionImplementation.toString()
+    );
     core.setOutput('recommendations', JSON.stringify(report.recommendations));
-    core.setOutput('educational-notes', JSON.stringify(report.educationalNotes));
+    core.setOutput(
+      'educational-notes',
+      JSON.stringify(report.educationalNotes)
+    );
 
     // Log summary
     core.info(`📊 SICP Assessment Complete:`);
     core.info(`   Overall Score: ${report.overallScore}/100`);
-    core.info(`   Systematic Observation: ${report.scores.systematicObservation}/100`);
-    core.info(`   Hypothesis Formation: ${report.scores.hypothesisFormation}/100`);
+    core.info(
+      `   Systematic Observation: ${report.scores.systematicObservation}/100`
+    );
+    core.info(
+      `   Hypothesis Formation: ${report.scores.hypothesisFormation}/100`
+    );
     core.info(`   Systematic Testing: ${report.scores.systematicTesting}/100`);
     core.info(`   Root Cause Analysis: ${report.scores.rootCauseAnalysis}/100`);
-    core.info(`   Solution Implementation: ${report.scores.solutionImplementation}/100`);
+    core.info(
+      `   Solution Implementation: ${report.scores.solutionImplementation}/100`
+    );
 
-    core.info(`💡 Recommendations: ${report.recommendations.length} suggestions generated`);
-    core.info(`🎓 Educational Notes: ${report.educationalNotes.length} learning insights provided`);
-
+    core.info(
+      `💡 Recommendations: ${report.recommendations.length} suggestions generated`
+    );
+    core.info(
+      `🎓 Educational Notes: ${report.educationalNotes.length} learning insights provided`
+    );
   } catch (error) {
     core.setFailed(`SICP Assessment failed: ${error.message}`);
   }

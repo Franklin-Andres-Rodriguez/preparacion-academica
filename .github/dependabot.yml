@@ -4,45 +4,44 @@ version: 2
 
 updates:
   # Root project dependencies
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "America/Bogota"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'America/Bogota'
     reviewers:
-      - "Franklin-Andres-Rodriguez"
+      - 'Franklin-Andres-Rodriguez'
     assignees:
-      - "Franklin-Andres-Rodriguez"
+      - 'Franklin-Andres-Rodriguez'
     commit-message:
-      prefix: "deps(root)"
-      include: "scope"
+      prefix: 'deps(root)'
+      include: 'scope'
     open-pull-requests-limit: 3
-    rebase-strategy: "auto"
+    rebase-strategy: 'auto'
     labels:
-      - "dependencies"
-      - "root"
-      - "automated"
+      - 'dependencies'
+      - 'root'
+      - 'automated'
 
   # GitHub Actions dependencies
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "wednesday"
-      time: "09:00"
-      timezone: "America/Bogota"
+      interval: 'weekly'
+      day: 'wednesday'
+      time: '09:00'
+      timezone: 'America/Bogota'
     reviewers:
-      - "Franklin-Andres-Rodriguez"
+      - 'Franklin-Andres-Rodriguez'
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: 'ci'
+      include: 'scope'
     labels:
-      - "dependencies"
-      - "ci-cd"
-      - "automated"
-
+      - 'dependencies'
+      - 'ci-cd'
+      - 'automated'
 # Future phases configurations (commented out to prevent errors)
 # Uncomment sections as directories are created in subsequent phases
 

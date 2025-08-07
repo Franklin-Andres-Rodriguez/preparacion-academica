@@ -131,7 +131,8 @@
  * Negative margins for full-width media within padded card
  */
 .card__media {
-  margin: calc(-1 * var(--card-padding)) calc(-1 * var(--card-padding)) var(--space-4);
+  margin: calc(-1 * var(--card-padding)) calc(-1 * var(--card-padding))
+    var(--space-4);
   border-radius: var(--card-radius) var(--card-radius) 0 0;
   overflow: hidden;
   background: var(--color-surface-tertiary);
@@ -193,9 +194,11 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, 
-    var(--color-stage-beginner), 
-    var(--color-stage-expert));
+  background: linear-gradient(
+    90deg,
+    var(--color-stage-beginner),
+    var(--color-stage-expert)
+  );
   z-index: 1;
 }
 
@@ -320,7 +323,9 @@
 .card--interactive {
   cursor: pointer;
   user-select: none;
-  transition: var(--card-transition), box-shadow var(--transition-timing-fast);
+  transition:
+    var(--card-transition),
+    box-shadow var(--transition-timing-fast);
 }
 
 .card--interactive:hover {
@@ -347,7 +352,9 @@
   cursor: pointer;
   position: relative;
   border: 2px solid transparent;
-  transition: var(--card-transition), border-color var(--transition-timing-fast);
+  transition:
+    var(--card-transition),
+    border-color var(--transition-timing-fast);
 }
 
 .card--selectable:hover {
@@ -355,13 +362,13 @@
   transform: translateY(-1px);
 }
 
-.card--selectable[aria-selected="true"] {
+.card--selectable[aria-selected='true'] {
   border-color: var(--color-brand-primary);
   background: var(--color-brand-primary-light);
   box-shadow: var(--shadow-md);
 }
 
-.card--selectable[aria-selected="true"]::after {
+.card--selectable[aria-selected='true']::after {
   content: '✓';
   position: absolute;
   top: var(--space-2);
@@ -401,9 +408,7 @@
   left: 0;
   height: 100%;
   width: var(--progress-width, 30%);
-  background: linear-gradient(90deg, 
-    transparent, 
-    var(--color-warning-light));
+  background: linear-gradient(90deg, transparent, var(--color-warning-light));
   border-radius: var(--card-radius) 0 0 var(--card-radius);
   opacity: 0.3;
 }
@@ -524,7 +529,7 @@
   .card--horizontal {
     flex-direction: column;
   }
-  
+
   .card--horizontal .card__media {
     flex: none;
     border-radius: var(--card-radius) var(--card-radius) 0 0;
@@ -553,11 +558,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg, 
-    transparent 0%, 
-    rgba(0, 0, 0, 0.7) 100%
-  );
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
 }
 
 .card--overlay .card__body {
@@ -706,11 +707,11 @@
   .card {
     border-width: 2px;
   }
-  
+
   .card--stage {
     border-left-width: 6px;
   }
-  
+
   .card--selectable {
     border-width: 3px;
   }
@@ -724,7 +725,7 @@
   .card {
     transition: none;
   }
-  
+
   .card:hover,
   .card--interactive:hover,
   .card--project:hover {

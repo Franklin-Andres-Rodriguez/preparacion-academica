@@ -1,34 +1,34 @@
 name: 🐛 Bug Report
 description: File a bug report to help us improve the platform
-title: "[BUG] "
-labels: ["bug", "needs-triage"]
-assignees: ["Franklin-Andres-Rodriguez"]
+title: '[BUG] '
+labels: ['bug', 'needs-triage']
+assignees: ['Franklin-Andres-Rodriguez']
 
 body:
   - type: markdown
     attributes:
       value: |
         ## 🎯 Preparación Académica - Bug Report
-        
+
         Thank you for helping improve our educational platform! **Quality bug reports accelerate fixes by 3-5x** - this template guides you through providing the essential information we need.
-        
+
         > 💡 **Educational Tip**: Professional bug reports following systematic methodology (like SICP) enable faster resolution and prevent regression. This mirrors debugging best practices we teach!
 
   - type: dropdown
     id: component
     attributes:
-      label: 🏗️ Affected Component  
+      label: 🏗️ Affected Component
       description: Which part of the system is experiencing issues?
       options:
-        - "📚 Documentation (README, guides, tutorials)"
-        - "🔧 Development Scripts (setup, validation, testing)"
-        - "⚙️ GitHub Automation (workflows, templates, actions)"
-        - "🔒 Security Features (Dependabot, CodeQL, scanning)"
-        - "🎓 Educational Content (methodology, examples)"
-        - "🏗️ Project Structure (directories, configuration)"
-        - "📦 Dependencies (package management, versions)"
-        - "🌐 Repository Settings (branch protection, permissions)"
-        - "Other (please specify in description)"
+        - '📚 Documentation (README, guides, tutorials)'
+        - '🔧 Development Scripts (setup, validation, testing)'
+        - '⚙️ GitHub Automation (workflows, templates, actions)'
+        - '🔒 Security Features (Dependabot, CodeQL, scanning)'
+        - '🎓 Educational Content (methodology, examples)'
+        - '🏗️ Project Structure (directories, configuration)'
+        - '📦 Dependencies (package management, versions)'
+        - '🌐 Repository Settings (branch protection, permissions)'
+        - 'Other (please specify in description)'
     validations:
       required: true
 
@@ -38,11 +38,11 @@ body:
       label: 🚨 Bug Severity
       description: How severely does this impact the educational experience?
       options:
-        - "🟥 Critical - Blocks learning/development completely"
-        - "🟧 High - Major feature broken, significant impact" 
-        - "🟨 Medium - Feature partially working, workaround available"
-        - "🟩 Low - Minor issue, minimal impact on learning"
-        - "🟦 Enhancement - Improvement suggestion"
+        - '🟥 Critical - Blocks learning/development completely'
+        - '🟧 High - Major feature broken, significant impact'
+        - '🟨 Medium - Feature partially working, workaround available'
+        - '🟩 Low - Minor issue, minimal impact on learning'
+        - '🟦 Enhancement - Improvement suggestion'
     validations:
       required: true
 
@@ -52,7 +52,7 @@ body:
       label: 📝 Bug Description
       description: |
         **Clear, concise description of what went wrong.**
-        
+
         **Educational Note**: This follows **Systematic Observation** from SICP methodology - document symptoms precisely before analyzing causes.
       placeholder: |
         Example: "The validate-prerequisites.sh script fails on macOS when checking Docker daemon status, even when Docker Desktop is running correctly."
@@ -65,7 +65,7 @@ body:
       label: 🔄 Steps to Reproduce
       description: |
         **Precise steps that consistently reproduce the issue.**
-        
+
         **Educational Note**: Reproducible steps enable **Systematic Testing** - a core SICP principle for isolation and verification.
       placeholder: |
         1. Open terminal on macOS Monterey 12.6
@@ -76,7 +76,7 @@ body:
         1. 
         2. 
         3. 
-        4. 
+        4.
     validations:
       required: true
 
@@ -92,7 +92,7 @@ body:
   - type: textarea
     id: actual_behavior
     attributes:
-      label: ❌ Actual Behavior  
+      label: ❌ Actual Behavior
       description: What actually happened?
       placeholder: "Script shows '❌ Docker daemon is not running' and exits with error code 1"
     validations:
@@ -104,7 +104,7 @@ body:
       label: 🖥️ Environment Information
       description: |
         **Complete environment details for accurate diagnosis.**
-        
+
         **Educational Note**: Environment context is crucial for **Hypothesis Formation** - different environments often reveal different causes.
       placeholder: |
         - OS: macOS Monterey 12.6
@@ -119,7 +119,7 @@ body:
         - Docker: 
         - Shell: 
         - Terminal: 
-        - Git: 
+        - Git:
     validations:
       required: true
 
@@ -129,7 +129,7 @@ body:
       label: 📸 Error Logs / Screenshots
       description: |
         **Paste error messages, logs, or attach screenshots.**
-        
+
         **Educational Note**: Raw error data supports **Root Cause Analysis** - the evidence needed to identify true causes vs symptoms.
       placeholder: |
         ```bash
@@ -150,18 +150,18 @@ body:
         - Restarted Docker Desktop
         - Checked Docker daemon with `docker info` (works fine)
         - Verified Docker command in script logic
-    
+
   - type: checkboxes
     id: impact_assessment
     attributes:
       label: 📊 Impact Assessment
       description: How does this bug affect the educational experience?
       options:
-        - label: "🚫 Prevents new students from setting up development environment"
-        - label: "⏰ Causes significant delays in getting started with learning"
-        - label: "😤 Creates frustration that could discourage learning"
-        - label: "🐛 Affects multiple users (not just me)"
-        - label: "📚 Impacts understanding of development best practices"
+        - label: '🚫 Prevents new students from setting up development environment'
+        - label: '⏰ Causes significant delays in getting started with learning'
+        - label: '😤 Creates frustration that could discourage learning'
+        - label: '🐛 Affects multiple users (not just me)'
+        - label: '📚 Impacts understanding of development best practices'
 
   - type: checkboxes
     id: pre_submission_checklist
@@ -169,32 +169,32 @@ body:
       label: ✅ Pre-submission Checklist
       description: Please confirm before submitting
       options:
-        - label: "🔍 I searched existing issues for duplicates"
+        - label: '🔍 I searched existing issues for duplicates'
           required: true
-        - label: "📝 I provided complete reproduction steps"
+        - label: '📝 I provided complete reproduction steps'
           required: true
-        - label: "🖥️ I included comprehensive environment information"
+        - label: '🖥️ I included comprehensive environment information'
           required: true
-        - label: "🔄 I can reproduce this issue consistently"
+        - label: '🔄 I can reproduce this issue consistently'
           required: true
-        - label: "📊 I assessed the educational impact accurately"
+        - label: '📊 I assessed the educational impact accurately'
           required: true
 
   - type: markdown
     attributes:
       value: |
         ---
-        
+
         ## 🎓 **Educational Value of Quality Bug Reports**
-        
+
         By completing this detailed bug report, you're practicing:
         - **📋 Systematic Observation** - documenting symptoms clearly
         - **🧠 Hypothesis Formation** - considering environment factors  
         - **🔬 Evidence Gathering** - providing logs and reproduction steps
         - **📊 Impact Analysis** - assessing severity and scope
-        
+
         **These skills directly transfer to professional debugging methodology!**
-        
+
         ---
-        
+
         Thank you for contributing to **Preparación Académica**! Your detailed report helps maintain the high-quality educational experience we strive to provide. 🚀

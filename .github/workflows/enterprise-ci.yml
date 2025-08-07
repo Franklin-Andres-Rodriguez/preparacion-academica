@@ -1,0 +1,119 @@
+# .github/workflows/enterprise-ci.yml
+name: Enterprise CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18.20.0'
+  CACHE_VERSION: 'v1'
+
+jobs:
+  validation:
+    name: Repository Validation
+    runs-on: ubuntu-latest
+    outputs:
+      security-passed: ${{ steps.security.outputs.passed }}
+      structure-passed: ${{ steps.structure.outputs.passed }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history for better analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Validate prerequisites
+        id: prerequisites
+        run: |
+          chmod +x scripts/validate-prerequisites.sh
+          ./scripts/validate-prerequisites.sh
+
+      - name: Security validation
+        id: security
+        run: |
+          chmod +x scripts/validate-security.sh
+          ./scripts/validate-security.sh
+          echo "passed=true" >> $GITHUB_OUTPUT
+
+      - name: Structure validation
+        id: structure
+        run: |
+          chmod +x scripts/test-all.sh
+          ./scripts/test-all.sh
+          echo "passed=true" >> $GITHUB_OUTPUT
+
+  sicp-assessment:
+    name: SICP Methodology Assessment
+    runs-on: ubuntu-latest
+    needs: validation
+    if: ${{ needs.validation.outputs.security-passed == 'true' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run SICP Assessment
+        id: assessment
+        uses: ./.github/actions/sicp-assessment
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          assessment-type: 'full'
+          educational-mode: 'true'
+
+      - name: Comment Assessment Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const score = '${{ steps.assessment.outputs.assessment-score }}';
+            const recommendations = JSON.parse('${{ steps.assessment.outputs.recommendations }}');
+            const insights = '${{ steps.assessment.outputs.educational-insights }}';
+
+            const comment = `## 🎓 SICP Methodology Assessment
+
+            **Overall Score:** ${score}/100
+
+            **Educational Insights:**
+            ${insights}
+
+            **Recommendations:**
+            ${recommendations.map(r => `- ${r}`).join('\n')}
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  health-check:
+    name: System Health Monitoring
+    runs-on: ubuntu-latest
+    needs: [validation, sicp-assessment]
+    if: always()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run health check
+        run: |
+          chmod +x scripts/health-check.sh
+          LOG_LEVEL=DEBUG ./scripts/health-check.sh
+
+      - name: Upload health report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report-${{ github.run_id }}
+          path: health-report.json
+          retention-days: 30

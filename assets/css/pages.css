@@ -52,9 +52,11 @@
  * - Builds confidence through professional presentation
  */
 .hero {
-  background: linear-gradient(135deg, 
-    var(--color-brand-primary) 0%, 
-    var(--color-brand-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-brand-primary) 0%,
+    var(--color-brand-secondary) 100%
+  );
   color: var(--color-text-inverse);
   padding: var(--space-section-mobile) 0;
   position: relative;
@@ -68,7 +70,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+    repeat;
   opacity: 0.1;
   pointer-events: none;
 }
@@ -155,12 +158,13 @@
 }
 
 @keyframes pulse-bug {
-  0%, 100% { 
-    transform: scale(1) rotate(0deg); 
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
   }
-  50% { 
-    transform: scale(1.1) rotate(-5deg); 
+  50% {
+    transform: scale(1.1) rotate(-5deg);
     filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
   }
 }
@@ -221,7 +225,8 @@
   width: 100%;
   max-width: 400px;
   transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
-  transition: transform var(--transition-timing-slow) var(--transition-easing-smooth);
+  transition: transform var(--transition-timing-slow)
+    var(--transition-easing-smooth);
   box-shadow: var(--shadow-2xl);
   border-radius: var(--radius-lg);
 }
@@ -1194,7 +1199,7 @@
   transition: transform var(--transition-timing-fast);
 }
 
-.faq__question[aria-expanded="true"]::after {
+.faq__question[aria-expanded='true']::after {
   transform: rotate(45deg);
 }
 
@@ -1239,21 +1244,21 @@
     font-size: var(--font-size-3xl);
     line-height: var(--line-height-tight);
   }
-  
+
   .hero__subtitle {
     font-size: var(--font-size-base);
   }
-  
+
   .hero__actions {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .hero__actions .btn {
     width: 100%;
     justify-content: center;
   }
-  
+
   .methodology__grid,
   .roadmap-preview__stages,
   .stats__grid,
@@ -1261,14 +1266,14 @@
     grid-template-columns: 1fr;
     gap: var(--space-4);
   }
-  
+
   .stage-card,
   .methodology__card,
   .stat-card,
   .testimonial-card {
     padding: var(--space-4);
   }
-  
+
   .stage-card__indicator {
     width: 2.5rem;
     height: 2.5rem;
@@ -1294,12 +1299,12 @@
     box-shadow: none !important;
     padding: var(--space-4) 0 !important;
   }
-  
+
   .hero__actions,
   .footer__links {
     display: none;
   }
-  
+
   .stage-card,
   .methodology__card,
   .stat-card,

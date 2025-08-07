@@ -2,10 +2,10 @@
 
 ## 🛡️ Supported Versions
 
-| Version | Supported |
-| ------- | --------- |
-| Phase 1.x | ✅ |
-| Future phases | ⏳ |
+| Version       | Supported |
+| ------------- | --------- |
+| Phase 1.x     | ✅        |
+| Future phases | ⏳        |
 
 ## 🚨 Reporting a Vulnerability
 
@@ -24,13 +24,14 @@
 ### ⏱️ Response Timeline
 
 - **Acknowledgment**: Within 24 hours
-- **Initial Assessment**: Within 72 hours  
+- **Initial Assessment**: Within 72 hours
 - **Status Update**: Weekly until resolved
 - **Resolution Target**: 30 days for critical issues
 
 ## 🔒 Security Measures in Place
 
 ### **Phase 1 Security Features**
+
 - ✅ **Dependabot**: Automated vulnerability scanning and updates
 - ✅ **CodeQL**: Advanced static analysis for vulnerability detection
 - ✅ **Secret Scanning**: Detection of hardcoded credentials
@@ -38,6 +39,7 @@
 - ✅ **Signed Commits**: Ensures commit authenticity
 
 ### **Planned Security Enhancements** (Future Phases)
+
 - 🔄 **Container Security**: Docker image vulnerability scanning
 - 🔄 **Infrastructure Security**: Kubernetes security policies
 - 🔄 **Code Execution Security**: Sandboxed environment for student code

@@ -24,7 +24,9 @@
 
   // Verificar dependencias
   if (typeof window.AppUtils === 'undefined') {
-    console.warn('🎨 Components: AppUtils no disponible. Funcionalidad limitada.');
+    console.warn(
+      '🎨 Components: AppUtils no disponible. Funcionalidad limitada.'
+    );
   }
 
   /*
@@ -32,17 +34,17 @@
     COMPONENTS MANAGER
     ==========================================
   */
-  
+
   window.Components = {
     // Registro de componentes inicializados
     initialized: new Set(),
-    
+
     // Estado de componentes
     state: {
       mobileNavOpen: false,
       activeModals: [],
       activeTooltips: [],
-      runningAnimations: new Set()
+      runningAnimations: new Set(),
     },
 
     /*
@@ -53,41 +55,40 @@
 
     init() {
       console.log('🎨 Inicializando componentes UI interactivos...');
-      
+
       try {
         // Componentes de navegación
         this.initNavigation();
-        
+
         // Editor de código
         this.initCodeEditor();
-        
+
         // Barras de progreso
         this.initProgressBars();
-        
+
         // Sistema de notificaciones
         this.initNotifications();
-        
+
         // Modales y overlays
         this.initModals();
-        
+
         // Tooltips educativos
         this.initTooltips();
-        
+
         // Animaciones y transiciones
         this.initAnimations();
-        
+
         // Formularios interactivos
         this.initForms();
-        
+
         console.log('✅ Componentes UI listos');
-        
+
         // Notificar a analytics
         if (window.Analytics) {
           window.Analytics.trackEvent('components', 'initialized', {
-            componentsCount: this.initialized.size
+            componentsCount: this.initialized.size,
           });
         }
-        
       } catch (error) {
         console.error('❌ Error inicializando componentes:', error);
       }
@@ -103,14 +104,14 @@
       this.initMobileNavigation();
       this.initSmoothScrolling();
       this.initActiveNavigation();
-      
+
       this.initialized.add('navigation');
     },
 
     initMobileNavigation() {
       const toggle = document.querySelector('[data-nav-toggle]');
       const menu = document.getElementById('nav-menu');
-      
+
       if (!toggle || !menu) {
         console.warn('🔧 Navegación móvil: Elementos no encontrados');
         return;
@@ -149,7 +150,7 @@
 
     toggleMobileNav(toggle, menu) {
       const isOpen = this.state.mobileNavOpen;
-      
+
       if (isOpen) {
         this.closeMobileNav(toggle, menu);
       } else {
@@ -159,15 +160,15 @@
 
     openMobileNav(toggle, menu) {
       this.state.mobileNavOpen = true;
-      
+
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Cerrar menú de navegación');
-      
+
       menu.classList.add('nav__list--open');
-      
+
       // Prevenir scroll del body
       document.body.style.overflow = 'hidden';
-      
+
       // Focus al primer enlace
       const firstLink = menu.querySelector('.nav__link');
       if (firstLink) {
@@ -182,12 +183,12 @@
 
     closeMobileNav(toggle, menu) {
       this.state.mobileNavOpen = false;
-      
+
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Abrir menú de navegación');
-      
+
       menu.classList.remove('nav__list--open');
-      
+
       // Restaurar scroll del body
       document.body.style.overflow = '';
 
@@ -205,22 +206,27 @@
 
         const href = link.getAttribute('href');
         const target = document.querySelector(href);
-        
+
         if (target) {
           e.preventDefault();
-          
+
           // Scroll suave con offset para header fijo
-          const headerHeight = document.querySelector('.nav')?.offsetHeight || 0;
+          const headerHeight =
+            document.querySelector('.nav')?.offsetHeight || 0;
           const targetPosition = target.offsetTop - headerHeight - 20;
-          
+
           window.scrollTo({
             top: targetPosition,
-            behavior: 'smooth'
+            behavior: 'smooth',
           });
 
           // Analytics de navegación
           if (window.Analytics) {
-            window.Analytics.trackNavigation(window.location.hash, href, 'smooth_scroll');
+            window.Analytics.trackNavigation(
+              window.location.hash,
+              href,
+              'smooth_scroll'
+            );
           }
         }
       });
@@ -230,31 +236,34 @@
       // Actualizar navegación activa basada en scroll
       const sections = document.querySelectorAll('[id]');
       const navLinks = document.querySelectorAll('.nav__link[href^="#"]');
-      
+
       if (sections.length === 0 || navLinks.length === 0) return;
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            this.updateActiveNavLink(entry.target.id);
-          }
-        });
-      }, {
-        rootMargin: '-20% 0px -80% 0px'
-      });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.updateActiveNavLink(entry.target.id);
+            }
+          });
+        },
+        {
+          rootMargin: '-20% 0px -80% 0px',
+        }
+      );
 
-      sections.forEach(section => observer.observe(section));
+      sections.forEach((section) => observer.observe(section));
     },
 
     updateActiveNavLink(activeId) {
       const navLinks = document.querySelectorAll('.nav__link');
-      
-      navLinks.forEach(link => {
+
+      navLinks.forEach((link) => {
         const href = link.getAttribute('href');
         const isActive = href === `#${activeId}`;
-        
+
         link.classList.toggle('nav__link--active', isActive);
-        
+
         if (isActive) {
           link.setAttribute('aria-current', 'page');
         } else {
@@ -271,11 +280,11 @@
 
     initCodeEditor() {
       const codeBlocks = document.querySelectorAll('pre code');
-      
-      codeBlocks.forEach(block => {
+
+      codeBlocks.forEach((block) => {
         this.enhanceCodeBlock(block);
       });
-      
+
       this.initialized.add('codeEditor');
       console.log('💻 Editor de código inicializado');
     },
@@ -301,18 +310,19 @@
     },
 
     addCopyButton(codeBlock) {
-      const container = codeBlock.closest('.code-editor') || codeBlock.parentElement;
-      
+      const container =
+        codeBlock.closest('.code-editor') || codeBlock.parentElement;
+
       const copyBtn = document.createElement('button');
       copyBtn.className = 'code-copy-btn';
       copyBtn.innerHTML = '📋 Copiar';
       copyBtn.setAttribute('aria-label', 'Copiar código al portapapeles');
-      
+
       copyBtn.addEventListener('click', async () => {
         try {
           const text = codeBlock.textContent;
           await navigator.clipboard.writeText(text);
-          
+
           // Feedback visual
           copyBtn.innerHTML = '✅ Copiado';
           setTimeout(() => {
@@ -323,7 +333,6 @@
           if (window.Analytics) {
             window.Analytics.track('code_copied', { length: text.length });
           }
-          
         } catch (error) {
           copyBtn.innerHTML = '❌ Error';
           setTimeout(() => {
@@ -331,7 +340,7 @@
           }, 2000);
         }
       });
-      
+
       container.style.position = 'relative';
       container.appendChild(copyBtn);
     },
@@ -343,7 +352,7 @@
         const rect = codeBlock.getBoundingClientRect();
         const lineHeight = parseInt(getComputedStyle(codeBlock).lineHeight);
         const lineIndex = Math.floor((e.clientY - rect.top) / lineHeight);
-        
+
         // Resaltar línea actual (implementación visual opcional)
         this.highlightCodeLine(codeBlock, lineIndex);
       });
@@ -366,7 +375,7 @@
           // Activar análisis de código o acción educativa
           this.analyzeCode(codeBlock);
           break;
-          
+
         case 'c':
           if (e.ctrlKey || e.metaKey) {
             // Copiar código
@@ -379,10 +388,10 @@
     analyzeCode(codeBlock) {
       // Análisis educativo del código
       const code = codeBlock.textContent;
-      
+
       // Detectar patrones educativos
       const patterns = this.detectCodePatterns(code);
-      
+
       if (patterns.length > 0) {
         this.showCodeAnalysis(codeBlock, patterns);
       }
@@ -395,24 +404,25 @@
 
     detectCodePatterns(code) {
       const patterns = [];
-      
+
       // Detectar errores comunes que se enseñan
       if (code.includes('base + mult * fee')) {
         patterns.push({
           type: 'precedence_error',
-          message: 'Error de precedencia: debería usar paréntesis (base + mult) * fee',
-          severity: 'critical'
+          message:
+            'Error de precedencia: debería usar paréntesis (base + mult) * fee',
+          severity: 'critical',
         });
       }
-      
+
       if (code.includes('var ')) {
         patterns.push({
           type: 'var_usage',
           message: 'Recomendación: usar let/const en lugar de var',
-          severity: 'warning'
+          severity: 'warning',
         });
       }
-      
+
       return patterns;
     },
 
@@ -424,7 +434,7 @@
 
     async copyCodeToClipboard(codeBlock) {
       if (!navigator.clipboard) return;
-      
+
       try {
         await navigator.clipboard.writeText(codeBlock.textContent);
         this.showNotification('Código copiado al portapapeles', 'success');
@@ -441,24 +451,27 @@
 
     initProgressBars() {
       const progressBars = document.querySelectorAll('.progress__fill');
-      
+
       if (progressBars.length === 0) return;
 
       // Observer para animar cuando entren en viewport
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            this.animateProgressBar(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1
-      });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.animateProgressBar(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
 
-      progressBars.forEach(bar => {
+      progressBars.forEach((bar) => {
         observer.observe(bar);
       });
-      
+
       this.initialized.add('progressBars');
       console.log('📊 Barras de progreso inicializadas');
     },
@@ -466,19 +479,19 @@
     animateProgressBar(progressBar) {
       const targetWidth = progressBar.dataset.progress || '0';
       const duration = parseInt(progressBar.dataset.duration) || 1000;
-      
+
       // Animar desde 0 hasta el valor target
       progressBar.style.width = '0%';
-      
+
       setTimeout(() => {
         progressBar.style.transition = `width ${duration}ms ease-out`;
         progressBar.style.width = targetWidth + '%';
-        
+
         // Analytics del progreso mostrado
         if (window.Analytics) {
-          window.Analytics.track('progress_animated', { 
+          window.Analytics.track('progress_animated', {
             progress: targetWidth,
-            duration 
+            duration,
           });
         }
       }, 100);
@@ -499,7 +512,7 @@
         container.setAttribute('aria-live', 'polite');
         document.body.appendChild(container);
       }
-      
+
       this.initialized.add('notifications');
       console.log('🔔 Sistema de notificaciones inicializado');
     },
@@ -511,12 +524,12 @@
       const notification = document.createElement('div');
       notification.className = `notification notification--${type}`;
       notification.setAttribute('role', 'alert');
-      
+
       const icons = {
         success: '✅',
         error: '❌',
         warning: '⚠️',
-        info: 'ℹ️'
+        info: 'ℹ️',
       };
 
       notification.innerHTML = `
@@ -563,10 +576,10 @@
 
     removeNotification(notification) {
       if (!notification.parentElement) return;
-      
+
       notification.style.transform = 'translateX(100%)';
       notification.style.opacity = '0';
-      
+
       setTimeout(() => {
         if (notification.parentElement) {
           notification.parentElement.removeChild(notification);
@@ -603,7 +616,7 @@
           this.closeTopModal();
         }
       });
-      
+
       this.initialized.add('modals');
       console.log('🪟 Sistema de modales inicializado');
     },
@@ -617,16 +630,18 @@
 
       // Guardar elemento con foco actual
       const previousFocus = document.activeElement;
-      
+
       modal.classList.add('modal-overlay--active');
       this.state.activeModals.push({ element: modal, previousFocus });
-      
+
       // Prevenir scroll del body
       document.body.style.overflow = 'hidden';
-      
+
       // Focus al modal
       setTimeout(() => {
-        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const firstFocusable = modal.querySelector(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
         if (firstFocusable) {
           firstFocusable.focus();
         }
@@ -640,21 +655,23 @@
 
     closeModal(modalElement) {
       if (!modalElement) return;
-      
+
       modalElement.classList.remove('modal-overlay--active');
-      
+
       // Encontrar y remover del estado
-      const modalIndex = this.state.activeModals.findIndex(m => m.element === modalElement);
+      const modalIndex = this.state.activeModals.findIndex(
+        (m) => m.element === modalElement
+      );
       if (modalIndex > -1) {
         const modalData = this.state.activeModals[modalIndex];
         this.state.activeModals.splice(modalIndex, 1);
-        
+
         // Restaurar foco
         if (modalData.previousFocus) {
           modalData.previousFocus.focus();
         }
       }
-      
+
       // Restaurar scroll si no hay más modales
       if (this.state.activeModals.length === 0) {
         document.body.style.overflow = '';
@@ -663,7 +680,8 @@
 
     closeTopModal() {
       if (this.state.activeModals.length > 0) {
-        const topModal = this.state.activeModals[this.state.activeModals.length - 1];
+        const topModal =
+          this.state.activeModals[this.state.activeModals.length - 1];
         this.closeModal(topModal.element);
       }
     },
@@ -677,11 +695,11 @@
     initTooltips() {
       // Inicializar tooltips existentes
       const tooltips = document.querySelectorAll('[data-tooltip]');
-      
-      tooltips.forEach(element => {
+
+      tooltips.forEach((element) => {
         this.enhanceTooltip(element);
       });
-      
+
       this.initialized.add('tooltips');
       console.log('💬 Tooltips educativos inicializados');
     },
@@ -695,19 +713,19 @@
 
       const showTooltip = () => {
         clearTimeout(hideTimeout);
-        
+
         if (tooltipElement) return;
-        
+
         tooltipElement = document.createElement('div');
         tooltipElement.className = 'tooltip__content';
         tooltipElement.textContent = tooltipText;
         tooltipElement.setAttribute('role', 'tooltip');
-        
+
         document.body.appendChild(tooltipElement);
-        
+
         // Posicionar tooltip
         this.positionTooltip(element, tooltipElement);
-        
+
         // Mostrar con animación
         requestAnimationFrame(() => {
           tooltipElement.style.opacity = '1';
@@ -717,11 +735,11 @@
 
       const hideTooltip = () => {
         clearTimeout(showTimeout);
-        
+
         if (tooltipElement) {
           tooltipElement.style.opacity = '0';
           tooltipElement.style.visibility = 'hidden';
-          
+
           setTimeout(() => {
             if (tooltipElement && tooltipElement.parentElement) {
               tooltipElement.parentElement.removeChild(tooltipElement);
@@ -747,21 +765,22 @@
     positionTooltip(trigger, tooltip) {
       const triggerRect = trigger.getBoundingClientRect();
       const tooltipRect = tooltip.getBoundingClientRect();
-      
+
       let top = triggerRect.top - tooltipRect.height - 10;
-      let left = triggerRect.left + (triggerRect.width / 2) - (tooltipRect.width / 2);
-      
+      let left =
+        triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2;
+
       // Ajustar si se sale de la pantalla
       if (top < 10) {
         top = triggerRect.bottom + 10;
       }
-      
+
       if (left < 10) {
         left = 10;
       } else if (left + tooltipRect.width > window.innerWidth - 10) {
         left = window.innerWidth - tooltipRect.width - 10;
       }
-      
+
       tooltip.style.position = 'fixed';
       tooltip.style.top = top + 'px';
       tooltip.style.left = left + 'px';
@@ -771,13 +790,16 @@
     createAnalysisTooltip(patterns) {
       const tooltip = document.createElement('div');
       tooltip.className = 'code-analysis-tooltip';
-      
-      const content = patterns.map(pattern => 
-        `<div class="analysis-item analysis-item--${pattern.severity}">
+
+      const content = patterns
+        .map(
+          (pattern) =>
+            `<div class="analysis-item analysis-item--${pattern.severity}">
           <strong>${pattern.type}:</strong> ${pattern.message}
         </div>`
-      ).join('');
-      
+        )
+        .join('');
+
       tooltip.innerHTML = content;
       return tooltip;
     },
@@ -785,7 +807,7 @@
     showTooltip(element, tooltip) {
       document.body.appendChild(tooltip);
       this.positionTooltip(element, tooltip);
-      
+
       setTimeout(() => {
         if (tooltip.parentElement) {
           tooltip.parentElement.removeChild(tooltip);
@@ -808,28 +830,31 @@
 
       this.initScrollAnimations();
       this.initHoverAnimations();
-      
+
       this.initialized.add('animations');
       console.log('🎬 Animaciones inicializadas');
     },
 
     initScrollAnimations() {
       const animatedElements = document.querySelectorAll('[data-animate]');
-      
+
       if (animatedElements.length === 0) return;
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            this.triggerScrollAnimation(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.triggerScrollAnimation(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px',
+        }
+      );
 
-      animatedElements.forEach(element => {
+      animatedElements.forEach((element) => {
         observer.observe(element);
       });
     },
@@ -837,30 +862,35 @@
     triggerScrollAnimation(element) {
       const animationType = element.dataset.animate;
       const delay = parseInt(element.dataset.animateDelay) || 0;
-      
+
       setTimeout(() => {
         element.classList.add(`animate--${animationType}`);
         this.state.runningAnimations.add(element);
-        
+
         // Limpiar después de la animación
-        element.addEventListener('animationend', () => {
-          this.state.runningAnimations.delete(element);
-        }, { once: true });
-        
+        element.addEventListener(
+          'animationend',
+          () => {
+            this.state.runningAnimations.delete(element);
+          },
+          { once: true }
+        );
       }, delay);
     },
 
     initHoverAnimations() {
       // Mejorar animaciones de hover para elementos interactivos
-      const interactiveElements = document.querySelectorAll('.btn, .card, .stage-card');
-      
-      interactiveElements.forEach(element => {
+      const interactiveElements = document.querySelectorAll(
+        '.btn, .card, .stage-card'
+      );
+
+      interactiveElements.forEach((element) => {
         element.addEventListener('mouseenter', () => {
           if (!element.classList.contains('animating')) {
             element.classList.add('hover-enhanced');
           }
         });
-        
+
         element.addEventListener('mouseleave', () => {
           element.classList.remove('hover-enhanced');
         });
@@ -875,11 +905,11 @@
 
     initForms() {
       const forms = document.querySelectorAll('form');
-      
-      forms.forEach(form => {
+
+      forms.forEach((form) => {
         this.enhanceForm(form);
       });
-      
+
       this.initialized.add('forms');
       console.log('📝 Formularios interactivos inicializados');
     },
@@ -887,12 +917,12 @@
     enhanceForm(form) {
       // Validación en tiempo real
       const inputs = form.querySelectorAll('input, textarea, select');
-      
-      inputs.forEach(input => {
+
+      inputs.forEach((input) => {
         input.addEventListener('blur', () => {
           this.validateField(input);
         });
-        
+
         input.addEventListener('input', () => {
           this.clearFieldError(input);
         });
@@ -908,8 +938,10 @@
 
     validateField(field) {
       const isValid = field.checkValidity();
-      const errorElement = field.parentElement.querySelector('.form-message--error');
-      
+      const errorElement = field.parentElement.querySelector(
+        '.form-message--error'
+      );
+
       if (!isValid) {
         field.classList.add('form-input--error');
         this.showFieldError(field, field.validationMessage);
@@ -919,22 +951,24 @@
           errorElement.remove();
         }
       }
-      
+
       return isValid;
     },
 
     showFieldError(field, message) {
       this.clearFieldError(field);
-      
+
       const errorElement = document.createElement('div');
       errorElement.className = 'form-message form-message--error';
       errorElement.textContent = message;
-      
+
       field.parentElement.appendChild(errorElement);
     },
 
     clearFieldError(field) {
-      const errorElement = field.parentElement.querySelector('.form-message--error');
+      const errorElement = field.parentElement.querySelector(
+        '.form-message--error'
+      );
       if (errorElement) {
         errorElement.remove();
       }
@@ -944,13 +978,13 @@
     validateForm(form) {
       const inputs = form.querySelectorAll('input, textarea, select');
       let isValid = true;
-      
-      inputs.forEach(input => {
+
+      inputs.forEach((input) => {
         if (!this.validateField(input)) {
           isValid = false;
         }
       });
-      
+
       return isValid;
     },
 
@@ -974,17 +1008,17 @@
     getState() {
       return {
         ...this.state,
-        initialized: Array.from(this.initialized)
+        initialized: Array.from(this.initialized),
       };
     },
 
     // Destruir componentes (para testing o reinicios)
     destroy() {
       // Cerrar todos los modales
-      this.state.activeModals.forEach(modal => {
+      this.state.activeModals.forEach((modal) => {
         this.closeModal(modal.element);
       });
-      
+
       // Cerrar navegación móvil
       if (this.state.mobileNavOpen) {
         const toggle = document.querySelector('[data-nav-toggle]');
@@ -993,19 +1027,19 @@
           this.closeMobileNav(toggle, menu);
         }
       }
-      
+
       // Limpiar estado
       this.state = {
         mobileNavOpen: false,
         activeModals: [],
         activeTooltips: [],
-        runningAnimations: new Set()
+        runningAnimations: new Set(),
       };
-      
+
       this.initialized.clear();
-      
+
       console.log('🧹 Componentes destruidos');
-    }
+    },
   };
 
   /*
@@ -1026,7 +1060,6 @@
   // Exponer métodos globales para fácil acceso
   window.notify = window.Components.notify.bind(window.Components);
   window.modal = window.Components.modal.bind(window.Components);
-
 })();
 
 /*

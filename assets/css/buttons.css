@@ -44,11 +44,11 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  
+
   /* Sizing & Spacing - Using design tokens */
   min-height: var(--button-height-medium);
   padding: 0 var(--button-padding-x-medium);
-  
+
   /* Typography - Semantic font composition */
   font-family: var(--font-family-primary);
   font-size: var(--font-size-base);
@@ -56,17 +56,17 @@
   line-height: var(--line-height-normal);
   text-decoration: none;
   white-space: nowrap;
-  
+
   /* Visual Design - Minimal base appearance */
   border: 2px solid transparent;
   border-radius: var(--button-radius);
   background: none;
   cursor: pointer;
   user-select: none;
-  
+
   /* Interaction - Smooth transitions */
   transition: var(--button-transition);
-  
+
   /* Accessibility - Focus management */
   outline: none;
   position: relative;
@@ -89,7 +89,7 @@
  * Follows progressive enhancement principles
  */
 .btn:disabled,
-.btn[aria-disabled="true"] {
+.btn[aria-disabled='true'] {
   opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
@@ -346,8 +346,12 @@
 
 /* Loading spinner animation */
 @keyframes btn-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Size-specific loading adjustments */
@@ -516,36 +520,36 @@
     padding: 0 var(--space-4);
     font-size: var(--font-size-base);
   }
-  
+
   .btn--small {
     min-height: var(--button-height-medium);
     padding: 0 var(--space-3);
     font-size: var(--font-size-sm);
   }
-  
+
   .btn--large {
     min-height: 3.5rem;
     padding: 0 var(--space-8);
     font-size: var(--font-size-lg);
   }
-  
+
   /* Full-width buttons on mobile */
   .btn--full-mobile {
     width: 100%;
     justify-content: center;
   }
-  
+
   /* Stack button groups vertically on mobile */
   .btn-group--stack-mobile {
     flex-direction: column;
   }
-  
+
   .btn-group--stack-mobile .btn {
     border-radius: var(--button-radius);
     border-right-width: 2px;
     margin-bottom: var(--space-2);
   }
-  
+
   .btn-group--stack-mobile .btn:last-child {
     margin-bottom: 0;
   }
@@ -566,7 +570,7 @@
   .btn {
     border-width: 2px;
   }
-  
+
   .btn--ghost,
   .btn--outline {
     border-width: 3px;
@@ -581,17 +585,20 @@
   .btn {
     transition: none;
   }
-  
+
   .btn:hover {
     transform: none;
   }
-  
+
   .btn--fab:hover {
     transform: none;
   }
-  
+
   @keyframes btn-spin {
-    0%, 100% { transform: rotate(0deg); }
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
   }
 }
 

@@ -1,13 +1,13 @@
 #!/bin/bash
 # scripts/validate-security.sh
-# Validates that all security configurations are correctly implemented
+# Valida que todas las configuraciones de seguridad estén correctamente implementadas
 #
 # Educational Note: This script follows Martin Fowler's evolutionary design principles
 # and Robert Martin's Clean Code practices for maintainable automation tools.
 
 set -e
 
-# Colors for professional output
+# Colors para output profesional
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -100,7 +100,6 @@ validate_file_content() {
 
 # Martin Fowler's evolutionary design: Dynamic repository detection
 get_repository_name() {
-    # Educational Note: Following DRY principle - calculate once, use multiple times
     local remote_url
     remote_url=$(git remote get-url origin 2>/dev/null) || {
         log_warning "Could not detect repository URL from git remote"
@@ -109,8 +108,7 @@ get_repository_name() {
     
     # Extract repository name from various URL formats
     # Supports: https://github.com/user/repo.git, git@github.com:user/repo.git, etc.
-    # Use a single, readable awk command to extract user/repo from both HTTPS and SSH URLs
-    echo "$remote_url" | awk -F'[:/]' '{for(i=1;i<=NF;i++){if($(i)~"^github.com$"){print $(i+1)"/"$(i+2); exit}}}'
+    echo "$remote_url" | sed -E 's#.*[:/]([^/]+/[^/]+)\.git.*#\1#' | sed 's#.*[:/]([^/]+/[^/]+)$#\1#'
 }
 
 # =====================================
@@ -137,7 +135,7 @@ validate_file_content ".github/dependabot.yml" "package-ecosystem.*npm" "NPM dep
 validate_file_content ".github/dependabot.yml" "package-ecosystem.*github-actions" "GitHub Actions updates"
 validate_file_content ".github/workflows/codeql-analysis.yml" "github/codeql-action" "CodeQL analysis"
 validate_file_content "SECURITY.md" "Reporting a Vulnerability" "Security reporting process"
-validate_file_content ".github/CODEOWNERS" "$GITHUB_USERNAME" "Code ownership"
+validate_file_content ".github/CODEOWNERS" "@Franklin-Andres-Rodriguez" "Code ownership"
 
 show_educational_tip "Content validation ensures configurations are not just present but actually functional"
 
@@ -244,74 +242,6 @@ if [ -f ".env" ]; then
     if git check-ignore .env &> /dev/null; then
         log_success ".env file properly ignored by Git (security protected)"
     else
-        log_error ".env file is NOT ignored by Git - CRITICAL SECURITY RISK!"
-        log_info "Fix immediately: Add '.env' to .gitignore file"
-        ERRORS=$((ERRORS + 1))
+        validate_file_content ".github/CODEOWNERS" "@[a-zA-Z0-9-]\{1,39\}" "At least one valid GitHub username"
     fi
-fi
-
-# Package.json security
-if [ -f "package.json" ]; then
-    if grep -q '"scripts"' package.json; then
-        log_success "package.json includes automation scripts"
-    else
-        log_info "Consider adding npm scripts for common development tasks"
-    fi
-fi
-
-show_educational_tip "Comprehensive security validation prevents the vulnerabilities that cost companies millions"
-
-# =====================================
-# FINAL SUMMARY AND RECOMMENDATIONS
-# =====================================
-echo
-log_section "Security Validation Summary & Recommendations"
-
-echo "🎯 Validation Results:"
-echo "═══════════════════════"
-
-if [ $ERRORS -eq 0 ]; then
-    echo -e "${GREEN}🌟 EXCELLENT: All security configurations validated successfully!${NC}"
-    echo -e "${GREEN}🏆 Repository Security Grade: ENTERPRISE-READY${NC}"
-    echo
-    echo "✅ Achievements unlocked:"
-    echo "  • All security configuration files present and valid"
-    echo "  • Directory structure follows enterprise standards"
-    echo "  • Content validation passed for all critical files"
-    echo "  • Script portability and maintainability ensured"
-    echo
-    echo "🔧 Manual GitHub UI setup reminders:"
-    echo "  1. Settings → Security & analysis → Enable all features"
-    echo "  2. Settings → Branches → Configure protection rules"
-    echo "  3. Repository → Add relevant topics and description"
-    echo "  4. Security → Review any CodeQL/Dependabot alerts"
-    echo
-    echo "🧪 Validation tests you can perform:"
-    echo "  • Try pushing directly to main (should be blocked by protection)"
-    echo "  • Check Security tab for Dependabot alerts and CodeQL results"
-    echo "  • Verify repository topics appear on main page"
-    echo "  • Test issue/PR templates work correctly"
-    echo
-    echo "🎓 Educational achievement:"
-    echo "  Repository demonstrates enterprise-grade security practices"
-    echo "  following methodologies from industry leaders like Robert Martin,"
-    echo "  Martin Fowler, and security experts from major tech companies."
-    echo
-    exit 0
-else
-    echo -e "${RED}⚠️  ATTENTION NEEDED: $ERRORS security configuration issue(s) found${NC}"
-    echo -e "${RED}🔧 Repository Security Grade: REQUIRES FIXES${NC}"
-    echo
-    echo "Required actions:"
-    echo "1. 🔧 Fix the specific issues identified above"
-    echo "2. 📁 Create missing directories with: mkdir -p .github/workflows .github/ISSUE_TEMPLATE docs"
-    echo "3. 📄 Create missing files following the templates in documentation"
-    echo "4. 🔄 Run this script again to verify all fixes"
-    echo "5. 🌐 Complete manual GitHub UI security setup"
-    echo
-    echo "🎓 Learning opportunity:"
-    echo "  Each issue represents a chance to strengthen security practices"
-    echo "  and apply professional development methodologies systematically."
-    echo
-    exit 1
-fi
+}

@@ -306,11 +306,12 @@
     z-index: var(--z-index-dropdown);
     border-top: 1px solid var(--color-border-primary);
     transform: translateY(-100%);
-    transition: transform var(--transition-timing-normal) var(--transition-easing-smooth);
+    transition: transform var(--transition-timing-normal)
+      var(--transition-easing-smooth);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
-  
+
   /**
    * Mobile menu open state
    * Triggered by JavaScript toggle functionality
@@ -320,7 +321,7 @@
     display: flex;
     transform: translateY(0);
   }
-  
+
   /**
    * Mobile navigation items
    * Full-width layout for easy touch interaction
@@ -329,7 +330,7 @@
   .nav__item {
     width: 100%;
   }
-  
+
   /**
    * Mobile navigation links
    * 
@@ -348,11 +349,11 @@
     min-height: 44px;
     font-size: var(--font-size-lg);
   }
-  
+
   .nav__link:last-child {
     margin-bottom: 0;
   }
-  
+
   /**
    * Show mobile toggle button
    * Reveals hamburger menu on mobile breakpoints
@@ -360,7 +361,7 @@
   .nav__toggle {
     display: flex;
   }
-  
+
   /**
    * Hamburger menu animation - Open state
    * Transforms three bars into an X shape
@@ -371,16 +372,16 @@
    * - Bottom bar rotates -45deg and moves up
    * - Creates recognizable "close" symbol
    */
-  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(1) {
+  .nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
-  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(2) {
+
+  .nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-child(2) {
     opacity: 0;
     transform: translateX(-20px);
   }
-  
-  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(3) {
+
+  .nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
   }
 }
@@ -494,7 +495,7 @@
 }
 
 .nav__dropdown:hover .nav__dropdown-toggle::after,
-.nav__dropdown-toggle[aria-expanded="true"]::after {
+.nav__dropdown-toggle[aria-expanded='true']::after {
   transform: rotate(180deg);
 }
 
@@ -519,7 +520,7 @@
   box-shadow: var(--shadow-lg);
   padding: var(--space-2);
   z-index: var(--z-index-dropdown);
-  
+
   /* Hidden by default */
   opacity: 0;
   visibility: hidden;
@@ -582,7 +583,8 @@
   overflow-y: auto;
   z-index: var(--z-index-sticky);
   transform: translateX(-100%);
-  transition: transform var(--transition-timing-normal) var(--transition-easing-smooth);
+  transition: transform var(--transition-timing-normal)
+    var(--transition-easing-smooth);
 }
 
 .nav--sidebar.nav--sidebar-open {
@@ -758,16 +760,16 @@
   .nav {
     border-bottom-width: 2px;
   }
-  
+
   .nav__link {
     border: 1px solid transparent;
   }
-  
+
   .nav__link:hover,
   .nav__link:focus-visible {
     border-color: currentColor;
   }
-  
+
   .nav__link--active {
     border-color: var(--color-brand-primary);
   }
@@ -787,12 +789,12 @@
   .nav--sidebar {
     transition: none;
   }
-  
+
   .nav__logo:hover,
   .nav__link:hover {
     transform: none;
   }
-  
+
   .nav__dropdown-menu {
     transform: none;
   }
@@ -806,11 +808,11 @@
   .nav__container {
     padding: var(--space-4);
   }
-  
+
   .nav__list {
     gap: var(--space-4);
   }
-  
+
   .nav__link {
     padding: var(--space-2);
     font-size: var(--font-size-sm);
@@ -825,7 +827,7 @@
   .nav__container {
     padding: var(--space-6) var(--space-8);
   }
-  
+
   .nav__list {
     gap: var(--space-8);
   }
