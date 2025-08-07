@@ -1,6 +1,5 @@
 // .github/actions/sicp-assessment/index.js
 const core = require('@actions/core');
-const github = require('@actions/github');
 
 /**
  * SICP Assessment Action para Preparación Académica
