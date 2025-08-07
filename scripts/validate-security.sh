@@ -1,13 +1,13 @@
 #!/bin/bash
 # scripts/validate-security.sh
-# Valida que todas las configuraciones de seguridad estén correctamente implementadas
+# Validates that all security configurations are correctly implemented
 #
 # Educational Note: This script follows Martin Fowler's evolutionary design principles
 # and Robert Martin's Clean Code practices for maintainable automation tools.
 
 set -e
 
-# Colors para output profesional
+# Colors for professional output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
