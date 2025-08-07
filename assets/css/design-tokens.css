@@ -39,25 +39,25 @@
     - Large text (18pt+/14pt+ bold): 3:1 minimum (⚠️)
     - UI components: 3:1 minimum (⚠️)
   */
-  
+
   /* Brand Colors - Primary Identity */
-  --color-brand-primary: #2563eb;      /* Blue 600 - Main brand color */
-                                        /* WCAG Light: 5.4:1 ✅ | Dark: 6.2:1 ✅ */
-                                        /* Optimized for both themes while maintaining brand recognition */
+  --color-brand-primary: #2563eb; /* Blue 600 - Main brand color */
+  /* WCAG Light: 5.4:1 ✅ | Dark: 6.2:1 ✅ */
+  /* Optimized for both themes while maintaining brand recognition */
   --color-brand-primary-light: #dbeafe; /* Blue 100 - Light variant */
   --color-brand-primary-hover: #1d4ed8; /* Blue 700 - Hover state */
   --color-brand-primary-active: #1e40af; /* Blue 800 - Active state */
-  --color-brand-secondary: #7c3aed;     /* Violet 600 - Secondary brand */
-  
+  --color-brand-secondary: #7c3aed; /* Violet 600 - Secondary brand */
+
   /* Semantic Colors - Contextual Meaning */
-  --color-success: #059669;           /* Emerald 600 - WCAG: 4.8:1 ✅ */
-  --color-success-light: #d1fae5;     /* Emerald 100 */
-  --color-warning: #d97706;           /* Amber 600 - WCAG: 4.6:1 ✅ */
-  --color-warning-light: #fef3c7;     /* Amber 100 */
-  --color-danger: #dc2626;            /* Red 600 - WCAG: 5.9:1 ✅ */
-  --color-danger-light: #fee2e2;      /* Red 100 */
+  --color-success: #059669; /* Emerald 600 - WCAG: 4.8:1 ✅ */
+  --color-success-light: #d1fae5; /* Emerald 100 */
+  --color-warning: #d97706; /* Amber 600 - WCAG: 4.6:1 ✅ */
+  --color-warning-light: #fef3c7; /* Amber 100 */
+  --color-danger: #dc2626; /* Red 600 - WCAG: 5.9:1 ✅ */
+  --color-danger-light: #fee2e2; /* Red 100 */
   --color-info: var(--color-brand-primary); /* Alias to brand */
-  
+
   /* Neutral Colors - Foundation Palette */
   --color-white: #ffffff;
   --color-gray-50: #f9fafb;
@@ -71,27 +71,29 @@
   --color-gray-800: #1f2937;
   --color-gray-900: #111827;
   --color-black: #000000;
-  
+
   /* Text Colors - Semantic Hierarchy with WCAG Compliance */
-  --color-text-primary: var(--color-gray-900);    /* WCAG: 16.9:1 ✅ Excellent */
-                                                   /* Highest contrast for body text and headings */
-  --color-text-secondary: var(--color-gray-600);  /* WCAG: 7.2:1 ✅ Excellent */
-                                                   /* Perfect for secondary information */
-  --color-text-tertiary: var(--color-gray-500);   /* WCAG: 5.7:1 ✅ Good */
-                                                   /* Suitable for captions and metadata */
-  --color-text-disabled: var(--color-gray-400);   /* WCAG: 3.1:1 ⚠️ Large text only */
-                                                   /* Use only for disabled states, large text */
+  --color-text-primary: var(--color-gray-900); /* WCAG: 16.9:1 ✅ Excellent */
+  /* Highest contrast for body text and headings */
+  --color-text-secondary: var(--color-gray-600); /* WCAG: 7.2:1 ✅ Excellent */
+  /* Perfect for secondary information */
+  --color-text-tertiary: var(--color-gray-500); /* WCAG: 5.7:1 ✅ Good */
+  /* Suitable for captions and metadata */
+  --color-text-disabled: var(
+    --color-gray-400
+  ); /* WCAG: 3.1:1 ⚠️ Large text only */
+  /* Use only for disabled states, large text */
   --color-text-inverse: var(--color-white);
   --color-text-accent: var(--color-brand-primary);
-  
+
   /* Semantic Text Colors - Optimized for Small Text */
-  --color-text-success: #065f46;      /* Emerald 800 - WCAG: 8.1:1 ✅ Excellent */
-                                       /* Use for success messages in body text */
-  --color-text-warning: #92400e;      /* Amber 800 - WCAG: 7.2:1 ✅ Excellent */
-                                       /* Use for warning messages in body text */
-  --color-text-danger: #991b1b;       /* Red 800 - WCAG: 9.4:1 ✅ Excellent */
-                                       /* Use for error messages in body text */
-  
+  --color-text-success: #065f46; /* Emerald 800 - WCAG: 8.1:1 ✅ Excellent */
+  /* Use for success messages in body text */
+  --color-text-warning: #92400e; /* Amber 800 - WCAG: 7.2:1 ✅ Excellent */
+  /* Use for warning messages in body text */
+  --color-text-danger: #991b1b; /* Red 800 - WCAG: 9.4:1 ✅ Excellent */
+  /* Use for error messages in body text */
+
   /* Surface Colors - Background Layers */
   --color-surface-primary: var(--color-white);
   --color-surface-secondary: var(--color-gray-50);
@@ -100,18 +102,18 @@
   --color-surface-success: var(--color-success-light);
   --color-surface-warning: var(--color-warning-light);
   --color-surface-danger: var(--color-danger-light);
-  
+
   /* Border Colors - Separation & Structure */
   --color-border-primary: var(--color-gray-200);
   --color-border-secondary: var(--color-gray-300);
   --color-border-success: var(--color-success);
   --color-border-warning: var(--color-warning);
   --color-border-danger: var(--color-danger);
-  
+
   /* Background Colors - Page Level */
   --color-bg-primary: var(--color-white);
   --color-bg-secondary: var(--color-gray-50);
-  
+
   /*
     OVERLAY OPACITY REASONING:
     ==========================================
@@ -139,43 +141,51 @@
     - Light mode: 50% black overlay maintains context visibility
     - Dark mode: 80% black overlay provides stronger focus while preserving contrast
   */
-  --color-bg-overlay: rgba(0, 0, 0, 0.5);  /* 50% black overlay for modal backgrounds */
-                                            /* Optimal balance: strong focus + context retention */
-                                            /* Research-backed: Nielsen Norman Group optimal attention range */
-                                            /* Accessibility: Maintains WCAG 2.1 contrast ratios */
-                                            /* Platform consistency: iOS 40%, Android 54%, Web 50% standard */
-  
+  --color-bg-overlay: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* 50% black overlay for modal backgrounds */
+  /* Optimal balance: strong focus + context retention */
+  /* Research-backed: Nielsen Norman Group optimal attention range */
+  /* Accessibility: Maintains WCAG 2.1 contrast ratios */
+  /* Platform consistency: iOS 40%, Android 54%, Web 50% standard */
+
   /* Educational Stage Colors - Learning Progression with WCAG Guidelines */
-  --color-stage-beginner: #10b981;     /* Emerald 500 - WCAG: 4.1:1 ⚠️ Large text only */
-                                        /* FOR HEADINGS: Use directly for visual recognition */
-                                        /* FOR BODY TEXT: Use --color-text-success (8.1:1 ✅) */
+  --color-stage-beginner: #10b981; /* Emerald 500 - WCAG: 4.1:1 ⚠️ Large text only */
+  /* FOR HEADINGS: Use directly for visual recognition */
+  /* FOR BODY TEXT: Use --color-text-success (8.1:1 ✅) */
   --color-stage-intermediate: #f59e0b; /* Amber 500 - WCAG: 3.8:1 ⚠️ Large text only */
-                                        /* FOR HEADINGS: Use directly for semantic clarity */
-                                        /* FOR BODY TEXT: Use --color-text-warning (7.2:1 ✅) */
-  --color-stage-expert: #ef4444;       /* Red 500 - WCAG: 4.3:1 ⚠️ Large text only */
-                                        /* FOR HEADINGS: Use directly for danger indication */
-                                        /* FOR BODY TEXT: Use --color-text-danger (9.4:1 ✅) */
-  --color-stage-master: #8b5cf6;       /* Violet 500 - Master level */
-  
+  /* FOR HEADINGS: Use directly for semantic clarity */
+  /* FOR BODY TEXT: Use --color-text-warning (7.2:1 ✅) */
+  --color-stage-expert: #ef4444; /* Red 500 - WCAG: 4.3:1 ⚠️ Large text only */
+  /* FOR HEADINGS: Use directly for danger indication */
+  /* FOR BODY TEXT: Use --color-text-danger (9.4:1 ✅) */
+  --color-stage-master: #8b5cf6; /* Violet 500 - Master level */
+
   /* Cost Indicator Colors - Project Impact */
   --color-cost-safe: var(--color-stage-beginner);
-  --color-cost-safe-dark: #059669;     /* Emerald 600 */
+  --color-cost-safe-dark: #059669; /* Emerald 600 */
   --color-cost-expensive: var(--color-stage-intermediate);
   --color-cost-expensive-dark: #d97706; /* Amber 600 */
   --color-cost-critical: var(--color-stage-expert);
-  --color-cost-critical-dark: #dc2626;  /* Red 600 */
-  
+  --color-cost-critical-dark: #dc2626; /* Red 600 */
+
   /*
     ==========================================
     2. TYPOGRAPHY SYSTEM
     ==========================================
     Systematic type scale following modular scale principles
   */
-  
+
   /* Font Families - Carefully chosen for readability */
-  --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
-  
+  --font-family-primary:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
+  --font-family-mono:
+    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+
   /* Font Weights - Semantic Hierarchy */
   --font-weight-light: 300;
   --font-weight-normal: 400;
@@ -183,107 +193,117 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
-  
+
   /* Font Sizes - Modular Scale (1.250 - Major Third) */
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-base: 1rem;     /* 16px - Base size */
-  --font-size-lg: 1.125rem;   /* 18px - WCAG Large Text Threshold */
-  --font-size-xl: 1.25rem;    /* 20px */
-  --font-size-2xl: 1.5rem;    /* 24px */
-  --font-size-3xl: 1.875rem;  /* 30px */
-  --font-size-4xl: 2.25rem;   /* 36px */
-  --font-size-5xl: 3rem;      /* 48px */
-  --font-size-6xl: 3.75rem;   /* 60px */
-  
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px - Base size */
+  --font-size-lg: 1.125rem; /* 18px - WCAG Large Text Threshold */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 3rem; /* 48px */
+  --font-size-6xl: 3.75rem; /* 60px */
+
   /* Line Heights - Optimal Reading Experience */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.625;
   --line-height-loose: 2;
-  
+
   /* Letter Spacing - Subtle Typography Enhancement */
   --letter-spacing-tight: -0.025em;
   --letter-spacing-normal: 0;
   --letter-spacing-wide: 0.05em;
-  
+
   /* Typography Compositions - Semantic Text Styles */
-  --typography-display-large: var(--font-weight-extrabold) var(--font-size-5xl)/var(--line-height-tight) var(--font-family-primary);
-  --typography-display-medium: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-tight) var(--font-family-primary);
-  --typography-heading-h1: var(--font-weight-bold) var(--font-size-3xl)/var(--line-height-tight) var(--font-family-primary);
-  --typography-heading-h2: var(--font-weight-semibold) var(--font-size-2xl)/var(--line-height-normal) var(--font-family-primary);
-  --typography-heading-h3: var(--font-weight-semibold) var(--font-size-xl)/var(--line-height-normal) var(--font-family-primary);
-  --typography-heading-h4: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-normal) var(--font-family-primary);
-  --typography-heading-h5: var(--font-weight-medium) var(--font-size-base)/var(--line-height-normal) var(--font-family-primary);
-  --typography-body-large: var(--font-weight-normal) var(--font-size-lg)/var(--line-height-relaxed) var(--font-family-primary);
-  --typography-body-medium: var(--font-weight-normal) var(--font-size-base)/var(--line-height-relaxed) var(--font-family-primary);
-  --typography-body-small: var(--font-weight-normal) var(--font-size-sm)/var(--line-height-normal) var(--font-family-primary);
-  
+  --typography-display-large: var(--font-weight-extrabold)
+    var(--font-size-5xl) / var(--line-height-tight) var(--font-family-primary);
+  --typography-display-medium: var(--font-weight-bold) var(--font-size-4xl) /
+    var(--line-height-tight) var(--font-family-primary);
+  --typography-heading-h1: var(--font-weight-bold) var(--font-size-3xl) /
+    var(--line-height-tight) var(--font-family-primary);
+  --typography-heading-h2: var(--font-weight-semibold) var(--font-size-2xl) /
+    var(--line-height-normal) var(--font-family-primary);
+  --typography-heading-h3: var(--font-weight-semibold) var(--font-size-xl) /
+    var(--line-height-normal) var(--font-family-primary);
+  --typography-heading-h4: var(--font-weight-medium) var(--font-size-lg) /
+    var(--line-height-normal) var(--font-family-primary);
+  --typography-heading-h5: var(--font-weight-medium) var(--font-size-base) /
+    var(--line-height-normal) var(--font-family-primary);
+  --typography-body-large: var(--font-weight-normal) var(--font-size-lg) /
+    var(--line-height-relaxed) var(--font-family-primary);
+  --typography-body-medium: var(--font-weight-normal) var(--font-size-base) /
+    var(--line-height-relaxed) var(--font-family-primary);
+  --typography-body-small: var(--font-weight-normal) var(--font-size-sm) /
+    var(--line-height-normal) var(--font-family-primary);
+
   /*
     ==========================================
     3. SPACING SYSTEM
     ==========================================
     Consistent spacing based on 4px base unit
   */
-  
+
   --space-0: 0;
-  --space-0_5: 0.125rem;  /* 2px */
-  --space-1: 0.25rem;     /* 4px - Base unit */
-  --space-1_5: 0.375rem;  /* 6px */
-  --space-2: 0.5rem;      /* 8px */
-  --space-3: 0.75rem;     /* 12px */
-  --space-4: 1rem;        /* 16px */
-  --space-5: 1.25rem;     /* 20px */
-  --space-6: 1.5rem;      /* 24px */
-  --space-8: 2rem;        /* 32px */
-  --space-10: 2.5rem;     /* 40px */
-  --space-12: 3rem;       /* 48px */
-  --space-16: 4rem;       /* 64px */
-  --space-20: 5rem;       /* 80px */
-  --space-24: 6rem;       /* 96px */
-  --space-32: 8rem;       /* 128px */
-  
+  --space-0_5: 0.125rem; /* 2px */
+  --space-1: 0.25rem; /* 4px - Base unit */
+  --space-1_5: 0.375rem; /* 6px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+  --space-32: 8rem; /* 128px */
+
   /* Responsive Section Spacing */
-  --space-section-mobile: var(--space-16);   /* 64px */
-  --space-section-tablet: var(--space-20);   /* 80px */
-  --space-section-desktop: var(--space-24);  /* 96px */
-  
+  --space-section-mobile: var(--space-16); /* 64px */
+  --space-section-tablet: var(--space-20); /* 80px */
+  --space-section-desktop: var(--space-24); /* 96px */
+
   /*
     ==========================================
     4. LAYOUT SYSTEM
     ==========================================
     Container sizes and breakpoints
   */
-  
+
   /* Container Sizes - Content Width Management */
   --container-sm: 640px;
   --container-md: 768px;
   --container-lg: 1024px;
   --container-xl: 1280px;
   --container-2xl: 1536px;
-  
+
   /* Breakpoints - Responsive Design Points */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
-  
+
   /*
     ==========================================
     5. BORDER RADIUS SYSTEM
     ==========================================
     Consistent corner rounding
   */
-  
+
   --radius-none: 0;
-  --radius-sm: 0.125rem;   /* 2px */
-  --radius-md: 0.25rem;    /* 4px */
-  --radius-lg: 0.5rem;     /* 8px */
-  --radius-xl: 0.75rem;    /* 12px */
-  --radius-2xl: 1rem;      /* 16px */
-  --radius-full: 9999px;   /* Fully rounded */
-  
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-md: 0.25rem; /* 4px */
+  --radius-lg: 0.5rem; /* 8px */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-full: 9999px; /* Fully rounded */
+
   /*
     ==========================================
     6. ELEVATION SYSTEM
@@ -301,79 +321,82 @@
     - Dark mode: Higher opacity shadows ensure visibility on dark backgrounds
     - Both themes maintain consistent visual hierarchy through systematic scaling
   */
-  
+
   /* Level 1 Elevation - Subtle Depth */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-                                            /* Single shadow: minimal visual weight */
-                                            /* 1px Y-offset: barely floating effect */
-                                            /* 2px blur: gentle edge softening */
-                                            /* 5% opacity: subtle without distraction */
-                                            /* Use case: cards, buttons, input fields */
-                                            /* Psychology: "resting on surface" perception */
+  /* Single shadow: minimal visual weight */
+  /* 1px Y-offset: barely floating effect */
+  /* 2px blur: gentle edge softening */
+  /* 5% opacity: subtle without distraction */
+  /* Use case: cards, buttons, input fields */
+  /* Psychology: "resting on surface" perception */
 
   /* Level 2 Elevation - Clear Floating */
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-                                            /* Dual shadow system: realistic depth */
-                                            /* Primary: 4px offset, 6px blur, 10% opacity (ambient light) */
-                                            /* Secondary: 2px offset, 4px blur, 6% opacity (direct light) */
-                                            /* Negative spread (-1px): prevents shadow expansion */
-                                            /* Use case: dropdowns, tooltips, elevated buttons */
-                                            /* Psychology: "clearly above surface" perception */
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  /* Dual shadow system: realistic depth */
+  /* Primary: 4px offset, 6px blur, 10% opacity (ambient light) */
+  /* Secondary: 2px offset, 4px blur, 6% opacity (direct light) */
+  /* Negative spread (-1px): prevents shadow expansion */
+  /* Use case: dropdowns, tooltips, elevated buttons */
+  /* Psychology: "clearly above surface" perception */
 
   /* Level 3 Elevation - Strong Floating */
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-                                            /* Larger dual shadows: pronounced depth */
-                                            /* Primary: 10px offset, 15px blur (strong ambient) */
-                                            /* Secondary: 4px offset, 6px blur (supporting direct) */
-                                            /* Negative spread: maintains element bounds */
-                                            /* Use case: navigation drawers, sheet components */
-                                            /* Psychology: "floating significantly above" perception */
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Larger dual shadows: pronounced depth */
+  /* Primary: 10px offset, 15px blur (strong ambient) */
+  /* Secondary: 4px offset, 6px blur (supporting direct) */
+  /* Negative spread: maintains element bounds */
+  /* Use case: navigation drawers, sheet components */
+  /* Psychology: "floating significantly above" perception */
 
   /* Level 4 Elevation - Maximum Standard Depth */
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-                                            /* Maximum standard elevation shadows */
-                                            /* Primary: 20px offset, 25px blur (maximum ambient) */
-                                            /* Secondary: 10px offset, 10px blur (strong direct) */
-                                            /* Large negative spread (-5px): tight shadow control */
-                                            /* Use case: pop-up menus, floating panels */
-                                            /* Psychology: "highest standard UI layer" perception */
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* Maximum standard elevation shadows */
+  /* Primary: 20px offset, 25px blur (maximum ambient) */
+  /* Secondary: 10px offset, 10px blur (strong direct) */
+  /* Large negative spread (-5px): tight shadow control */
+  /* Use case: pop-up menus, floating panels */
+  /* Psychology: "highest standard UI layer" perception */
 
   /* Level 5 Elevation - Hero Element Depth */
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-                                            /* Single dramatic shadow: maximum impact */
-                                            /* 25px offset: strong directional lighting */
-                                            /* 50px blur: maximum edge softening */
-                                            /* Large negative spread (-12px): contained shadow */
-                                            /* 25% opacity: strongest visual weight */
-                                            /* Use case: modals, hero cards, splash screens */
-                                            /* Psychology: "dominant interface element" perception */
+  /* Single dramatic shadow: maximum impact */
+  /* 25px offset: strong directional lighting */
+  /* 50px blur: maximum edge softening */
+  /* Large negative spread (-12px): contained shadow */
+  /* 25% opacity: strongest visual weight */
+  /* Use case: modals, hero cards, splash screens */
+  /* Psychology: "dominant interface element" perception */
 
   /* Inset Shadow - Recessed Surface Effect */
   --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-                                            /* Inset creates "pressed in" visual effect */
-                                            /* 2px Y-offset: subtle directional lighting */
-                                            /* 4px blur: gentle inner edge softening */
-                                            /* 6% opacity: visible but not heavy */
-                                            /* Use case: input fields, pressed buttons, wells */
-                                            /* Psychology: "recessed below surface" perception */
-  
+  /* Inset creates "pressed in" visual effect */
+  /* 2px Y-offset: subtle directional lighting */
+  /* 4px blur: gentle inner edge softening */
+  /* 6% opacity: visible but not heavy */
+  /* Use case: input fields, pressed buttons, wells */
+  /* Psychology: "recessed below surface" perception */
+
   /*
     ==========================================
     7. ANIMATION SYSTEM
     ==========================================
     Consistent timing and easing
   */
-  
+
   /* Timing Functions - Natural Movement */
   --transition-easing-linear: linear;
   --transition-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --transition-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
+
   /* Duration Values - Perceived Performance */
   --transition-timing-fast: 150ms;
   --transition-timing-normal: 250ms;
   --transition-timing-slow: 350ms;
-  
+
   /*
     ==========================================
     8. Z-INDEX SYSTEM
@@ -390,31 +413,31 @@
     predictable, maintainable visual hierarchy that scales with your application."
     - Brad Frost, Atomic Design Systems
   */
-  
+
   /* Interactive Overlay Range (1000-1019) */
-  --z-index-dropdown: 1000;    /* Dropdown menus, select options, autocomplete */
-                                /* Base level for content that appears above page flow */
-                                /* Allows for 19 dropdown variations (1001-1019) */
-  
-  /* Positioned Element Range (1020-1029) */ 
-  --z-index-sticky: 1020;      /* Sticky navigation, persistent headers */
-                                /* Above dropdowns, maintains position during scroll */
-                                /* Allows for 9 sticky element variations (1021-1029) */
-  
+  --z-index-dropdown: 1000; /* Dropdown menus, select options, autocomplete */
+  /* Base level for content that appears above page flow */
+  /* Allows for 19 dropdown variations (1001-1019) */
+
+  /* Positioned Element Range (1020-1029) */
+  --z-index-sticky: 1020; /* Sticky navigation, persistent headers */
+  /* Above dropdowns, maintains position during scroll */
+  /* Allows for 9 sticky element variations (1021-1029) */
+
   /* Contextual Tooltip Range (1030-1049) */
-  --z-index-tooltip: 1030;     /* Tooltips, hover cards, contextual information */
-                                /* Above positioned elements for better visibility */
-                                /* Allows for 19 tooltip variations (1031-1049) */
-  
+  --z-index-tooltip: 1030; /* Tooltips, hover cards, contextual information */
+  /* Above positioned elements for better visibility */
+  /* Allows for 19 tooltip variations (1031-1049) */
+
   /* Modal Foundation Range (1050-1059) */
-  --z-index-modal: 1050;       /* Modal background overlays, drawer backgrounds */
-                                /* Creates backdrop above all content elements */
-                                /* Allows for 9 modal background variations (1051-1059) */
-  
+  --z-index-modal: 1050; /* Modal background overlays, drawer backgrounds */
+  /* Creates backdrop above all content elements */
+  /* Allows for 9 modal background variations (1051-1059) */
+
   /* Critical System Range (1060+) */
-  --z-index-overlay: 1060;     /* Modal content, critical dialogs, system alerts */
-                                /* Highest priority for user interaction requirements */
-                                /* Unlimited expansion above 1060 for system needs */
+  --z-index-overlay: 1060; /* Modal content, critical dialogs, system alerts */
+  /* Highest priority for user interaction requirements */
+  /* Unlimited expansion above 1060 for system needs */
 }
 
 /*
@@ -523,81 +546,126 @@ select {
       Systematic color inversion while preserving semantic meaning
       and maintaining WCAG 2.1 AA accessibility compliance.
     */
-    
+
     /* Text Colors - Inverted Hierarchy with Enhanced Compliance */
-    --color-text-primary: var(--color-gray-100);     /* WCAG: 15.8:1 ✅ Excellent */
-                                                      /* Light text on dark backgrounds */
-    --color-text-secondary: var(--color-gray-400);   /* WCAG: 5.4:1 ✅ Excellent */
-                                                      /* Reduced contrast secondary text */
-    --color-text-tertiary: var(--color-gray-500);    /* WCAG: 3.0:1 ⚠️ Large text only */
-                                                      /* Further reduced tertiary text */
-    --color-text-disabled: var(--color-gray-500);    /* WCAG: 3.0:1 ⚠️ FIXED - was 2.3:1 */
-                                                      /* Disabled state - now WCAG compliant */
-    --color-text-inverse: var(--color-gray-900);     /* Dark text (for light surfaces) */
-    
+    --color-text-primary: var(--color-gray-100); /* WCAG: 15.8:1 ✅ Excellent */
+    /* Light text on dark backgrounds */
+    --color-text-secondary: var(
+      --color-gray-400
+    ); /* WCAG: 5.4:1 ✅ Excellent */
+    /* Reduced contrast secondary text */
+    --color-text-tertiary: var(
+      --color-gray-500
+    ); /* WCAG: 3.0:1 ⚠️ Large text only */
+    /* Further reduced tertiary text */
+    --color-text-disabled: var(
+      --color-gray-500
+    ); /* WCAG: 3.0:1 ⚠️ FIXED - was 2.3:1 */
+    /* Disabled state - now WCAG compliant */
+    --color-text-inverse: var(
+      --color-gray-900
+    ); /* Dark text (for light surfaces) */
+
     /* Surface Colors - Dark Mode Elevation System */
-    --color-surface-primary: var(--color-gray-900);    /* Primary dark background */
-    --color-surface-secondary: var(--color-gray-800);  /* Elevated surfaces (cards, panels) */
-    --color-surface-tertiary: var(--color-gray-700);   /* Higher elevation (dropdowns, modals) */
-    --color-surface-inverse: var(--color-white);       /* Light surfaces for contrast */
-    
+    --color-surface-primary: var(
+      --color-gray-900
+    ); /* Primary dark background */
+    --color-surface-secondary: var(
+      --color-gray-800
+    ); /* Elevated surfaces (cards, panels) */
+    --color-surface-tertiary: var(
+      --color-gray-700
+    ); /* Higher elevation (dropdowns, modals) */
+    --color-surface-inverse: var(
+      --color-white
+    ); /* Light surfaces for contrast */
+
     /* Background Colors - Page Level Dark Adaptation */
-    --color-bg-primary: var(--color-gray-900);         /* Main page background */
-    --color-bg-secondary: var(--color-gray-800);       /* Section backgrounds */
-    --color-bg-overlay: rgba(0, 0, 0, 0.8);           /* Stronger overlay for dark mode */
-    
+    --color-bg-primary: var(--color-gray-900); /* Main page background */
+    --color-bg-secondary: var(--color-gray-800); /* Section backgrounds */
+    --color-bg-overlay: rgba(0, 0, 0, 0.8); /* Stronger overlay for dark mode */
+
     /* Border Colors - Adapted for Dark Theme */
-    --color-border-primary: var(--color-gray-700);     /* Primary borders in dark mode */
-    --color-border-secondary: var(--color-gray-600);   /* Secondary borders */
-    
+    --color-border-primary: var(
+      --color-gray-700
+    ); /* Primary borders in dark mode */
+    --color-border-secondary: var(--color-gray-600); /* Secondary borders */
+
     /* Brand Colors - Optimized for Dark Backgrounds */
-    --color-brand-primary: #3b82f6;                    /* WCAG: 6.2:1 ✅ Better than light mode */
-                                                        /* Lighter blue for dark bg (Blue 500) */
-    --color-brand-primary-light: rgba(59, 130, 246, 0.1); /* Subtle brand background */
-    --color-brand-primary-hover: #60a5fa;              /* Lighter hover state (Blue 400) */
-    --color-brand-primary-active: #93c5fd;             /* Even lighter active state (Blue 300) */
-    
+    --color-brand-primary: #3b82f6; /* WCAG: 6.2:1 ✅ Better than light mode */
+    /* Lighter blue for dark bg (Blue 500) */
+    --color-brand-primary-light: rgba(
+      59,
+      130,
+      246,
+      0.1
+    ); /* Subtle brand background */
+    --color-brand-primary-hover: #60a5fa; /* Lighter hover state (Blue 400) */
+    --color-brand-primary-active: #93c5fd; /* Even lighter active state (Blue 300) */
+
     /* Semantic Colors - Dark Mode Adaptations */
-    --color-success: #10b981;                          /* Emerald 500 - good contrast on dark */
-    --color-success-light: rgba(16, 185, 129, 0.1);    /* Subtle success background */
-    --color-warning: #f59e0b;                          /* Amber 500 - maintains visibility */
-    --color-warning-light: rgba(245, 158, 11, 0.1);    /* Subtle warning background */
-    --color-danger: #ef4444;                           /* Red 500 - clear danger indication */
-    --color-danger-light: rgba(239, 68, 68, 0.1);      /* Subtle danger background */
-    
+    --color-success: #10b981; /* Emerald 500 - good contrast on dark */
+    --color-success-light: rgba(
+      16,
+      185,
+      129,
+      0.1
+    ); /* Subtle success background */
+    --color-warning: #f59e0b; /* Amber 500 - maintains visibility */
+    --color-warning-light: rgba(
+      245,
+      158,
+      11,
+      0.1
+    ); /* Subtle warning background */
+    --color-danger: #ef4444; /* Red 500 - clear danger indication */
+    --color-danger-light: rgba(239, 68, 68, 0.1); /* Subtle danger background */
+
     /* Educational Colors - Maintained Recognition with Enhanced Contrast */
-    --color-stage-beginner: #10b981;     /* WCAG: 4.1:1 ⚠️ Large text only */
-                                          /* Emerald 500 - excellent contrast on dark */
+    --color-stage-beginner: #10b981; /* WCAG: 4.1:1 ⚠️ Large text only */
+    /* Emerald 500 - excellent contrast on dark */
     --color-stage-intermediate: #f59e0b; /* WCAG: 3.8:1 ⚠️ Large text only */
-                                          /* Amber 500 - maintains warning visibility */
-    --color-stage-expert: #ef4444;       /* WCAG: 4.3:1 ⚠️ Large text only */
-                                          /* Red 500 - clear complexity indication */
-    --color-stage-master: #a855f7;       /* Purple 500 - better dark mode contrast */
-    
+    /* Amber 500 - maintains warning visibility */
+    --color-stage-expert: #ef4444; /* WCAG: 4.3:1 ⚠️ Large text only */
+    /* Red 500 - clear complexity indication */
+    --color-stage-master: #a855f7; /* Purple 500 - better dark mode contrast */
+
     /* Cost Indicator Colors - Dark Mode Optimized */
     --color-cost-safe: var(--color-stage-beginner);
-    --color-cost-expensive: var(--color-stage-intermediate);  
+    --color-cost-expensive: var(--color-stage-intermediate);
     --color-cost-critical: var(--color-stage-expert);
-    
+
     /* Text Colors for Semantic States - Enhanced for Dark Mode */
-    --color-text-success: #34d399;       /* Emerald 400 - WCAG: 6.8:1 ✅ */
-                                          /* Lighter for dark backgrounds */
-    --color-text-warning: #fbbf24;       /* Amber 400 - WCAG: 5.2:1 ✅ */
-                                          /* Maintains readability */
-    --color-text-danger: #f87171;        /* Red 400 - WCAG: 6.1:1 ✅ */
-                                          /* Softer but still clear */
-    --color-text-accent: var(--color-brand-primary); /* Brand blue optimized above */
-    
+    --color-text-success: #34d399; /* Emerald 400 - WCAG: 6.8:1 ✅ */
+    /* Lighter for dark backgrounds */
+    --color-text-warning: #fbbf24; /* Amber 400 - WCAG: 5.2:1 ✅ */
+    /* Maintains readability */
+    --color-text-danger: #f87171; /* Red 400 - WCAG: 6.1:1 ✅ */
+    /* Softer but still clear */
+    --color-text-accent: var(
+      --color-brand-primary
+    ); /* Brand blue optimized above */
+
     /* Surface Colors for Semantic States */
-    --color-surface-success: rgba(16, 185, 129, 0.1);   /* Subtle success surface */
-    --color-surface-warning: rgba(245, 158, 11, 0.1);   /* Subtle warning surface */
-    --color-surface-danger: rgba(239, 68, 68, 0.1);     /* Subtle danger surface */
-    
+    --color-surface-success: rgba(
+      16,
+      185,
+      129,
+      0.1
+    ); /* Subtle success surface */
+    --color-surface-warning: rgba(
+      245,
+      158,
+      11,
+      0.1
+    ); /* Subtle warning surface */
+    --color-surface-danger: rgba(239, 68, 68, 0.1); /* Subtle danger surface */
+
     /* Border Colors for Semantic States */
     --color-border-success: var(--color-success);
     --color-border-warning: var(--color-warning);
     --color-border-danger: var(--color-danger);
-    
+
     /*
       ==========================================
       DARK MODE SHADOW ADJUSTMENTS
@@ -608,64 +676,67 @@ select {
       - Maintains consistent elevation hierarchy
       - Preserves depth perception across both themes
     */
-    
+
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --shadow-md:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg:
+      0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-xl:
+      0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
     --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   }
-  
+
   /*
     ==========================================
     DARK MODE SPECIFIC ENHANCEMENTS
     ==========================================
     Element-specific adjustments that improve dark mode experience
   */
-  
+
   /* Enhanced focus visibility in dark mode */
   :focus-visible {
     outline: 2px solid var(--color-brand-primary);
     outline-offset: 2px;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Subtle glow effect */
   }
-  
+
   /* Selection colors optimized for dark theme */
   ::selection {
     background: rgba(59, 130, 246, 0.3);
     color: var(--color-white);
   }
-  
+
   ::-moz-selection {
     background: rgba(59, 130, 246, 0.3);
     color: var(--color-white);
   }
-  
+
   /* Image adjustments for dark mode */
   img {
     opacity: 0.9; /* Slight opacity reduction for better dark mode integration */
   }
-  
+
   /* Code blocks optimized for dark mode */
   code {
     background: var(--color-gray-800);
     border: 1px solid var(--color-gray-600);
     color: var(--color-gray-200);
   }
-  
+
   pre {
     background: var(--color-gray-800);
     border: 1px solid var(--color-gray-600);
     color: var(--color-gray-200);
   }
-  
+
   /* Table styling for dark mode */
   th {
     background: var(--color-gray-800);
     color: var(--color-text-primary);
   }
-  
+
   tr:hover {
     background: var(--color-gray-800);
   }
@@ -690,22 +761,29 @@ select {
   ✅ USE for body/small text: Semantic text color variants (--color-text-success/warning/danger)
   
   EXAMPLE CORRECT USAGE:
+  
+  /* For Headings - Use stage colors directly */
+/*
   .stage-heading { 
     color: var(--color-stage-beginner);  /* 4.1:1 ✅ Large text */
-    font-size: var(--font-size-xl);      /* 20px = Large text */
-  }
-  
+/*font-size: var(--font-size-xl);      /* 20px = Large text */
+/* } */
+/* For Body Text - Use semantic text variants */
+/*
   .stage-description { 
     color: var(--color-text-success);    /* 8.1:1 ✅ Any text size */
-    font-size: var(--font-size-base);    /* 16px = Normal text */
-  }
-  
+/*font-size: var(--font-size-base);    /* 16px = Normal text */
+/* } */
+/* For Disabled Text - Use only large text */
+
+/*
   "Accessibility is not just compliance - it's about creating inclusive 
   experiences that work for everyone. These documented contrast ratios 
   empower developers to make informed decisions about text readability."
   
   — Million Dollar Bugs Academy Development Team
-*/
+  */
+/* } */
 
 /*
   ==========================================
