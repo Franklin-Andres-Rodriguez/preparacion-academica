@@ -17,7 +17,7 @@ proyectos/simulador/
 
 # Root HTML files from early development
 index.html
-offiline.html
+offline.html
 
 # Focus security scanning on Phase 1 enterprise additions
 # These represent systematic, professional development practices
